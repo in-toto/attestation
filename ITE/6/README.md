@@ -1,8 +1,10 @@
 # ITE-6: Generalized link format
 
-Author: lodato@
+Author: lodato@google.com
 
-Contributors/reviewers: dedic@, nitinjain@, patricklawson@, tomhennen@
+Contributors/reviewers:
+  dedic@google.com, nitinjain@google.com, patricklawson@google.com,
+  tomhennen@google.com, wietse@google.com
 
 Date: September 2020
 
