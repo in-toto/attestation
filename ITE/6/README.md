@@ -255,7 +255,7 @@ That said, we define a backwards compatible Link format that is isomorphic with 
 
 
 
-## Type definitions {#type-definitions}
+## Type definitions
 
 _Object_
 
@@ -287,13 +287,13 @@ _ArtifactReference_
 
 <p id="gdcalert6" ><span style="color: red; font-weight: bold">>>>>  GDC alert: undefined internal link (link text: "well-known types"). Did you generate a TOC? </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert7">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>> </span></p>
 
-[well-known types](#well-known-types) cover the most common content hashes. All well-known types have a key in snake\_case (lower alphanumeric + underscore, starting with a letter) and a value encoded as a lowercase hex string.
+[well-known types](#well-known-artifact-reference-types) cover the most common content hashes. All well-known types have a key in snake\_case (lower alphanumeric + underscore, starting with a letter) and a value encoded as a lowercase hex string.
 
 
     Custom types may be used to either define custom artifact IDs or custom semantics. For example, this may be used to support permalinks to an organization’s centralized version control system. Another example is to define “and” semantics, where all IDs must match. All custom-type keys **must** start with an underscore or be a _URI_ (thus containing a colon). The value can be any type, such as an array or object. The key is case sensitive.
 
 
-# Well-known artifact reference types {#well-known-types}
+# Well-known artifact reference types
 
 List of planned well-known types, which are all pure content hashes and all represented as lowercase hex strings.
 
@@ -401,7 +401,7 @@ Test results are also an awkward fit for the Link schema, since the subject is r
 
 
 
-# Motivating use case {#motivating-use-case}
+# Motivating use case
 
 MyCompany wants to centrally enforce the following rules of its production Kubernetes environments:
 
@@ -727,7 +727,7 @@ Nonfunctional requirements:
     *   Should be type-dependent, rather than mandating “materials” and “products.”
 
 
-# Reasoning {#reasoning}
+# Reasoning
 
 
 ## General questions
