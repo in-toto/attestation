@@ -1,39 +1,10 @@
-<p style="color: red; font-weight: bold">>>>>  GDC alert:  ERRORs: 7; WARNINGs: 1; ALERTS: 9.</p>
-<ul style="color: red; font-weight: bold"><li>See top comment block for details on ERRORs and WARNINGs. <li>In the converted Markdown or HTML, search for inline alerts that start with >>>>  GDC alert:  for specific instances that need correction.</ul>
-
-<p style="color: red; font-weight: bold">Links to alert messages:</p><a href="#gdcalert1">alert1</a>
-<a href="#gdcalert2">alert2</a>
-<a href="#gdcalert3">alert3</a>
-<a href="#gdcalert4">alert4</a>
-<a href="#gdcalert5">alert5</a>
-<a href="#gdcalert6">alert6</a>
-<a href="#gdcalert7">alert7</a>
-<a href="#gdcalert8">alert8</a>
-<a href="#gdcalert9">alert9</a>
-
-<p style="color: red; font-weight: bold">>>>> PLEASE check and correct alert issues and delete this message and the inline alerts.<hr></p>
-
-
-<p style="color: red; font-weight: bold">>>>>  GDC alert: NOTE: You have 13 H1 headings. You may want to use the "H1 -> H2" option to demote all headings by one level.</p>
-
-
-
 # ITE-6: Generalized link format
 
 Author: lodato@
 
 Contributors/reviewers: dedic@, nitinjain@, patricklawson@, tomhennen@
 
-Date: September 2019
-
-Status: In Review
-
-Note: This Google Doc will move to https://github.com/in-toto/ITE once it is ready for public review. In the meantime, Santiago of the (external to Google) in-toto team will review and comment.
-
-
-[TOC]
-
-
+Date: September 2020
 
 # Abstract
 
@@ -75,13 +46,7 @@ An attestation has three layers, corresponding to the three logic steps in verif
 
 The binding and details together are called the **claim**.
 
-
-
-<p id="gdcalert1" ><span style="color: red; font-weight: bold">>>>>  GDC alert: inline drawings not supported directly from Docs. You may want to copy the inline drawing to a standalone drawing and export by reference. See <a href=http://go/g3doc-drawings>go/g3doc-drawings</a> for details. The img URL below is a placeholder. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert2">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>> </span></p>
-
-
 ![drawing](attestation_parts.png)
-
 
 ## Authentication and serialization
 
@@ -92,16 +57,12 @@ The binding and details together are called the **claim**.
 *   payloadType “https://in-toto.io/Attestation/v1-json” with a JSON-encoded payload.
 *   payloadType “https://in-toto.io/Attestation/v1-cbor” with a CBOR-encoded payload.
 
-The schema for the payload is described in 
-
-<p id="gdcalert2" ><span style="color: red; font-weight: bold">>>>>  GDC alert: undefined internal link (link text: "Claim schema (binding layer)"). Did you generate a TOC? </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert3">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>> </span></p>
-
-[Claim schema (binding layer)](#claim-schema).
+The schema for the payload is described in [Claim schema (binding layer)](#claim-schema-binding-layer).
 
 Prior to ITE-5, the existing in-toto signature wrapper may be used. In this case, the payload is always JSON with a `_type` of  “https://in-toto.io/Attestation/v1”.
 
 
-## Claim schema (binding layer) {#claim-schema}
+## Claim schema (binding layer)
 
 A claim is a JSON or CBOR object corresponding to the binding layer. It contains the following fields. See subsequent sections for 
 
