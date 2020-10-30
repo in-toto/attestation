@@ -64,15 +64,7 @@ Prior to ITE-5, the existing in-toto signature wrapper may be used. In this case
 
 ## Claim schema (binding layer)
 
-A claim is a JSON or CBOR object corresponding to the binding layer. It contains the following fields. See subsequent sections for 
-
-<p id="gdcalert3" ><span style="color: red; font-weight: bold">>>>>  GDC alert: undefined internal link (link text: "Type definitions "). Did you generate a TOC? </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert4">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>> </span></p>
-
-[Type definitions](#type-definitions) and 
-
-<p id="gdcalert4" ><span style="color: red; font-weight: bold">>>>>  GDC alert: undefined internal link (link text: "Reasoning"). Did you generate a TOC? </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert5">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>> </span></p>
-
-[Reasoning](#reasoning).
+A claim is a JSON or CBOR object corresponding to the binding layer. It contains the following fields. See subsequent sections for [Type definitions](#type-definitions) and [Reasoning](#reasoning).
 
 `attestation_type` _(URI, required)_
 
@@ -100,13 +92,7 @@ A claim is a JSON or CBOR object corresponding to the binding layer. It contains
     If unset, the subject is unspecified. This is discouraged and only exists for backwards compatibility and for very rare cases where a single subject does not make sense. Such attestations may not be supported by BinAuthz.
 
 
-    Subject always refers to a single artifact (see 
-
-<p id="gdcalert5" ><span style="color: red; font-weight: bold">>>>>  GDC alert: undefined internal link (link text: "reasoning"). Did you generate a TOC? </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert6">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>> </span></p>
-
-[reasoning](#reasoning)). If multiple subjects are desired, either:
-
-
+    Subject always refers to a single artifact (see [reasoning](#reasoning)). If multiple subjects are desired, either:
 
 *   Output one attestation per subject.
 *   Create a single artifact that encapsulates all other artifacts, such as an archive or hash tree. Then refer to this new artifact as the subject.
@@ -283,12 +269,7 @@ _ArtifactReference_
     A map of immutable identifiers for a single software artifact. Each key/value pair is an alternate identifier for the same artifact, where the key indicates the type of the identifier. An artifact matches the reference if _any_ of its identifiers match. Example: `{"sha256": "abcd…", "sha512": "1234…"}` means an artifact whose content hash is either SHA-256 `abcd…` or SHA-512 `1234…`. Previously called a “hash object.”
 
 
-    A set of 
-
-<p id="gdcalert6" ><span style="color: red; font-weight: bold">>>>>  GDC alert: undefined internal link (link text: "well-known types"). Did you generate a TOC? </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert7">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>> </span></p>
-
-[well-known types](#well-known-artifact-reference-types) cover the most common content hashes. All well-known types have a key in snake\_case (lower alphanumeric + underscore, starting with a letter) and a value encoded as a lowercase hex string.
-
+    A set of [well-known types](#well-known-artifact-reference-types) cover the most common content hashes. All well-known types have a key in snake\_case (lower alphanumeric + underscore, starting with a letter) and a value encoded as a lowercase hex string.
 
     Custom types may be used to either define custom artifact IDs or custom semantics. For example, this may be used to support permalinks to an organization’s centralized version control system. Another example is to define “and” semantics, where all IDs must match. All custom-type keys **must** start with an underscore or be a _URI_ (thus containing a colon). The value can be any type, such as an array or object. The key is case sensitive.
 
@@ -507,14 +488,7 @@ allowed_artifact_id_types = [
 
 Let’s take a look at one example team’s software supply chain.
 
-
-
-<p id="gdcalert7" ><span style="color: red; font-weight: bold">>>>>  GDC alert: inline drawings not supported directly from Docs. You may want to copy the inline drawing to a standalone drawing and export by reference. See <a href=http://go/g3doc-drawings>go/g3doc-drawings</a> for details. The img URL below is a placeholder. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert8">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>> </span></p>
-
-
 ![drawing](attestation_supply_chain.png)
-
-
 
 *   Top-level code repository is “https://github.com/my-company/my-product”.
     *   This defines submodules and the GitHub Actions workflows.
@@ -693,16 +667,10 @@ This ITE has two main goals:
 
 
 
-1. Support 
-
-<p id="gdcalert8" ><span style="color: red; font-weight: bold">>>>>  GDC alert: undefined internal link (link text: "use cases"). Did you generate a TOC? </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert9">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>> </span></p>
-
-[use cases](#motivating-use-case) where the existing link schema is a poor fit. For example, test steps and vulnerability scans are not about “producing” a new artifact so they are awkward to represent in the current format.
+1. Support [use cases](#motivating-use-case) where the existing link schema is a poor fit. For example, test steps and vulnerability scans are not about “producing” a new artifact so they are awkward to represent in the current format.
 2. Support interoperability with [Binary Authorization](https://cloud.google.com/binary-authorization), which will support the agreed-upon format once finalized. This way we have a single ecosystem of software supply chain security.
 
 Functional requirements:
-
-
 
 *   Must support user-defined types and schemas, for two reasons:
     *   To allow in-toto users to more naturally express attestations, as explained above.
@@ -750,11 +718,7 @@ There are two main reasons for standardizing `subject` and `relations` within th
 
 First, doing so allows policy engines to make decisions purely on the binding layer without requiring `attestation_type`-specific logic or configuration. Binary Authorization policies today are purely about “does an attestation exist that is signed by X with subject Y”, and similarly in-toto layouts are about “does an attestation exist that is signed by X with relations Z?”[^2] These relatively simple policies are quite powerful. With this proposal, such policies become more expressive without any additional configuration: “does an attestation exist that is signed by X having type T, with subject Y and/or relations Z?”
 
-Second, it enables lookup of attestations by `subject`, again without `attestation_type`-specific logic or configuration. Consider the policy described in the 
-
-<p id="gdcalert9" ><span style="color: red; font-weight: bold">>>>>  GDC alert: undefined internal link (link text: "motivating use case"). Did you generate a TOC? </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert10">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>> </span></p>
-
-[motivating use case](#motivating-use-case). There, the instruction is “fetch attestations for artifact X”. The lookup could be from a set of attestations provided by the caller, or it could be from an external database keyed by subject.[^3] Without a standardized `subject` field, this would be significantly harder.
+Second, it enables lookup of attestations by `subject`, again without `attestation_type`-specific logic or configuration. Consider the policy described in the [motivating use case](#motivating-use-case). There, the instruction is “fetch attestations for artifact X”. The lookup could be from a set of attestations provided by the caller, or it could be from an external database keyed by subject.[^3] Without a standardized `subject` field, this would be significantly harder.
 
 The alternative is to move `subject` and/or `relations` into the details layer. Doing so would require users to configure the system for every possible `attestation_type` they wanted to support, in order to instruct the system how to find subject and relations. Furthermore, because there would be no standardization, concepts and models may not necessarily translate between attestation types. For example, one attestation type might require an “or” between artifact IDs, while another requires an “and.” This difference would add complexity and confusion.
 
@@ -765,8 +729,6 @@ The reason `subject` is singular is to avoid a common security vulnerability. If
 
 In almost all cases where multiple subjects are desired, it is better to either:
 
-
-
 *   Output multiple attestations, one per artifact, with `details` describing the difference. Using our example above, a `details.filename` field could differentiate between the two. This is just as brittle, but it makes it more obvious that the two files are different.
 *   Output a single artifact that in turn contains the content or hashes of all the other artifacts. For example, instead of outputting a binary and a README, output a single tarball containing both. This has the advantage of also covering the metadata such as the POSIX permission bits.
 
@@ -774,7 +736,6 @@ In almost all cases where multiple subjects are desired, it is better to either:
 # Backwards Compatibility
 
 Once the policy engine is updated to support new-style attestations, any attestation of type “https://in-toto.io/Link/v1” will be supported by existing layouts.
-
 
 # Security
 
