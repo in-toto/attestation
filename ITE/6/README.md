@@ -69,7 +69,7 @@ A claim is a JSON or CBOR object corresponding to the binding layer. It contains
 `attestation_type` _(URI, required)_
 
 
-    Indicates the meaning of this attestation and how to interpret `details` and `relations`. Example:
+> Indicates the meaning of this attestation and how to interpret `details` and `relations`. Example:
 
 
 ```
