@@ -761,7 +761,6 @@ Nonfunctional requirements:
     between them.
 *   Must support backwards compatible links that can be consumed by existing
     layout files.
-*   Should discourage users from the security vulnerability where
 *   Must differentiate between different types of related artifacts (only if
     related artifacts are standardized.) Examples: materials vs products,
     sources vs build tools.
