@@ -216,64 +216,19 @@ schema.
 That said, we define a backwards compatible Link format that is isomorphic with
 the old format and supported by existing layouts:
 
-<table>
-  <tr>
-   <td><strong>Old Field Name</strong>
-   </td>
-   <td><strong>New Field Name</strong>
-   </td>
-  </tr>
-  <tr>
-   <td><code>_type = "link"</code>
-   </td>
-   <td><code>attestationType = "https://in-toto.io/Link/v1"</code>
-   </td>
-  </tr>
-  <tr>
-   <td><code>materials[&lt;key>] = &lt;value></code>
-   </td>
-   <td><code>relations.materials[&lt;index>]</code>
-<p>
-<code>  .filename = &lt;key></code>
-<p>
-<code>  .artifact = &lt;value></code>
-   </td>
-  </tr>
-  <tr>
-   <td><code>products[&lt;key>] = &lt;value></code>
-   </td>
-   <td><code>relations.products[&lt;index>]</code>
-<p>
-<code>  .filename = &lt;key></code>
-<p>
-<code>  .artifact = &lt;value></code>
-   </td>
-  </tr>
-  <tr>
-   <td><code>name</code>
-   </td>
-   <td><code>details.name</code>
-   </td>
-  </tr>
-  <tr>
-   <td><code>command</code>
-   </td>
-   <td><code>details.command</code>
-   </td>
-  </tr>
-  <tr>
-   <td><code>byproducts</code>
-   </td>
-   <td><code>details.byproducts</code>
-   </td>
-  </tr>
-  <tr>
-   <td><code>environment</code>
-   </td>
-   <td><code>details.environment</code>
-   </td>
-  </tr>
-</table>
+Old Field Name  | New Field Name
+--------------- | -----------------------------------------------
+`_type: "link"` | `attestationType: "https://in-toto.io/Link/v1"`
+`materials`     | `relations.materials` (\*)
+`products`      | `relations.products` (\*)
+`name`          | `details.name`
+`command`       | `details.command`
+`byproducts`    | `details.byproducts`
+`environment`   | `details.environment`
+
+(\*) `materials[<key>] = <value>` is translated to
+`relations.materials[<index>] = { filename: <key>, artifact: <value> }`, and
+similarly for `products`.
 
 ## Type definitions
 
