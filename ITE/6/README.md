@@ -2,9 +2,8 @@
 
 Author: lodato@google.com
 
-Contributors/reviewers:
-  dedic@google.com, nitinjain@google.com, patricklawson@google.com,
-  tomhennen@google.com, wietse@google.com
+Contributors/reviewers: dedic@google.com, nitinjain@google.com,
+patricklawson@google.com, tomhennen@google.com, wietse@google.com
 
 Date: September 2020
 
@@ -92,29 +91,31 @@ the following fields. See subsequent sections for
 
 > Indicates the meaning of this attestation and how to interpret `details` and
 > `relations`. Example:
-
-```javascript
-"attestation_type": "https://example.com/Provenance/v1"
-```
+>
+> ```javascript
+> "attestation_type": "https://example.com/Provenance/v1"
+> ```
 
 `subject` _(ArtifactReference, recommended)_
 
 > Identifies what software artifact this attestation is about. Example:
-
-```javascript
-"subject": {"sha256": "728f71…"}
-```
-
+>
+> ```javascript
+> "subject": {"sha256": "728f71…"}
+> ```
+>
 > If unset, the subject is unspecified. This is discouraged and only exists for
 > backwards compatibility and for very rare cases where a single subject does
 > not make sense. Such attestations may not be supported by BinAuthz.
 >
 > Subject always refers to a single artifact (see [reasoning](#reasoning)). If
-> multiple subjects are desired, either: * Output one attestation per subject. *
-> Create a single artifact that encapsulates all other artifacts, such as an
-> archive or hash tree. Then refer to this new artifact as the subject. *
-> (discouraged) Define a custom artifact reference type with whatever semantics
-> are needed.
+> multiple subjects are desired, either:
+>
+> *   Output one attestation per subject.
+> *   Create a single artifact that encapsulates all other artifacts, such as an
+>     archive or hash tree. Then refer to this new artifact as the subject.
+> *   (discouraged) Define a custom artifact reference type with whatever
+>     semantics are needed.
 
 `relations` _(Map&lt;string, Set&lt;Object>>, optional)_
 
@@ -123,27 +124,27 @@ the following fields. See subsequent sections for
 > that relation.
 >
 > Example:
-
-```javascript
-"relations": {
-  "top_level_source": [{
-      "artifact": {"sha256": "a6a63f…"},
-      "filename": "grep_2.12-2.dsc"
-    }],
-  "dependent_sources": [{
-      "artifact": {"sha256": "37887d…"},
-      "filename": "grep_2.12-2.debian.tar.bz2"
-    }, {
-      "artifact": {"sha256": "011998…"},
-      "filename": "grep_2.12.orig.tar.bz2"
-    }],
-  "tools": [{
-      "artifact": {"sha256": "1234…"},
-      "filename": "gcc"
-    }]
-}
-```
-
+>
+> ```javascript
+> "relations": {
+>   "top_level_source": [{
+>       "artifact": {"sha256": "a6a63f…"},
+>       "filename": "grep_2.12-2.dsc"
+>     }],
+>   "dependent_sources": [{
+>       "artifact": {"sha256": "37887d…"},
+>       "filename": "grep_2.12-2.debian.tar.bz2"
+>     }, {
+>       "artifact": {"sha256": "011998…"},
+>       "filename": "grep_2.12.orig.tar.bz2"
+>     }],
+>   "tools": [{
+>       "artifact": {"sha256": "1234…"},
+>       "filename": "gcc"
+>     }]
+> }
+> ```
+>
 > The meaning of the key is dependent on `attestation_type`. Each set value is
 > an _Object_ representing a single software artifact. The schema is dependent
 > on `attestation_type` and can contain arbitrary metadata, but it must always
@@ -152,18 +153,23 @@ the following fields. See subsequent sections for
 > `artifact` _(ArtifactReference, required)_
 >
 > > Identifies the related software artifact. The following standard relations
-> > are recommended[^1]: * `top_level_source`: The primary input used to
-> > generate this attestation or subject, each of which is independent. Usually
-> > length one. In the example, the “dsc” file is the top-level source because
-> > it fully specifies the build. * `dependent_sources`: Additional inputs used
-> > to generate this attestation or subject, referenced by at least one
-> > `top_level_source`. In the example, the two “tar.bz2” files are dependent
-> > because they are listed in the “dsc” file. * `tools`: Build tools,
-> > compilers, or other dependencies that would not be considered “source”. *
-> > `environment`: Artifacts in the operating system that can influence the
-> > build but that don’t meet the definitions above. * `other_products`: Other
-> > artifacts that were produced as part of the same build.
-
+> > are recommended[1]:
+> >
+> > *   `top_level_source`: The primary input used to generate this attestation
+> >     or subject, each of which is independent. Usually length one. In the
+> >     example, the “dsc” file is the top-level source because it fully
+> >     specifies the build.
+> > *   `dependent_sources`: Additional inputs used to generate this attestation
+> >     or subject, referenced by at least one `top_level_source`. In the
+> >     example, the two “tar.bz2” files are dependent because they are listed
+> >     in the “dsc” file.
+> > *   `tools`: Build tools, compilers, or other dependencies that would not be
+> >     considered “source”.
+> > *   `environment`: Artifacts in the operating system that can influence the
+> >     build but that don’t meet the definitions above.
+> > *   `other_products`: Other artifacts that were produced as part of the same
+> >     build.
+>
 > **Alternate designs:**
 >
 > 1.  Map&lt;string, Set&lt;ArtifactReference>>, where ArtifactReference can
@@ -184,13 +190,13 @@ the following fields. See subsequent sections for
 > equivalent to set-but-empty. The binding layer treats this as opaque.
 >
 > Example:
-
-```javascript
-"details": {
-  "build_timestamp": "2020-04-12T01:23:45Z",
-  "arch": "amd64"
-}
-```
+>
+> ```javascript
+> "details": {
+>   "build_timestamp": "2020-04-12T01:23:45Z",
+>   "arch": "amd64"
+> }
+> ```
 
 The following are only needed for backwards compatibility:
 
@@ -803,7 +809,7 @@ First, doing so allows policy engines to make decisions purely on the binding
 layer without requiring `attestation_type`-specific logic or configuration.
 Binary Authorization policies today are purely about “does an attestation exist
 that is signed by X with subject Y”, and similarly in-toto layouts are about
-“does an attestation exist that is signed by X with relations Z?”[^2] These
+“does an attestation exist that is signed by X with relations Z?”[2] These
 relatively simple policies are quite powerful. With this proposal, such policies
 become more expressive without any additional configuration: “does an
 attestation exist that is signed by X having type T, with subject Y and/or
@@ -814,8 +820,8 @@ Second, it enables lookup of attestations by `subject`, again without
 described in the [motivating use case](#motivating-use-case). There, the
 instruction is “fetch attestations for artifact X”. The lookup could be from a
 set of attestations provided by the caller, or it could be from an external
-database keyed by subject.[^3] Without a standardized `subject` field, this
-would be significantly harder.
+database keyed by subject.[3] Without a standardized `subject` field, this would
+be significantly harder.
 
 The alternative is to move `subject` and/or `relations` into the details layer.
 Doing so would require users to configure the system for every possible
@@ -884,8 +890,8 @@ to standardize it.
 > Example: the CodeReview attestation says that `details.git_branch` on
 > `details.git_repo` pointed to `subject.git_commit` at `timestamp`.
 >
-> _Reason for deletion_:** **_Although the definition is pretty clear, it could
-> be misinterpreted. Is it the time of the signature? Time of the attestation
+> _Reason for deletion_: Although the definition is pretty clear, it could be
+> misinterpreted. Is it the time of the signature? Time of the attestation
 > creation? Time of the build? Timestamp of the source code? Something else? It
 > may be better to avoid this confusion and move it to the details layer where
 > it can be made unambiguous.
@@ -914,16 +920,18 @@ _Timestamp_
 > [RFC 3339](https://tools.ietf.org/html/rfc3339) format in the UTC time zone
 > (“Z”). Example: “1985-04-12T23:20:50.52Z”.
 
-## Notes
+# Footnotes
 
-[^1]: Standardization will be beneficial because (a) 95% of use cases will fit
-    into these fields and (b) it makes writing policies easier if all
-    attestations use the same conventions.
-[^2]: The `expected_command` is only a warning, and `inspections` require
-    running external commands which is infeasible in many situations.
-[^3]: That said, we strongly recommend against keying a database purely by
-    content hash. The reason is that such databases quickly run into scaling
-    issues, as explained in
-    [Building Secure and Reliable Systems](https://static.googleusercontent.com/media/landing.google.com/en//sre/static/pdf/Building_Secure_and_Reliable_Systems.pdf#page=364),
-    Chapter 14, page 328, “Ensure Unambiguous Provenance.” Instead, we
-    recommend keying primarily by resource name, in addition to content hash.
+\[1]: Standardization wil be beneficial because (a) 95% of use cases will fit
+into these fields and (b) it makes writing policies easier if all attestations
+use the same conventions.
+
+\[2]: The `expected_command` is only a warning, and `inspections` require
+running external commands which is infeasible in many situations.
+
+\[3]: That said, we strongly recommend against keying a database purely by
+content hash. The reason is that such databases quickly run into scaling issues,
+as explained in
+[Building Secure and Reliable Systems](https://static.googleusercontent.com/media/landing.google.com/en//sre/static/pdf/Building_Secure_and_Reliable_Systems.pdf#page=364),
+Chapter 14, page 328, “Ensure Unambiguous Provenance.” Instead, we recommend
+keying primarily by resource name, in addition to content hash.
