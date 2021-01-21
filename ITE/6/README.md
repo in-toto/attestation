@@ -92,7 +92,7 @@ the following fields. See subsequent sections for
 > Indicates the meaning of this attestation and how to interpret `details` and
 > `relations`. Example:
 >
-> ```javascript
+> ```json
 > "attestation_type": "https://example.com/Provenance/v1"
 > ```
 
@@ -100,7 +100,7 @@ the following fields. See subsequent sections for
 
 > Identifies what software artifact this attestation is about. Example:
 >
-> ```javascript
+> ```json
 > "subject": {"sha256": "728f71…"}
 > ```
 >
@@ -125,7 +125,7 @@ the following fields. See subsequent sections for
 >
 > Example:
 >
-> ```javascript
+> ```json
 > "relations": {
 >   "top_level_source": [{
 >       "artifact": {"sha256": "a6a63f…"},
@@ -191,7 +191,7 @@ the following fields. See subsequent sections for
 >
 > Example:
 >
-> ```javascript
+> ```json
 > "details": {
 >   "build_timestamp": "2020-04-12T01:23:45Z",
 >   "arch": "amd64"
@@ -338,7 +338,7 @@ Links can be mechanically translated to the new format, without a `subject`.
 This doesn’t take advantage of the new features, but it does provide backwards
 compatibility with existing layouts.
 
-```javascript
+```json
 {
   "attestation_type": "https://in-toto.io/Link/v1",
   "relations": {
@@ -372,7 +372,7 @@ command. The existing Link schema has little benefit. Instead, a custom
 `attestation_type` would avoid all of the meaningless boilerplate fields. This
 example also shows the use of a `git_commit_id` artifact type.
 
-```javascript
+```json
 {
   "attestation_type": "https://example.com/WriteCode/v1",
   "subject": {
@@ -385,7 +385,7 @@ Test results are also an awkward fit for the Link schema, since the subject is
 really the materials, not the products. Again, a custom `attestation_type` is a
 better fit:
 
-```javascript
+```json
 {
   "attestation_type": "https://example.com/TestResult/v1",
   "subject": {
@@ -528,7 +528,7 @@ Let’s take a look at one example team’s software supply chain.
 This corresponds to the following attestations. Assume each is signed by the
 appropriate party; we only show the claim here.
 
-```javascript
+```json
 {
   "attestation_type": "https://example.com/CodeReview/v1",
   "subject": { "git_commit_id": "859b387b985ea0f414e4e8099c9f874acb217b94" },
@@ -542,7 +542,7 @@ appropriate party; we only show the claim here.
 }
 ```
 
-```javascript
+```json
 {
   "attestation_type": "https://example.com/CodeReview/v1",
   "subject": { "git_commit_id": "2f02c094e6a9afe8e889c3f1d3cb66b437797af4" },
@@ -556,7 +556,7 @@ appropriate party; we only show the claim here.
 }
 ```
 
-```javascript
+```json
 {
   "attestation_type": "https://example.com/CodeReview/v1",
   "subject": { "git_commit_id": "5215a97a7978d8ee0de859ccac1bbfd2475bfe92" },
@@ -570,7 +570,7 @@ appropriate party; we only show the claim here.
 }
 ```
 
-```javascript
+```json
 {
   "attestation_type": "https://example.com/VulnerabilityScan/v1",
   "subject": { "git_commit_id": "859b387b985ea0f414e4e8099c9f874acb217b94" },
@@ -585,7 +585,7 @@ appropriate party; we only show the claim here.
 }
 ```
 
-```javascript
+```json
 {
   "attestation_type": "https://example.com/GitHubActionProduct/v1",
   "subject": { "container_image_digest": "sha256:c201c331d6142766c866..." },
@@ -616,7 +616,7 @@ appropriate party; we only show the claim here.
 }
 ```
 
-```javascript
+```json
 {
   "attestation_type": "https://example.com/ReproducibleBuild/v1",
   "subject": { "sha256": "411c1dfb3c8f3bea29da934d61a884baad341af8..." },
@@ -626,7 +626,7 @@ appropriate party; we only show the claim here.
 }
 ```
 
-```javascript
+```json
 {
   "attestation_type": "https://example.com/ReproducibleBuild/v1",
   "subject": { "sha256": "9f5068311eb98e6dd9bb554d4b7b9ee126b13693..." },
@@ -661,7 +661,7 @@ passed_policy_evaluation(attestation):
 allowed_artifact_id_types = ['container_image_digest']
 ```
 
-```javascript
+```json
 {
   "attestation_type": "https://example.com/BinAuthzDecision/v1",
   "subject": { "container_image_digest": "sha256:c201c331d6142766c866..." },
