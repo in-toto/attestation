@@ -1,0 +1,53 @@
+// Schema for the in-toto attestation Statement.
+//
+// Type URI: https://in-toto.io/Attestation/v1
+//
+// Encoding is always JSON.
+
+syntax = "proto3";
+
+package io.intoto;
+
+import "google/protobuf/struct.proto"; // for google.protobuf.Struct
+import "digest.proto";                 // for DigestSet
+
+// Metadata about one or more software artifacts.
+message Statement {
+  // Set of artifacts that this Statement is about.
+  //
+  // REQUIRED.
+  repeated SubjectArtifact subject = 1;
+
+  // URI representing the type of `predicate`, case-sensitive. It MUST be a URI
+  // as per RFC 3986 and MUST be case normalized as per section 6.2.2.1 of that
+  // RFC. It SHOULD resolve to a human-readable description but MAY be
+  // unresolvable. It SHOULD include a version number to allow for revisions.
+  // There is currently no mechanism to register predicate types; use the
+  // natural namespacing of URIs to avoid collisions.
+  //
+  // Example: "https://in-toto.io/Provenance/v1"
+  //
+  // REQUIRED.
+  string predicateType = 2;
+
+  // Arbitrary metadata about `subject`, with schema and meaning defined by
+  // `predicateType`. Unset is treated the same as set-but-empty. MAY be
+  // omitted/empty if `predicateType` fully describes the predicate.
+  //
+  // OPTIONAL.
+  google.protobuf.Struct predicate = 3;
+}
+
+// A single, immutable blob of data.
+message SubjectArtifact {
+  // Identifier to distinguish this artifact from others within
+  // `Statement.subject`. MUST be unique within `Statement.subject`.
+  //
+  // REQUIRED unless this is the only element in `Statement.subject`.
+  string name = 1;
+
+  // Cryptographic hash of the contents of the artifact.
+  //
+  // REQUIRED.
+  DigestSet digest = 2;
+}

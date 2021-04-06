@@ -15,10 +15,10 @@ three distinct steps in verification. The innermost layer is user-defined to
 allow customers to define their own schemas; "link" is now one such user-defined
 schema.
 
-This specification is developed jointly with
-[Binary Authorization](https://cloud.google.com/binary-authorization), who will
-support the agreed-upon format once finalized. This way a single link file will
-be usable by either system.
+This specification follows the [SLSA Attestation Model] and is developed jointly
+with [Binary Authorization](https://cloud.google.com/binary-authorization). The
+goal is to have an industry standard artifact metadata format that can be
+consumed by any system.
 
 # Goals
 
@@ -30,14 +30,21 @@ be usable by either system.
 *   Make it possible to write policies (layouts) that take advantage of
     structured information.
 
-# Specification
+*   Fit within the [SLSA Framework](https://github.com/slsa-framework/slsa). The
+    provenance format defined within this ITE is the official SLSA
+    recommendation.
 
-## Introduction
+# Introduction
 
-An **attestation** is the generalization of an in-toto link. It is a statement
-about an artifact, signed by an attester. Each attestation has a type indicating
-what the statement means, plus type-dependent details. In this new model, a
-"link" is just one type of attestation, but others are possible.
+An **attestation** is the generalization of an in-toto link, as per the
+[SLSA Attestation Model]. It is a statement about an artifact, signed by an
+attester. An attestation has three layers:
+
+*   **[Envelope]:** Handles authentication and serialization.
+*   **[Statement]:** Binds the attestation to a particular subject and
+    unambiguously identifies the types of the predicate.
+*   **[Predicate]:** Contains arbitrary metadata about the subject, with a
+    type-specific schema.
 
 Examples of attestations:
 
@@ -58,122 +65,274 @@ Examples of attestations:
 The benefit of this ITE is to express these attestations more natually than was
 possible with the old in-toto link schema.
 
-## Authentication and serialization
+# Specification
 
-The authentication and serialization is handled by
-[ITE-5](https://github.com/MarkLodato/ITE/blob/ite-5/ITE/5/README.md). The
-payload is always JSON encoded with a `payloadType` of
-`"https://in-toto.io/Attestation/v1-json"`. (In the future other encodings, such
-as CBOR, may be defined.)
+An attestation has three layers: [Envelope], [Statement], and [Predicate]. While
+designed to work together, each layer is technically independent of the others.
 
-Prior to ITE-5, the existing in-toto signature wrapper may be used. In this
+It may help to first look at [Examples](#examples) to get an idea.
+
+## Envelope
+
+Media Type: `application/vnd.in-toto.attestation.envelope.v1+json`
+
+The outermost layer of the attestation is the Envelope. It is defined in
+[signing-spec](https://github.com/secure-systems-lab/signing-spec) and adopted
+by in-toto in [ITE-5].
+
+```jsonc
+{
+  "payloadType": "https://in-toto.io/Attestation/v1-json",
+  "payload": "...",
+  "signatures": [<SIGNATURES>]
+}
+```
+
+An attestation has a `payloadType` of `https://in-toto.io/Attestation/v1-json`
+and a `payload` that is a JSON-encoded [Statement].
+
+(Prior to ITE-5, the existing in-toto signature wrapper may be used. In this
 case, the payload is always JSON with a `_type` of
-`"https://in-toto.io/Attestation/v1-json"`.
+`https://in-toto.io/Attestation/v1-json`.)
 
-## Schema
+## Statement
 
-*   [Attestation v1](spec/attestation.md) (base class)
-*   [Provenance v1](spec/provenance.md)
-*   [Link v1](spec/link.md) (matches [in-toto 0.9])
+Media Type: `application/vnd.in-toto.attestation.statement.v1+json`
 
-We expect to a few more standard attestation types over time, and customers may
-define their own custom attestation types if desired.
+The middle layer is the Statement. The schema is defined in
+[statement.proto](spec/statement.proto), though the encoding is always JSON.
 
-See [examples](#examples) to get a gist of the schema.
+```jsonc
+{
+  "subject": [{
+    "name": "...",
+    "digest": {"<ALGORITHM>": "<HEX_VALUE>"}
+  }],
+  "predicateType": "...",
+  "predicate": {
+    <PREDICATE>
+  }
+}
+```
 
-## Design notes
+The `subject` describes the set of software artifacts that the attestation
+applies to. Each entry has a `name` and at least one `digest`.
 
-Attestations SHOULD be designed to encourage policies to be "monotonic," meaning
-that deleting an attestation will never turn a DENY decision into an ALLOW. One
-reason for this is because verifiers MUST ignore unrecognized subject digest
-types; if no subject is recognized, the attestation is effectively deleted.
-Example: instead of "deny if a 'has vulnerabilities' attestation exists", prefer
-"deny unless a 'no vulnerabilities' attestation exists".
+The subject `digest`, of type [DigestSet], is a collection of alternate content
+hashes of a single artifact. Two DigestSets are considered matching if ANY of
+the fields match.
 
-Attestation designers are free to limit what subject types are valid for a given
-attestation type. For example, suppose a "Gerrit code review" attestation only
-applies to `git_commit` subjects. In that case, a producer of such attestations
-should never use a subject other than `git_commit`.
+The subject `name` differentiates between artifacts. The semantics are up to the
+producer and consumer. The name may be omitted if there is only one entry and
+the name is not meaningful. For example, a provenance attestation might use the
+name to specify output filename, expecting the consumer to only considers
+entries with a particular name. Alternatively, a vulnerability scan attestation
+might omit name because the results apply regardless of what the artifact is
+named.
+
+IMPORTANT: Subject artifacts are untyped. For example, digest "abcd1234..."
+matches whether it is a Docker image or a git commit or something else. This
+design was chosen to simplify semantics because a type is not always known. For
+example, a build process might not know what artifact type it produced. However,
+we may need to add artifact typing in the future version to prevent confusion
+attacks. Please open a GitHub issue if you have a real-world use case for
+typing.
+
+The `predicateType` and `predicate` together form the [Predicate], describing
+metadata about the artifacts referenced by`subject`.
+
+See [processing model](#processing-model) for more details.
+
+## Predicate
+
+The required `predicateType` is a [URI][RFC 3986] describing the overall meaning
+of the attestation as well as the schema of `predicate`. The optional
+`predicate` contains additional details.
+
+The predicate can contain arbitrary information. Users are expected to choose a
+predicate type that fits their needs, or invent a new one if no existing one
+satisfies. Type URIs are not registered; the natural namespacing of URIs is
+sufficient to prevent collisions.
+
+This ITE defines the following predicate types:
+
+*   [Provenance]: To describe the origins of a software artifact.
+*   [Link]: For migration from [in-toto 0.9].
+
+We recommend the following convetions for predicates:
+
+*   Field names SHOULD use lowerCamelCase.
+
+*   Timestamps SHOULD use [RFC 3339] syntax with timezone "Z" and SHOULD clarify
+    the meaning of the timestamp. For example, a field named `timestamp` is too
+    ambiguous; a better name would be `builtAt` or `allowedAt` or `scannedAt`.
+
+*   References to other artifacts SHOULD be an object that includes a `digest`
+    field of type [DigestSet]. Consider using the same type as [Provenance]
+    `materials` if it is a good fit.
+
+*   Predicates SHOULD be designed to encourage policies to be "monotonic,"
+    meaning that deleting an attestation will never turn a DENY decision into an
+    ALLOW. One reason because verifiers MUST ignore unrecognized subject digest
+    types; if no subject is recognized, the attestation is effectively deleted.
+    Example: instead of "deny if a 'has vulnerabilities' attestation exists",
+    prefer "deny unless a 'no vulnerabilities' attestation exists".
+
+Predicate designers are free to limit what subject types are valid for a given
+predicate type. For example, suppose a "Gerrit code review" predicate only
+applies to git commit subjects. In that case, a producer of such attestations
+should never use a subject other than a git commit.
+
+# Processing model
+
+Consumers are expected to process Attestations using the following model.
+
+Inputs:
+
+*   `envelope`: JSON-encoded [Envelope]
+*   `recognizedAttesters`: set of (name, public key) pairs
+*   `artifactToVerify`: set of alternative digests (same as `subject[*].digest`)
+    *   If there is more than one artifact, repeat the process for each one.
+
+Steps:
+
+*   Envelope layer:
+    *   Decode `envelope` as an JSON-encoded [Envelope]; reject if decoding
+        fails
+    *   Initialize `attesterName` as an empty set of names
+    *   For each signature in the envelope:
+        *   For each (name, public key) in `recognizedAttesters`:
+            *   If signature matches public key:
+                *   Add name to `attesterName`
+    *   Reject if `attesterName` is empty
+*   Intermediate state: `payloadType`, `payload`, `attesterName`
+*   Statement layer:
+    *   Reject if `payloadType` != `https://in-toto.io/Attestation/v1-json`
+    *   Decode `payload` as a JSON-encoded [Statement], reject if decoding fails
+    *   Initialize `artifactName` as an empty set of names
+    *   For each `s` in `subject`:
+        *   If `artifactToVerify` matches `s.digest`:
+            *   Add `s.name` to `artifactName`
+    *   Reject if `artifactName` is empty
+
+Output:
+
+*   `predicateType`
+*   `predicate`
+*   `artifactName`
+*   `attesterName`
 
 # Examples
 
 ## Provenance example
 
-A provenance-type attestation describing how the
+A [Provenance]-type attestation describing how the
 [curl 7.72.0 source tarballs](https://curl.se/download.html) were built,
 pretending they were built on
 [GitHub Actions](https://github.com/features/actions).
 
-```jsonc
+```json
 {
-  // Common attestation fields:
-  "attestation_type": "https://in-toto.io/Provenance/v1",
-  "subject": {
-    "curl-7.72.0.tar.bz2": { "sha256": "ad91970864102a59765e20ce16216efc9d6ad381471f7accceceab7d905703ef" },
-    "curl-7.72.0.tar.gz":  { "sha256": "d4d5899a3868fbb6ae1856c3e55a32ce35913de3956d1973caccd37bd0174fa2" },
-    "curl-7.72.0.tar.xz":  { "sha256": "0ded0808c4d85f2ee0db86980ae610cc9d165e9ca9da466196cc73c346513713" },
-    "curl-7.72.0.zip":     { "sha256": "e363cc5b4e500bfc727106434a2578b38440aa18e105d57576f3d8f2abebf888" }
-  },
-  "materials": {
-    "git+https://github.com/curl/curl@curl-7_72_0": { "git_commit": "9d954e49bce3706a9a2efb119ecd05767f0f2a9e" },
-    "github_hosted_vm:ubuntu-18.04:20210123.1": null,
-    "git+https://github.com/actions/checkout@v2":        { "git_commit": "5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f" },
-    "git+https://github.com/actions/upload-artifact@v2": { "git_commit": "e448a9b857ee2131e752b06002bf0e093c65e571" },
-    "pkg:deb/debian/stunnel4@5.50-3?arch=amd64":               { "sha256": "e1731ae217fcbc64d4c00d707dcead45c828c5f762bcf8cc56d87de511e096fa" },
-    "pkg:deb/debian/python-impacket@0.9.15-5?arch=all":        { "sha256": "71fa2e67376c8bc03429e154628ddd7b196ccf9e79dec7319f9c3a312fd76469" },
-    "pkg:deb/debian/libzstd-dev@1.3.8+dfsg-3?arch=amd64":      { "sha256": "91442b0ae04afc25ab96426761bbdf04b0e3eb286fdfbddb1e704444cb12a625" },
-    "pkg:deb/debian/libbrotli-dev@1.0.7-2+deb10u1?arch=amd64": { "sha256": "05b6e467173c451b6211945de47ac0eda2a3dccb3cc7203e800c633f74de8b4f" }
-  },
-  // Provenance-specific fields:
-  "builder": { "id": "https://github.com/Attestations/GitHubHostedActions@v1" },
-  "recipe": {
-    "type": "https://github.com/Attestations/GitHubActionsWorkflow@v1",
-    "material": "git+https://github.com/curl/curl@curl-7_72_0",
-    "entry_point": "build.yaml:maketgz"
-  },
-  "metadata": {
-    "build_timestamp": "2020-08-19T08:38:00Z",
-    "materials_complete": false
+  "subject": [
+    { "name": "curl-7.72.0.tar.bz2",
+      "digest": { "sha256": "ad91970864102a59765e20ce16216efc9d6ad381471f7accceceab7d905703ef" }},
+    { "name": "curl-7.72.0.tar.gz",
+      "digest": { "sha256": "d4d5899a3868fbb6ae1856c3e55a32ce35913de3956d1973caccd37bd0174fa2" }},
+    { "name": "curl-7.72.0.tar.xz",
+      "digest": { "sha256": "0ded0808c4d85f2ee0db86980ae610cc9d165e9ca9da466196cc73c346513713" }},
+    { "name": "curl-7.72.0.zip",
+      "digest": { "sha256": "e363cc5b4e500bfc727106434a2578b38440aa18e105d57576f3d8f2abebf888" }}
+  ],
+  "predicateType": "https://in-toto.io/Provenance/v1",
+  "predicate": {
+    "builder": { "id": "https://github.com/Attestations/GitHubHostedActions@v1" },
+    "recipe": {
+      "type": "https://github.com/Attestations/GitHubActionsWorkflow@v1",
+      "definedInMaterial": 0,
+      "entryPoint": "build.yaml:maketgz"
+    },
+    "metadata": {
+      "buildStartedOn": "2020-08-19T08:38:00Z"
+    },
+    "materials": [
+      {
+        "uri": "git+https://github.com/curl/curl@curl-7_72_0",
+        "digest": { "sha1": "9d954e49bce3706a9a2efb119ecd05767f0f2a9e" },
+        "mediaType": "application/vnd.git.commit",
+        "tags": ["source"]
+      }, {
+        "uri": "github_hosted_vm:ubuntu-18.04:20210123.1",
+        "tags": ["base-image"]
+      }, {
+        "uri": "git+https://github.com/actions/checkout@v2",
+        "digest": {"sha1": "5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f"},
+        "mediaType": "application/vnd.git.commit",
+        "tags": ["dev-dependency"]
+      }, {
+        "uri": "git+https://github.com/actions/upload-artifact@v2",
+        "digest": { "sha1": "e448a9b857ee2131e752b06002bf0e093c65e571" },
+        "mediaType": "application/vnd.git.commit",
+        "tags": ["dev-dependency"]
+      }, {
+        "uri": "pkg:deb/debian/stunnel4@5.50-3?arch=amd64",
+        "digest": { "sha256": "e1731ae217fcbc64d4c00d707dcead45c828c5f762bcf8cc56d87de511e096fa" }
+      }, {
+        "uri": "pkg:deb/debian/python-impacket@0.9.15-5?arch=all",
+        "digest": { "sha256": "71fa2e67376c8bc03429e154628ddd7b196ccf9e79dec7319f9c3a312fd76469" }
+      }, {
+        "uri": "pkg:deb/debian/libzstd-dev@1.3.8+dfsg-3?arch=amd64",
+        "digest": { "sha256": "91442b0ae04afc25ab96426761bbdf04b0e3eb286fdfbddb1e704444cb12a625" }
+      }, {
+        "uri": "pkg:deb/debian/libbrotli-dev@1.0.7-2+deb10u1?arch=amd64",
+        "digest": { "sha256": "05b6e467173c451b6211945de47ac0eda2a3dccb3cc7203e800c633f74de8b4f" }
+      }
+    ]
   }
 }
 ```
 
 ## Custom-type examples
 
-In many cases, custom-type attestations would be a more natural fit, as shown
+In many cases, custom-type predicates would be a more natural fit, as shown
 below. Such custom attestations are not yet supported by in-toto because the
 layout format has no way to reference such attestations. Still, we show the
 examples to explain the benefits for the new link format.
 
 The initial step is often to write code. This has no materials and no real
-command. The existing Link schema has little benefit. Instead, a custom
-`attestation_type` would avoid all of the meaningless boilerplate fields. This
-example also shows the use of a `git_commit` artifact type.
+command. The existing [Link] schema has little benefit. Instead, a custom
+`predicateType` would avoid all of the meaningless boilerplate fields.
 
 ```json
 {
-  "attestation_type": "https://example.com/WriteCode/v1",
-  "subject": {
-    "git+https://github.com/example/my-project@master": {
-      "git_commit": "859b387b985ea0f414e4e8099c9f874acb217b94"
-    }
+  "subject": [
+    { "digest": { "sha1":  "859b387b985ea0f414e4e8099c9f874acb217b94" } }
+  ],
+  "predicateType": "https://example.com/CodeReview/v1",
+  "predicate": {
+    "repo": {
+      "type": "git",
+      "uri": "https://github.com/example/my-project",
+      "branch": "main"
+    },
+    "author": "mailto:alice@example.com",
+    "reviewers": ["mailto:bob@example.com"],
   }
 }
 ```
 
 Test results are also an awkward fit for the Link schema, since the subject is
-really the materials, not the products. Again, a custom `attestation_type` is a
+really the materials, not the products. Again, a custom `predicateType` is a
 better fit:
 
 ```json
 {
-  "attestation_type": "https://example.com/TestResult/v1",
-  "subject": {
-    "_": {
-      "git_commit": "859b387b985ea0f414e4e8099c9f874acb217b94"
-    }
-  },
-  "passed": true
+  "subject": [
+    { "digest": { "sha1": "859b387b985ea0f414e4e8099c9f874acb217b94" } }
+  ],
+  "predicateType": "https://example.com/TestResult/v1",
+  "predicate": {
+    "passed": true
+  }
 }
 ```
 
@@ -571,4 +730,14 @@ as explained in
 Chapter 14, page 328, "Ensure Unambiguous Provenance." Instead, we recommend
 keying primarily by resource name, in addition to content hash.
 
+[DigestSet]: spec/field_types.md#DigestSet
+[Envelope]: #envelope
+[ITE-5]: https://github.com/MarkLodato/ITE/blob/ite-5/ITE/5/README.md
+[Link]: spec/link.md
+[Predicate]: #predicate
+[Provenance]: spec/provenance.md
+[RFC 3339]: https://tools.ietf.org/html/rfc3339
+[RFC 3986]: https://tools.ietf.org/html/rfc3986
+[SLSA Attestation Model]: https://github.com/slsa-framework/slsa-controls/blob/main/attestations.md
+[Statement]: #statement
 [in-toto 0.9]: https://github.com/in-toto/docs/blob/v0.9/in-toto-spec.md
