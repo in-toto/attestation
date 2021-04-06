@@ -180,42 +180,51 @@ should never use a subject other than a git commit.
 
 # Processing model
 
-Consumers are expected to process Attestations using the following model.
+The following pseudocode shows how to verify and extract metadata about a
+particular artifact from an attestation. The expectation is that consumers will
+feed the resulting metadata into a policy engine. In many cases, multiple
+attestations will be available, in which case every attestation should be tried
+against the policy (or policy fragment) and the result should be "allow" if any
+attestation satisfies the policy (fragment).
+
+If there is more than one artifact, repeat the process for each one.
 
 Inputs:
 
-*   `envelope`: JSON-encoded [Envelope]
-*   `recognizedAttesters`: set of (name, public key) pairs
-*   `artifactToVerify`: set of alternative digests (same as `subject[*].digest`)
-    *   If there is more than one artifact, repeat the process for each one.
+*   `attestation`: JSON-encoded [Envelope]
+*   `recognizedAttesters`: collection of (`name`, `publicKey`) pairs
+*   `artifactToVerify`: [DigestSet]
 
 Steps:
 
 *   Envelope layer:
-    *   Decode `envelope` as an JSON-encoded [Envelope]; reject if decoding
+    *   Decode `attestation` as a JSON-encoded [Envelope]; reject if decoding
         fails
-    *   Initialize `attesterName` as an empty set of names
-    *   For each signature in the envelope:
-        *   For each (name, public key) in `recognizedAttesters`:
-            *   If signature matches public key:
-                *   Add name to `attesterName`
-    *   Reject if `attesterName` is empty
-*   Intermediate state: `payloadType`, `payload`, `attesterName`
+    *   Initialize `attesterNames` as an empty set of names
+    *   For each `signature` in the envelope:
+        *   For each (`name`, `publicKey`) in `recognizedAttesters`:
+            *   Optional: skip if `signature.keyid` does not match `publicKey`
+            *   If `signature.sig` matches `publicKey`:
+                *   Add `name` to `attesterNames`
+    *   Reject if `attesterNames` is empty
+*   Intermediate state: `payloadType`, `payload`, `attesterNames`
 *   Statement layer:
     *   Reject if `payloadType` != `https://in-toto.io/Attestation/v1-json`
     *   Decode `payload` as a JSON-encoded [Statement], reject if decoding fails
-    *   Initialize `artifactName` as an empty set of names
-    *   For each `s` in `subject`:
+    *   Initialize `artifactNames` as an empty set of names
+    *   For each subject `s` in the statement:
         *   If `artifactToVerify` matches `s.digest`:
-            *   Add `s.name` to `artifactName`
-    *   Reject if `artifactName` is empty
+            *   Add `s.name` to `artifactNames`
+    *   Reject if `artifactNames` is empty
+        *   NOTE: `artifactNames` may contain a single null element if `subject`
+            has exactly one element and that element has no name
 
-Output:
+Output (to be fed into policy engine):
 
 *   `predicateType`
 *   `predicate`
-*   `artifactName`
-*   `attesterName`
+*   `artifactNames`
+*   `attesterNames`
 
 # Examples
 
