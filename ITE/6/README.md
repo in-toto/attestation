@@ -130,13 +130,8 @@ entries with a particular name. Alternatively, a vulnerability scan attestation
 might omit name because the results apply regardless of what the artifact is
 named.
 
-IMPORTANT: Subject artifacts are untyped. For example, digest "abcd1234..."
-matches whether it is a Docker image or a git commit or something else. This
-design was chosen to simplify semantics because a type is not always known. For
-example, a build process might not know what artifact type it produced. However,
-we may need to add artifact typing in the future version to prevent confusion
-attacks. Please open a GitHub issue if you have a real-world use case for
-typing.
+IMPORTANT: Subject artifacts are matched purely by digest, regardless of content
+type. If this matters to you, please open a GitHub issue to discuss.
 
 The `predicateType` and `predicate` together form the [Predicate], describing
 metadata about the artifacts referenced by`subject`.
