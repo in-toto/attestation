@@ -1,6 +1,6 @@
 // Schema for the in-toto attestation Statement.
 //
-// Type URI: https://in-toto.io/Attestation/v1
+// Type URI: https://in-toto.io/Statement/v1-json
 //
 // Encoding is always JSON.
 

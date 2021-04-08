@@ -74,46 +74,40 @@ It may help to first look at [Examples](#examples) to get an idea.
 
 ## Envelope
 
-Media Type: `application/vnd.in-toto.attestation.envelope.v1+json`
-
-The outermost layer of the attestation is the Envelope. It is defined in
-[signing-spec](https://github.com/secure-systems-lab/signing-spec) and adopted
-by in-toto in [ITE-5].
-
 ```jsonc
 {
-  "payloadType": "https://in-toto.io/Attestation/v1-json",
+  "payloadType": "https://in-toto.io/Statement/v1-json",
   "payload": "...",
   "signatures": [<SIGNATURES>]
 }
 ```
 
-An attestation has a `payloadType` of `https://in-toto.io/Attestation/v1-json`
-and a `payload` that is a JSON-encoded [Statement].
-
-(Prior to ITE-5, the existing in-toto signature wrapper may be used. In this
-case, the payload is always JSON with a `_type` of
-`https://in-toto.io/Attestation/v1-json`.)
+The Envelope is defined in
+[signing-spec](https://github.com/secure-systems-lab/signing-spec) and adopted
+by in-toto in [ITE-5].
 
 ## Statement
 
-Media Type: `application/vnd.in-toto.attestation.statement.v1+json`
-
-The middle layer is the Statement. The schema is defined in
-[statement.proto](spec/statement.proto), though the encoding is always JSON.
-
 ```jsonc
 {
-  "subject": [{
-    "name": "...",
-    "digest": {"<ALGORITHM>": "<HEX_VALUE>"}
-  }],
+  "subject": [
+    {
+      "name": "<NAME>",
+      "digest": {"<ALGORITHM>": "<HEX_VALUE>"}
+    },
+    ...
+  ],
   "predicateType": "...",
   "predicate": {
     <PREDICATE>
   }
 }
 ```
+
+*   Type URI: https://in-toto.io/Statement/v1-json (value of `payloadType` in
+    [Envelope])
+*   Encoding: [JSON](https://www.json.org)
+*   Schema: [statement.proto](spec/statement.proto)
 
 The `subject` describes the set of software artifacts that the attestation
 applies to. Each entry has a `name` and at least one `digest`.
