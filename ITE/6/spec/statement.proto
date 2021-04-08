@@ -41,12 +41,14 @@ message Statement {
 // A single, immutable blob of data.
 message SubjectArtifact {
   // Identifier to distinguish this artifact from others within
-  // `Statement.subject`. MUST be unique within `Statement.subject`.
+  // `Statement.subject`. MUST be unique within `Statement.subject`. MUST be
+  // non-empty. SHOULD be stable from attestation to attetation because
+  // consumers rely on it. If the name is not meaningful, use "_".
   //
-  // REQUIRED unless this is the only element in `Statement.subject`.
+  // REQUIRED.
   string name = 1;
 
-  // Cryptographic hash of the contents of the artifact.
+  // Cryptographic hashes of the contents of the artifact.
   //
   // REQUIRED.
   DigestSet digest = 2;
