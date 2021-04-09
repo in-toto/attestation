@@ -255,8 +255,8 @@ pretending they were built on
     },
     "materials": [
       {
-        "uri": "git+https://github.com/curl/curl@curl-7_72_0",
-        "digest": { "sha1": "9d954e49bce3706a9a2efb119ecd05767f0f2a9e" },
+        "uri": "git+https://github.com/curl/curl-docker@master",
+        "digest": { "sha1": "d6525c840a62b398424a78d792f457477135d0cf" },
         "mediaType": "application/vnd.git.commit",
         "tags": ["source"]
       }, {
