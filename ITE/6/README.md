@@ -668,35 +668,36 @@ Nonfunctional requirements:
 
 # Reasoning
 
-## Reason for `subject` and `materials` to be standard Attestation fields
+## Reason for separate Statement and Predicate layers
 
-There are two main reasons for standardizing `subject` and `materials` within
-Attestation schema.
+There [Statement] layer has a fixed schema while the [Predicate] layer has an
+arbitrary schema. Furthermore, the fixed Statement schema has a `subject` and
+`predicateType`. There are two main reasons for this.
 
 First, doing so allows policy engines to make decisions without requiring
-`attestation_type`-specific logic or configuration. Binary Authorization
-policies today are purely about "does an attestation exist that is signed by X
-with subject Y", and similarly in-toto layouts are about "does an attestation
-exist that is signed by X with materials/products Z?"[1] These relatively simple
-policies are quite powerful. With this proposal, such policies become more
-expressive without any additional configuration: "does an attestation exist that
-is signed by X having type T, with subject Y and/or materials Z?"
+Predicate-specific logic or configuration. Binary Authorization policies today
+are purely about "does an attestation exist that is signed by X with subject Y",
+and similarly in-toto layouts are about "does an attestation exist that is
+signed by X with materials/products Z?"[1] These relatively simple policies are
+quite powerful. With this proposal, such policies become more expressive without
+any additional configuration: "does an attestation exist that is signed by X
+having predicate type T, with subject Y/Z?"
 
 Second, it enables lookup of attestations by `subject`, again without
-`attestation_type`-specific logic or configuration. Consider the policy
-described in the [motivating use case](#motivating-use-case). There, the
-instruction is "fetch attestations for artifact X". The lookup could be from a
-set of attestations provided by the caller, or it could be from an external
-database keyed by subject.[2] Without a standardized `subject` field, this would
-be significantly harder.
+Predicate-specific logic or configuration. Consider the policy described in the
+[motivating use case](#motivating-use-case). There, the instruction is "fetch
+attestations for artifact X". The lookup could be from a set of attestations
+provided by the caller, or it could be from an external database keyed by
+subject.[2] Without a standardized `subject` field, this would be significantly
+harder.
 
-The alternative is to make `subject` and/or `materials` specific to each
-`attestation_type`. Doing so would require users to configure the system for
-every possible `attestation_type` they wanted to support, in order to instruct
-the system how to find subject and relations. Furthermore, because there would
-be no standardization, concepts and models may not necessarily translate between
-attestation types. For example, one attestation type might require an "or"
-between artifact IDs, while another requires an "and." This difference would add
+The alternative is to not have a fixed Statement schema and instead have
+`subject` be part of the Predicate. Doing so would require users to configure
+the system for every possible Predicate type they wanted to support, in order to
+instruct the system how to find the subject. Furthermore, because there would be
+no standardization, concepts and models may not necessarily translate between
+predicate types. For example, one predicate type might require an "or" between
+artifact IDs, while another requires an "and." This difference would add
 complexity and confusion.
 
 # Backwards Compatibility
