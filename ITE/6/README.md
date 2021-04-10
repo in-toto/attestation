@@ -670,7 +670,7 @@ Nonfunctional requirements:
 
 ## Reason for separate Statement and Predicate layers
 
-There [Statement] layer has a fixed schema while the [Predicate] layer has an
+The [Statement] layer has a fixed schema while the [Predicate] layer has an
 arbitrary schema. Furthermore, the fixed Statement schema has a `subject` and
 `predicateType`. There are two main reasons for this.
 
