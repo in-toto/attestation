@@ -37,8 +37,8 @@ consumed by any system.
 # Introduction
 
 An **attestation** is the generalization of an in-toto link, as per the
-[SLSA Attestation Model]. It is a statement about an artifact, signed by an
-attester. An attestation has three layers:
+[SLSA Attestation Model]. It is a statement about a set of artifact, signed by
+an attester. An attestation has three layers:
 
 *   **[Envelope]:** Handles authentication and serialization.
 *   **[Statement]:** Binds the attestation to a particular subject and
