@@ -114,7 +114,8 @@ applies to. Each entry has a `name` and at least one `digest`.
 
 The subject `digest`, of type [DigestSet], is a collection of alternate content
 hashes of a single artifact. Two DigestSets are considered matching if ANY of
-the fields match.
+the fields match. The producer and consumer must agree on acceptable algorithms.
+If there are no overlapping algorithms, the subject is considered not matching.
 
 The subject `name` differentiates between artifacts. The semantics are up to the
 producer and consumer. Because consumers evaluate the name against a policy, it
@@ -176,19 +177,18 @@ should never use a subject other than a git commit.
 # Processing model
 
 The following pseudocode shows how to verify and extract metadata about a
-particular artifact from an attestation. The expectation is that consumers will
-feed the resulting metadata into a policy engine. In many cases, multiple
-attestations will be available, in which case every attestation should be tried
-against the policy (or policy fragment) and the result should be "allow" if any
-attestation satisfies the policy (fragment).
+single artifact from a single attestation. The expectation is that consumers
+will feed the resulting metadata into a policy engine.
 
-If there is more than one artifact, repeat the process for each one.
+TODO: Explain how to process multiple artifacts and/or multiple attestations.
 
 Inputs:
 
+*   `artifactToVerify`: blob of data
 *   `attestation`: JSON-encoded [Envelope]
 *   `recognizedAttesters`: collection of (`name`, `publicKey`) pairs
-*   `artifactToVerify`: [DigestSet]
+*   `acceptableDigestAlgorithms`: collection of acceptable cryptographic hash
+    algorithms (usually just `sha256`)
 
 Steps:
 
@@ -208,11 +208,11 @@ Steps:
     *   Decode `payload` as a JSON-encoded [Statement], reject if decoding fails
     *   Initialize `artifactNames` as an empty set of names
     *   For each subject `s` in the statement:
-        *   If `artifactToVerify` matches `s.digest`:
-            *   Add `s.name` to `artifactNames`
+        *   For each digest (`alg`, `value`) in `s.digest`
+            *   If `alg` is in `acceptableDigestAlgorithms`:
+                *   If `hash(alg, artifactToVerify)` == `hexDecode(value)`:
+                    *   Add `s.name` to `artifactNames`
     *   Reject if `artifactNames` is empty
-        *   NOTE: `artifactNames` may contain a single null element if `subject`
-            has exactly one element and that element has no name
 
 Output (to be fed into policy engine):
 
