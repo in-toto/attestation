@@ -150,7 +150,7 @@ This ITE defines the following predicate types:
 *   [Link]: For migration from [in-toto 0.9].
 *   [SPDX](spec/spdx.md): A Software Package Data Exchange document.
 
-We recommend the following convetions for predicates:
+We recommend the following conventions for predicates:
 
 *   Field names SHOULD use lowerCamelCase.
 
