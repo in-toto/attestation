@@ -1,4 +1,8 @@
-# ITE-6: Generalized link format
+# In-toto Attestations
+
+**IMPORTANT:** This is a work in progress. It was spun off from [ITE-6] and
+parts have not yet been updated. Furthermore, the spec is subject to change
+until the initial release.
 
 Author: lodato@google.com
 
@@ -733,6 +737,7 @@ keying primarily by resource name, in addition to content hash.
 [DigestSet]: spec/field_types.md#DigestSet
 [Envelope]: #envelope
 [ITE-5]: https://github.com/MarkLodato/ITE/blob/ite-5/ITE/5/README.md
+[ITE-6]: https://github.com/in-toto/ITE/pull/15
 [Link]: spec/link.md
 [Predicate]: #predicate
 [Provenance]: spec/provenance.md
