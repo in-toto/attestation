@@ -4,13 +4,6 @@
 parts have not yet been updated. Furthermore, the spec is subject to change
 until the initial release.
 
-Author: lodato@google.com
-
-Contributors/reviewers: dedic@google.com, nitinjain@google.com,
-patricklawson@google.com, tomhennen@google.com, wietse@google.com
-
-Date: September 2020
-
 # Abstract
 
 This ITE defines a new schema for in-toto link files, which are now generally
