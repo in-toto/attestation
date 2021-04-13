@@ -144,7 +144,7 @@ This ITE defines the following predicate types:
 
 *   [Provenance]: To describe the origins of a software artifact.
 *   [Link]: For migration from [in-toto 0.9].
-*   [SPDX](spec/spdx.md): A Software Package Data Exchange document.
+*   [SPDX](spec/predicates/spdx.md): A Software Package Data Exchange document.
 
 We recommend the following conventions for predicates:
 
@@ -432,9 +432,9 @@ keying primarily by resource name, in addition to content hash.
 [Envelope]: #envelope
 [ITE-5]: https://github.com/MarkLodato/ITE/blob/ite-5/ITE/5/README.md
 [ITE-6]: https://github.com/in-toto/ITE/pull/15
-[Link]: spec/link.md
+[Link]: spec/predicates/link.md
 [Predicate]: #predicate
-[Provenance]: spec/provenance.md
+[Provenance]: spec/predicates/provenance.md
 [RFC 3339]: https://tools.ietf.org/html/rfc3339
 [RFC 3986]: https://tools.ietf.org/html/rfc3986
 [SLSA Attestation Model]: https://github.com/slsa-framework/slsa-controls/blob/main/attestations.md
