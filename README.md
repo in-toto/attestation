@@ -1,7 +1,5 @@
 # In-toto Attestations
 
-## Abstract
-
 This repository defines the in-toto **attestation** format, which represents
 authenticated metadata about a set of software artifacts. Attestations are
 intended for consumption by automated policy engines, such as [in-toto] and
@@ -54,16 +52,14 @@ Goals:
 
 ## Specification
 
-An attestation has three layers:
+An attestation has three layers that are independent but designed to work
+together:
 
 *   **[Envelope]:** Handles authentication and serialization.
 *   **[Statement]:** Binds the attestation to a particular subject and
     unambiguously identifies the types of the predicate.
 *   **[Predicate]:** Contains arbitrary metadata about the subject, with a
     type-specific schema.
-
-While designed to work together, each layer is technically independent of the
-others.
 
 It may help to first look at [Examples](#examples) to get an idea.
 
