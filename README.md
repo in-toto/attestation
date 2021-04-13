@@ -695,24 +695,6 @@ predicate types. For example, one predicate type might require an "or" between
 artifact IDs, while another requires an "and." This difference would add
 complexity and confusion.
 
-## Backwards Compatibility
-
-Once the policy engine is updated to support new-style attestations, any
-attestation of type "https://in-toto.io/Link/v1" will be supported by existing
-layouts.
-
-## Security
-
-## Infrastructure Requirements
-
-## Testing
-
-## Prototype Implementation
-
-## References
-
-## Open Questions
-
 ## Footnotes
 
 \[1]: The `expected_command` is only a warning, and `inspections` require
