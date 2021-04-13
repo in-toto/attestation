@@ -4,7 +4,7 @@
 parts have not yet been updated. Furthermore, the spec is subject to change
 until the initial release.
 
-# Abstract
+## Abstract
 
 This ITE defines a new schema for in-toto link files, which are now generally
 called "attestations." An attestation has three distinct layers, mapping to the
@@ -17,7 +17,7 @@ with [Binary Authorization](https://cloud.google.com/binary-authorization). The
 goal is to have an industry standard artifact metadata format that can be
 consumed by any system.
 
-# Goals
+## Goals
 
 *   Standardize artifact metadata without being specific to the consumer (e.g.
     in-toto or Binary Authorization). This way CI/CD pipelines, vulnerability
@@ -31,7 +31,7 @@ consumed by any system.
     provenance format defined within this ITE is the official SLSA
     recommendation.
 
-# Introduction
+## Introduction
 
 An **attestation** is the generalization of an in-toto link, as per the
 [SLSA Attestation Model]. It is a statement about a set of artifact, signed by
@@ -62,14 +62,14 @@ Examples of attestations:
 The benefit of this ITE is to express these attestations more natually than was
 possible with the old in-toto link schema.
 
-# Specification
+## Specification
 
 An attestation has three layers: [Envelope], [Statement], and [Predicate]. While
 designed to work together, each layer is technically independent of the others.
 
 It may help to first look at [Examples](#examples) to get an idea.
 
-## Envelope
+### Envelope
 
 ```jsonc
 {
@@ -83,7 +83,7 @@ The Envelope is defined in
 [signing-spec](https://github.com/secure-systems-lab/signing-spec) and adopted
 by in-toto in [ITE-5].
 
-## Statement
+### Statement
 
 ```jsonc
 {
@@ -130,7 +130,7 @@ metadata about the artifacts referenced by`subject`.
 
 See [processing model](#processing-model) for more details.
 
-## Predicate
+### Predicate
 
 The required `predicateType` is a [URI][RFC 3986] describing the overall meaning
 of the attestation as well as the schema of `predicate`. The optional
@@ -171,7 +171,7 @@ predicate type. For example, suppose a "Gerrit code review" predicate only
 applies to git commit subjects. In that case, a producer of such attestations
 should never use a subject other than a git commit.
 
-# Processing model
+## Processing model
 
 The following pseudocode shows how to verify and extract metadata about a
 single artifact from a single attestation. The expectation is that consumers
@@ -218,9 +218,9 @@ Output (to be fed into policy engine):
 *   `artifactNames`
 *   `attesterNames`
 
-# Examples
+## Examples
 
-## Provenance example
+### Provenance example
 
 A [Provenance]-type attestation describing how the
 [curl 7.72.0 source tarballs](https://curl.se/download.html) were built,
@@ -287,7 +287,7 @@ pretending they were built on
 }
 ```
 
-## Custom-type examples
+### Custom-type examples
 
 In many cases, custom-type predicates would be a more natural fit, as shown
 below. Such custom attestations are not yet supported by in-toto because the
@@ -332,7 +332,7 @@ better fit:
 }
 ```
 
-# Motivating use case
+## Motivating use case
 
 **TODO: This section has not yet been updated for latest schema.**
 
@@ -375,7 +375,7 @@ The proposed attestation format, along with a future policy engine, allows us to
 craft such a policy. This ITE does not cover the policy engine piece, but we
 show the ideas via pseudocode.
 
-## Policy pseudocode
+### Policy pseudocode
 
 The following pseudocode implements the policy above. Assume that memoization
 takes care of cycles. This policy would be written by a security expert at the
@@ -443,13 +443,13 @@ hermetic_cloud_build(attestation):
   attestation.attestation_type == 'https://example.com/AwsCodeBuildProduct/v1'
   attestation.details.no_network == true
 
-# Types of artifact IDs considered by `lookup attestations for <X>`.
+## Types of artifact IDs considered by `lookup attestations for <X>`.
 allowed_artifact_id_types = [
   'sha256', 'sha512', 'container_image_digest', 'git_commit',
 ]
 ```
 
-## Attestations
+### Attestations
 
 Let's take a look at one example team's software supply chain.
 
@@ -573,7 +573,7 @@ appropriate party; we only show the claim here.
 }
 ```
 
-## Policy result attestations
+### Policy result attestations
 
 It may not be practical to perform attestation chaining at Kubernetes deployment
 time due to latency limitations, since the chain of attestations could be
@@ -613,7 +613,7 @@ allowed_artifact_id_types = ['container_image_digest']
 }
 ```
 
-# Motivation
+## Motivation
 
 This ITE has two main goals:
 
@@ -663,9 +663,9 @@ Nonfunctional requirements:
     *   Should be type-dependent, rather than mandating "materials" and
         "products."
 
-# Reasoning
+## Reasoning
 
-## Reason for separate Statement and Predicate layers
+### Reason for separate Statement and Predicate layers
 
 The [Statement] layer has a fixed schema while the [Predicate] layer has an
 arbitrary schema. Furthermore, the fixed Statement schema has a `subject` and
@@ -697,25 +697,25 @@ predicate types. For example, one predicate type might require an "or" between
 artifact IDs, while another requires an "and." This difference would add
 complexity and confusion.
 
-# Backwards Compatibility
+## Backwards Compatibility
 
 Once the policy engine is updated to support new-style attestations, any
 attestation of type "https://in-toto.io/Link/v1" will be supported by existing
 layouts.
 
-# Security
+## Security
 
-# Infrastructure Requirements
+## Infrastructure Requirements
 
-# Testing
+## Testing
 
-# Prototype Implementation
+## Prototype Implementation
 
-# References
+## References
 
-# Open Questions
+## Open Questions
 
-# Footnotes
+## Footnotes
 
 \[1]: The `expected_command` is only a warning, and `inspections` require
 running external commands which is infeasible in many situations.
