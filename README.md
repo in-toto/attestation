@@ -51,7 +51,9 @@ Examples of attestations:
 *   Code review: GitHub attests to the fact that Alice uploaded and Bob approved
     git commit "f0c93d…" in the "master" branch of
     "https://github.com/example/foo".
-*   Test result: Google Container Analysis attests to the fact that no
+*   Test result: GitHub Actions attests to the fact that the npm tests passed on
+    git commit "f0c93d…".
+*   Vulnerability scan: Google Container Analysis attests to the fact that no
     vulnerabilities were found in container image "sha256:87f7fe…" at a
     particular time.
 *   Policy decision: Binary Authorization attests to the fact that container
