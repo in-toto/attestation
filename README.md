@@ -1,51 +1,31 @@
 # In-toto Attestations
 
-**IMPORTANT:** This is a work in progress. It was spun off from [ITE-6] and
-parts have not yet been updated. Furthermore, the spec is subject to change
-until the initial release.
-
 ## Abstract
 
-This ITE defines a new schema for in-toto link files, which are now generally
-called "attestations." An attestation has three distinct layers, mapping to the
-three distinct steps in verification. The innermost layer is user-defined to
-allow customers to define their own schemas; "link" is now one such user-defined
-schema.
+This repository defines the in-toto **attestation** format, which represents
+authenticated metadata about a set of software artifacts. Attestations are
+intended for consumption by automated policy engines, such as [in-toto] and
+[Binary Authorization].
 
-This specification follows the [SLSA Attestation Model] and is developed jointly
-with [Binary Authorization](https://cloud.google.com/binary-authorization). The
-goal is to have an industry standard artifact metadata format that can be
-consumed by any system.
+## IMPORTANT
 
-## Goals
+This specification is a work in progress:
 
-*   Standardize artifact metadata without being specific to the consumer (e.g.
-    in-toto or Binary Authorization). This way CI/CD pipelines, vulnerability
-    scanners, and other systems can generate a single set of attestations that
-    can be consumed by anyone.
-
-*   Make it possible to write policies (layouts) that take advantage of
-    structured information.
-
-*   Fit within the [SLSA Framework](https://github.com/slsa-framework/slsa). The
-    provenance format defined within this ITE is the official SLSA
-    recommendation.
+*   This doc was spun off from [ITE-6] and some parts have not yet been updated.
+*   Details are subject to change until the initial release.
+*   There are not yet any producers or consumers of this format.
 
 ## Introduction
 
-An **attestation** is the generalization of an in-toto link, as per the
-[SLSA Attestation Model]. It is a statement about a set of artifact, signed by
-an attester. An attestation has three layers:
+An in-toto **attestation** is an implementation of the [SLSA Attestation Model].
+It is a statement about a set of software artifacts, signed by an attester. An
+attestation can represent arbitrary metadata: anyone can define a [Predicate]
+type with an arbitrary meaning and schema. The attestation format standardizes
+authentication ([Envelope]) and association with artifacts ([Statement]).
 
-*   **[Envelope]:** Handles authentication and serialization.
-*   **[Statement]:** Binds the attestation to a particular subject and
-    unambiguously identifies the types of the predicate.
-*   **[Predicate]:** Contains arbitrary metadata about the subject, with a
-    type-specific schema.
+Examples of hypothetical attestations:
 
-Examples of attestations:
-
-*   Provenance: GitHub Actions attests to the fact that it built a container
+*   [Provenance]: GitHub Actions attests to the fact that it built a container
     image with digest "sha256:87f7fe…" from git commit "f0c93d…" in the "master"
     branch of "https://github.com/example/foo".
 *   Code review: GitHub attests to the fact that Alice uploaded and Bob approved
@@ -58,16 +38,32 @@ Examples of attestations:
     particular time.
 *   Policy decision: Binary Authorization attests to the fact that container
     image "sha256:87f7fe…" is allowed to run under GKE project "example-project"
-    within the next 4 hours, and that it used the three attestations above and
-    as well as the policy with sha256 hash "79e572".
+    within the next 4 hours, and that it used the four attestations above and as
+    well as the policy with sha256 hash "79e572" to make its decision.
 
-The benefit of this ITE is to express these attestations more natually than was
-possible with the old in-toto link schema.
+Goals:
+
+*   Standardize artifact metadata without being specific to the producer or
+    consumer. This way CI/CD pipelines, vulnerability scanners, and other
+    systems can generate a single set of attestations that can be consumed by
+    anyone, such as [in-toto] or [Binary Authorization].
+*   Make it possible to write automated policies that take advantage of
+    structured information.
+*   Fit within the [SLSA Framework][SLSA]. The provenance format defined within
+    this ITE is the official SLSA recommendation.
 
 ## Specification
 
-An attestation has three layers: [Envelope], [Statement], and [Predicate]. While
-designed to work together, each layer is technically independent of the others.
+An attestation has three layers:
+
+*   **[Envelope]:** Handles authentication and serialization.
+*   **[Statement]:** Binds the attestation to a particular subject and
+    unambiguously identifies the types of the predicate.
+*   **[Predicate]:** Contains arbitrary metadata about the subject, with a
+    type-specific schema.
+
+While designed to work together, each layer is technically independent of the
+others.
 
 It may help to first look at [Examples](#examples) to get an idea.
 
@@ -175,9 +171,9 @@ should never use a subject other than a git commit.
 
 ## Processing model
 
-The following pseudocode shows how to verify and extract metadata about a
-single artifact from a single attestation. The expectation is that consumers
-will feed the resulting metadata into a policy engine.
+The following pseudocode shows how to verify and extract metadata about a single
+artifact from a single attestation. The expectation is that consumers will feed
+the resulting metadata into a policy engine.
 
 TODO: Explain how to process multiple artifacts and/or multiple attestations.
 
@@ -729,6 +725,7 @@ as explained in
 Chapter 14, page 328, "Ensure Unambiguous Provenance." Instead, we recommend
 keying primarily by resource name, in addition to content hash.
 
+[Binary Authorization]: https://cloud.google.com/binary-authorization
 [DigestSet]: spec/field_types.md#DigestSet
 [Envelope]: #envelope
 [ITE-5]: https://github.com/MarkLodato/ITE/blob/ite-5/ITE/5/README.md
@@ -739,5 +736,7 @@ keying primarily by resource name, in addition to content hash.
 [RFC 3339]: https://tools.ietf.org/html/rfc3339
 [RFC 3986]: https://tools.ietf.org/html/rfc3986
 [SLSA Attestation Model]: https://github.com/slsa-framework/slsa-controls/blob/main/attestations.md
+[SLSA]: https://github.com/slsa-framework/slsa
 [Statement]: #statement
 [in-toto 0.9]: https://github.com/in-toto/docs/blob/v0.9/in-toto-spec.md
+[in-toto]: https://in-toto.io
