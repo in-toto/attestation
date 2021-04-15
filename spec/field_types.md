@@ -33,6 +33,9 @@ _TypeURI (string)_
 > SHOULD resolve to a human-readable description, but MAY be unresolvable.
 > SHOULD include a version number to allow for revisions.
 >
+> TypeURIs are not registered. The natural namespacing of URIs is sufficient to
+> prevent collisions.
+>
 > Example: `"https://in-toto.io/Attestation/v1"`.
 
 <a id="Timestamp"></a>
