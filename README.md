@@ -140,7 +140,7 @@ predicate type that fits their needs, or invent a new one if no existing one
 satisfies. Type URIs are not registered; the natural namespacing of URIs is
 sufficient to prevent collisions.
 
-This ITE defines the following predicate types:
+This repo defines the following predicate types:
 
 *   [Provenance]: To describe the origins of a software artifact.
 *   [Link]: For migration from [in-toto 0.9].
@@ -333,7 +333,7 @@ better fit:
 
 ## Motivation
 
-This ITE has two main goals:
+This project has two main goals:
 
 1.  Support [use cases](#motivating-use-case) where the existing link schema is
     a poor fit. For example, test steps and vulnerability scans are not about
