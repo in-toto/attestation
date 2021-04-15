@@ -47,6 +47,10 @@ Goals:
 *   Fit within the [SLSA Framework][SLSA]. The [provenance] format defined here
     is the official SLSA recommendation.
 
+## Tooling / how to use
+
+None yet!
+
 ## Specification
 
 An attestation has three layers that are independent but designed to work
