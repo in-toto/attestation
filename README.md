@@ -15,11 +15,8 @@ This specification is a work in progress:
 
 ## Introduction
 
-An in-toto **attestation** is an implementation of the [SLSA Attestation Model].
-It is a statement about a set of software artifacts, signed by an attester. An
-attestation can represent arbitrary metadata: anyone can define a [Predicate]
-type with an arbitrary meaning and schema. The attestation format standardizes
-authentication ([Envelope]) and association with artifacts ([Statement]).
+An in-toto **attestation** is authenticated metadata about one or more software
+artifacts, as per the [SLSA Attestation Model].
 
 Examples of hypothetical attestations:
 
@@ -47,19 +44,23 @@ Goals:
     anyone, such as [in-toto] or [Binary Authorization].
 *   Make it possible to write automated policies that take advantage of
     structured information.
-*   Fit within the [SLSA Framework][SLSA]. The provenance format defined within
-    this ITE is the official SLSA recommendation.
+*   Fit within the [SLSA Framework][SLSA]. The [provenance] format defined here
+    is the official SLSA recommendation.
 
 ## Specification
 
 An attestation has three layers that are independent but designed to work
 together:
 
-*   **[Envelope]:** Handles authentication and serialization.
-*   **[Statement]:** Binds the attestation to a particular subject and
+*   [Envelope]: Handles authentication and serialization.
+*   [Statement]: Binds the attestation to a particular subject and
     unambiguously identifies the types of the predicate.
-*   **[Predicate]:** Contains arbitrary metadata about the subject, with a
-    type-specific schema.
+*   [Predicate]: Contains arbitrary metadata about the subject, with a
+    type-specific schema. This repo defines the following predicate types,
+    though custom types are allowed:
+    *   [Provenance]: To describe the origins of a software artifact.
+    *   [Link]: For migration from [in-toto 0.9].
+    *   [SPDX](spec/predicates/spdx.md): A Software Package Data Exchange document.
 
 It may help to first look at [Examples](#examples) to get an idea.
 
