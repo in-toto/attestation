@@ -28,14 +28,18 @@ See the [top-level README](../README.md) for background and examples.
 ```jsonc
 {
   "payloadType": "https://in-toto.io/Statement/v1-json",
-  "payload": "...",
+  "payload": "<BASE64(Statement)>",
   "signatures": [<SIGNATURES>]
 }
 ```
 
-The Envelope is defined in
-[signing-spec](https://github.com/secure-systems-lab/signing-spec) and adopted
-by in-toto in [ITE-5].
+The Envelope is the outermost layer of the attestation, handling authentication
+and serialization.
+
+The format and protocol are defined in [signing-spec] and adopted by in-toto in
+[ITE-5].
+
+The `payloadType` and `payload` together form the [Statement].
 
 ## Statement
 
@@ -49,16 +53,17 @@ by in-toto in [ITE-5].
     ...
   ],
   "predicateType": "...",
-  "predicate": {
-    <PREDICATE>
-  }
+  "predicate": { ... }
 }
 ```
 
+The Statement is the middle layer of the attestation, binding it to a particular
+subject and unambiguously identifying the types of the [predicate].
+
 *   Type URI: https://in-toto.io/Statement/v1-json (value of `payloadType` in
     [Envelope])
-*   Encoding: [JSON](https://www.json.org)
-*   Schema: [statement.proto](spec/statement.proto)
+*   Encoding: [JSON](https://www.json.org) (stored as `payload` in [Envelope])
+*   Schema: [statement.proto](statement.proto)
 
 The `subject` describes the set of software artifacts that the attestation
 applies to. Each entry has a `name` and at least one `digest`.
@@ -79,27 +84,40 @@ because the results apply regardless of what the artifact is named.
 IMPORTANT: Subject artifacts are matched purely by digest, regardless of content
 type. If this matters to you, please open a GitHub issue to discuss.
 
-The `predicateType` and `predicate` together form the [Predicate], describing
-metadata about the artifacts referenced by`subject`.
+The `predicateType` and `predicate` together form the [Predicate](predicate.md),
+describing metadata about the artifacts referenced by`subject`.
 
-See [processing model](#processing-model) for more details.
+See [processing model](processing_model.md) for more details.
 
 ## Predicate
 
-The required `predicateType` is a [URI][RFC 3986] describing the overall meaning
-of the attestation as well as the schema of `predicate`. The optional
-`predicate` contains additional details.
+```jsonc
+"predicateType": "...",
+"predicate": {
+    // arbitrary object
+}
+```
 
-The predicate can contain arbitrary information. Users are expected to choose a
-predicate type that fits their needs, or invent a new one if no existing one
-satisfies. Type URIs are not registered; the natural namespacing of URIs is
-sufficient to prevent collisions.
+The Predicate is the innermost layer of the attestation, containing arbitrary
+metadata about the [Statement]'s subject.
+
+The required `predicateType` is a [TypeURI] describing the overall meaning of
+the attestation as well as the schema of `predicate`.
+
+The optional `predicate` is a JSON object containing additional details.
+
+Users are expected to choose a predicate type that fits their needs, or invent a
+new one if no existing one satisfies.
+
+### Pre-defined predicates
 
 This repo defines the following predicate types:
 
 *   [Provenance]: To describe the origins of a software artifact.
 *   [Link]: For migration from [in-toto 0.9].
-*   [SPDX](spec/predicates/spdx.md): A Software Package Data Exchange document.
+*   [SPDX]: A Software Package Data Exchange document.
+
+### Predicate conventions
 
 We recommend the following conventions for predicates:
 
@@ -174,7 +192,8 @@ Output (to be fed into policy engine):
 
 [DigestSet]: field_types.md#DigestSet
 [Envelope]: #envelope
-[ITE-5]: https://github.com/MarkLodato/ITE/blob/ite-5/ITE/5/README.md
+[ITE-5]: https://github.com/in-toto/ITE/pull/13
+[signing-spec]: https://github.com/secure-systems-lab/signing-spec
 [Link]: predicates/link.md
 [Predicate]: #predicate
 [Provenance]: predicates/provenance.md
