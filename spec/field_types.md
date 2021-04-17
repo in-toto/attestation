@@ -3,10 +3,29 @@
 <a id="DigestSet"></a>
 _DigestSet (object)_
 
-> Set of alternative cryptographic digests, expressed as a JSON map from
-> algorithm name to lowercase hex-encoded value. See
-> [digest.proto](digest.proto) for more details, including standard algorithm
-> names.
+> Set of alternative cryptographic digests for a single software artifact,
+> expressed as a JSON map from algorithm name to lowercase hex-encoded value.
+> Usually there is just a single key/value pair, but multiple entires MAY be
+> used for algorithm agility.
+>
+> It is RECOMMENDED to use at least `sha256` for compatibility between producers
+> and consumers.
+>
+> Pre-defined algorithm names: `sha256`, `sha224`, `sha384`, `sha512`,
+> `sha512_224`, `sha512_256`, `sha3_224`, `sha3_256`, `sha3_384`, `sha3_512`,
+> `shake128`, `shake256`, `blake2b`, `blake2s`, `ripemd160`, `sm3`, `gost`,
+> `sha1`, `md5`.
+>
+> Two DigestSets SHOULD be considered matching if ANY field matches. Consumers
+> MUST only accept algorithms that they consider secure and MUST ignore
+> unrecognized or unaccepted algorithms. For example, most applications SHOULD
+> NOT accept "md5" because it lacks collision resistance.
+>
+> Examples:
+>
+> -   `{"sha256": "abcd", "sha512": "1234"}` matches `{"sha256": "abcd"}`
+> -   `{"sha256": "abcd"}` does not match `{"sha256": "fedb", "sha512": "abcd"}`
+> -   `{"somecoolhash": "abcd"}` uses a non-predefined algorithm
 
 <a id="ResourceURI"></a>
 _ResourceURI (string)_
