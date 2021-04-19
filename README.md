@@ -281,15 +281,15 @@ Chapter 14, page 328, "Ensure Unambiguous Provenance." Instead, we recommend
 keying primarily by resource name, in addition to content hash.
 
 [Binary Authorization]: https://cloud.google.com/binary-authorization
-[Envelope]: spec/envelope.md
+[Envelope]: spec/README.md#envelope
 [ITE-6]: https://github.com/in-toto/ITE/pull/15
 [Link]: spec/predicates/link.md
-[Predicate]: spec/predicate.md
+[Predicate]: spec/README.md#predicate
 [Provenance]: spec/predicates/provenance.md
 [SLSA Attestation Model]: https://github.com/slsa-framework/slsa-controls/blob/main/attestations.md
 [SLSA]: https://github.com/slsa-framework/slsa
 [SPDX]: spec/predicates/spdx.md
-[Statement]: spec/statement.md
+[Statement]: spec/README.md#statement
 [in-toto 0.9]: https://github.com/in-toto/docs/blob/v0.9/in-toto-spec.md
 [in-toto]: https://in-toto.io
 [processing model]: spec/processing_model.md
