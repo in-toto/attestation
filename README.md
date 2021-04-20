@@ -81,6 +81,16 @@ pretending they were built on
 
 ```json
 {
+  "payloadType": "https://in-toto.io/Statement/v1-json",
+  "payload": "ewogICJzdWJqZWN0IjogWwogICAg...",
+  "signatures": [{"sig": "MeQyap6MyFyc9Y..."}]
+}
+```
+
+where `payload` base64-decodes as the following [Statement]:
+
+```json
+{
   "subject": [
     { "name": "curl-7.72.0.tar.bz2",
       "digest": { "sha256": "ad91970864102a59765e20ce16216efc9d6ad381471f7accceceab7d905703ef" }},
@@ -149,6 +159,9 @@ examples to explain the benefits for the new link format.
 The initial step is often to write code. This has no materials and no real
 command. The existing [Link] schema has little benefit. Instead, a custom
 `predicateType` would avoid all of the meaningless boilerplate fields.
+
+(Only the base64-decoded `payload` [Statement] is shown, since the outer
+[Envelope] looks the same in all cases.)
 
 ```json
 {
