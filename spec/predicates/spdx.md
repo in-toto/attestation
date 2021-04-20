@@ -18,7 +18,7 @@ performing policy decisions
 
 ```jsonc
 {
-  "subject": { ... }
+  "subject": [{ ... }],
   "predicateType": "https://spdx.dev/Document",
   "predicate": {
     "SPDXID" : "SPDXRef-DOCUMENT",

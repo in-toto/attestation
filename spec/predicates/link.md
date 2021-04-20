@@ -15,7 +15,7 @@ Most users should migrate to a more specific attestation type, such as
 
 ```jsonc
 {
-  "subject": { ... }
+  "subject": [{ ... }],
   "predicateType": "https://in-toto.io/Link/v1",
   "predicate": {
     "_type": "link",
