@@ -28,6 +28,9 @@ performing policy decisions
 }
 ```
 
+_(Note: This is a Predicate type that fits within the larger
+[Attestation](../README.md) framework.)_
+
 The `predicate` contains a JSON-encoded SPDX document. The SPDX format has a
 mandatory `spdxVersion` field, so there is no need to version the predicate
 type.

@@ -29,6 +29,9 @@ Most users should migrate to a more specific attestation type, such as
 }
 ```
 
+_(Note: This is a Predicate type that fits within the larger
+[Attestation](../README.md) framework.)_
+
 The `predicate` has the same schema as the link's `signed` field in
 [in-toto 0.9]. See that document for details.
 
