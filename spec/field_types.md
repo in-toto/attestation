@@ -55,7 +55,7 @@ _TypeURI (string)_
 > TypeURIs are not registered. The natural namespacing of URIs is sufficient to
 > prevent collisions.
 >
-> Example: `"https://in-toto.io/Attestation/v1"`.
+> Example: `"https://in-toto.io/Statement/v1"`.
 
 <a id="Timestamp"></a>
 _Timestamp (string)_

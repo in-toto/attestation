@@ -12,13 +12,17 @@ A Software Bill of Materials type following the
 
 This allows to represent an "exportable" or "published" software artifact. It
 can also be used as an entry point for other types of in-toto attestation when
-performing policy decisions
+performing policy decisions.
 
 ## Schema
 
 ```jsonc
 {
+  // Standard attestation fields:
+  "type": "https://in-toto.io/Statement/v1",
   "subject": [{ ... }],
+
+  // Predicate:
   "predicateType": "https://spdx.dev/Document",
   "predicate": {
     "SPDXID" : "SPDXRef-DOCUMENT",
