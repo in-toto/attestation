@@ -183,22 +183,25 @@ Inputs:
 Steps:
 
 *   Envelope layer:
-    *   Decode `attestation` as a JSON-encoded [Envelope]; reject if decoding
-        fails
-    *   Initialize `attesterNames` as an empty set of names
-    *   For each `signature` in the envelope:
+    *   `envelope` := decode `attestation` as a JSON-encoded [Envelope]; reject
+        if decoding fails
+    *   `attesterNames` := empty set of names
+    *   For each `signature` in `envelope.signatures`:
         *   For each (`name`, `publicKey`) in `recognizedAttesters`:
             *   Optional: skip if `signature.keyid` does not match `publicKey`
             *   If `signature.sig` matches `publicKey`:
                 *   Add `name` to `attesterNames`
     *   Reject if `attesterNames` is empty
-*   Intermediate state: `payloadType`, `payload`, `attesterNames`
+*   Intermediate state: `envelope.payloadType`, `envelope.payload`,
+    `attesterNames`
 *   Statement layer:
-    *   Reject if `payloadType` != `https://in-toto.io/Attestation/v1-json`
-    *   Decode `payload` as a JSON-encoded [Statement], reject if decoding fails
-    *   Initialize `artifactNames` as an empty set of names
-    *   For each subject `s` in the statement:
-        *   For each digest (`alg`, `value`) in `s.digest`
+    *   Reject if `envelope.payloadType` !=
+        `https://in-toto.io/Attestation/v1-json`
+    *   `statement` := decode `envelope.payload` as a JSON-encoded [Statement];
+        reject if decoding fails
+    *   `artifactNames` := empty set of names
+    *   For each `s` in `statement.subject`:
+        *   For each digest (`alg`, `value`) in `s.digest`:
             *   If `alg` is in `acceptableDigestAlgorithms`:
                 *   If `hash(alg, artifactToVerify)` == `hexDecode(value)`:
                     *   Add `s.name` to `artifactNames`
@@ -206,8 +209,8 @@ Steps:
 
 Output (to be fed into policy engine):
 
-*   `predicateType`
-*   `predicate`
+*   `statement.predicateType`
+*   `statement.predicate`
 *   `artifactNames`
 *   `attesterNames`
 
