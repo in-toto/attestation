@@ -27,7 +27,7 @@ See the [top-level README](../README.md) for background and examples.
 
 ```jsonc
 {
-  "payloadType": "https://in-toto.io/Statement/v1-json",
+  "payloadType": "application/vnd.in-toto+json",
   "payload": "<Base64(Statement)>",
   "signatures": [{"sig": "<Base64(Signature)>"}]
 }
@@ -39,22 +39,24 @@ adopted by in-toto in [ITE-5]. It is a [JSON] object with the following fields:
 
 `payloadType` *string, required*
 
->   Always `https://in-toto.io/Statement/v1-json` (for the [Statement] defined
->   below).
+> Identifier for the encoding of the payload. Always
+> `application/vnd.in-toto+json`, which indicates that it is a JSON object with
+> a `type` field indicating its schema.
 
 `payload` *string, required*
 
->   Base64-encoded JSON [Statement].
+> Base64-encoded JSON [Statement].
 
 `signatures` *array of objects, required*
 
->   One or more signatures over `payloadType` and `payload`, as defined in
->   [signing-spec].
+> One or more signatures over `payloadType` and `payload`, as defined in
+> [signing-spec].
 
 ## Statement
 
 ```jsonc
 {
+  "type": "https://in-toto.io/Statement/v1",
   "subject": [
     {
       "name": "<NAME>",
@@ -70,6 +72,11 @@ adopted by in-toto in [ITE-5]. It is a [JSON] object with the following fields:
 The Statement is the middle layer of the attestation, binding it to a particular
 subject and unambiguously identifying the types of the [predicate]. It is a
 [JSON] object with the following fields:
+
+`type` _string ([TypeURI]), required_
+
+> Identifier for the schema of the Statement. Always
+> `https://in-toto.io/Statement/v1`.
 
 `subject` _array of objects, required_
 
@@ -195,10 +202,10 @@ Steps:
 *   Intermediate state: `envelope.payloadType`, `envelope.payload`,
     `attesterNames`
 *   Statement layer:
-    *   Reject if `envelope.payloadType` !=
-        `https://in-toto.io/Attestation/v1-json`
+    *   Reject if `envelope.payloadType` != `application/vnd.in-toto+json`
     *   `statement` := decode `envelope.payload` as a JSON-encoded [Statement];
         reject if decoding fails
+    *   Reject if `statement.type` != `https://in-toto.io/Statement/v1`
     *   `artifactNames` := empty set of names
     *   For each `s` in `statement.subject`:
         *   For each digest (`alg`, `value`) in `s.digest`:

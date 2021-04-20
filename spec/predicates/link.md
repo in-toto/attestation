@@ -15,7 +15,11 @@ Most users should migrate to a more specific attestation type, such as
 
 ```jsonc
 {
+  // Standard attestation fields:
+  "type": "https://in-toto.io/Statement/v1",
   "subject": [{ ... }],
+
+  // Predicate:
   "predicateType": "https://in-toto.io/Link/v1",
   "predicate": {
     "_type": "link",
