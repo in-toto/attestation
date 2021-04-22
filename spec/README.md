@@ -15,6 +15,7 @@ independent but designed to work together:
     *   [Provenance]: To describe the origins of a software artifact.
     *   [Link]: For migration from [in-toto 0.9].
     *   [SPDX]: A Software Package Data Exchange document.
+    *   [Rekord]: Recording signed metadata
 
 The [processing model] provides pseudocode showing how these layers fit
 together.
