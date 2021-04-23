@@ -27,7 +27,7 @@ the same major number. That is:
 
 The type ID only includes the major version. This allows implementations to
 support any major version without having to parse the URI to pull out the
-version. (Parsing is possible since we don't mandate the format of the URI.)
+version. (Parsing is impossible since we don't mandate the format of the URI.)
 Implementations just use the URI as an opaque string.
 
 The advantage of having minor versions is that we can add new information
