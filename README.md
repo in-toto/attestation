@@ -178,7 +178,7 @@ command. The existing [Link] schema has little benefit. Instead, a custom
       "branch": "main"
     },
     "author": "mailto:alice@example.com",
-    "reviewers": ["mailto:bob@example.com"],
+    "reviewers": ["mailto:bob@example.com"]
   }
 }
 ```
