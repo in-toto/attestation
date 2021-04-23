@@ -19,7 +19,7 @@ performing policy decisions.
 ```jsonc
 {
   // Standard attestation fields:
-  "type": "https://in-toto.io/Statement/v1",
+  "type": "https://in-toto.io/Statement/v0.1",
   "subject": [{ ... }],
 
   // Predicate:
