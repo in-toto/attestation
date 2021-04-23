@@ -81,7 +81,7 @@ pretending they were built on
 
 ```json
 {
-  "payloadType": "https://in-toto.io/Statement/v1-json",
+  "payloadType": "application/vnd.in-toto+json",
   "payload": "ewogICJzdWJqZWN0IjogWwogICAg...",
   "signatures": [{"sig": "MeQyap6MyFyc9Y..."}]
 }
@@ -91,6 +91,7 @@ where `payload` base64-decodes as the following [Statement]:
 
 ```json
 {
+  "type": "https://in-toto.io/Statement/v1",
   "subject": [
     { "name": "curl-7.72.0.tar.bz2",
       "digest": { "sha256": "ad91970864102a59765e20ce16216efc9d6ad381471f7accceceab7d905703ef" }},
@@ -165,6 +166,7 @@ command. The existing [Link] schema has little benefit. Instead, a custom
 
 ```json
 {
+  "type": "https://in-toto.io/Statement/v1",
   "subject": [
     { "digest": { "sha1":  "859b387b985ea0f414e4e8099c9f874acb217b94" } }
   ],
@@ -187,6 +189,7 @@ better fit:
 
 ```json
 {
+  "type": "https://in-toto.io/Statement/v1",
   "subject": [
     { "digest": { "sha1": "859b387b985ea0f414e4e8099c9f874acb217b94" } }
   ],
