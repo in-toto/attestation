@@ -56,7 +56,7 @@ adopted by in-toto in [ITE-5]. It is a [JSON] object with the following fields:
 
 ```jsonc
 {
-  "type": "https://in-toto.io/Statement/v1",
+  "type": "https://in-toto.io/Statement/v0.1",
   "subject": [
     {
       "name": "<NAME>",
@@ -76,7 +76,7 @@ subject and unambiguously identifying the types of the [predicate]. It is a
 `type` _string ([TypeURI]), required_
 
 > Identifier for the schema of the Statement. Always
-> `https://in-toto.io/Statement/v1`.
+> `https://in-toto.io/Statement/v0.1` for this version of the spec.
 
 `subject` _array of objects, required_
 
@@ -205,7 +205,7 @@ Steps:
     *   Reject if `envelope.payloadType` != `application/vnd.in-toto+json`
     *   `statement` := decode `envelope.payload` as a JSON-encoded [Statement];
         reject if decoding fails
-    *   Reject if `statement.type` != `https://in-toto.io/Statement/v1`
+    *   Reject if `statement.type` != `https://in-toto.io/Statement/v0.1`
     *   `artifactNames` := empty set of names
     *   For each `s` in `statement.subject`:
         *   For each digest (`alg`, `value`) in `s.digest`:
