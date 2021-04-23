@@ -4,7 +4,7 @@
 
 This document explains how to update the version number when making changes to
 the spec. For regular consumers of the spec, see
-[README](README.md#versioning-and-extensions).
+[README](README.md#parsing-rules).
 
 ## Versioning rules
 
