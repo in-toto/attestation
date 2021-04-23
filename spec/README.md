@@ -138,6 +138,7 @@ This repo defines the following predicate types:
 *   [Provenance]: To describe the origins of a software artifact.
 *   [Link]: For migration from [in-toto 0.9].
 *   [SPDX]: A Software Package Data Exchange document.
+*   [Rekord](predicate/rekord.md): Recording signed metadata
 
 ### Predicate conventions
 
