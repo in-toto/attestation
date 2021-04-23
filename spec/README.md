@@ -23,6 +23,25 @@ together.
 
 See the [top-level README](../README.md) for background and examples.
 
+## Versioning and extensions
+
+Consumers MUST ignore unrecognized fields.
+
+Each type has a [SemVer2](https://semver.org) version number and the [TypeURI]
+reflects the major version number. A message is semantically correct, but
+possibly incomplete, when parsed as any other version with the same major
+version number (and thus the same [TypeURI]). For example, if version 1.0.0 has
+a field `foo` and version 1.1.0 adds a field `bar`, then parsing a 1.0 message
+as 1.1 says no information about `bar`, and parsing a 1.1 message as 1.0 ignores
+information about `bar`, but in both cases information about `foo` is valid.
+(See [versioning rules](versioning.md) for details.)
+
+Producers MAY add extension fields to any JSON object by using a property name
+that is a [TypeURI]. Example: `{"materials":
+[{"https://example.com/Awesomeness": 99, ...}]}`. The use of URI is to protect
+against name collisions. Consumers MAY parse and use these extensions if
+desired.
+
 ## Envelope
 
 ```jsonc
