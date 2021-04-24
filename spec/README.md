@@ -41,7 +41,7 @@ adopted by in-toto in [ITE-5]. It is a [JSON] object with the following fields:
 
 > Identifier for the encoding of the payload. Always
 > `application/vnd.in-toto+json`, which indicates that it is a JSON object with
-> a `type` field indicating its schema.
+> a `_type` field indicating its schema.
 
 `payload` *string, required*
 
@@ -56,7 +56,7 @@ adopted by in-toto in [ITE-5]. It is a [JSON] object with the following fields:
 
 ```jsonc
 {
-  "type": "https://in-toto.io/Statement/v0.1",
+  "_type": "https://in-toto.io/Statement/v0.1",
   "subject": [
     {
       "name": "<NAME>",
@@ -73,7 +73,7 @@ The Statement is the middle layer of the attestation, binding it to a particular
 subject and unambiguously identifying the types of the [predicate]. It is a
 [JSON] object with the following fields:
 
-`type` _string ([TypeURI]), required_
+`_type` _string ([TypeURI]), required_
 
 > Identifier for the schema of the Statement. Always
 > `https://in-toto.io/Statement/v0.1` for this version of the spec.
