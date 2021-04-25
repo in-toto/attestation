@@ -15,6 +15,7 @@ independent but designed to work together:
     *   [Provenance]: To describe the origins of a software artifact.
     *   [Link]: For migration from [in-toto 0.9].
     *   [SPDX]: A Software Package Data Exchange document.
+    *   [Null]: May be used to describe a predicate-less attestation.
 
 The [processing model] provides pseudocode showing how these layers fit
 together.
@@ -144,6 +145,7 @@ This repo defines the following predicate types:
 *   [Provenance]: To describe the origins of a software artifact.
 *   [Link]: For migration from [in-toto 0.9].
 *   [SPDX]: A Software Package Data Exchange document.
+*   [Null]: May be used to describe a predicate-less attestation.
 
 ### Predicate conventions
 
@@ -226,6 +228,7 @@ Output (to be fed into policy engine):
 [ITE-5]: https://github.com/in-toto/ITE/pull/13
 [JSON]: https://www.json.org
 [Link]: predicates/link.md
+[Null]: predicates/null.md
 [Predicate]: #predicate
 [Provenance]: predicates/provenance.md
 [RFC 3339]: https://tools.ietf.org/html/rfc3339

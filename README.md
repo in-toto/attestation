@@ -66,6 +66,7 @@ See [spec/README.md](spec/README.md). Summary:
     *   [Provenance]: To describe the origins of a software artifact.
     *   [Link]: For migration from [in-toto 0.9].
     *   [SPDX]: A Software Package Data Exchange document.
+    *   [Null]: May be used to describe a predicate-less attestation.
 
 The [processing model] provides pseudocode showing how these layers fit
 together.
@@ -300,6 +301,7 @@ keying primarily by resource name, in addition to content hash.
 [Envelope]: spec/README.md#envelope
 [ITE-6]: https://github.com/in-toto/ITE/pull/15
 [Link]: spec/predicates/link.md
+[Null]: spec/predicates/null.md
 [Predicate]: spec/README.md#predicate
 [Provenance]: spec/predicates/provenance.md
 [SLSA Attestation Model]: https://github.com/slsa-framework/slsa-controls/blob/main/attestations.md
