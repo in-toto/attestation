@@ -2,6 +2,8 @@
 
 Type URI: (tentative) https://spdx.dev/Document
 
+Version: 1.0.0
+
 TODO: Ask SPDX project to choose a URI and to review this spec. Ideally the URI
 would resolve to this file.
 

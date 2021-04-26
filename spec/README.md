@@ -23,6 +23,37 @@ together.
 
 See the [top-level README](../README.md) for background and examples.
 
+## Parsing rules
+
+The following rules apply to [Statement], [Provenance], and other predicates
+that opt-in to this model.
+
+*   **Unrecognized fields:** Consumers MUST ignore unrecognized fields. This is
+    to allow minor version upgrades and extension fields. Ignoring fields is
+    safe due to the monotonic principle.
+
+*   **Versioning:** Each type has a [SemVer2](https://semver.org) version number
+    and the [TypeURI] reflects the major version number. A message is always
+    semantically correct, but possibly incomplete, when parsed as any other
+    version with the same major version number and thus the same [TypeURI].
+    Minor version changes always follow the monotonic principle.
+
+*   **Extension fields:** Producers MAY add extension fields to any JSON object
+    by using a property name that is a [TypeURI]. The use of URI is to protect
+    against name collisions. Consumers MAY parse and use these extensions if
+    desired. The presence or absence of the extension field MUST NOT influence
+    the meaning of any other field, and the field MUST follow the monotonic
+    princple.
+
+*   **Monotonic:** A policy is considered monotonic if ignoring an attestation,
+    or a field within an attestation, will never turn a DENY decision into an
+    ALLOW. A predicate or field follows the monotonic princple if the expected
+    policy that consumes it is monotonic. Consumers SHOULD design policies to be
+    monotonic. Example: instead of "deny if a 'has vulnerabilities' attestation
+    exists", prefer "deny unless a 'no vulnerabilities' attestation exists".
+
+See [versioning rules](versioning.md) for details and examples.
+
 ## Envelope
 
 ```jsonc
@@ -68,6 +99,8 @@ adopted by in-toto in [ITE-5]. It is a [JSON] object with the following fields:
   "predicate": { ... }
 }
 ```
+
+Version: 0.1.0 (see [parsing rules])
 
 The Statement is the middle layer of the attestation, binding it to a particular
 subject and unambiguously identifying the types of the [predicate]. It is a
@@ -149,6 +182,9 @@ This repo defines the following predicate types:
 
 We recommend the following conventions for predicates:
 
+*   Predicates SHOULD follow and opt-in to the [parsing rules], particularly the
+    monotonic principle, and SHOULD explain what the parsing rules are.
+
 *   Field names SHOULD use lowerCamelCase.
 
 *   Timestamps SHOULD use [RFC 3339] syntax with timezone "Z" and SHOULD clarify
@@ -158,13 +194,6 @@ We recommend the following conventions for predicates:
 *   References to other artifacts SHOULD be an object that includes a `digest`
     field of type [DigestSet]. Consider using the same type as [Provenance]
     `materials` if it is a good fit.
-
-*   Predicates SHOULD be designed to encourage policies to be "monotonic,"
-    meaning that deleting an attestation will never turn a DENY decision into an
-    ALLOW. One reason because verifiers MUST ignore unrecognized subject digest
-    types; if no subject is recognized, the attestation is effectively deleted.
-    Example: instead of "deny if a 'has vulnerabilities' attestation exists",
-    prefer "deny unless a 'no vulnerabilities' attestation exists".
 
 Predicate designers are free to limit what subject types are valid for a given
 predicate type. For example, suppose a "Gerrit code review" predicate only
@@ -235,5 +264,6 @@ Output (to be fed into policy engine):
 [Statement]: #statement
 [TypeURI]: field_types.md#TypeURI
 [in-toto 0.9]: https://github.com/in-toto/docs/blob/v0.9/in-toto-spec.md
+[parsing rules]: #parsing-rules
 [processing model]: #processing-model
 [signing-spec]: https://github.com/secure-systems-lab/signing-spec
