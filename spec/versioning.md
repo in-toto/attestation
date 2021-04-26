@@ -10,7 +10,8 @@ a summary, see [parsing rules](README.md#parsing-rules) in the README.
 We adhere to [Semantic Versioning 2.0.0](https://semver.org), i.e.
 MAJOR.MINOR.PATCH. (PATCH isn't really needed, but we do it just so we're SemVer
 compliant.) This way implementations can state specifically which version they
-support.
+support. NOTE: 0.X.Y versions are considered major versions for the purposes of
+this doc, consistent with semantic versioning.
 
 Any message MUST be semantically correct when parsed as any other version with
 the same major number. That is:
