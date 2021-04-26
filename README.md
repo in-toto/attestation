@@ -7,11 +7,9 @@ intended for consumption by automated policy engines, such as [in-toto] and
 
 ## IMPORTANT
 
-This specification is a work in progress:
-
-*   This doc was spun off from [ITE-6] and some parts have not yet been updated.
-*   Details are subject to change until the initial release.
-*   There are not yet any producers or consumers of this format.
+This format is still in development and is not yet used by in-toto (see
+[ITE-6]). Versions 0.x are unstable and are subject to change until 1.0. Use git
+tags to switch between versions.
 
 ## Introduction
 
