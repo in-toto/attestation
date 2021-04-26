@@ -36,7 +36,8 @@ that opt-in to this model.
     and the [TypeURI] reflects the major version number. A message is always
     semantically correct, but possibly incomplete, when parsed as any other
     version with the same major version number and thus the same [TypeURI].
-    Minor version changes always follow the monotonic principle.
+    Minor version changes always follow the monotonic principle. NOTE: 0.X
+    versions are considered major versions.
 
 *   **Extension fields:** Producers MAY add extension fields to any JSON object
     by using a property name that is a [TypeURI]. The use of URI is to protect
