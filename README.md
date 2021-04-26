@@ -116,22 +116,15 @@ where `payload` base64-decodes as the following [Statement]:
     "materials": [
       {
         "uri": "git+https://github.com/curl/curl-docker@master",
-        "digest": { "sha1": "d6525c840a62b398424a78d792f457477135d0cf" },
-        "mediaType": "application/vnd.git.commit",
-        "tags": ["source"]
+        "digest": { "sha1": "d6525c840a62b398424a78d792f457477135d0cf" }
       }, {
-        "uri": "github_hosted_vm:ubuntu-18.04:20210123.1",
-        "tags": ["base-image"]
+        "uri": "github_hosted_vm:ubuntu-18.04:20210123.1"
       }, {
         "uri": "git+https://github.com/actions/checkout@v2",
-        "digest": {"sha1": "5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f"},
-        "mediaType": "application/vnd.git.commit",
-        "tags": ["dev-dependency"]
+        "digest": {"sha1": "5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f"}
       }, {
         "uri": "git+https://github.com/actions/upload-artifact@v2",
-        "digest": { "sha1": "e448a9b857ee2131e752b06002bf0e093c65e571" },
-        "mediaType": "application/vnd.git.commit",
-        "tags": ["dev-dependency"]
+        "digest": { "sha1": "e448a9b857ee2131e752b06002bf0e093c65e571" }
       }, {
         "uri": "pkg:deb/debian/stunnel4@5.50-3?arch=amd64",
         "digest": { "sha256": "e1731ae217fcbc64d4c00d707dcead45c828c5f762bcf8cc56d87de511e096fa" }

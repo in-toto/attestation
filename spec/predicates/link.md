@@ -1,6 +1,8 @@
-# Predicate type: Link v1
+# Predicate type: Link
 
 Type URI: https://in-toto.io/Link/v1
+
+Version: 1.0.0
 
 ## Purpose
 
