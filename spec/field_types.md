@@ -16,10 +16,11 @@ _DigestSet (object)_
 > `shake128`, `shake256`, `blake2b`, `blake2s`, `ripemd160`, `sm3`, `gost`,
 > `sha1`, `md5`.
 >
-> Two DigestSets SHOULD be considered matching if ANY field matches. Consumers
-> MUST only accept algorithms that they consider secure and MUST ignore
-> unrecognized or unaccepted algorithms. For example, most applications SHOULD
-> NOT accept "md5" because it lacks collision resistance.
+> Consumers MUST only accept algorithms that they consider secure and MUST
+> ignore unrecognized or unaccepted algorithms. For example, most applications
+> SHOULD NOT accept "md5" because it lacks collision resistance.
+>
+> Two DigestSets SHOULD be considered matching if ANY acceptable field matches.
 >
 > Examples:
 >
