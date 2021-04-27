@@ -11,6 +11,9 @@ This format is still in development and is not yet used by in-toto (see
 [ITE-6]). Versions 0.x are unstable and are subject to change until 1.0. Use git
 tags to switch between versions.
 
+Latest stable version:
+[0.1.0](https://github.com/in-toto/attestation/tree/v0.1.0)
+
 ## Introduction
 
 An in-toto **attestation** is authenticated metadata about one or more software

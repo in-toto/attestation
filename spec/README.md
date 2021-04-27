@@ -101,7 +101,9 @@ adopted by in-toto in [ITE-5]. It is a [JSON] object with the following fields:
 }
 ```
 
-Version: 0.1.0 (see [parsing rules])
+Version:
+[0.1.0](https://github.com/in-toto/attestation/blob/v0.1.0/spec/README.md) (see
+[parsing rules])
 
 The Statement is the middle layer of the attestation, binding it to a particular
 subject and unambiguously identifying the types of the [predicate]. It is a
