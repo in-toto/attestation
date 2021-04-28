@@ -120,7 +120,8 @@ subject and unambiguously identifying the types of the [predicate]. It is a
 > represents a single software artifact.
 >
 > IMPORTANT: Subject artifacts are matched purely by digest, regardless of
-> content type. If this matters to you, please open a GitHub issue to discuss.
+> content type. If this matters to you, please comment on
+> [GitHub Issue #28](https://github.com/in-toto/attestation/issues/28)
 
 `subject[*].digest` _object ([DigestSet]), required_
 
