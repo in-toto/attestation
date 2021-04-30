@@ -48,7 +48,7 @@ that opt-in to this model.
 
 *   **Monotonic:** A policy is considered monotonic if ignoring an attestation,
     or a field within an attestation, will never turn a DENY decision into an
-    ALLOW. A predicate or field follows the monotonic princple if the expected
+    ALLOW. A predicate or field follows the monotonic principle if the expected
     policy that consumes it is monotonic. Consumers SHOULD design policies to be
     monotonic. Example: instead of "deny if a 'has vulnerabilities' attestation
     exists", prefer "deny unless a 'no vulnerabilities' attestation exists".
@@ -256,7 +256,7 @@ Output (to be fed into policy engine):
 
 [DigestSet]: field_types.md#DigestSet
 [Envelope]: #envelope
-[ITE-5]: https://github.com/in-toto/ITE/pull/13
+[ITE-5]: https://github.com/in-toto/ITE/blob/master/ITE/5/README.adoc
 [JSON]: https://www.json.org
 [Link]: predicates/link.md
 [Predicate]: #predicate
