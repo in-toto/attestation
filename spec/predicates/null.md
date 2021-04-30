@@ -6,7 +6,7 @@ Version: 1.0.0
 
 ## Purpose
 
-Denotes the absense of a predicate. May be used as a drop-in replacement for
+Denotes the absence of a predicate. May be used as a drop-in replacement for
 traditional code signing, where the notion of a predicate does not exist.
 
 ## Schema
