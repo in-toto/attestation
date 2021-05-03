@@ -33,7 +33,7 @@ that opt-in to this model.
     safe due to the monotonic principle.
 
 *   **Versioning:** Each type has a [SemVer2](https://semver.org) version number
-    and the [TypeURI] reflects the major version number. A message is always
+    and the [TypeURI] reflects the major version number.† A message is always
     semantically correct, but possibly incomplete, when parsed as any other
     version with the same major version number and thus the same [TypeURI].
     Minor version changes always follow the monotonic principle. NOTE: 0.X
@@ -54,6 +54,9 @@ that opt-in to this model.
     exists", prefer "deny unless a 'no vulnerabilities' attestation exists".
 
 See [versioning rules](versioning.md) for details and examples.
+
+† The TypeURI MAY omit the version number if the schema is expected to be stable
+and thus never need a new major version.
 
 ## Envelope
 
