@@ -1,6 +1,6 @@
 # Predicate type: Null
 
-Type URI: https://in-toto.io/Null
+Type URI: https://in-toto.io/Null/v1
 
 Version: 1.0.0
 
@@ -18,7 +18,7 @@ traditional code signing, where the notion of a predicate does not exist.
   "subject": [{ ... }],
 
   // Predicate:
-  "predicateType": "https://in-toto.io/Null",
+  "predicateType": "https://in-toto.io/Null/v1",
   "predicate": null  // or unset
 }
 ```
