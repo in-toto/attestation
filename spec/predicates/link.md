@@ -1,8 +1,8 @@
 # Predicate type: Link
 
-Type URI: https://in-toto.io/Link/v1
+Type URI: https://in-toto.io/Link/v0.1
 
-Version: 1.0.0
+Version: 0.1.0
 
 ## Purpose
 
@@ -22,7 +22,7 @@ Most users should migrate to a more specific attestation type, such as
   "subject": [{ ... }],
 
   // Predicate:
-  "predicateType": "https://in-toto.io/Link/v1",
+  "predicateType": "https://in-toto.io/Link/v0.1",
   "predicate": {
     "_type": "link",
     "name": "...",
