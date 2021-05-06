@@ -1,14 +1,14 @@
 # Predicate type: Link
 
-Type URI: https://in-toto.io/Link/v0.1
+Type URI: https://in-toto.io/Link/v0.2
 
-Version: 0.1.0
+Version: 0.2.0
 
 ## Purpose
 
-A generic attestation type with the same schema as [in-toto 0.9]. This allows
-existing in-toto users to make minimal changes to upgrade to the new attestation
-format.
+A generic attestation type with a schema isomorphic to [in-toto 0.9]. This
+allows existing in-toto users to make minimal changes to upgrade to the new
+attestation format.
 
 Most users should migrate to a more specific attestation type, such as
 [Provenance](provenance.md).
@@ -22,13 +22,11 @@ Most users should migrate to a more specific attestation type, such as
   "subject": [{ ... }],
 
   // Predicate:
-  "predicateType": "https://in-toto.io/Link/v0.1",
+  "predicateType": "https://in-toto.io/Link/v0.2",
   "predicate": {
-    "_type": "link",
     "name": "...",
     "command": "...",
     "materials": { ... },
-    "products": { ... },
     "byproducts": { ... },
     "environment": { ... }
   }
@@ -39,17 +37,40 @@ _(Note: This is a Predicate type that fits within the larger
 [Attestation](../README.md) framework.)_
 
 The `predicate` has the same schema as the link's `signed` field in
-[in-toto 0.9]. See that document for details.
+[in-toto 0.9] except:
 
-The `subject` MUST contain whatever elements from `products` or `materials` make
-sense. For example, a traditional "build" step would list the `products` in the
-`subject`, whereas a "test" or "vulnerability scan" would like the relevant
-`materials`.
+*   `predicate._type` is omitted.  `predicateType` serves the same purpose.
+*   `predicate.products` is omitted. `subject` serves the same purpose.
+
+## Converting to old-style links
+
+A Link predicate may be converted into an in-toto 0.9 link as follows:
+
+*   Set `link` to be a copy of `predicate`.
+*   Set `link.type` to `"link"`.
+*   Set `link.products` to be a map from `subject[*].name` to
+    `subject[*].digest`.
+
+In Python:
+
+```python
+def convert(statement):
+    assert statement.predicateType == 'https://in-toto.io/Link/v0.2'
+    link = statement.predicate.copy()
+    link['_type'] = 'link'
+    link['products'] = {s['name'] : s['digest'] for s in statement.subject}
+    return link
+```
 
 ## TODO
 
 *   [ ] Bump up the in-toto version from 0.9 to 1.0 once
     [in-toto/docs issue #46](https://github.com/in-toto/docs/issues/46) is
     resolved.
+
+## Version History
+
+*   0.2: Removed `_type` and `products`. Defined conversion rules.
+*   0.1: Initial version.
 
 [in-toto 0.9]: https://github.com/in-toto/docs/blob/master/in-toto-spec.md#44-file-formats-namekeyid-prefixlink
