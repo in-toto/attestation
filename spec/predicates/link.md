@@ -6,7 +6,7 @@ Version: 0.2.0
 
 ## Purpose
 
-A generic attestation type with the a schema isomorphic to [in-toto 0.9]. This
+A generic attestation type with a schema isomorphic to [in-toto 0.9]. This
 allows existing in-toto users to make minimal changes to upgrade to the new
 attestation format.
 
