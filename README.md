@@ -296,7 +296,7 @@ keying primarily by resource name, in addition to content hash.
 [Link]: spec/predicates/link.md
 [Predicate]: spec/README.md#predicate
 [Provenance]: spec/predicates/provenance.md
-[SLSA Attestation Model]: https://github.com/slsa-framework/slsa-controls/blob/main/attestations.md
+[SLSA Attestation Model]: https://github.com/slsa-framework/slsa/blob/main/controls/attestations.md
 [SLSA]: https://github.com/slsa-framework/slsa
 [SPDX]: spec/predicates/spdx.md
 [Statement]: spec/README.md#statement

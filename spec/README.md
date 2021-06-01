@@ -263,7 +263,7 @@ Output (to be fed into policy engine):
 [Provenance]: predicates/provenance.md
 [RFC 3339]: https://tools.ietf.org/html/rfc3339
 [RFC 3986]: https://tools.ietf.org/html/rfc3986
-[SLSA Attestation Model]: https://github.com/slsa-framework/slsa-controls/blob/main/attestations.md
+[SLSA Attestation Model]: https://github.com/slsa-framework/slsa/blob/main/controls/attestations.md
 [SPDX]: predicates/spdx.md
 [Statement]: #statement
 [TypeURI]: field_types.md#TypeURI
