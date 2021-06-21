@@ -66,8 +66,8 @@ See [versioning rules](versioning.md) for details and examples.
 ```
 
 The Envelope is the outermost layer of the attestation, handling authentication
-and serialization. The format and protocol are defined in [signing-spec] and
-adopted by in-toto in [ITE-5]. It is a [JSON] object with the following fields:
+and serialization. The format and protocol are defined in [DSSE] and adopted by
+in-toto in [ITE-5]. It is a [JSON] object with the following fields:
 
 `payloadType` *string, required*
 
@@ -81,8 +81,7 @@ adopted by in-toto in [ITE-5]. It is a [JSON] object with the following fields:
 
 `signatures` *array of objects, required*
 
-> One or more signatures over `payloadType` and `payload`, as defined in
-> [signing-spec].
+> One or more signatures over `payloadType` and `payload`, as defined in [DSSE].
 
 ## Statement
 
@@ -254,6 +253,7 @@ Output (to be fed into policy engine):
 *   `artifactNames`
 *   `attesterNames`
 
+[DSSE]: https://github.com/secure-systems-lab/dsse
 [DigestSet]: field_types.md#DigestSet
 [Envelope]: #envelope
 [ITE-5]: https://github.com/in-toto/ITE/blob/master/ITE/5/README.adoc
@@ -270,4 +270,3 @@ Output (to be fed into policy engine):
 [in-toto 0.9]: https://github.com/in-toto/docs/blob/v0.9/in-toto-spec.md
 [parsing rules]: #parsing-rules
 [processing model]: #processing-model
-[signing-spec]: https://github.com/secure-systems-lab/signing-spec
