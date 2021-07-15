@@ -302,4 +302,4 @@ keying primarily by resource name, in addition to content hash.
 [Statement]: spec/README.md#statement
 [in-toto 0.9]: https://github.com/in-toto/docs/blob/v0.9/in-toto-spec.md
 [in-toto]: https://in-toto.io
-[processing model]: spec/processing_model.md
+[processing model]: spec/README.md#processing-model
