@@ -1,14 +1,9 @@
 # Attestation Bundle
-in-toto attestations support multiple different predicate types with the idea that
-users will want to propagage multiple assertions about a single software package
-(Provenance, Code Review, Test Result, vuln scan, ...).
 
-Attestation Bundles provides a canonical method of storing those attestations in
-a single place.
-
-The attestations stored in a bundle may all come from the same source, signed by
-the same key, or they come from multiple sources, signed by different keys.  New
-attestations would simply be added to the existing bundle.
+An attestation bundle is a collection of multiple attestations in a single file.
+This allows attestations from multiple different points in the software supply
+chain (e.g. Provenance, Code Review, Test Result, vuln scan, ...) to be grouped
+together, allowing users to make decisions based on all available information.
 
 **NOTE**: Attestation Bundles themselves are **not authenticated** instead each
 individual attestation is authenticated
@@ -26,13 +21,18 @@ Attestation Bundles use [JSON Lines](https://jsonlines.org/) to store multiple
 *  Each line MAY contain any DSSE `payloadType`
 *  in-toto attestations (`payloadType` == `application/vnd.in-toto+json`) MAY use
    any ` _type`/`predicateType`
-*  [in-toto Statements](https://github.com/in-toto/attestation/blob/main/spec/README.md#statement)
+*  [in-toto Statements](spec/README.md#statement)
    in a Bundle MAY reference different Subjects
-*  Consumers MUST ignore any attestations whose `payloadType`, `_type_`, `predicateType`
+*  Consumers MUST ignore any attestations whose `payloadType`, `_type`, or `predicateType`
    they do not understand.
+*  Attestations MAY be signed by different keys
+*  New attestations MAY be added to existing bundles
+*  Processing of a bundle MUST NOT depend on the order of the attestations.
+
 
 Example:
-```
+
+```jsonl
 { "payloadType": "application/vnd.in-toto+json", "payload": "...", "signatures": [...] }
 { "payloadType": "application/vnd.in-toto+json", "payload": "...", "signatures": [...] }
 { "payloadType": "application/vnd.foo+xml", "payload": "...", "signatures": [...] }
@@ -44,7 +44,7 @@ Example:
 * Bundles that concern a single artifact SHOULD name the bundle file
   `<artifact filename>.intoto.jsonl`.
 * Bundles that concern multiple artifacts SHOULD name the bundle file
-  `build.intoto.jsonl`.
+  `intoto.jsonl`.
 
 ## Example Use Case
 
@@ -60,7 +60,7 @@ produces a more detailed attestation that contains all the logs of the build as 
 in-toto Statement with `predicateType=https://fooly.app/Builder/v1`.  The builder places
 _both_ of these signed attestations in a new file named `fooly.apk.intoto.jsonl`.
 
-```
+```jsonl
 { "payloadType": "application/vnd.in-toto+json", "payload": "a...", "signatures": [w...] }
 { "payloadType": "application/vnd.in-toto+json", "payload": "b...", "signatures": [w...] }
 ```
@@ -72,9 +72,9 @@ system produces an attestation as an in-toto Statement with
 `predicateType=https://in-toto.io/TestResult/v1` which indicates `fooly.apk` with hash
 `aaa...` passed 23 tests.
 
-The TestResult is then _appended_ to the contents of `fooly.apk.intoto.jsonl`
+The TestResult is then _appended_ to the contents of `fooly.apk.intoto.jsonl`.
 
-```
+```jsonl
 { "payloadType": "application/vnd.in-toto+json", "payload": "a...", "signatures": [w...] }
 { "payloadType": "application/vnd.in-toto+json", "payload": "b...", "signatures": [w...] }
 { "payloadType": "application/vnd.in-toto+json", "payload": "c...", "signatures": [x...] }
@@ -89,7 +89,7 @@ vulnerability scanner produces an attestation as an in-toto Statement with
 
 The TestResult is then appended to the contents of `fooly.apk.intoto.jsonl`
 
-```
+```jsonl
 { "payloadType": "application/vnd.in-toto+json", "payload": "a...", "signatures": [w...] }
 { "payloadType": "application/vnd.in-toto+json", "payload": "b...", "signatures": [w...] }
 { "payloadType": "application/vnd.in-toto+json", "payload": "c...", "signatures": [x...] }
@@ -103,7 +103,7 @@ The CI/CD system then generates an SPDX SBOM attestation for `fooly.apk` with ha
 [`predicateType=https://spdx.dev/Document`](https://github.com/in-toto/attestation/blob/main/spec/predicates/spdx.md)
 and appending that to the contents of `fooly.apk.intoto.jsonl`.
 
-```
+```jsonl
 { "payloadType": "application/vnd.in-toto+json", "payload": "a..", "signatures": [w..] }
 { "payloadType": "application/vnd.in-toto+json", "payload": "b..", "signatures": [w..] }
 { "payloadType": "application/vnd.in-toto+json", "payload": "c..", "signatures": [x..] }
@@ -112,18 +112,20 @@ and appending that to the contents of `fooly.apk.intoto.jsonl`.
 ```
 
 ### Deployment
+
 Just prior to deployment the CI/CD system checks `fooly.apk` with a policy engine
 (providing `fooly.apk.intoto.jsonl` as it does so) to ensure the app is safe to publish.  
 
 Satisfied with the result CI/CD system now deploys `fooly.apk` to the app store.
 
 ### Attestation Publishing
+
 Fooly Inc. wants to publish all of the accumulated attestations for evey published app
 _except for_ the internal build attestation. The CI/CD system then iterates through all
 the attestations, removing the attestation with
 `predicateType=https://fooly.app/Builder/v1` and publishes to their website:
 
-```
+```jsonl
 { "payloadType": "application/vnd.in-toto+json", "payload": "a..", "signatures": [w..] }
 { "payloadType": "application/vnd.in-toto+json", "payload": "c..", "signatures": [x..] }
 { "payloadType": "application/vnd.in-toto+json", "payload": "d..", "signatures": [y..] }
