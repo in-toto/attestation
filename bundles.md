@@ -29,15 +29,6 @@ Attestation Bundles use [JSON Lines](https://jsonlines.org/) to store multiple
 *  New attestations MAY be added to existing bundles
 *  Processing of a bundle MUST NOT depend on the order of the attestations.
 
-
-Example:
-
-```jsonl
-{ "payloadType": "application/vnd.in-toto+json", "payload": "...", "signatures": [...] }
-{ "payloadType": "application/vnd.in-toto+json", "payload": "...", "signatures": [...] }
-{ "payloadType": "application/vnd.foo+xml", "payload": "...", "signatures": [...] }
-```
-
 ## File naming convention
 
 * Attestation Bundles SHOULD use the `.intoto.jsonl` extension.
@@ -48,9 +39,9 @@ Example:
 
 ## Example Use Case
 
-The Fooly app has a CI/CD system which builds the application from source, runs
-automated tests on the result, runs a NoVulnz vulnerability scan on the results,
-produces an SPDX SBOM, and then deploys the app to an app store.
+The Fooly app has a CI/CD system which builds the application from source, runs a
+NoVulnz vulnerability scan on the results, produces an SPDX SBOM, and then deploys the
+app to an app store.
 
 ### Build
 
@@ -65,56 +56,42 @@ _both_ of these signed attestations in a new file named `fooly.apk.intoto.jsonl`
 { "payloadType": "application/vnd.in-toto+json", "payload": "b...", "signatures": [w...] }
 ```
 
-### Testing
-
-The CI/CD system then requests that automated tests be run on `fooly.apk`.  The test
-system produces an attestation as an in-toto Statement with
-`predicateType=https://in-toto.io/TestResult/v1` which indicates `fooly.apk` with hash
-`aaa...` passed 23 tests.
-
-The TestResult is then _appended_ to the contents of `fooly.apk.intoto.jsonl`.
-
-```jsonl
-{ "payloadType": "application/vnd.in-toto+json", "payload": "a...", "signatures": [w...] }
-{ "payloadType": "application/vnd.in-toto+json", "payload": "b...", "signatures": [w...] }
-{ "payloadType": "application/vnd.in-toto+json", "payload": "c...", "signatures": [x...] }
-```
-
 ### Vulnerability Scanning
 
 The CI/CD system then requests a third-party vulnerability scan on `fooly.apk`.  The
-vulnerability scanner produces an attestation as an in-toto Statement with
-`predicateType=https://novulnz.dev/VulnScan/v1` which indicates `fooly.apk` with hash
-`aaa...` has 0 critical vulnerabilities and 3 medium vulnerabilities.
+vulnerability scanner doesn't use in-toto Statements but instead uses their own custom
+`payloadType=application/vnd.novulz+cbor`, which they put in a DSSE envelope. This
+attestation indicates `fooly.apk` with hash `aaa...` has 0 critical vulnerabilities and
+3 medium vulnerabilities.
 
 The TestResult is then appended to the contents of `fooly.apk.intoto.jsonl`
 
 ```jsonl
 { "payloadType": "application/vnd.in-toto+json", "payload": "a...", "signatures": [w...] }
 { "payloadType": "application/vnd.in-toto+json", "payload": "b...", "signatures": [w...] }
-{ "payloadType": "application/vnd.in-toto+json", "payload": "c...", "signatures": [x...] }
-{ "payloadType": "application/vnd.in-toto+json", "payload": "d...", "signatures": [y...] }
+{ "payloadType": "application/vnd.novulz+cbor", "payload": "c...", "signatures": [x...] }
 ```
 
 ### SBOM Generation
 
 The CI/CD system then generates an SPDX SBOM attestation for `fooly.apk` with hash
-`aaa...` using
+`aaa...` using an in-toto Statement with
 [`predicateType=https://spdx.dev/Document`](https://github.com/in-toto/attestation/blob/main/spec/predicates/spdx.md)
 and appending that to the contents of `fooly.apk.intoto.jsonl`.
 
 ```jsonl
-{ "payloadType": "application/vnd.in-toto+json", "payload": "a..", "signatures": [w..] }
-{ "payloadType": "application/vnd.in-toto+json", "payload": "b..", "signatures": [w..] }
-{ "payloadType": "application/vnd.in-toto+json", "payload": "c..", "signatures": [x..] }
-{ "payloadType": "application/vnd.in-toto+json", "payload": "d..", "signatures": [y..] }
-{ "payloadType": "application/vnd.in-toto+json", "payload": "e..", "signatures": [z..] }
+{ "payloadType": "application/vnd.in-toto+json", "payload": "a...", "signatures": [w...] }
+{ "payloadType": "application/vnd.in-toto+json", "payload": "b...", "signatures": [w...] }
+{ "payloadType": "application/vnd.novulz+cbor", "payload": "c...", "signatures": [x...] }
+{ "payloadType": "application/vnd.in-toto+json", "payload": "d...", "signatures": [y...] }
 ```
 
 ### Deployment
 
 Just prior to deployment the CI/CD system checks `fooly.apk` with a policy engine
-(providing `fooly.apk.intoto.jsonl` as it does so) to ensure the app is safe to publish.  
+(providing `fooly.apk.intoto.jsonl` as it does so) to ensure the app is safe to publish.
+The policy engine used doesn't understand `predicateType=https://spdx.dev/Document`, so
+it is ignored.
 
 Satisfied with the result CI/CD system now deploys `fooly.apk` to the app store.
 
@@ -126,8 +103,7 @@ the attestations, removing the attestation with
 `predicateType=https://fooly.app/Builder/v1` and publishes to their website:
 
 ```jsonl
-{ "payloadType": "application/vnd.in-toto+json", "payload": "a..", "signatures": [w..] }
-{ "payloadType": "application/vnd.in-toto+json", "payload": "c..", "signatures": [x..] }
-{ "payloadType": "application/vnd.in-toto+json", "payload": "d..", "signatures": [y..] }
-{ "payloadType": "application/vnd.in-toto+json", "payload": "e..", "signatures": [z..] }
+{ "payloadType": "application/vnd.in-toto+json", "payload": "a...", "signatures": [w...] }
+{ "payloadType": "application/vnd.novulz+cbor", "payload": "c...", "signatures": [x...] }
+{ "payloadType": "application/vnd.in-toto+json", "payload": "d...", "signatures": [y...] }
 ```
