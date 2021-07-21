@@ -295,7 +295,6 @@ provenance might look like this:
 }
 ```
 
-
 ## More examples
 
 ### GitHub Actions
@@ -444,8 +443,8 @@ Execution of arbitrary commands:
 
 ## Change history
 
-* 0.1.1: Added `metadata.buildInvocationId`.
-* 0.1: Initial version
+-   0.1.1: Added `metadata.buildInvocationId`.
+-   0.1: Initial version
 
 ## Appendix: Review of CI/CD systems
 

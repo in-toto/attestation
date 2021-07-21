@@ -39,16 +39,16 @@ _(Note: This is a Predicate type that fits within the larger
 The `predicate` has the same schema as the link's `signed` field in
 [in-toto 0.9] except:
 
-*   `predicate._type` is omitted.  `predicateType` serves the same purpose.
-*   `predicate.products` is omitted. `subject` serves the same purpose.
+-   `predicate._type` is omitted.  `predicateType` serves the same purpose.
+-   `predicate.products` is omitted. `subject` serves the same purpose.
 
 ## Converting to old-style links
 
 A Link predicate may be converted into an in-toto 0.9 link as follows:
 
-*   Set `link` to be a copy of `predicate`.
-*   Set `link.type` to `"link"`.
-*   Set `link.products` to be a map from `subject[*].name` to
+-   Set `link` to be a copy of `predicate`.
+-   Set `link.type` to `"link"`.
+-   Set `link.products` to be a map from `subject[*].name` to
     `subject[*].digest`.
 
 In Python:
@@ -64,13 +64,13 @@ def convert(statement):
 
 ## TODO
 
-*   [ ] Bump up the in-toto version from 0.9 to 1.0 once
+-   [ ] Bump up the in-toto version from 0.9 to 1.0 once
     [in-toto/docs issue #46](https://github.com/in-toto/docs/issues/46) is
     resolved.
 
 ## Version History
 
-*   0.2: Removed `_type` and `products`. Defined conversion rules.
-*   0.1: Initial version.
+-   0.2: Removed `_type` and `products`. Defined conversion rules.
+-   0.1: Initial version.
 
 [in-toto 0.9]: https://github.com/in-toto/docs/blob/master/in-toto-spec.md#44-file-formats-namekeyid-prefixlink
