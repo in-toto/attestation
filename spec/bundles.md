@@ -5,8 +5,8 @@ This allows attestations from multiple different points in the software supply
 chain (e.g. Provenance, Code Review, Test Result, vuln scan, ...) to be grouped
 together, allowing users to make decisions based on all available information.
 
-**NOTE**: Attestation Bundles themselves are **not authenticated** instead each
-individual attestation is authenticated
+**NOTE**: The bundle is not authenticated as a whole.  Instead each individual
+attestation is authenticated
 ([using DSSE](https://github.com/secure-systems-lab/dsse)). As such, an attacker
 might be able to _delete_ an attestation without being detected.  Predicates that
 follow [the monotonic principle](spec/README.md#parsing-rules) should not have any
@@ -15,27 +15,21 @@ issues with this behavior.
 ## Data structure
 
 Attestation Bundles use [JSON Lines](https://jsonlines.org/) to store multiple
-[DSSEs](https://github.com/secure-systems-lab/dsse).
+attestations.
 
-*  Each line MUST contain a _single_ DSSE.
-*  Each line MAY contain any DSSE `payloadType`
-*  in-toto attestations (`payloadType` == `application/vnd.in-toto+json`) MAY use
-   any ` _type`/`predicateType`
-*  [in-toto Statements](spec/README.md#statement)
-   in a Bundle MAY reference different Subjects
-*  Consumers MUST ignore any attestations whose `payloadType`, `_type`, or `predicateType`
-   they do not understand.
-*  Attestations MAY be signed by different keys
-*  New attestations MAY be added to existing bundles
+*  Each attestation within a bundle MAY have a different signing key, `_type`,
+   `subject`, and/or `predicateType`.
+*  Each line SHOULD be an [Envelope]. Consumers MUST ignore unrecognized lines.
+*  Consumers MUST ignore attestations with unrecognized keys, types, subjects,
+   or predicates.
 *  Processing of a bundle MUST NOT depend on the order of the attestations.
 
 ## File naming convention
 
-* Attestation Bundles SHOULD use the `.intoto.jsonl` extension.
 * Bundles that concern a single artifact SHOULD name the bundle file
   `<artifact filename>.intoto.jsonl`.
 * Bundles that concern multiple artifacts SHOULD name the bundle file
-  `intoto.jsonl`.
+  `multiple.intoto.jsonl`.
 
 ## Example Use Case
 
@@ -107,3 +101,5 @@ the attestations, removing the attestation with
 { "payloadType": "application/vnd.novulz+cbor", "payload": "c...", "signatures": [x...] }
 { "payloadType": "application/vnd.in-toto+json", "payload": "d...", "signatures": [y...] }
 ```
+
+[Envelope]: spec#envelope
