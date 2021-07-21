@@ -67,6 +67,7 @@ See [spec/README.md](spec/README.md). Summary:
     *   [Provenance]: To describe the origins of a software artifact.
     *   [Link]: For migration from [in-toto 0.9].
     *   [SPDX]: A Software Package Data Exchange document.
+*   [Bundles]: Defines a method of grouping multiple attestations together.
 
 The [processing model] provides pseudocode showing how these layers fit
 together.
@@ -291,6 +292,7 @@ Chapter 14, page 328, "Ensure Unambiguous Provenance." Instead, we recommend
 keying primarily by resource name, in addition to content hash.
 
 [Binary Authorization]: https://cloud.google.com/binary-authorization
+[Bundles]: spec/bundles.md
 [Envelope]: spec/README.md#envelope
 [ITE-6]: https://github.com/in-toto/ITE/pull/15
 [Link]: spec/predicates/link.md
