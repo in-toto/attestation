@@ -102,4 +102,4 @@ the attestations, removing the attestation with
 { "payloadType": "application/vnd.in-toto+json", "payload": "d...", "signatures": [y...] }
 ```
 
-[Envelope]: spec#envelope
+[Envelope]: README.md#envelope
