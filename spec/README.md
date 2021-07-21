@@ -15,7 +15,7 @@ independent but designed to work together:
     *   [Provenance]: To describe the origins of a software artifact.
     *   [Link]: For migration from [in-toto 0.9].
     *   [SPDX]: A Software Package Data Exchange document.
-*   [Bundles]: Defines a method of grouping multiple attestations together.
+*   [Bundle]: Defines a method of grouping multiple attestations together.
 
 The [processing model] provides pseudocode showing how these layers fit
 together.
@@ -254,7 +254,7 @@ Output (to be fed into policy engine):
 *   `artifactNames`
 *   `attesterNames`
 
-[Bundles]: bundles.md
+[Bundle]: bundle.md
 [DSSE]: https://github.com/secure-systems-lab/dsse
 [DigestSet]: field_types.md#DigestSet
 [Envelope]: #envelope
