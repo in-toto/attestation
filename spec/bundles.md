@@ -102,4 +102,35 @@ the attestations, removing the attestation with
 { "payloadType": "application/vnd.in-toto+json", "payload": "d...", "signatures": [y...] }
 ```
 
+## Viewing bundles
+Large attestations might wind up being difficult for a person to read if they're
+serialized to a single line each.  An easy way to make it more legible for people is
+to use the `jq` command.
+
+Example:
+
+```shell
+$ grep . ~/multiple.intoto.jsonl | jq
+{
+  "payloadType": "application/vnd.in-toto+json",
+  "payload": "a...",
+  "signatures": []
+}
+{
+  "payloadType": "application/vnd.in-toto+json",
+  "payload": "b...",
+  "signatures": []
+}
+{
+  "payloadType": "application/vnd.novulz+cbor",
+  "payload": "c...",
+  "signatures": []
+}
+{
+  "payloadType": "application/vnd.in-toto+json",
+  "payload": "d...",
+  "signatures": []
+}
+```
+
 [Envelope]: README.md#envelope
