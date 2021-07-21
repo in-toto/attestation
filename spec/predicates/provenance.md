@@ -67,6 +67,8 @@ See [Example](#example) for a concrete example.
 }
 ```
 
+# Where is the attestation provided.  Is it included in the artifact itself, or published separately?
+
 _(Note: This is a Predicate type that fits within the larger
 [Attestation](../README.md) framework.)_
 
