@@ -22,10 +22,10 @@ artifacts, as per the [SLSA Attestation Model].
 Examples of hypothetical attestations:
 
 *   [Provenance]: GitHub Actions attests to the fact that it built a container
-    image with digest "sha256:87f7fe…" from git commit "f0c93d…" in the "master"
+    image with digest "sha256:87f7fe…" from git commit "f0c93d…" in the "main"
     branch of "https://github.com/example/foo".
 *   Code review: GitHub attests to the fact that Alice uploaded and Bob approved
-    git commit "f0c93d…" in the "master" branch of
+    git commit "f0c93d…" in the "main" branch of
     "https://github.com/example/foo".
 *   Test result: GitHub Actions attests to the fact that the npm tests passed on
     git commit "f0c93d…".
