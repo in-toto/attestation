@@ -8,7 +8,7 @@ intended for consumption by automated policy engines, such as [in-toto] and
 ## IMPORTANT
 
 This format is still in development and is not yet used by in-toto (see
-[ITE-6]). Versions 0.x are unstable and are subject to change until 1.0. Use git
+[ITE-6](https://github.com/in-toto/ITE/blob/master/ITE/6/)). Versions 0.x are unstable and are subject to change until 1.0. Use git
 tags to switch between versions.
 
 Latest stable version:
