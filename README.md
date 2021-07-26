@@ -294,7 +294,7 @@ keying primarily by resource name, in addition to content hash.
 [Binary Authorization]: https://cloud.google.com/binary-authorization
 [Bundle]: spec/bundle.md
 [Envelope]: spec/README.md#envelope
-[ITE-6]: https://github.com/in-toto/ITE/pull/15
+[ITE-6]: https://github.com/in-toto/ITE/blob/master/ITE/6/
 [Link]: spec/predicates/link.md
 [Predicate]: spec/README.md#predicate
 [Provenance]: spec/predicates/provenance.md
