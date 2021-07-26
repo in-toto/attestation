@@ -8,7 +8,7 @@ intended for consumption by automated policy engines, such as [in-toto] and
 ## IMPORTANT
 
 This format is still in development and is not yet used by in-toto (see
-[ITE-6](https://github.com/in-toto/ITE/blob/master/ITE/6/)). Versions 0.x are unstable and are subject to change until 1.0. Use git
+[ITE-6]). Versions 0.x are unstable and are subject to change until 1.0. Use git
 tags to switch between versions.
 
 Latest stable version:
@@ -294,7 +294,7 @@ keying primarily by resource name, in addition to content hash.
 [Binary Authorization]: https://cloud.google.com/binary-authorization
 [Bundle]: spec/bundle.md
 [Envelope]: spec/README.md#envelope
-[ITE-6]: https://github.com/in-toto/ITE/pull/15
+[ITE-6]: https://github.com/in-toto/ITE/blob/master/ITE/6/
 [Link]: spec/predicates/link.md
 [Predicate]: spec/README.md#predicate
 [Provenance]: spec/predicates/provenance.md
