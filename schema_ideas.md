@@ -5,8 +5,8 @@ schema of attestations.
 
 ## Terminology and Concepts
 
-*   **Artifact:** blob of data, identified solely by contents
-*   **Resource:** uniquely identifiable thing that can be associated with an
+-   **Artifact:** blob of data, identified solely by contents
+-   **Resource:** uniquely identifiable thing that can be associated with an
     artifact
 
 The following example shows various resources associated with the software
@@ -30,11 +30,11 @@ and each maps to a specific artifact at a point in time.
 
 Attestation archetypes:
 
-*   **Provenance:** how an artifact (or set of artifacts) came into being.
-    *   Subject: artifact
-*   **Artifact Analysis:** metadata about an artifact
-*   **Artifact Equivalence:** two artifacts are equivalent
-    *   Example: git commit == git tree == tar.gz == zip
+-   **Provenance:** how an artifact (or set of artifacts) came into being.
+    -   Subject: artifact
+-   **Artifact Analysis:** metadata about an artifact
+-   **Artifact Equivalence:** two artifacts are equivalent
+    -   Example: git commit == git tree == tar.gz == zip
 
 **Open Question:** Are there any use cases that don't cleanly fit into one of
 the archetypes above?
@@ -111,19 +111,19 @@ Artifact analysis:
 
 Contains all information so that one can build it hermetically.
 
-*   Environment variables
-*   Working directory
-*   Entry point
-*   Architecture
-*   How to get artifacts out
-*   All dependencies to be fetched up front
-    *   Where to fetch from. Try to minimize number of custom schemes.
-        *   HTTPS get
-        *   Git checkout
-        *   Hg checkout
-        *   Container registry
-    *   Digest of artifact
-    *   Where to place it
+-   Environment variables
+-   Working directory
+-   Entry point
+-   Architecture
+-   How to get artifacts out
+-   All dependencies to be fetched up front
+    -   Where to fetch from. Try to minimize number of custom schemes.
+        -   HTTPS get
+        -   Git checkout
+        -   Hg checkout
+        -   Container registry
+    -   Digest of artifact
+    -   Where to place it
 
 Would probably be verbose, but maybe templating (below) can help with that.
 
@@ -160,5 +160,3 @@ Or for Debian:
 ```
 
 which could get translated into
-
-

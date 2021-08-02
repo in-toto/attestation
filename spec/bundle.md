@@ -17,19 +17,19 @@ issues with this behavior.
 Attestation Bundles use [JSON Lines](https://jsonlines.org/) to store multiple
 attestations.
 
-*  Each attestation within a bundle MAY have a different signing key, `_type`,
-   `subject`, and/or `predicateType`.
-*  Each line SHOULD be an [Envelope]. Consumers MUST ignore unrecognized lines.
-*  Consumers MUST ignore attestations with unrecognized keys, types, subjects,
-   or predicates.
-*  Processing of a bundle MUST NOT depend on the order of the attestations.
+-   Each attestation within a bundle MAY have a different signing key, `_type`,
+    `subject`, and/or `predicateType`.
+-   Each line SHOULD be an [Envelope]. Consumers MUST ignore unrecognized lines.
+-   Consumers MUST ignore attestations with unrecognized keys, types, subjects,
+    or predicates.
+-   Processing of a bundle MUST NOT depend on the order of the attestations.
 
 ## File naming convention
 
-* Bundles that concern a single artifact SHOULD name the bundle file
-  `<artifact filename>.intoto.jsonl`.
-* Bundles that concern multiple artifacts SHOULD name the bundle file
-  `multiple.intoto.jsonl`.
+-   Bundles that concern a single artifact SHOULD name the bundle file
+    `<artifact filename>.intoto.jsonl`.
+-   Bundles that concern multiple artifacts SHOULD name the bundle file
+    `multiple.intoto.jsonl`.
 
 ## Example Use Case
 
@@ -103,6 +103,7 @@ the attestations, removing the attestation with
 ```
 
 ## Viewing bundles
+
 Large attestations might wind up being difficult for a person to read if they're
 serialized to a single line each.  An easy way to make it more legible for people is
 to use the `jq` command.

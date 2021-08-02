@@ -21,31 +21,31 @@ artifacts, as per the [SLSA Attestation Model].
 
 Examples of hypothetical attestations:
 
-*   [Provenance]: GitHub Actions attests to the fact that it built a container
+-   [Provenance]: GitHub Actions attests to the fact that it built a container
     image with digest "sha256:87f7fe…" from git commit "f0c93d…" in the "main"
     branch of "https://github.com/example/foo".
-*   Code review: GitHub attests to the fact that Alice uploaded and Bob approved
+-   Code review: GitHub attests to the fact that Alice uploaded and Bob approved
     git commit "f0c93d…" in the "main" branch of
     "https://github.com/example/foo".
-*   Test result: GitHub Actions attests to the fact that the npm tests passed on
+-   Test result: GitHub Actions attests to the fact that the npm tests passed on
     git commit "f0c93d…".
-*   Vulnerability scan: Google Container Analysis attests to the fact that no
+-   Vulnerability scan: Google Container Analysis attests to the fact that no
     vulnerabilities were found in container image "sha256:87f7fe…" at a
     particular time.
-*   Policy decision: Binary Authorization attests to the fact that container
+-   Policy decision: Binary Authorization attests to the fact that container
     image "sha256:87f7fe…" is allowed to run under GKE project "example-project"
     within the next 4 hours, and that it used the four attestations above and as
     well as the policy with sha256 hash "79e572" to make its decision.
 
 Goals:
 
-*   Standardize artifact metadata without being specific to the producer or
+-   Standardize artifact metadata without being specific to the producer or
     consumer. This way CI/CD pipelines, vulnerability scanners, and other
     systems can generate a single set of attestations that can be consumed by
     anyone, such as [in-toto] or [Binary Authorization].
-*   Make it possible to write automated policies that take advantage of
+-   Make it possible to write automated policies that take advantage of
     structured information.
-*   Fit within the [SLSA Framework][SLSA]. The [provenance] format defined here
+-   Fit within the [SLSA Framework][SLSA]. The [provenance] format defined here
     is the official SLSA recommendation.
 
 ## Tooling / how to use
@@ -58,16 +58,16 @@ See [spec/README.md](spec/README.md). Summary:
 
 <!-- NOTE: When updating below, also update spec/README.md -->
 
-*   [Envelope]: Handles authentication and serialization.
-*   [Statement]: Binds the attestation to a particular subject and unambiguously
+-   [Envelope]: Handles authentication and serialization.
+-   [Statement]: Binds the attestation to a particular subject and unambiguously
     identifies the types of the predicate.
-*   [Predicate]: Contains arbitrary metadata about the subject, with a
+-   [Predicate]: Contains arbitrary metadata about the subject, with a
     type-specific schema. This repo defines the following predicate types,
     though custom types are allowed:
-    *   [Provenance]: To describe the origins of a software artifact.
-    *   [Link]: For migration from [in-toto 0.9].
-    *   [SPDX]: A Software Package Data Exchange document.
-*   [Bundle]: Defines a method of grouping multiple attestations together.
+    -   [Provenance]: To describe the origins of a software artifact.
+    -   [Link]: For migration from [in-toto 0.9].
+    -   [SPDX]: A Software Package Data Exchange document.
+-   [Bundle]: Defines a method of grouping multiple attestations together.
 
 The [processing model] provides pseudocode showing how these layers fit
 together.
@@ -210,39 +210,39 @@ This project has two main goals:
 
 Functional requirements:
 
-*   Must support user-defined types and schemas, for two reasons:
-    *   To allow in-toto users to more naturally express attestations, as
+-   Must support user-defined types and schemas, for two reasons:
+    -   To allow in-toto users to more naturally express attestations, as
         explained above.
-    *   Because Binary Authorization does not want to require its users to use
+    -   Because Binary Authorization does not want to require its users to use
         the existing in-toto link schema, which is overly specific.
-*   Should allow indexing of attestations by artifact ID, without having to
+-   Should allow indexing of attestations by artifact ID, without having to
     understand the user-defined schema.
-    *   Primary reason: To support generic attestation indexing/storage/fetching
+    -   Primary reason: To support generic attestation indexing/storage/fetching
         without requiring user configuration for every type of attestation.
-    *   Secondary reason: To simplify the programming model of policies. The
+    -   Secondary reason: To simplify the programming model of policies. The
         binding between artifact and attestation can be done in a framework
         without requiring type-dependent configuration.
-    *   Implication: the association between attestation and primary artifact ID
+    -   Implication: the association between attestation and primary artifact ID
         must be standardized.
-*   Should allow identification of related artifacts IDs given an attestation,
+-   Should allow identification of related artifacts IDs given an attestation,
     without having to understand the user-defined schema.
-    *   Reason: To support "inline attestations," where the client fetches and
+    -   Reason: To support "inline attestations," where the client fetches and
         sends all required attestations to the server for verification. The
         client does not know the policy ahead of time or understand all
         attestation types.
-    *   Example: Given a provenance attestation for a docker image, it should be
+    -   Example: Given a provenance attestation for a docker image, it should be
         possible to identify all the materials generically.
-    *   Implication: the association between attestation and related artifact
+    -   Implication: the association between attestation and related artifact
         IDs must be standardized.
 
 Nonfunctional requirements:
 
-*   Must support backwards compatible links that can be consumed by existing
+-   Must support backwards compatible links that can be consumed by existing
     layout files.
-*   Must differentiate between different types of related artifacts (only if
+-   Must differentiate between different types of related artifacts (only if
     related artifacts are standardized.) Examples: materials vs products,
     sources vs build tools.
-    *   Should be type-dependent, rather than mandating "materials" and
+    -   Should be type-dependent, rather than mandating "materials" and
         "products."
 
 ## Reasoning

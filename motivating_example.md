@@ -5,15 +5,15 @@
 MyCompany wants to centrally enforce the following rules of its production
 Kubernetes environments:
 
-*   All containers must undergo a source-level vulnerability scan showing zero
+-   All containers must undergo a source-level vulnerability scan showing zero
     known high severity vulnerabilities.
-*   All first-party code must be peer reviewed, reside in MyCompany's GitHub
+-   All first-party code must be peer reviewed, reside in MyCompany's GitHub
     org, and be sufficiently recent.
-*   All third-party code and build tools must be verified via Reproducible
+-   All third-party code and build tools must be verified via Reproducible
     Builds. (Let's pretend such an attestation service exists.)
-*   All build steps must be performed by GitHub Actions, Google Cloud Build, or
+-   All build steps must be performed by GitHub Actions, Google Cloud Build, or
     AWS CodeBuild in (a hypothetical) "hermetic" mode.
-*   The intermediate products in the supply chain have not been tampered with.
+-   The intermediate products in the supply chain have not been tampered with.
 
 It is both too costly and too insecure to have every team write their own
 layout. There are several hundred different Kuberenetes environments
@@ -25,16 +25,16 @@ company.
 The current in-toto link and layout formats are impractical for this
 application:
 
-*   It is awkward to express these concepts in the current link format. One
+-   It is awkward to express these concepts in the current link format. One
     would need to either record the exact command lines used, which is too
     brittle, or ignore all of the standard fields and jam everything in
     `environment`, which is hard to use.
-*   It is impossible to express this policy in the current layout format.
-    *   There is no support for verifying any details. The closest option,
+-   It is impossible to express this policy in the current layout format.
+    -   There is no support for verifying any details. The closest option,
         `expected_command`, is just a warning but not an error.
-    *   There is no support for performing generic traversals of the build
+    -   There is no support for performing generic traversals of the build
         graph, such as "allow any number of verifiable build steps."
-*   There is no practical way to analyze a layout to determine if it meets the
+-   There is no practical way to analyze a layout to determine if it meets the
     requirements above.
 
 The proposed attestation format, along with a future policy engine, allows us to
@@ -115,17 +115,17 @@ allowed_artifact_id_types = [
 ]
 ```
 
-# Attestations
+## Attestations
 
 Let's take a look at one example team's software supply chain.
 
 ![drawing](images/attestation_supply_chain.png)
 
-*   Top-level code repository is "https://github.com/my-company/my-product".
-    *   This defines submodules and the GitHub Actions workflows.
-*   Vulnerability scan is provided by an in-house scanner.
-*   Docker image is produced by the GitHub Actions "Build" workflow.
-    *   In the hypothetical "hermetic" mode, this records all dependent
+-   Top-level code repository is "https://github.com/my-company/my-product".
+    -   This defines submodules and the GitHub Actions workflows.
+-   Vulnerability scan is provided by an in-house scanner.
+-   Docker image is produced by the GitHub Actions "Build" workflow.
+    -   In the hypothetical "hermetic" mode, this records all dependent
         submodules and build tools.
 
 This corresponds to the following attestations. Assume each is signed by the

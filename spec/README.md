@@ -6,16 +6,16 @@ independent but designed to work together:
 
 <!-- BEGIN: When updating below, also update ../README.md#specification -->
 
-*   [Envelope]: Handles authentication and serialization.
-*   [Statement]: Binds the attestation to a particular subject and unambiguously
+-   [Envelope]: Handles authentication and serialization.
+-   [Statement]: Binds the attestation to a particular subject and unambiguously
     identifies the types of the predicate.
-*   [Predicate]: Contains arbitrary metadata about the subject, with a
+-   [Predicate]: Contains arbitrary metadata about the subject, with a
     type-specific schema. This repo defines the following predicate types,
     though custom types are allowed:
-    *   [Provenance]: To describe the origins of a software artifact.
-    *   [Link]: For migration from [in-toto 0.9].
-    *   [SPDX]: A Software Package Data Exchange document.
-*   [Bundle]: Defines a method of grouping multiple attestations together.
+    -   [Provenance]: To describe the origins of a software artifact.
+    -   [Link]: For migration from [in-toto 0.9].
+    -   [SPDX]: A Software Package Data Exchange document.
+-   [Bundle]: Defines a method of grouping multiple attestations together.
 
 The [processing model] provides pseudocode showing how these layers fit
 together.
@@ -29,25 +29,25 @@ See the [top-level README](../README.md) for background and examples.
 The following rules apply to [Statement], [Provenance], and other predicates
 that opt-in to this model.
 
-*   **Unrecognized fields:** Consumers MUST ignore unrecognized fields. This is
+-   **Unrecognized fields:** Consumers MUST ignore unrecognized fields. This is
     to allow minor version upgrades and extension fields. Ignoring fields is
     safe due to the monotonic principle.
 
-*   **Versioning:** Each type has a [SemVer2](https://semver.org) version number
+-   **Versioning:** Each type has a [SemVer2](https://semver.org) version number
     and the [TypeURI] reflects the major version number. A message is always
     semantically correct, but possibly incomplete, when parsed as any other
     version with the same major version number and thus the same [TypeURI].
     Minor version changes always follow the monotonic principle. NOTE: 0.X
     versions are considered major versions.
 
-*   **Extension fields:** Producers MAY add extension fields to any JSON object
+-   **Extension fields:** Producers MAY add extension fields to any JSON object
     by using a property name that is a [TypeURI]. The use of URI is to protect
     against name collisions. Consumers MAY parse and use these extensions if
     desired. The presence or absence of the extension field MUST NOT influence
     the meaning of any other field, and the field MUST follow the monotonic
     princple.
 
-*   **Monotonic:** A policy is considered monotonic if ignoring an attestation,
+-   **Monotonic:** A policy is considered monotonic if ignoring an attestation,
     or a field within an attestation, will never turn a DENY decision into an
     ALLOW. A predicate or field follows the monotonic principle if the expected
     policy that consumes it is monotonic. Consumers SHOULD design policies to be
@@ -178,24 +178,24 @@ new one if no existing one satisfies. Predicate types are not registered.
 
 This repo defines the following predicate types:
 
-*   [Provenance]: To describe the origins of a software artifact.
-*   [Link]: For migration from [in-toto 0.9].
-*   [SPDX]: A Software Package Data Exchange document.
+-   [Provenance]: To describe the origins of a software artifact.
+-   [Link]: For migration from [in-toto 0.9].
+-   [SPDX]: A Software Package Data Exchange document.
 
 ### Predicate conventions
 
 We recommend the following conventions for predicates:
 
-*   Predicates SHOULD follow and opt-in to the [parsing rules], particularly the
+-   Predicates SHOULD follow and opt-in to the [parsing rules], particularly the
     monotonic principle, and SHOULD explain what the parsing rules are.
 
-*   Field names SHOULD use lowerCamelCase.
+-   Field names SHOULD use lowerCamelCase.
 
-*   Timestamps SHOULD use [RFC 3339] syntax with timezone "Z" and SHOULD clarify
+-   Timestamps SHOULD use [RFC 3339] syntax with timezone "Z" and SHOULD clarify
     the meaning of the timestamp. For example, a field named `timestamp` is too
     ambiguous; a better name would be `builtAt` or `allowedAt` or `scannedAt`.
 
-*   References to other artifacts SHOULD be an object that includes a `digest`
+-   References to other artifacts SHOULD be an object that includes a `digest`
     field of type [DigestSet]. Consider using the same type as [Provenance]
     `materials` if it is a good fit.
 
@@ -214,45 +214,45 @@ TODO: Explain how to process multiple artifacts and/or multiple attestations.
 
 Inputs:
 
-*   `artifactToVerify`: blob of data
-*   `attestation`: JSON-encoded [Envelope]
-*   `recognizedAttesters`: collection of (`name`, `publicKey`) pairs
-*   `acceptableDigestAlgorithms`: collection of acceptable cryptographic hash
+-   `artifactToVerify`: blob of data
+-   `attestation`: JSON-encoded [Envelope]
+-   `recognizedAttesters`: collection of (`name`, `publicKey`) pairs
+-   `acceptableDigestAlgorithms`: collection of acceptable cryptographic hash
     algorithms (usually just `sha256`)
 
 Steps:
 
-*   Envelope layer:
-    *   `envelope` := decode `attestation` as a JSON-encoded [Envelope]; reject
+-   Envelope layer:
+    -   `envelope` := decode `attestation` as a JSON-encoded [Envelope]; reject
         if decoding fails
-    *   `attesterNames` := empty set of names
-    *   For each `signature` in `envelope.signatures`:
-        *   For each (`name`, `publicKey`) in `recognizedAttesters`:
-            *   Optional: skip if `signature.keyid` does not match `publicKey`
-            *   If `signature.sig` matches `publicKey`:
-                *   Add `name` to `attesterNames`
-    *   Reject if `attesterNames` is empty
-*   Intermediate state: `envelope.payloadType`, `envelope.payload`,
+    -   `attesterNames` := empty set of names
+    -   For each `signature` in `envelope.signatures`:
+        -   For each (`name`, `publicKey`) in `recognizedAttesters`:
+            -   Optional: skip if `signature.keyid` does not match `publicKey`
+            -   If `signature.sig` matches `publicKey`:
+                -   Add `name` to `attesterNames`
+    -   Reject if `attesterNames` is empty
+-   Intermediate state: `envelope.payloadType`, `envelope.payload`,
     `attesterNames`
-*   Statement layer:
-    *   Reject if `envelope.payloadType` != `application/vnd.in-toto+json`
-    *   `statement` := decode `envelope.payload` as a JSON-encoded [Statement];
+-   Statement layer:
+    -   Reject if `envelope.payloadType` != `application/vnd.in-toto+json`
+    -   `statement` := decode `envelope.payload` as a JSON-encoded [Statement];
         reject if decoding fails
-    *   Reject if `statement.type` != `https://in-toto.io/Statement/v0.1`
-    *   `artifactNames` := empty set of names
-    *   For each `s` in `statement.subject`:
-        *   For each digest (`alg`, `value`) in `s.digest`:
-            *   If `alg` is in `acceptableDigestAlgorithms`:
-                *   If `hash(alg, artifactToVerify)` == `hexDecode(value)`:
-                    *   Add `s.name` to `artifactNames`
-    *   Reject if `artifactNames` is empty
+    -   Reject if `statement.type` != `https://in-toto.io/Statement/v0.1`
+    -   `artifactNames` := empty set of names
+    -   For each `s` in `statement.subject`:
+        -   For each digest (`alg`, `value`) in `s.digest`:
+            -   If `alg` is in `acceptableDigestAlgorithms`:
+                -   If `hash(alg, artifactToVerify)` == `hexDecode(value)`:
+                    -   Add `s.name` to `artifactNames`
+    -   Reject if `artifactNames` is empty
 
 Output (to be fed into policy engine):
 
-*   `statement.predicateType`
-*   `statement.predicate`
-*   `artifactNames`
-*   `attesterNames`
+-   `statement.predicateType`
+-   `statement.predicate`
+-   `artifactNames`
+-   `attesterNames`
 
 [Bundle]: bundle.md
 [DSSE]: https://github.com/secure-systems-lab/dsse
