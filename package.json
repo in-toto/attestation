@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "lint": "markdownlint .",
+    "format": "markdownlint . --fix"
+  },
+  "dependencies": {
+    "markdownlint-cli": "^0.27.1"
+  }
+}
