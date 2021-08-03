@@ -10,11 +10,7 @@ independent but designed to work together:
 -   [Statement]: Binds the attestation to a particular subject and unambiguously
     identifies the types of the predicate.
 -   [Predicate]: Contains arbitrary metadata about the subject, with a
-    type-specific schema. This repo defines the following predicate types,
-    though custom types are allowed:
-    -   [Provenance]: To describe the origins of a software artifact.
-    -   [Link]: For migration from [in-toto 0.9].
-    -   [SPDX]: A Software Package Data Exchange document.
+    type-specific schema.
 -   [Bundle]: Defines a method of grouping multiple attestations together.
 
 The [processing model] provides pseudocode showing how these layers fit
@@ -26,8 +22,8 @@ See the [top-level README](../README.md) for background and examples.
 
 ## Parsing rules
 
-The following rules apply to [Statement], [Provenance], and other predicates
-that opt-in to this model.
+The following rules apply to [Statement] and predicates that opt-in to this
+model.
 
 -   **Unrecognized fields:** Consumers MUST ignore unrecognized fields. This is
     to allow minor version upgrades and extension fields. Ignoring fields is
@@ -137,11 +133,11 @@ subject and unambiguously identifying the types of the [predicate]. It is a
 >
 > The semantics are up to the producer and consumer. Because consumers evaluate
 > the name against a policy, the name SHOULD be stable between attestations. If
-> the name is not meaningful, use "\_". For example, a [Provenance] attestation
-> might use the name to specify output filename, expecting the consumer to only
-> considers entries with a particular name. Alternatively, a vulnerability scan
-> attestation might use the name "\_" because the results apply regardless of
-> what the artifact is named.
+> the name is not meaningful, use "\_". For example, a [SLSA Provenance]
+> attestation might use the name to specify output filename, expecting the
+> consumer to only considers entries with a particular name. Alternatively, a
+> vulnerability scan attestation might use the name "\_" because the results
+> apply regardless of what the artifact is named.
 >
 > MUST be non-empty and unique within `subject`.
 
@@ -167,18 +163,16 @@ subject and unambiguously identifying the types of the [predicate]. It is a
 The Predicate is the innermost layer of the attestation, containing arbitrary
 metadata about the [Statement]'s `subject`.
 
-A predicate has a requried `predicateType` ([TypeURI]) identifying what the
+A predicate has a required `predicateType` ([TypeURI]) identifying what the
 predicate means, plus an optional `predicate` (object) containing additional,
 type-dependent parameters.
 
 Users are expected to choose a predicate type that fits their needs, or invent a
 new one if no existing one satisfies. Predicate types are not registered.
 
-### Pre-defined predicates
+The following popular predicate types may be of general interest:
 
-This repo defines the following predicate types:
-
--   [Provenance]: To describe the origins of a software artifact.
+-   [SLSA Provenance]: To describe the origins of a software artifact.
 -   [Link]: For migration from [in-toto 0.9].
 -   [SPDX]: A Software Package Data Exchange document.
 
@@ -196,7 +190,7 @@ We recommend the following conventions for predicates:
     ambiguous; a better name would be `builtAt` or `allowedAt` or `scannedAt`.
 
 -   References to other artifacts SHOULD be an object that includes a `digest`
-    field of type [DigestSet]. Consider using the same type as [Provenance]
+    field of type [DigestSet]. Consider using the same type as [SLSA Provenance]
     `materials` if it is a good fit.
 
 Predicate designers are free to limit what subject types are valid for a given
@@ -262,10 +256,10 @@ Output (to be fed into policy engine):
 [JSON]: https://www.json.org
 [Link]: predicates/link.md
 [Predicate]: #predicate
-[Provenance]: predicates/provenance.md
 [RFC 3339]: https://tools.ietf.org/html/rfc3339
 [RFC 3986]: https://tools.ietf.org/html/rfc3986
 [SLSA Attestation Model]: https://github.com/slsa-framework/slsa/blob/main/controls/attestations.md
+[SLSA Provenance]: https://slsa.dev/provenance
 [SPDX]: predicates/spdx.md
 [Statement]: #statement
 [TypeURI]: field_types.md#TypeURI
