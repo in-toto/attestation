@@ -40,7 +40,7 @@ app to an app store.
 ### Build
 
 The Fooly builder builds the app (`fooly.apk` with hash `aaa...`) and produces a generic
-[in-toto Provenance](spec/predicates/provenance.md).  The Fooly builder also
+[SLSA Provenance](https://slsa.dev/provenance).  The Fooly builder also
 produces a more detailed attestation that contains all the logs of the build as an
 in-toto Statement with `predicateType=https://fooly.app/Builder/v1`.  The builder places
 _both_ of these signed attestations in a new file named `fooly.apk.intoto.jsonl`.
