@@ -21,10 +21,9 @@ artifacts, as per the [SLSA Attestation Model].
 
 Examples of hypothetical attestations:
 
--   [Provenance]: GitHub Actions attests to the fact that it built a container
-    image with digest "sha256:87f7fe…" from git commit "f0c93d…" in the "main"
-    branch of "https://github.com/example/foo".
--   Code review: GitHub attests to the fact that Alice uploaded and Bob approved
+-   [Provenance][SLSA Provenance]: GitHub Actions attests to the fact that it
+    built a container image with digest "sha256:87f7fe…" from git commit
+    "f0c93d…" in the "main" branch of "https://github.com/example/foo".
     git commit "f0c93d…" in the "main" branch of
     "https://github.com/example/foo".
 -   Test result: GitHub Actions attests to the fact that the npm tests passed on
@@ -45,8 +44,7 @@ Goals:
     anyone, such as [in-toto] or [Binary Authorization].
 -   Make it possible to write automated policies that take advantage of
     structured information.
--   Fit within the [SLSA Framework][SLSA]. The [provenance] format defined here
-    is the official SLSA recommendation.
+-   Fit within the [SLSA Framework][SLSA].
 
 ## Tooling / how to use
 
@@ -62,11 +60,7 @@ See [spec/README.md](spec/README.md). Summary:
 -   [Statement]: Binds the attestation to a particular subject and unambiguously
     identifies the types of the predicate.
 -   [Predicate]: Contains arbitrary metadata about the subject, with a
-    type-specific schema. This repo defines the following predicate types,
-    though custom types are allowed:
-    -   [Provenance]: To describe the origins of a software artifact.
-    -   [Link]: For migration from [in-toto 0.9].
-    -   [SPDX]: A Software Package Data Exchange document.
+    type-specific schema.
 -   [Bundle]: Defines a method of grouping multiple attestations together.
 
 The [processing model] provides pseudocode showing how these layers fit
@@ -76,7 +70,7 @@ together.
 
 ### Provenance example
 
-A [Provenance]-type attestation describing how the
+A [SLSA Provenance]-type attestation describing how the
 [curl 7.72.0 source tarballs](https://curl.se/download.html) were built,
 pretending they were built on
 [GitHub Actions](https://github.com/features/actions).
@@ -104,7 +98,7 @@ where `payload` base64-decodes as the following [Statement]:
     { "name": "curl-7.72.0.zip",
       "digest": { "sha256": "e363cc5b4e500bfc727106434a2578b38440aa18e105d57576f3d8f2abebf888" }}
   ],
-  "predicateType": "https://in-toto.io/Provenance/v0.1",
+  "predicateType": "https://slsa.dev/provenance/v0.1",
   "predicate": {
     "builder": { "id": "https://github.com/Attestations/GitHubHostedActions@v1" },
     "recipe": {
@@ -297,8 +291,8 @@ keying primarily by resource name, in addition to content hash.
 [ITE-6]: https://github.com/in-toto/ITE/blob/master/ITE/6/
 [Link]: spec/predicates/link.md
 [Predicate]: spec/README.md#predicate
-[Provenance]: spec/predicates/provenance.md
 [SLSA Attestation Model]: https://github.com/slsa-framework/slsa/blob/main/controls/attestations.md
+[SLSA Provenance]: https://slsa.dev/provenance
 [SLSA]: https://github.com/slsa-framework/slsa
 [SPDX]: spec/predicates/spdx.md
 [Statement]: spec/README.md#statement

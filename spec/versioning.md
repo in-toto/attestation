@@ -46,7 +46,7 @@ Version changes:
 -   Provenance 1.1.0 (minor version) adds a new `buildFinished` timestamp. This
     is OK because the absence of the `buildFinished` has no semantic meaning and
     the presence or absence of `buildFinished` does not affect the rest of the
-    message. The type ID is still `https://in-toto.io/Provenance/v1`.
+    message. The type ID is still `https://slsa.dev/provenance/v1`.
 
 -   Provenance 2.0.0 (major version) adds a new `recipe.extraArgs` field. This
     is required because the meaning of `recipe` changes if `extraArgs` is
