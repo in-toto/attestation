@@ -24,8 +24,6 @@ Examples of hypothetical attestations:
 -   [Provenance][SLSA Provenance]: GitHub Actions attests to the fact that it
     built a container image with digest "sha256:87f7fe…" from git commit
     "f0c93d…" in the "main" branch of "https://github.com/example/foo".
-    git commit "f0c93d…" in the "main" branch of
-    "https://github.com/example/foo".
 -   Test result: GitHub Actions attests to the fact that the npm tests passed on
     git commit "f0c93d…".
 -   Vulnerability scan: Google Container Analysis attests to the fact that no
