@@ -270,7 +270,7 @@ Output (to be fed into policy engine):
 [JSON]: https://www.json.org
 [Link]: predicates/link.md
 [Predicate]: #predicate
-[ResourceURI]: field_types.md#TResourceURI
+[ResourceURI]: field_types.md#ResourceURI
 [RFC 3339]: https://tools.ietf.org/html/rfc3339
 [RFC 3986]: https://tools.ietf.org/html/rfc3986
 [SLSA Attestation Model]: https://github.com/slsa-framework/slsa/blob/main/controls/attestations.md
