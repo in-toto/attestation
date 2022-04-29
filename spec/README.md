@@ -147,9 +147,8 @@ subject and unambiguously identifying the types of the [predicate]. It is a
 
 > Identifies an artifact by an immutable resource URI.
 > The `uri` field MUST be specified only if a subject cannot have a `digest` field.
->
-> The `uri` field SHOULD be specified for subjects that are not identified by 
-> a digest, such as a source-code revision (svn+ssh://host/path/revision-number)
+> 
+> Examples of a subject `uri` are a source-code revision (svn+ssh://host/path/revision-number)
 > or a builder API (https://host/builder@version). 
 >
 > The semantics of an `uri` value MUST be _immutable_; for example each source-code
