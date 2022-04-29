@@ -122,7 +122,8 @@ subject and unambiguously identifying the types of the [predicate]. It is a
 `subject[*].digest` _object ([DigestSet]), optional_
 
 > Collection of cryptographic digests for the contents of this artifact.
-> A `subject` MUST have either a `digest` field or an `uri` field.
+> This is the preferred form: only if a subject cannot have a `digest field,
+> the `uri` field MUST be specified.
 >
 > Two DigestSets are considered matching if ANY of the fields match. The
 > producer and consumer must agree on acceptable algorithms. If there are no
@@ -145,7 +146,7 @@ subject and unambiguously identifying the types of the [predicate]. It is a
 `subject[*].uri` _string ([ResourceURI]), optional_
 
 > Identifies an artifact by an immutable resource URI.
-> A `subject` MUST have either a `digest` field or an `uri` field.
+> Use this form only if a subject cannot have a `digest` field.
 >
 > The `uri` field SHOULD be specified for subjects that are not identified by 
 > a digest, such as a source-code revision (svn+ssh://host/path/revision-number)
