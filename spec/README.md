@@ -123,7 +123,7 @@ subject and unambiguously identifying the types of the [predicate]. It is a
 
 > Collection of cryptographic digests for the contents of this artifact.
 > This is the preferred form: the `uri` field MUST be specified only if a
-> subject cannot have a `digest field.
+> subject cannot have a `digest` field.
 >
 > Two DigestSets are considered matching if ANY of the fields match. The
 > producer and consumer must agree on acceptable algorithms. If there are no
