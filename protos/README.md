@@ -22,6 +22,10 @@ predicates have protobuf definitions:
     chain attributes.
 -   [Test Result]: Expresses the result of a test run in the software supply
     chain.
+-   [Human Review]: Generic predicate for results of human reviews.
+-   [VCS Review]: Predicate for approval reviews issued on VCS and other code
+    review systems.
+-   [Crev Review]: Predicate for [Crev] dependency reviews.
 
 ## Supported language bindings
 
@@ -52,6 +56,10 @@ testing the supported language bindings.
 [SLSA Verification Summary]: in_toto_attestation/predicates/vsa/
 [in-toto Link]: in_toto_attestation/predicates/link/
 [Test Result]: in_toto_attestation/predicates/test_result/
+[Human Review]: in_toto_attestation/predicates/human_review/
+[VCS Review]: in_toto_attestation/predicates/human_review/vcs
+[Crev Review]: in_toto_attestation/predicates/human_review/crev
+[Crev]: https://github.com/crev-dev/crev
 [documentation]: ../docs/protos.md
 [go]: ../go/
 [python]: ../python/

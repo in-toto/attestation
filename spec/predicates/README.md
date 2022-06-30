@@ -24,6 +24,12 @@ our [vetting process], and may be of general interest:
 -   [SPDX]: SPDX-formatted BOM for software artifacts.
 -   [CycloneDX]: CycloneDX BOM for software artifacts.
 -   [Test Result]: A generic schema to express results of any type of tests.
+-   [Human Review]: To describe findings of human reviews such as code reviews,
+    dependency audits, and more.
+-   [VCS Code Review]: To describe code review approvals for review and version
+    control systems.
+-   [Crev]: To describe community reviews as part of the Crev project for
+    software dependencies.
 
 [CycloneDX]: https://cyclonedx.org/
 [Link]: link.md
@@ -36,3 +42,6 @@ our [vetting process], and may be of general interest:
 [Test Result]: test-result.md
 [in-toto 0.9]: https://github.com/in-toto/docs/blob/master/in-toto-spec.md#44-file-formats-namekeyid-prefixlink
 [vetting process]: ../../docs/new_predicate_guidelines.md#vetting-process
+[Human Review]: human-review.md
+[VCS Code Review]: human-review-vcs.md
+[Crev]: human-review-crev.md
