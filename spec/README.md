@@ -119,9 +119,11 @@ subject and unambiguously identifying the types of the [predicate]. It is a
 > content type. If this matters to you, please comment on
 > [GitHub Issue #28](https://github.com/in-toto/attestation/issues/28)
 
-`subject[*].digest` _object ([DigestSet]), required_
+`subject[*].digest` _object ([DigestSet]), optional_
 
 > Collection of cryptographic digests for the contents of this artifact.
+> This is the preferred form: the `uri` field MUST be specified only if a
+> subject cannot have a `digest` field.
 >
 > Two DigestSets are considered matching if ANY of the fields match. The
 > producer and consumer must agree on acceptable algorithms. If there are no
@@ -140,6 +142,19 @@ subject and unambiguously identifying the types of the [predicate]. It is a
 > apply regardless of what the artifact is named.
 >
 > MUST be non-empty and unique within `subject`.
+
+`subject[*].uri` _string ([ResourceURI]), optional_
+
+> Identifies an artifact by an immutable resource URI.
+> The `uri` field MUST be specified only if a subject cannot have a `digest` field.
+> 
+> Examples of subjects that cannot be identified by a `digest`, but that can be
+> identified by an `uri` are a source-code revision (URI = svn+ssh://host/path/revision-number)
+> or a builder API (URI = https://host/builder@version). 
+>
+> The semantics of an `uri` value MUST be _immutable_; for example each source-code
+> commit has a distinct revision number, and each semantic builder change has a
+> distinct API version.
 
 `predicateType` _string ([TypeURI]), required_
 
@@ -256,6 +271,7 @@ Output (to be fed into policy engine):
 [JSON]: https://www.json.org
 [Link]: predicates/link.md
 [Predicate]: #predicate
+[ResourceURI]: field_types.md#ResourceURI
 [RFC 3339]: https://tools.ietf.org/html/rfc3339
 [RFC 3986]: https://tools.ietf.org/html/rfc3986
 [SLSA Attestation Model]: https://github.com/slsa-framework/slsa/blob/main/controls/attestations.md
