@@ -16,6 +16,8 @@ our [vetting process], and may be of general interest:
 -   [Link]: For migration from [in-toto 0.9].
 -   [SCAI Report]: Evidence-based assertions about software artifact and
     supply chain attributes or behavior.
+-   [Runtime Traces]: To capture runtime traces of software supply chain
+    operations.
 
 [Link]: link.md
 [New Predicate Guidelines]: ../../docs/new_predicate_guidelines.md
@@ -23,3 +25,4 @@ our [vetting process], and may be of general interest:
 [SLSA Provenance]: https://slsa.dev/provenance
 [in-toto 0.9]: https://github.com/in-toto/docs/blob/master/in-toto-spec.md#44-file-formats-namekeyid-prefixlink
 [vetting process]: ../../docs/new_predicate_guidelines.md#vetting-process
+[Runtime Traces]: runtime-trace.md
