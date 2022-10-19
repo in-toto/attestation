@@ -26,10 +26,14 @@ attestations.
 
 ## File naming convention
 
--   Bundles that concern a single artifact SHOULD name the bundle file
-    `<artifact filename>.intoto.jsonl`.
--   Bundles that concern multiple artifacts SHOULD name the bundle file
-    `multiple.intoto.jsonl`.
+Bundles SHOULD use the suffix `.intoto.jsonl`.
+
+A bundle of attestations relevant for `<filename>` SHOULD be named
+`<filename>.intoto.jsonl`. Attestations in the bundle MAY have different
+subjects, but they SHOULD all be relevant to that file or its dependencies. For
+example, a package named `foo-1.2.3.tar.gz` with hash `abcd` that was built from
+git commit `1234` could have a bundle name `foo-1.2.3.tar.gz.intoto.jsonl` with
+two attestations, one with subject `abcd` and one with subject `1234`.
 
 ## Example Use Case
 
