@@ -9,7 +9,7 @@ together, allowing users to make decisions based on all available information.
 attestation is authenticated
 ([using DSSE](https://github.com/secure-systems-lab/dsse)). As such, an attacker
 might be able to _delete_ an attestation without being detected.  Predicates that
-follow [the monotonic principle](spec/README.md#parsing-rules) should not have any
+follow [the monotonic principle](README.md#parsing-rules) should not have any
 issues with this behavior.
 
 ## Data structure
