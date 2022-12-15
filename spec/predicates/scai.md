@@ -48,7 +48,7 @@ objects; we recommend [in-toto Attestation Bundles](https://github.com/in-toto/a
 The core metadata in SCAI is the Attribute Assertion. A collection of Attribute Assertions
 for a specific supply chain step or operation are issued together in a SCAI Attribute Report predicate.
 
-```
+```jsonc
 {
     "predicateType": "https://in-toto.io/scai/attribute-report/v0.1",
     "predicate": {
@@ -86,10 +86,11 @@ attributes. Additional fields MUST enable program-based consumers to automatical
 the given information.
 
 The following parsing rules apply in addition:
-* Consumers MUST ignore unrecognized fields.
-* Producers SHOULD omit _optional_ fields when unused to avoid ambiguity.
-* Acceptable formats of the `attribute` and `conditions` fields are up to the producer and consumer.
-* Because consumers evaluate this predicate against a policy, the semantics SHOULD be consistent and monotonic between Attestations (see in-toto Attestation Spec [parsing rules](https://github.com/in-toto/attestation/tree/main/spec#parsing-rules)).
+
+-   Consumers MUST ignore unrecognized fields.
+-   Producers SHOULD omit _optional_ fields when unused to avoid ambiguity.
+-   Acceptable formats of the `attribute` and `conditions` fields are up to the producer and consumer.
+-   Because consumers evaluate this predicate against a policy, the semantics SHOULD be consistent and monotonic between Attestations (see in-toto Attestation Spec [parsing rules](https://github.com/in-toto/attestation/tree/main/spec#parsing-rules)).
 
 ### Fields
 
@@ -110,7 +111,7 @@ The following parsing rules apply in addition:
 
 `predicate.attributes[*].target` _object ([SCAI Object Reference](https://arxiv.org/pdf/2210.05813.pdf), optional_
 
-> An object reference to a specific artifact or metadata object to which the `attribute` field applies. 
+> An object reference to a specific artifact or metadata object to which the `attribute` field applies.
 >
 > The semantics of the optional `objectType` field are up to the producer and consumer.
 
@@ -140,43 +141,15 @@ The following parsing rules apply in addition:
 
 `predicate.producer.reference` _object ([SCAI Object Reference](https://arxiv.org/pdf/2210.05813.pdf), optional_
 
-> An object reference to the specific producer of the Attestation subject, if applicable. 
+> An object reference to the specific producer of the Attestation subject, if applicable.
 >
 > The semantics of the optional `objectType` field are up to the producer and consumer.
 
 ## Examples
 
-#### Attestation for gcc compiler attributes
-```
-{
-    // Standard attestation fields
-    "_type": "https://in-toto.io/Statement/v0.1",
-    "subject": [{
-        "name": "gcc9.3.0",
-        "digest": { "sha256": "78ab6a8..." }
-    }],
-        
-    "predicateType": "scai/attribute-report/v0.1",
-    "predicate": {
-        "attributes": [{
-            "attribute": "WITH_STACK_PROTECTION",
-            "conditions": { "flags": "-fstack-protector*" }
-        },
-        {
-            "attribute": "REPRODUCIBLE",
-            "evidence": {
-                "name": "rebuilderd-attestation",
-                "digest": { "sha256": "abcdabcde..." },
-                "locationURI": "http://example.com/rebuilderd-instance/gcc_9.3.0-1ubuntu2_amd64.att",
-                "objectType": "application/vnd.in-toto+json"
-            }
-        }]
-    }
-}
-```
+### Attestation for binary attributes
 
-#### Attestation for binary attributes
-```
+```jsonc
 {
     // Standard attestation fields
     "_type": "https://in-toto.io/Statement/v0.1",
@@ -205,8 +178,39 @@ The following parsing rules apply in addition:
 }
 ```
 
-#### Attestation for binary attributes with evidence
+### Attestation for gcc compiler attributes
+
+```jsonc
+{
+    // Standard attestation fields
+    "_type": "https://in-toto.io/Statement/v0.1",
+    "subject": [{
+        "name": "gcc9.3.0",
+        "digest": { "sha256": "78ab6a8..." }
+    }],
+        
+    "predicateType": "scai/attribute-report/v0.1",
+    "predicate": {
+        "attributes": [{
+            "attribute": "WITH_STACK_PROTECTION",
+            "conditions": { "flags": "-fstack-protector*" }
+        },
+        {
+            "attribute": "REPRODUCIBLE",
+            "evidence": {
+                "name": "rebuilderd-attestation",
+                "digest": { "sha256": "abcdabcde..." },
+                "locationURI": "http://example.com/rebuilderd-instance/gcc_9.3.0-1ubuntu2_amd64.att",
+                "objectType": "application/vnd.in-toto+json"
+            }
+        }]
+    }
+}
 ```
+
+### Attestation for binary attributes with evidence
+
+```jsonc
 {
     // Standard attestation fields
     "_type": "https://in-toto.io/Statement/v0.1",
@@ -241,8 +245,9 @@ The following parsing rules apply in addition:
 }
 ```
 
-#### Attestation for binary with attested dependencies
-```
+### Attestation for binary with attested dependencies
+
+```jsonc
 {
     // Standard attestation fields
     "_type": "https://in-toto.io/Statement/v0.1",
@@ -274,8 +279,9 @@ The following parsing rules apply in addition:
 }
 ```
 
-#### Attestation for build on Intel(R) SGX hardware
-```
+### Attestation for build on Intel(R) SGX hardware
+
+```jsonc
 {
     // Standard attestation fields
     "_type": "https://in-toto.io/Statement/v0.1",
