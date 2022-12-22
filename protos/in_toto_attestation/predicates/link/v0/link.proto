@@ -1,0 +1,22 @@
+
+syntax = "proto3";
+
+package in_toto_attestation.predicates.link.v0;
+
+import "in_toto_attestation/v1/resource_descriptor.proto";
+import "google/protobuf/struct.proto";
+
+option go_package = "github.com/in-toto/attestation/go/predicates/link/v0";
+option java_package = "io.github.intoto.attestation.predicates.link.v0";
+
+message Link {
+    string name = 1;
+
+    repeated string command = 2;
+
+    repeated in_toto_attestation.v1.ResourceDescriptor materials = 3;
+
+    google.protobuf.Struct byproducts = 4;
+
+    google.protobuf.Struct environment = 5;
+}
