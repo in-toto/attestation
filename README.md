@@ -289,7 +289,7 @@ keying primarily by resource name, in addition to content hash.
 [ITE-6]: https://github.com/in-toto/ITE/blob/master/ITE/6/
 [Link]: spec/predicates/link.md
 [Predicate]: spec/README.md#predicate
-[SLSA Attestation Model]: https://github.com/slsa-framework/slsa/blob/main/controls/attestations.md
+[SLSA Attestation Model]: https://slsa.dev/attestation-model
 [SLSA Provenance]: https://slsa.dev/provenance
 [SLSA]: https://github.com/slsa-framework/slsa
 [SPDX]: spec/predicates/spdx.md
