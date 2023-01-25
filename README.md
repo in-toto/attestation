@@ -2,7 +2,7 @@
 
 This repository defines the in-toto **attestation** format, which represents
 authenticated metadata about a set of software artifacts. Attestations are
-intended for consumption by automated policy engines, such as [in-toto] and
+intended for consumption by automated policy engines, such as [OPA] and
 [Binary Authorization].
 
 ## IMPORTANT
@@ -297,3 +297,4 @@ keying primarily by resource name, in addition to content hash.
 [in-toto 0.9]: https://github.com/in-toto/docs/blob/v0.9/in-toto-spec.md
 [in-toto]: https://in-toto.io
 [processing model]: spec/README.md#processing-model
+[opa]: https://www.openpolicyagent.org/
