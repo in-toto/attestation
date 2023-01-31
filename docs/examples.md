@@ -125,6 +125,5 @@ better fit:
 
 [Envelope]: spec/README.md#envelope
 [Link]: spec/predicates/link.md
-[Predicate]: spec/README.md#predicate
 [SLSA Provenance]: https://slsa.dev/provenance
 [Statement]: spec/README.md#statement

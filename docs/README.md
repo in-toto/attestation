@@ -32,7 +32,7 @@ Goals:
 
 This project has two main goals:
 
-1.  Support [use cases](#motivating-use-case) where the existing link schema is
+1.  Support use cases where the existing link schema is
     a poor fit. For example, test steps and vulnerability scans are not about
     "producing" a new artifact so they are awkward to represent in the current
     format.
@@ -96,8 +96,7 @@ any additional configuration: "does an attestation exist that is signed by X
 having predicate type T, with subject Y/Z?"
 
 Second, it enables lookup of attestations by `subject`, again without
-Predicate-specific logic or configuration. Consider the policy described in the
-[motivating use case](#motivating-use-case). There, the instruction is "fetch
+Predicate-specific logic or configuration. Consider a validation policy as "fetch
 attestations for artifact X". The lookup could be from a set of attestations
 provided by the caller, or it could be from an external database keyed by
 subject.[2] Without a standardized `subject` field, this would be significantly
@@ -125,16 +124,9 @@ Chapter 14, page 328, "Ensure Unambiguous Provenance." Instead, we recommend
 keying primarily by resource name, in addition to content hash.
 
 [Binary Authorization]: https://cloud.google.com/binary-authorization
-[Bundle]: spec/bundle.md
-[Envelope]: spec/README.md#envelope
-[ITE-6]: https://github.com/in-toto/ITE/blob/master/ITE/6/
-[Link]: spec/predicates/link.md
 [Predicate]: spec/README.md#predicate
 [SLSA Attestation Model]: https://slsa.dev/attestation-model
 [SLSA Provenance]: https://slsa.dev/provenance
 [SLSA]: https://github.com/slsa-framework/slsa
-[SPDX]: spec/predicates/spdx.md
 [Statement]: spec/README.md#statement
-[in-toto 0.9]: https://github.com/in-toto/docs/blob/v0.9/in-toto-spec.md
 [in-toto]: https://in-toto.io
-[processing model]: spec/README.md#processing-model
