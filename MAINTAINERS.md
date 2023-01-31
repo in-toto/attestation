@@ -1,6 +1,7 @@
-## Maintainers
+# Maintainers
 
-### Active Maintainers
+## Active Maintainers
+
 | Name                       | Github          |
 |----------------------------|-----------------|
 | Joshua Lock (VMware)       | [@joshuagl](https://github.com/joshuagl) |

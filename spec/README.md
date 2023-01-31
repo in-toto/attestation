@@ -257,7 +257,6 @@ Output (to be fed into policy engine):
 [Link]: predicates/link.md
 [Predicate]: #predicate
 [RFC 3339]: https://tools.ietf.org/html/rfc3339
-[RFC 3986]: https://tools.ietf.org/html/rfc3986
 [SLSA Attestation Model]: https://slsa.dev/attestation-model
 [SLSA Provenance]: https://slsa.dev/provenance
 [SPDX]: predicates/spdx.md
