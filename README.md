@@ -1,10 +1,9 @@
 # in-toto Attestation Framework
 
-<!-- msm: This is real clunky -->
-The in-toto Attestation Framework is a framework for generating verifiable
-claims about any aspect of how a piece of software is produced, allowing
-anyone to validate the origins of software and establish trust in its supply
-chain.
+The in-toto Attestation Framework provides a specification for generating
+verifiable claims about any aspect of how a piece of software is produced.
+Consumers or users of software can then validate the origins of the
+software, and establish trust in its supply chain, using in-toto attestations.
 
 ## Learning about in-toto attestations
 

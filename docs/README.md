@@ -1,7 +1,9 @@
 # Introduction
 
-An in-toto **attestation** is authenticated metadata about one or more software
-artifacts, as per the [SLSA Attestation Model].
+An in-toto **attestation** is authenticated metadata about one or more
+software artifacts, per the [SLSA Attestation Model].
+
+<!-- TODO: expand on this: Attestations are intended for consumption by automated policy engines, such as [in-toto] and [Binary Authorization].. -->
 
 Examples of hypothetical attestations:
 
