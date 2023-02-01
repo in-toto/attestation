@@ -1,8 +1,6 @@
 # Maintainers
 
-## Active Maintainers
-
-| Name                       | Github          |
+| Name                       | GitHub          |
 |----------------------------|-----------------|
 | Joshua Lock (VMware)       | [@joshuagl](https://github.com/joshuagl) |
 | Marcela Melara (Intel)     | [@marcelamelara](https://github.com/marcelamelara) |
