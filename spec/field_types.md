@@ -5,7 +5,7 @@ _DigestSet (object)_
 
 > Set of alternative cryptographic digests for a single software artifact,
 > expressed as a JSON map from algorithm name to lowercase hex-encoded value.
-> Usually there is just a single key/value pair, but multiple entires MAY be
+> Usually there is just a single key/value pair, but multiple entries MAY be
 > used for algorithm agility.
 >
 > It is RECOMMENDED to use at least `sha256` for compatibility between
@@ -17,7 +17,7 @@ _DigestSet (object)_
 >     `sha3_224`, `sha3_256`, `sha3_384`, `sha3_512`, `shake128`, `shake256`,
 >     `blake2b`, `blake2s`, `ripemd160`, `sm3`, `gost`, `sha1`, `md5`
 >
->     Standard cryptographic hash algorithms, for cases when when the method
+>     Standard cryptographic hash algorithms, for cases when the method
 >     of serialization is obvious or well known.
 >
 > -   `goModuleH1`: The go module [directory Hash1][], omitting the "h1:"
