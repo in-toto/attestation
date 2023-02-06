@@ -5,7 +5,7 @@ _DigestSet (object)_
 
 > Set of alternative cryptographic digests for a single software artifact,
 > expressed as a JSON map from algorithm name to lowercase hex-encoded value.
-> Usually there is just a single key/value pair, but multiple entires MAY be
+> Usually there is just a single key/value pair, but multiple entries MAY be
 > used for algorithm agility.
 >
 > It is RECOMMENDED to use at least `sha256` for compatibility between
@@ -17,7 +17,7 @@ _DigestSet (object)_
 >     `sha3_224`, `sha3_256`, `sha3_384`, `sha3_512`, `shake128`, `shake256`,
 >     `blake2b`, `blake2s`, `ripemd160`, `sm3`, `gost`, `sha1`, `md5`
 >
->     Standard cryptographic hash algorithms, for cases when when the method
+>     Standard cryptographic hash algorithms, for cases when the method
 >     of serialization is obvious or well known.
 >
 > -   `goModuleH1`: The go module [directory Hash1][], omitting the "h1:"
@@ -45,6 +45,52 @@ _DigestSet (object)_
 > -   `{"sha256": "abcd", "sha512": "1234"}` matches `{"sha256": "abcd"}`
 > -   `{"sha256": "abcd"}` does not match `{"sha256": "fedb", "sha512": "abcd"}`
 > -   `{"somecoolhash": "abcd"}` uses a non-predefined algorithm
+
+<a id="Reference"></a>
+_Reference (object)_
+
+> A size-efficient representation of any artifact, metadata or attestation,
+> referenced by another in-toto attestation.
+> This type is designed to be backwards-compatible with the in-toto
+> attestation [Statement v0.1][] as well as the [SLSA ArtifactReference][].
+>
+> Schema:
+>```
+> {
+>   "name": "<NAME>",
+>   "digest": { "<ALGORITHM>": "<HEX VALUE>", ... },
+>   "uri": "<RESOURCE URI>",
+>   "downloadURI": "<RESOURCE URI>", // optional
+>   "mimeType": "<MIME TYPE>" // optional
+> }
+>```
+>
+> Fields:
+> -   `name` (_string, required_): Human-readable identifier to distinguish
+>     the referenced object locally. The semantics are up to the producer and
+>     consumer.
+> -   `digest` (_[DigestSet], cond. required_): The producer and
+>     consumer must agree on acceptable algorithms. This field MUST be
+>     specified if the `uri` field is not present.
+> -   `uri` (_[ResourceURI], cond. required_): URI for the referenced
+>     object. When possible, this SHOULD be a universal and stable
+>     identifier, such as a source location or [Package URL][]. This
+>     field MUST be specified if the `digest` field is not present.
+> -   `downloadURI` (_[ResourceURI], optional_): The location of the
+>     referenced object. To enable automated downloads by consumers, the
+>     downloadURI SHOULD be resolvable.
+> -   `mimeType` (_string, optional_): The [MIME Type][] (i.e., media type)
+>     of the referenced object.
+>
+> Example:
+> ```
+> { 
+>   "name": "rebuilderd-attestation",
+>   "digest": { "sha256": "abcdabcde..." },
+>   "downloadURI": "http://example.com/rebuilderd-instance/gcc_9.3.0-1ubuntu2_amd64.att",
+>   "mimeType": "application/vnd.in-toto+json"
+> }
+> ```
 
 <a id="ResourceURI"></a>
 _ResourceURI (string)_
@@ -85,7 +131,10 @@ _Timestamp (string)_
 > Example: `"1985-04-12T23:20:50.52Z"`.
 
 [directory Hash1]: https://cs.opensource.google/go/x/mod/+/refs/tags/v0.5.0:sumdb/dirhash/hash.go
+[MIME Type]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types
 [Package URL]: https://github.com/package-url/purl-spec/
 [RFC 3339]: https://tools.ietf.org/html/rfc3339
 [RFC 3986]: https://tools.ietf.org/html/rfc3986
 [SPDX Download Location]: https://spdx.github.io/spdx-spec/package-information/#77-package-download-location-field
+[SLSA ArtifactReference]: https://github.com/slsa-framework/slsa/blob/main/docs/provenance/v1/index.md#artifactreference
+[Statement v0.1]: https://github.com/in-toto/attestation/blob/v0.1.0/spec/README.md#statement

@@ -86,10 +86,7 @@ in-toto in [ITE-5]. It is a [JSON] object with the following fields:
 {
   "_type": "https://in-toto.io/Statement/v1.0",
   "subject": [
-    {
-      "name": "<NAME>",
-      "digest": {"<ALGORITHM>": "<HEX_VALUE>"}
-    },
+    { <Reference> },
     ...
   ],
   "predicateType": "<URI>",
@@ -98,7 +95,8 @@ in-toto in [ITE-5]. It is a [JSON] object with the following fields:
 ```
 
 Version:
-1.0.0 (see [parsing rules])
+[1.0.0](https://github.com/in-toto/attestation/blob/v1.0/spec/README.md) (see
+[parsing rules])
 
 The Statement is the middle layer of the attestation, binding it to a particular
 subject and unambiguously identifying the types of the [predicate]. It is a
@@ -109,29 +107,27 @@ subject and unambiguously identifying the types of the [predicate]. It is a
 > Identifier for the schema of the Statement. Always
 > `https://in-toto.io/Statement/v1.0` for this version of the spec.
 
-`subject` _array of objects, required_
+`subject` _array of objects([Reference], required_
 
 > Set of software artifacts that the attestation applies to. Each element
 > represents a single software artifact.
 >
-> IMPORTANT: Subject artifacts are matched purely by digest, regardless of
-> content type. If this matters to you, please comment on
-> [GitHub Issue #28](https://github.com/in-toto/attestation/issues/28)
+> IMPORTANT: Subject artifacts SHOULD be matched by digest or by uri,
+> regardless of MIME type.
 
 `subject[*].digest` _object ([DigestSet]), required_
 
-> Collection of cryptographic digests for the contents of this artifact.
->
+> Subject-specific requirements:
 > Two DigestSets are considered matching if ANY of the fields match. The
 > producer and consumer must agree on acceptable algorithms. If there are no
 > overlapping algorithms, the subject is considered not matching.
 
 `subject[*].name` _string, required_
 
-> Identifier to distinguish this artifact from others within the `subject`.
->
-> The semantics are up to the producer and consumer. Because consumers evaluate
-> the name against a policy, the name SHOULD be stable between attestations. If
+> Subject-specific requirements:
+> The `name` SHOULD enable consumers to distinguish this artifact from
+> others within the `subject`. Because consumers evaluate the name against a
+> policy, the `name` SHOULD be stable between attestations. If
 > the name is not meaningful, use "\_". For example, a [SLSA Provenance]
 > attestation might use the name to specify output filename, expecting the
 > consumer to only considers entries with a particular name. Alternatively, a
@@ -255,6 +251,7 @@ Output (to be fed into policy engine):
 [JSON]: https://www.json.org
 [Link]: predicates/link.md
 [Predicate]: #predicate
+[Reference]: field_types.md#Reference
 [RFC 3339]: https://tools.ietf.org/html/rfc3339
 [SLSA Attestation Model]: https://slsa.dev/attestation-model
 [SLSA Provenance]: https://slsa.dev/provenance
