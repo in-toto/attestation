@@ -10,16 +10,13 @@ software, and establish trust in its supply chain, using in-toto attestations.
 Visit [https://in-toto.io](https://in-toto.io) to learn about the larger
 in-toto project.
 
-For a deeper dive, we recommend reading through our
-[documentation](https://github.com/in-toto/attestation/tree/main/docs) to
-learn more about the goals of the in-toto Attestation Framework.
+For a deeper dive, we recommend reading through our [documentation] to learn
+more about the goals of the in-toto Attestation Framework.
 
 ## Working with in-toto attestations
 
-The core of the in-toto Attestation Framework is the
-[specification](https://github.com/in-toto/attestation/tree/main/spec)
-that defines the format for in-toto attestations and the metadata they
-contain.
+The core of the in-toto Attestation Framework is the [specification] that
+defines the format for in-toto attestations and the metadata they contain.
 
 We also provide a set of [attestation predicates], which are metadata
 formats vetted by our maintainers to cover a number of common use cases.
@@ -53,8 +50,10 @@ the framework. In the meantime, please visit any of the language-specific
 
 [CNCF]: https://www.cncf.io/projects/in-toto/
 [New Predicate Guidelines]: docs/new_predicate_guidelines.md
-[attestation predicates]: https://github.com/in-toto/attestation/tree/main/spec/predicates
+[attestation predicates]: spec/predicates/
+[documentation]: docs/
 [in-toto]: https://in-toto.io
 [in-toto implementations]: https://github.com/in-toto
 [issues]: https://github.com/in-toto/attestation/issues?q=is%3Aopen+is%3Aissue
 [pull requests]: https://github.com/in-toto/attestation/pulls?q=is%3Aopen+is%3Apr
+[specification]: spec/

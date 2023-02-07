@@ -1,9 +1,10 @@
 # Introduction
 
-An in-toto **attestation** is authenticated metadata about one or more
-software artifacts, per the [SLSA Attestation Model].
+An **in-toto attestation** is authenticated metadata about one or more
+software artifacts[^1]. The intended consumers are automated policy engines,
+such as [in-toto-verify] and [Binary Authorization].
 
-<!-- TODO: expand on this: Attestations are intended for consumption by automated policy engines, such as [in-toto] and [Binary Authorization].. -->
+**TODO: Clean this up; add a docs index.**
 
 Examples of hypothetical attestations:
 
@@ -92,7 +93,7 @@ First, doing so allows policy engines to make decisions without requiring
 Predicate-specific logic or configuration. Binary Authorization policies today
 are purely about "does an attestation exist that is signed by X with subject Y",
 and similarly in-toto layouts are about "does an attestation exist that is
-signed by X with materials/products Z?"[1] These relatively simple policies are
+signed by X with materials/products Z?"[^2] These relatively simple policies are
 quite powerful. With this proposal, such policies become more expressive without
 any additional configuration: "does an attestation exist that is signed by X
 having predicate type T, with subject Y/Z?"
@@ -101,7 +102,7 @@ Second, it enables lookup of attestations by `subject`, again without
 Predicate-specific logic or configuration. Consider a validation policy as "fetch
 attestations for artifact X". The lookup could be from a set of attestations
 provided by the caller, or it could be from an external database keyed by
-subject.[2] Without a standardized `subject` field, this would be significantly
+subject.[^3] Without a standardized `subject` field, this would be significantly
 harder.
 
 The alternative is to not have a fixed Statement schema and instead have
@@ -113,17 +114,11 @@ predicate types. For example, one predicate type might require an "or" between
 artifact IDs, while another requires an "and." This difference would add
 complexity and confusion.
 
-## Footnotes
+[^1]: This is compatible with the [SLSA Attestation Model].
 
-\[1]: The `expected_command` is only a warning, and `inspections` require
-running external commands which is infeasible in many situations.
+[^2]: The `expected_command` is only a warning, and `inspections` require running external commands which is infeasible in many situations.
 
-\[2]: That said, we strongly recommend against keying a database purely by
-content hash. The reason is that such databases quickly run into scaling issues,
-as explained in
-[Building Secure and Reliable Systems](https://static.googleusercontent.com/media/landing.google.com/en//sre/static/pdf/Building_Secure_and_Reliable_Systems.pdf#page=364),
-Chapter 14, page 328, "Ensure Unambiguous Provenance." Instead, we recommend
-keying primarily by resource name, in addition to content hash.
+[^3]: That said, we strongly recommend against keying a database purely by content hash. The reason is that such databases quickly run into scaling issues, as explained in [Building Secure and Reliable Systems](https://static.googleusercontent.com/media/landing.google.com/en//sre/static/pdf/Building_Secure_and_Reliable_Systems.pdf#page=364), Chapter 14, page 328, "Ensure Unambiguous Provenance." Instead, we recommend keying primarily by resource name, in addition to content hash.
 
 [Binary Authorization]: https://cloud.google.com/binary-authorization
 [Predicate]: spec/README.md#predicate
@@ -132,3 +127,4 @@ keying primarily by resource name, in addition to content hash.
 [SLSA]: https://github.com/slsa-framework/slsa
 [Statement]: spec/README.md#statement
 [in-toto]: https://in-toto.io
+[in-toto-verify]: https://github.com/in-toto/in-toto#verification
