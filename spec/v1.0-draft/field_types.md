@@ -55,7 +55,8 @@ _Reference (object)_
 > attestation [Statement v0.1][] as well as the [SLSA ArtifactReference][].
 >
 > Schema:
->```
+>
+>```jsonc
 > {
 >   "name": "<NAME>",
 >   "digest": { "<ALGORITHM>": "<HEX VALUE>", ... },
@@ -66,6 +67,7 @@ _Reference (object)_
 >```
 >
 > Fields:
+>
 > -   `name` (_string, required_): Human-readable identifier to distinguish
 >     the referenced object locally. The semantics are up to the producer and
 >     consumer.
@@ -83,7 +85,8 @@ _Reference (object)_
 >     of the referenced object.
 >
 > Example:
-> ```
+>
+> ```jsonc
 > { 
 >   "name": "rebuilderd-attestation",
 >   "digest": { "sha256": "abcdabcde..." },
