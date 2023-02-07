@@ -1,58 +1,61 @@
-# Attestation Spec
+# in-toto Attestation Framework Specification
 
-An in-toto **attestation** is authenticated metadata about one or more software
-artifacts, as per the [SLSA Attestation Model]. It has three layers that are
-independent but designed to work together:
+An **in-toto attestation** is authenticated metadata about one or more
+software artifacts[^1]. The intended consumers are automated policy engines, such as [in-toto-verify] and [Binary Authorization].
 
-<!-- BEGIN: When updating below, also update ../README.md#specification -->
+It has three layers
+that are independent but designed to work together:
 
 -   [Envelope]: Handles authentication and serialization.
--   [Statement]: Binds the attestation to a particular subject and unambiguously
-    identifies the types of the predicate.
+-   [Statement]: Binds the attestation to a particular subject and
+    unambiguously identifies the types of the predicate.
 -   [Predicate]: Contains arbitrary metadata about the subject, with a
     type-specific schema.
 -   [Bundle]: Defines a method of grouping multiple attestations together.
 
-The [processing model] provides pseudocode showing how these layers fit
-together.
-
-<!-- END -->
-
-See the [top-level README](../README.md) for background and examples.
+The [validation model] provides pseudocode showing how these layers fit
+together. See the [documentation](../docs) for more background and examples.
 
 ## Parsing rules
 
-The following rules apply to [Statement] and predicates that opt-in to this
+The following rules apply to [Statement] and [Predicates] that opt-in to this
 model.
 
--   **Unrecognized fields:** Consumers MUST ignore unrecognized fields. This is
-    to allow minor version upgrades and extension fields. Ignoring fields is
-    safe due to the monotonic principle.
+-   **Unrecognized fields:** Consumers MUST ignore unrecognized fields. This
+    is to allow minor version upgrades and extension fields. Ignoring fields
+    is safe due to the monotonic principle.
 
--   **Versioning:** Each type has a [SemVer2](https://semver.org) version number
-    and the [TypeURI] reflects the major version number. A message is always
-    semantically correct, but possibly incomplete, when parsed as any other
-    version with the same major version number and thus the same [TypeURI].
-    Minor version changes always follow the monotonic principle. NOTE: 0.X
-    versions are considered major versions.
+-   **Versioning:** Each type has a [SemVer2](https://semver.org) version
+    number and the [TypeURI] reflects the major version number. A message is
+    always semantically correct, but possibly incomplete, when parsed as any
+    other version with the same major version number and thus the same
+    [TypeURI]. Minor version changes always follow the monotonic principle.
+    NOTE: 0.X versions are considered major versions.
 
--   **Extension fields:** Producers MAY add extension fields to any JSON object
-    by using a property name that is a [TypeURI]. The use of URI is to protect
-    against name collisions. Consumers MAY parse and use these extensions if
-    desired. The presence or absence of the extension field MUST NOT influence
-    the meaning of any other field, and the field MUST follow the monotonic
-    princple.
+-   **Extension fields:** Producers MAY add extension fields to any JSON
+    object by using a property name that is a [TypeURI]. The use of URI is
+    to protect against name collisions. Consumers MAY parse and use these
+    extensions if desired. The presence or absence of the extension field
+    MUST NOT influence the meaning of any other field, and the field MUST
+    follow the monotonic princple.
 
--   **Monotonic:** A policy is considered monotonic if ignoring an attestation,
-    or a field within an attestation, will never turn a DENY decision into an
-    ALLOW. A predicate or field follows the monotonic principle if the expected
-    policy that consumes it is monotonic. Consumers SHOULD design policies to be
-    monotonic. Example: instead of "deny if a 'has vulnerabilities' attestation
-    exists", prefer "deny unless a 'no vulnerabilities' attestation exists".
+-   **Monotonic:** A policy is considered monotonic if ignoring an
+    attestation, or a field within an attestation, will never turn a DENY
+    decision into an ALLOW. A predicate or field follows the monotonic
+    principle if the expected policy that consumes it is monotonic.
+    Consumers SHOULD design policies to be monotonic. Example: instead of
+    "deny if a 'has vulnerabilities' attestation exists", prefer "deny
+    unless a 'no vulnerabilities' attestation exists".
 
 See [versioning rules](versioning.md) for details and examples.
 
 ## Envelope
+
+The Envelope is the outermost layer of the attestation, handling
+authentication and serialization. The format and protocol are defined in
+[DSSE] and adopted by in-toto in [ITE-5].
+
+### Schema
 
 ```jsonc
 {
@@ -62,9 +65,7 @@ See [versioning rules](versioning.md) for details and examples.
 }
 ```
 
-The Envelope is the outermost layer of the attestation, handling authentication
-and serialization. The format and protocol are defined in [DSSE] and adopted by
-in-toto in [ITE-5]. It is a [JSON] object with the following fields:
+### Fields
 
 `payloadType` _string, required_
 
@@ -82,6 +83,16 @@ in-toto in [ITE-5]. It is a [JSON] object with the following fields:
 
 ## Statement
 
+The Statement is the middle layer of the attestation, binding it to a
+particular subject and unambiguously identifying the types of the
+[Predicate].
+
+### Schema
+
+Version:
+[1.0.0](https://github.com/in-toto/attestation/blob/v1.0/spec/README.md) (see
+[parsing rules])
+
 ```jsonc
 {
   "_type": "https://in-toto.io/Statement/v1.0",
@@ -97,12 +108,7 @@ in-toto in [ITE-5]. It is a [JSON] object with the following fields:
 }
 ```
 
-Version:
-1.0.0 (see [parsing rules])
-
-The Statement is the middle layer of the attestation, binding it to a particular
-subject and unambiguously identifying the types of the [predicate]. It is a
-[JSON] object with the following fields:
+### Fields
 
 `_type` _string ([TypeURI]), required_
 
@@ -152,6 +158,11 @@ subject and unambiguously identifying the types of the [predicate]. It is a
 
 ## Predicate
 
+The Predicate is the innermost layer of the attestation, containing arbitrary
+metadata about the [Statement]'s `subject`.
+
+### Schema
+
 ```jsonc
 "predicateType": "<URI>",
 "predicate": {
@@ -159,108 +170,32 @@ subject and unambiguously identifying the types of the [predicate]. It is a
 }
 ```
 
-The Predicate is the innermost layer of the attestation, containing arbitrary
-metadata about the [Statement]'s `subject`.
+### Fields
 
 A predicate has a required `predicateType` ([TypeURI]) identifying what the
 predicate means, plus an optional `predicate` (object) containing additional,
 type-dependent parameters.
 
-Users are expected to choose a predicate type that fits their needs, or invent a
-new one if no existing one satisfies. Predicate types are not registered.
+Users are expected to choose an [existing predicate type] that
+fits their needs, or develop a new one if no existing one satisfies.
+New predicate types MAY be vetted by the in-toto attestation maintainers.
 
-The following popular predicate types may be of general interest:
+[^1]: This is compatible with the [SLSA Attestation Model].
 
--   [SLSA Provenance]: To describe the origins of a software artifact.
--   [Link]: For migration from [in-toto 0.9].
--   [SPDX]: A Software Package Data Exchange document.
-
-### Predicate conventions
-
-We recommend the following conventions for predicates:
-
--   Predicates SHOULD follow and opt-in to the [parsing rules], particularly the
-    monotonic principle, and SHOULD explain what the parsing rules are.
-
--   Field names SHOULD use lowerCamelCase.
-
--   Timestamps SHOULD use [RFC 3339] syntax with timezone "Z" and SHOULD clarify
-    the meaning of the timestamp. For example, a field named `timestamp` is too
-    ambiguous; a better name would be `builtAt` or `allowedAt` or `scannedAt`.
-
--   References to other artifacts SHOULD be an object that includes a `digest`
-    field of type [DigestSet]. Consider using the same type as [SLSA Provenance]
-    `materials` if it is a good fit.
-
-Predicate designers are free to limit what subject types are valid for a given
-predicate type. For example, suppose a "Gerrit code review" predicate only
-applies to git commit subjects. In that case, a producer of such attestations
-should never use a subject other than a git commit.
-
-## Processing model
-
-The following pseudocode shows how to verify and extract metadata about a single
-artifact from a single attestation. The expectation is that consumers will feed
-the resulting metadata into a policy engine.
-
-TODO: Explain how to process multiple artifacts and/or multiple attestations.
-
-Inputs:
-
--   `artifactToVerify`: blob of data
--   `attestation`: JSON-encoded [Envelope]
--   `recognizedAttesters`: collection of (`name`, `publicKey`) pairs
--   `acceptableDigestAlgorithms`: collection of acceptable cryptographic hash
-    algorithms (usually just `sha256`)
-
-Steps:
-
--   Envelope layer:
-    -   `envelope` := decode `attestation` as a JSON-encoded [Envelope]; reject
-        if decoding fails
-    -   `attesterNames` := empty set of names
-    -   For each `signature` in `envelope.signatures`:
-        -   For each (`name`, `publicKey`) in `recognizedAttesters`:
-            -   Optional: skip if `signature.keyid` does not match `publicKey`
-            -   If `signature.sig` matches `publicKey`:
-                -   Add `name` to `attesterNames`
-    -   Reject if `attesterNames` is empty
--   Intermediate state: `envelope.payloadType`, `envelope.payload`,
-    `attesterNames`
--   Statement layer:
-    -   Reject if `envelope.payloadType` != `application/vnd.in-toto+json`
-    -   `statement` := decode `envelope.payload` as a JSON-encoded [Statement];
-        reject if decoding fails
-    -   Reject if `statement.type` != `https://in-toto.io/Statement/v1.0`
-    -   `artifactNames` := empty set of names
-    -   For each `s` in `statement.subject`:
-        -   For each digest (`alg`, `value`) in `s.digest`:
-            -   If `alg` is in `acceptableDigestAlgorithms`:
-                -   If `hash(alg, artifactToVerify)` == `hexDecode(value)`:
-                    -   Add `s.name` to `artifactNames`
-    -   Reject if `artifactNames` is empty
-
-Output (to be fed into policy engine):
-
--   `statement.predicateType`
--   `statement.predicate`
--   `artifactNames`
--   `attesterNames`
-
+[Binary Authorization]: https://cloud.google.com/binary-authorization
 [Bundle]: bundle.md
 [DSSE]: https://github.com/secure-systems-lab/dsse
 [DigestSet]: field_types.md#DigestSet
 [Envelope]: #envelope
 [ITE-5]: https://github.com/in-toto/ITE/blob/master/ITE/5/README.adoc
 [JSON]: https://www.json.org
-[Link]: predicates/link.md
 [Predicate]: #predicate
 [RFC 3339]: https://tools.ietf.org/html/rfc3339
 [SLSA Attestation Model]: https://slsa.dev/attestation-model
 [SLSA Provenance]: https://slsa.dev/provenance
-[SPDX]: predicates/spdx.md
 [Statement]: #statement
 [TypeURI]: field_types.md#TypeURI
-[in-toto 0.9]: https://github.com/in-toto/docs/blob/v0.9/in-toto-spec.md
+[existing predicate type]: predicates/README.md
+[in-toto-verify]: https://github.com/in-toto/in-toto#verification
 [parsing rules]: #parsing-rules
-[processing model]: #processing-model
+[validation model]: ../docs/validation.md

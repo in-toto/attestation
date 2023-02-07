@@ -21,43 +21,21 @@ The core of the in-toto Attestation Framework is the
 that defines the format for in-toto attestations and the metadata they
 contain.
 
-Before opening a request for a new metadata format, please review the
-following guidelines.
+We also provide a set of [attestation predicates], which are metadata
+formats vetted by our maintainers to cover a number of common use cases.
 
-### Want to share information about how your software is produced?
-
-As a first step, peruse the existing attestation [predicate types]. These are
-metadata formats vetted by our maintainers to cover a number of common use
-cases.
-
-### Is your use case not covered by existing predicate types?
+## Is your use case not covered by existing predicate types?
 
 Take a look at the open [issues] or [pull requests] to see if your usage has
 already been reported. We can help with use cases, thinking through options,
 and questions about existing predicates. Feel free to comment on an existing
 issue or PR.
 
-### Need to start a new discussion?
+## Want to propose a new predicate type?
 
-If you still can't find what you're looking for, open a new issue. Make sure
-you cover the following questions, so that we can better understand your
-request:
-
--   What’s you use case?
--   Why don’t existing predicates cover this use case?
--   What might a new predicate type for your use case look like?
-(concrete examples in JSON or CUE preferred)
--   What policy questions do you want to be able to answer with the predicate?
-
-### Want to propose a new predicate type?
-
-We love to see our list of vetted [predicates] grow. If you would like your
-new metadata format to go through our vetting process, submit a PR following
-the [ITE-9] formatting guidelines.
-
-**Note**: Your predicate type is yours. This means that in-toto Attestation
-Framework maintainers can provide feedback, but will not write the
-specification for you.
+If you still can't find what you're looking for, open a new issue or
+pull request. Before opening a request for a new metadata format, please
+review our [New Predicate Guidelines].
 
 ## Governance
 
@@ -74,9 +52,9 @@ the framework. In the meantime, please visit any of the language-specific
 [in-toto implementations] to become familiar with current tooling options.
 
 [CNCF]: https://www.cncf.io/projects/in-toto/
-[ITE-9]: https://github.com/in-toto/ITE/tree/master/ITE/9#document-format
+[New Predicate Guidelines]: docs/new_predicate_guidelines.md
+[attestation predicates]: https://github.com/in-toto/attestation/tree/main/spec/predicates
 [in-toto]: https://in-toto.io
 [in-toto implementations]: https://github.com/in-toto
 [issues]: https://github.com/in-toto/attestation/issues?q=is%3Aopen+is%3Aissue
-[predicate types]: https://github.com/in-toto/attestation/tree/main/spec/predicates
 [pull requests]: https://github.com/in-toto/attestation/pulls?q=is%3Aopen+is%3Apr

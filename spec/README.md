@@ -7,8 +7,8 @@ independent but designed to work together:
 <!-- BEGIN: When updating below, also update ../README.md#specification -->
 
 -   [Envelope]: Handles authentication and serialization.
--   [Statement]: Binds the attestation to a particular subject and unambiguously
-    identifies the types of the predicate.
+-   [Statement]: Binds the attestation to a particular subject and
+    unambiguously identifies the types of the predicate.
 -   [Predicate]: Contains arbitrary metadata about the subject, with a
     type-specific schema.
 -   [Bundle]: Defines a method of grouping multiple attestations together.
