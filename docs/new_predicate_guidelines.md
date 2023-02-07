@@ -20,7 +20,7 @@ following questions. This will also help us better understand your request.
 We provide a set of common predicate [field types], and recommend the
 following conventions for predicates:
 
--   Predicates SHOULD follow and opt-in to the general [parsing rules],
+-   [Predicates] SHOULD follow and opt-in to the general [parsing rules],
     particularly the monotonic principle, and SHOULD explain what the
     parsing rules are.
 
@@ -60,6 +60,7 @@ Our vetting process is simple.
 3.   If accepted, the new predicate type will be included in our directory.
 
 [ITE-9]: https://github.com/in-toto/ITE/tree/master/ITE/9#document-format
+[Predicates]: ../spec/v1.0-draft/README.md#predicate
 [Reference]: field_types.md#Reference
 [RFC 3339]: https://tools.ietf.org/html/rfc3339
 [field types]: ../spec/v1.0-draft/field_types.md

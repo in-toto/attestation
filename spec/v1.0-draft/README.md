@@ -1,53 +1,10 @@
-# in-toto Attestation Framework Specification
+# Specification for in-toto attestation layers
 
-An **in-toto attestation** is authenticated metadata about one or more
-software artifacts[^1]. The intended consumers are automated policy engines,
-such as [in-toto-verify] and [Binary Authorization].
-
-It has three layers that are independent but designed to work together:
-
--   [Envelope]: Handles authentication and serialization.
--   [Statement]: Binds the attestation to a particular subject and
-    unambiguously identifies the types of the predicate.
--   [Predicate]: Contains arbitrary metadata about the subject, with a
-    type-specific schema.
--   [Bundle]: Defines a method of grouping multiple attestations together.
-
-The [validation model] provides pseudocode showing how these layers fit
-together. See the [documentation](../docs) for more background and examples.
-
-## Parsing rules
-
-The following rules apply to [Statement] and [Predicates] that opt-in to this
-model.
-
--   **Unrecognized fields:** Consumers MUST ignore unrecognized fields. This
-    is to allow minor version upgrades and extension fields. Ignoring fields
-    is safe due to the monotonic principle.
-
--   **Versioning:** Each type has a [SemVer2](https://semver.org) version
-    number and the [TypeURI] reflects the major version number. A message is
-    always semantically correct, but possibly incomplete, when parsed as any
-    other version with the same major version number and thus the same
-    [TypeURI]. Minor version changes always follow the monotonic principle.
-    NOTE: 0.X versions are considered major versions.
-
--   **Extension fields:** Producers MAY add extension fields to any JSON
-    object by using a property name that is a [TypeURI]. The use of URI is
-    to protect against name collisions. Consumers MAY parse and use these
-    extensions if desired. The presence or absence of the extension field
-    MUST NOT influence the meaning of any other field, and the field MUST
-    follow the monotonic princple.
-
--   **Monotonic:** A policy is considered monotonic if ignoring an
-    attestation, or a field within an attestation, will never turn a DENY
-    decision into an ALLOW. A predicate or field follows the monotonic
-    principle if the expected policy that consumes it is monotonic.
-    Consumers SHOULD design policies to be monotonic. Example: instead of
-    "deny if a 'has vulnerabilities' attestation exists", prefer "deny
-    unless a 'no vulnerabilities' attestation exists".
-
-See [versioning rules](../versioning.md) for details and examples.
+Index:
+-   [Envelope]
+-   [Statement]
+-   [Predicate]
+-   [Parsing rules]
 
 ## Envelope
 
@@ -89,10 +46,6 @@ particular subject and unambiguously identifying the types of the
 
 ### Schema
 
-Version:
-[1.0.0](https://github.com/in-toto/attestation/blob/v1.0/spec/README.md) (see
-[parsing rules])
-
 ```jsonc
 {
   "_type": "https://in-toto.io/Statement/v1.0",
@@ -109,6 +62,9 @@ Version:
 ```
 
 ### Fields
+
+The Statement is represented as a [JSON] object with the following fields.
+Additional [parsing rules] apply.
 
 `_type` _string ([TypeURI]), required_
 
@@ -173,12 +129,47 @@ metadata about the [Statement]'s `subject`.
 ### Fields
 
 A predicate has a required `predicateType` ([TypeURI]) identifying what the
-predicate means, plus an optional `predicate` (object) containing additional,
-type-dependent parameters.
+predicate means, plus an optional `predicate` [JSON] object containing
+additional, type-dependent parameters.
 
 Users are expected to choose an [existing predicate type] that
 fits their needs, or develop a new one if no existing one satisfies.
 New predicate types MAY be vetted by the in-toto attestation maintainers.
+
+Additional [parsing rules] apply.
+
+## Parsing rules
+
+The following rules apply to [Statement] and [Predicates] that opt-in to this
+model.
+
+-   **Unrecognized fields:** Consumers MUST ignore unrecognized fields. This
+    is to allow minor version upgrades and extension fields. Ignoring fields
+    is safe due to the monotonic principle.
+
+-   **Versioning:** Each type has a [SemVer2](https://semver.org) version
+    number and the [TypeURI] reflects the major version number. A message is
+    always semantically correct, but possibly incomplete, when parsed as any
+    other version with the same major version number and thus the same
+    [TypeURI]. Minor version changes always follow the monotonic principle.
+    NOTE: 0.X versions are considered major versions.
+
+-   **Extension fields:** Producers MAY add extension fields to any JSON
+    object by using a property name that is a [TypeURI]. The use of URI is
+    to protect against name collisions. Consumers MAY parse and use these
+    extensions if desired. The presence or absence of the extension field
+    MUST NOT influence the meaning of any other field, and the field MUST
+    follow the monotonic princple.
+
+-   **Monotonic:** A policy is considered monotonic if ignoring an
+    attestation, or a field within an attestation, will never turn a DENY
+    decision into an ALLOW. A predicate or field follows the monotonic
+    principle if the expected policy that consumes it is monotonic.
+    Consumers SHOULD design policies to be monotonic. Example: instead of
+    "deny if a 'has vulnerabilities' attestation exists", prefer "deny
+    unless a 'no vulnerabilities' attestation exists".
+
+See [versioning rules](../versioning.md) for details and examples.
 
 [^1]: This is compatible with the [SLSA Attestation Model].
 

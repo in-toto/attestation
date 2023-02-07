@@ -9,9 +9,7 @@ community! Please see our [New Predicate Guidelines].
 
 ## Vetted Predicates
 This directory contains predicate specification types that have gone through
-our vetting process
-
-following popular predicate types may be of general interest:
+our [vetting process], and may be of general interest:
 
 -   [SLSA Provenance]: To describe the origins of a software artifact.
 -   [Link]: For migration from [in-toto 0.9].
@@ -22,3 +20,5 @@ following popular predicate types may be of general interest:
 [New Predicate Guidelines]: ../../docs/new_predicate_guidelines.md
 [SCAI Report]: scai.md
 [SLSA Provenance]: https://slsa.dev/provenance
+[in-toto 0.9]: https://github.com/in-toto/docs/blob/master/in-toto-spec.md#44-file-formats-namekeyid-prefixlink
+[vetting process]: ../../docs/new_predicate_guidelines.md#vetting-process

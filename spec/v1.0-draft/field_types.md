@@ -1,5 +1,12 @@
 # Field type definitions
 
+Index:
+-   [DigestSet]
+-   [Reference]
+-   [ResourceURI]
+-   [TypeURI]
+-   [Timestamp]
+
 ## DigestSet
 
 Set of one or more cryptographic digests for a single software artifact or
