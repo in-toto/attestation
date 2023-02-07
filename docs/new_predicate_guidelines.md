@@ -62,9 +62,9 @@ Our vetting process is simple.
 [ITE-9]: https://github.com/in-toto/ITE/tree/master/ITE/9#document-format
 [Reference]: field_types.md#Reference
 [RFC 3339]: https://tools.ietf.org/html/rfc3339
-[field types]: ../spec/field_types.md
+[field types]: ../spec/v1.0-draft/field_types.md
 [issues]: https://github.com/in-toto/attestation/issues?q=is%3Aopen+is%3Aissue
-[existing predicates]: https://github.com/in-toto/attestation/tree/main/spec/predicates
-[parsing rules]: ../spec/README.md#parsing-rules
+[existing predicates]: ../spec/predicates
+[parsing rules]: ../spec/v1.0-draft/README.md#parsing-rules
 [pull requests]: https://github.com/in-toto/attestation/pulls?q=is%3Aopen+is%3Apr
 [vetting process]: #vetting-process

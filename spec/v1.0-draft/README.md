@@ -1,10 +1,10 @@
 # in-toto Attestation Framework Specification
 
 An **in-toto attestation** is authenticated metadata about one or more
-software artifacts[^1]. The intended consumers are automated policy engines, such as [in-toto-verify] and [Binary Authorization].
+software artifacts[^1]. The intended consumers are automated policy engines,
+such as [in-toto-verify] and [Binary Authorization].
 
-It has three layers
-that are independent but designed to work together:
+It has three layers that are independent but designed to work together:
 
 -   [Envelope]: Handles authentication and serialization.
 -   [Statement]: Binds the attestation to a particular subject and
@@ -47,7 +47,7 @@ model.
     "deny if a 'has vulnerabilities' attestation exists", prefer "deny
     unless a 'no vulnerabilities' attestation exists".
 
-See [versioning rules](versioning.md) for details and examples.
+See [versioning rules](../versioning.md) for details and examples.
 
 ## Envelope
 
@@ -198,4 +198,4 @@ New predicate types MAY be vetted by the in-toto attestation maintainers.
 [existing predicate type]: predicates/README.md
 [in-toto-verify]: https://github.com/in-toto/in-toto#verification
 [parsing rules]: #parsing-rules
-[validation model]: ../docs/validation.md
+[validation model]: ../../docs/validation.md
