@@ -49,48 +49,43 @@ _DigestSet (object)_
 <a id="Reference"></a>
 _Reference (object)_
 
-> A size-efficient representation of any artifact, metadata or attestation,
-> referenced by another in-toto attestation.
-> This type is designed to be backwards-compatible with the in-toto
-> attestation [Statement v0.1][] as well as the [SLSA ArtifactReference][].
+> A size-efficient representation of any hashable artifact referenced by
+> another in-toto attestation.
 >
 > Schema:
 >
 >```jsonc
 > {
->   "name": "<NAME>",
+>   "localName": "<NAME>",
 >   "digest": { "<ALGORITHM>": "<HEX VALUE>", ... },
->   "uri": "<RESOURCE URI>",
->   "downloadURI": "<RESOURCE URI>", // optional
+>   "downloadLocation": "<RESOURCE URI>", // optional
 >   "mimeType": "<MIME TYPE>" // optional
 > }
 >```
 >
 > Fields:
 >
-> -   `name` (_string, required_): Human-readable identifier to distinguish
->     the referenced object locally. The semantics are up to the producer and
->     consumer.
-> -   `digest` (_[DigestSet], cond. required_): The producer and
->     consumer must agree on acceptable algorithms. This field MUST be
->     specified if the `uri` field is not present.
-> -   `uri` (_[ResourceURI], cond. required_): URI for the referenced
->     object. When possible, this SHOULD be a universal and stable
->     identifier, such as a source location or [Package URL][]. This
->     field MUST be specified if the `digest` field is not present.
-> -   `downloadURI` (_[ResourceURI], optional_): The location of the
->     referenced object. To enable automated downloads by consumers, the
->     downloadURI SHOULD be resolvable.
+> -   `localName` (_string, required_): Human-readable identifier to
+>     distinguish the referenced artifact locally. The semantics are up to
+>     the producer and consumer.
+> -   `digest` (_[DigestSet], required_): The producer and consumer must
+>     agree on acceptable algorithms.
+> -   `downloadLocation` (_[ResourceURI], optional_): The location of the
+>     referenced artifact. To enable automated downloads by consumers, the
+>     specified location SHOULD be resolvable.
 > -   `mimeType` (_string, optional_): The [MIME Type][] (i.e., media type)
->     of the referenced object.
+>     of the referenced artifact.
+>
+> Note: A reference is bound to the `digest` field. All other fields are
+> informational.
 >
 > Example:
 >
 > ```jsonc
 > { 
->   "name": "rebuilderd-attestation",
+>   "localName": "gcc9.3.0-rebuilderd-attestation",
 >   "digest": { "sha256": "abcdabcde..." },
->   "downloadURI": "http://example.com/rebuilderd-instance/gcc_9.3.0-1ubuntu2_amd64.att",
+>   "downloadLocation": "http://example.com/rebuilderd-instance/gcc_9.3.0-1ubuntu2_amd64.att",
 >   "mimeType": "application/vnd.in-toto+json"
 > }
 > ```
@@ -139,5 +134,3 @@ _Timestamp (string)_
 [RFC 3339]: https://tools.ietf.org/html/rfc3339
 [RFC 3986]: https://tools.ietf.org/html/rfc3986
 [SPDX Download Location]: https://spdx.github.io/spdx-spec/package-information/#77-package-download-location-field
-[SLSA ArtifactReference]: https://github.com/slsa-framework/slsa/blob/main/docs/provenance/v1/index.md#artifactreference
-[Statement v0.1]: https://github.com/in-toto/attestation/blob/v0.1.0/spec/README.md#statement
