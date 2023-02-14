@@ -31,9 +31,6 @@ following conventions for predicates:
     `timestamp` is too ambiguous; a better name would be `builtAt` or
     `allowedAt` or `scannedAt`.
 
--   References to other artifacts or metadata objects SHOULD use
-    [Reference] formatting.
-
 Predicate designers are free to limit what subject types are valid for a
 given predicate type. For example, suppose a "Gerrit code review" predicate
 only applies to git commit subjects. In that case, a producer of such
@@ -54,18 +51,15 @@ specification for you.
 
 Our vetting process is simple.
 
-1.   Open a PR following [ITE-9] formatting guidelines.
-2.   The in-toto Attestation Framework maintainers will review the PR at the
-     next maintainers meeting.
-3.   If accepted, the new predicate type will be included in our directory.
+1.  Open a PR following [ITE-9] formatting guidelines.
+2.  The in-toto Attestation Framework maintainers will review the PR at the
+    next maintainers meeting.
+3.  If accepted, the new predicate type will be included in our directory.
 
 [ITE-9]: https://github.com/in-toto/ITE/tree/master/ITE/9#document-format
-[Predicates]: ../spec/v1.0-draft/README.md#predicate
-[Reference]: field_types.md#Reference
+[Predicates]: ../spec/v1.0-draft/predicate.md
 [RFC 3339]: https://tools.ietf.org/html/rfc3339
 [field types]: ../spec/v1.0-draft/field_types.md
-[issues]: https://github.com/in-toto/attestation/issues?q=is%3Aopen+is%3Aissue
 [existing predicates]: ../spec/predicates
 [parsing rules]: ../spec/v1.0-draft/README.md#parsing-rules
-[pull requests]: https://github.com/in-toto/attestation/pulls?q=is%3Aopen+is%3Apr
 [vetting process]: #vetting-process

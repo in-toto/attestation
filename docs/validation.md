@@ -1,4 +1,4 @@
-#in-toto Attestation Validation Model
+# in-toto attestation Validation Model
 
 The following pseudocode shows how to verify and extract metadata about a
 single artifact from a single attestation. The expectation is that consumers
