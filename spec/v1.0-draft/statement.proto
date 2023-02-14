@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package github.intoto.attestation.spec.v1_0_draft;
+
+import "google/protobuf/struct.proto";
+
+
+option go_package = "github.com/in-toto/attestation/go/spec/v1.0-draft";
+
+// Proto representation of the in-toto v1.0 Statement.
+// https://github.com/in-toto/attestation/tree/main/spec/v1.0-draft
+// Validation of all fields is left to the users of this proto.
+message Statement {
+  // Expected to always be "https://in-toto.io/Statement/v1.0"
+  string type = 1 [json_name = "_type"];
+
+  message Subject {
+    string name = 1;
+    map<string, string> digest = 2;
+  }
+
+  repeated Subject subject = 2;
+
+  string predicateType = 3;
+
+  google.protobuf.Struct predicate = 4;
+}
