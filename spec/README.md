@@ -22,14 +22,11 @@ together. See the [documentation] for more background and examples.
 
 [Binary Authorization]: https://cloud.google.com/binary-authorization
 [Bundle]: v1.0-draft/bundle.md
-[Envelope]: v1.0-draft/README.md#envelope
-[Predicate]: v1.0-draft/README.md#predicate
+[Envelope]: v1.0-draft/envelope.md
+[Predicate]: v1.0-draft/predicate.md
 [SLSA Attestation Model]: https://slsa.dev/attestation-model
-[SLSA Provenance]: https://slsa.dev/provenance
-[Statement]: v1.0-draft/README.md#statement
+[Statement]: v1.0-draft/statement.md
 [documentation]: ../docs
-[existing predicate type]: predicates/README.md
 [in-toto-verify]: https://github.com/in-toto/in-toto#verification
-[parsing rules]: v1.0-draft/README.md#parsing-rules
 [v1.0-draft]: v1.0-draft/README.md
 [validation model]: ../../docs/validation.md

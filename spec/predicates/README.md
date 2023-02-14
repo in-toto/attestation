@@ -8,6 +8,7 @@ Anyone is welcome to contribute their new predicate back to the in-toto
 community! Please see our [New Predicate Guidelines].
 
 ## Vetted Predicates
+
 This directory contains predicate specification types that have gone through
 our [vetting process], and may be of general interest:
 
