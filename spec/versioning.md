@@ -3,7 +3,7 @@
 ## Objective
 
 This document explains how version changes and extension fields are handled. For
-a summary, see [parsing rules](README.md#parsing-rules) in the README.
+a summary, see [parsing rules](v1.0-draft/README.md#parsing-rules) in the README.
 
 ## Versioning rules
 
@@ -82,4 +82,4 @@ Extension fields:
     }
     ```
 
-[TypeURI]: field_types.md#TypeURI
+[TypeURI]: v1.0-draft/scalar_field_types.md#TypeURI
