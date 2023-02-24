@@ -16,9 +16,10 @@ Index:
 The following rules apply to [Statement] and [Predicates] that opt-in to this
 model.
 
--   **Unrecognized fields:** Consumers MUST ignore unrecognized fields. This
-    is to allow minor version upgrades and extension fields. Ignoring fields
-    is safe due to the monotonic principle.
+-   **Unrecognized fields:** Consumers MUST ignore unrecognized fields unless
+    otherwise noted in the predicate specification. This is to allow minor
+    version upgrades and extension fields. Ignoring fields is safe due to the
+    monotonic principle.
 
 -   **Versioning:** Each type has a [SemVer2](https://semver.org) version
     number and the [TypeURI] reflects the major version number. A message is
