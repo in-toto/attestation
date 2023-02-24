@@ -1,5 +1,7 @@
 # Examples
 
+> **TODO: remove these, we have sufficient examples in `spec/predicates`.
+
 ## SLSA Provenance v0.1
 
 **TODO: Update to v1.0 when draft is released.**
