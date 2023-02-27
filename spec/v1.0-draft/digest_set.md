@@ -18,8 +18,10 @@ metadata object.
 ## Fields
 
 A DigestSet is represented as a _JSON object_ mapping algorithm name to
-a string value. Usually there is just a single key/value pair, but
-multiple entries MAY be used for algorithm agility.
+a string encoding of the digest using that algorithm. The named standard
+algorithms below use lowercase hex encoding. Usually there is just a
+single key/value pair, but multiple entries MAY be used for algorithm
+agility.
 
 Supported algorithms:
 
