@@ -53,7 +53,7 @@ Supported algorithms:
 > Two DigestSets SHOULD be considered matching if ANY acceptable field
 > matches.
 >
-> New algorithms must document how the value is encoded. E.g. base64,
+> New algorithms MUST document how the value is encoded, e.g. URL-safe base64,
 > lowercase hex, etc...
 
 ## Examples
