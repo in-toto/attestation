@@ -25,7 +25,7 @@ agility.
 
 Supported algorithms:
 
--   Standard cryptographic hash algorithms using [the NIST names][nist-hashes]
+-   Standard cryptographic hash algorithms using [the NIST names][]
     (converting to lowercase and replacing `-` replaced with `_`) as keys
     and lowercase hex-encoded values, for cases when the method of
     serialization is obvious or well known:
@@ -33,7 +33,7 @@ Supported algorithms:
     `sha3_224`, `sha3_256`, `sha3_384`, `sha3_512`, `shake128`, `shake256`,
     `blake2b`, `blake2s`, `ripemd160`, `sm3`, `gost`, `sha1`, `md5`
 
--   `goModuleH1`: The go module [directory Hash1][Hash1], omitting the "h1:"
+-   `goModuleH1`: The go module [directory Hash1][], omitting the "h1:"
     prefix and output in lowercase hexadecimal instead of base64. Can
     be computed over a directory named `name@version`, or the contents
     of zip file containing such a directory:
@@ -65,5 +65,5 @@ Supported algorithms:
 -   `{"sha256": "abcd"}` does not match `{"sha256": "fedb", "sha512": "abcd"}`
 -   `{"somecoolhash": "abcd"}` uses a non-predefined algorithm
 
-[nist-hashes]: https://csrc.nist.gov/projects/hash-functions
-[Hash1]: https://cs.opensource.google/go/x/mod/+/refs/tags/v0.5.0:sumdb/dirhash/hash.go
+[the NIST names]: https://csrc.nist.gov/projects/hash-functions
+[directory Hash1]: https://cs.opensource.google/go/x/mod/+/refs/tags/v0.5.0:sumdb/dirhash/hash.go
