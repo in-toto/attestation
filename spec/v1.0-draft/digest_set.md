@@ -26,7 +26,7 @@ agility.
 Supported algorithms:
 
 -   Standard cryptographic hash algorithms using [the NIST names][]
-    (converting to lowercase and replacing `-` replaced with `_`) as keys
+    (converting to lowercase and replacing `-` with `_`) as keys
     and lowercase hex-encoded values, for cases when the method of
     serialization is obvious or well known:
     `sha256`, `sha224`, `sha384`, `sha512`, `sha512_224`, `sha512_256`,
