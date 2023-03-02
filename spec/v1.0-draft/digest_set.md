@@ -33,18 +33,68 @@ Supported algorithms:
     `sha3_224`, `sha3_256`, `sha3_384`, `sha3_512`, `shake128`, `shake256`,
     `blake2b`, `blake2s`, `ripemd160`, `sm3`, `gost`, `sha1`, `md5`
 
--   `goModuleH1`: The go module [directory Hash1][], omitting the "h1:"
-    prefix and output in lowercase hexadecimal instead of base64. Can
-    be computed over a directory named `name@version`, or the contents
-    of zip file containing such a directory:
+-   `goModuleH1`: The [directory Hash1][] function, omitting the "h1:" prefix
+    and output in lowercase hexadecimal instead of base64. This algorithm was
+    designed for go modules but can be used to digest the _contents_ of an
+    arbitrary archive or file tree. Equivalent to extracting the archive to an
+    empty directory and running the following command in that directory:
 
     ```bash
-    find name@version -type f | LC_ALL=C sort | xargs -r sha256sum | sha256sum | cut -f1 -d' '
+    find . -type f | cut -c3- | LC_ALL=C sort | xargs -r sha256sum | sha256sum | cut -f1 -d' '
     ```
 
     For example, the module dirhash
-    `h1:47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=` would be encoded as
-    `{"goModuleH1": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"}`.
+    `h1:Khu2En+0gcYPZ2kuIihfswbzxv/mIHXgzPZ018Oty48=` would be encoded as
+    `{"goModuleH1": "2a1bb6127fb481c60f67692e22285fb306f3c6ffe62075e0ccf674d7c3adcb8f"}`.
+
+    <details>
+    <summary>Detailed example</summary>
+
+    The go module `github.com/marklodato/go-hello-world@v0.0.1` has module
+    dirhash `h1:Khu2En+0gcYPZ2kuIihfswbzxv/mIHXgzPZ018Oty48=`:
+
+    ```bash
+    $ curl https://sum.golang.org/lookup/github.com/marklodato/go-hello-world@v0.0.1
+    ...
+    github.com/marklodato/go-hello-world v0.0.1 h1:Khu2En+0gcYPZ2kuIihfswbzxv/mIHXgzPZ018Oty48=
+    ...
+    ```
+
+    To compute the dirhash by hand, first fetch the module archive and extract
+    it to an empty directory:
+
+    ```bash
+    curl -O https://proxy.golang.org/github.com/marklodato/go-hello-world/@v/v0.0.1.zip
+    mkdir tmp
+    cd tmp
+    unzip ../v0.0.1.zip
+    ```
+
+    We can see all of the files in the directory using the first part of the
+    command above:
+
+    ```bash
+    $ find . -type f | cut -c3- | LC_ALL=C sort | xargs -r sha256sum
+    3a137eef6458bfb76bb2c63fc29ffc7166604d2d2e09ed9d8250a534122a8364  github.com/marklodato/go-hello-world@v0.0.1/README.md
+    28e7c942a036902d981759d0bf5704d2bfc7cb500caf68b84711b234af01c6a5  github.com/marklodato/go-hello-world@v0.0.1/go.mod
+    ddc4da627d9a9f45fb29641a1b185d6f53287ecfd921aacbf4fe54b7a86fe8d1  github.com/marklodato/go-hello-world@v0.0.1/main.go
+    ```
+
+    The dirhash is the sha256 sum over the output of the previous command:
+
+    ```bash
+    $ find . -type f | cut -c3- | LC_ALL=C sort | xargs -r sha256sum | sha256sum | cut -f1 -d' '
+    2a1bb6127fb481c60f67692e22285fb306f3c6ffe62075e0ccf674d7c3adcb8f
+    ```
+
+    This is equivalent to the base64 encoded version:
+
+    ```bash
+    $ echo '2a1bb6127fb481c60f67692e22285fb306f3c6ffe62075e0ccf674d7c3adcb8f' | xxd -r -p | {printf 'h1:'; base64}
+    h1:Khu2En+0gcYPZ2kuIihfswbzxv/mIHXgzPZ018Oty48=
+    ```
+
+    </details>
 
 > It is RECOMMENDED to use at least `sha256` for compatibility between
 > producers and consumers.
