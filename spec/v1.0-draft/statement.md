@@ -54,13 +54,15 @@ Additional [parsing rules] apply.
 
 > Identifier to distinguish this artifact from others within the `subject`.
 >
-> The semantics are up to the producer and consumer. Because consumers evaluate
-> the name against a policy, the name SHOULD be stable between attestations. If
-> the name is not meaningful leave the field unset or use "\_". For example, a
-> [SLSA Provenance] attestation might use the name to specify output filename,
-> expecting the consumer to only considers entries with a particular name.
-> Alternatively, a vulnerability scan attestation might leave name unset
-> because the results apply regardless of what the artifact is named.
+> The semantics are up to the producer and consumer and they MAY use it when
+> evaluating policy. If the name is not meaningful leave the field unset or
+> use "\_". For example, a [SLSA Provenance] attestation might use the name
+> to specify output filename, expecting the consumer to only consider
+> entries with a particular name. Alternatively, a vulnerability scan
+> attestation might leave name unset because the results apply regardless of
+> what the artifact is named.
+>
+> If set `name` SHOULD be unique within subject.
 
 `predicateType` _string ([TypeURI]), required_
 
