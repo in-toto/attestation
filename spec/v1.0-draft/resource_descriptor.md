@@ -3,7 +3,7 @@
 Version v1.0-draft
 
 A size-efficient description of any mutable or immutable software artifact
-or resource referenced.
+or resource.
 
 ## Schema
 
@@ -86,6 +86,7 @@ pointer to the resource/artifact.
 ## Examples
 
 Pointer to a local file:
+
 ```jsonc
 {
   "name": "foo.c",
@@ -94,6 +95,7 @@ Pointer to a local file:
 ```
 
 Pointer to a remote file:
+
 ```jsonc
 {
   "uri": "git+https://android.googlesource.com/platform/vendor/foo/bar@16244f4e7524d44a8f3060905eaf9190e96e9fb0#prebuilts/Foo/Foo.apk",
@@ -102,15 +104,17 @@ Pointer to a remote file:
 ```
 
 Pointer to a git repo (with annotations):
+
 ```jsonc
 {
-  "uri": "git+https:github.com/actions/runner/tree/main",
+  "uri": "git+https://github.com/actions/runner",
   "digest": { "sha1": "d61b27b8395512..." },
   "annotations": { "twoPartyReview": false }
 }
 ```
   
 Pointer to another in-toto attestation:
+  
 ```jsonc
  { 
    "name": "gcc9.3.0-rebuilderd-attestation",
@@ -120,4 +124,16 @@ Pointer to another in-toto attestation:
  }
 ```
 
+Pointer to build service:
+
+```jsonc
+{
+  "uri": "https://cloudbuild.googleapis.com/GoogleHostedWorker@v1"
+}
+```
+
 <!-- TODO: Representation of small file -->
+
+[DigestSet]: digest_set.md
+[MIME Type]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types
+[ResourceURI]: scalar_field_types.md#ResourceURI
