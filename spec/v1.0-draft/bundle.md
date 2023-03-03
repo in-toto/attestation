@@ -1,4 +1,4 @@
-# Specification for in-toto attestation Bundle layer
+# Bundle layer specification
 
 Version: v1.0-draft
 

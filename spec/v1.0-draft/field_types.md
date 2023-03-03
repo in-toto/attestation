@@ -7,11 +7,12 @@ common interest:
 -   [ResourceURI]
 -   [TypeURI]
 -   [Timestamp]
+-   [ResourceDescriptor]
 
 ## ResourceURI
 
 Uniform Resource Identifier as specified in [RFC 3986][], used to identify
-and locate a software artifact.
+and locate any resource, service, or software artifact.
 
 **Format:**
 
@@ -65,6 +66,7 @@ in the UTC timezone ("Z").
 [Package URL]: https://github.com/package-url/purl-spec/
 [RFC 3339]: https://tools.ietf.org/html/rfc3339
 [RFC 3986]: https://tools.ietf.org/html/rfc3986
+[ResourceDescriptor]: resource_descriptor.md
 [ResourceURI]: scalar_field_types.md#ResourceURI
 [SPDX Download Location]: https://spdx.github.io/spdx-spec/v2.3/package-information/#77-package-download-location-field
 [Timestamp]: scalar_field_types.md#Timestamp
