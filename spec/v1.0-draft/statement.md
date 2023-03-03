@@ -50,19 +50,17 @@ Additional [parsing rules] apply.
 > producer and consumer must agree on acceptable algorithms. If there are no
 > overlapping algorithms, the subject is considered not matching.
 
-`subject[*].name` _string, required_
+`subject[*].name` _string, optional_
 
 > Identifier to distinguish this artifact from others within the `subject`.
 >
 > The semantics are up to the producer and consumer. Because consumers evaluate
 > the name against a policy, the name SHOULD be stable between attestations. If
-> the name is not meaningful, use "\_". For example, a [SLSA Provenance]
-> attestation might use the name to specify output filename, expecting the
-> consumer to only considers entries with a particular name. Alternatively, a
-> vulnerability scan attestation might use the name "\_" because the results
-> apply regardless of what the artifact is named.
->
-> MUST be non-empty and unique within `subject`.
+> the name is not meaningful leave the field unset or use "\_". For example, a
+> [SLSA Provenance] attestation might use the name to specify output filename,
+> expecting the consumer to only considers entries with a particular name.
+> Alternatively, a vulnerability scan attestation might leave name unset
+> because the results apply regardless of what the artifact is named.
 
 `predicateType` _string ([TypeURI]), required_
 
