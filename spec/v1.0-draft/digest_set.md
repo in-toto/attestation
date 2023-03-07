@@ -23,27 +23,15 @@ algorithms below use lowercase hex encoding. Usually there is just a
 single key/value pair, but multiple entries MAY be used for algorithm
 agility.
 
-Supported algorithms:
+### Supported algorithms
 
-<dl>
-
-<dt>
-
-`sha256`, `sha224`, `sha384`, `sha512`, `sha512_224`, `sha512_256`,
-`sha3_224`, `sha3_256`, `sha3_384`, `sha3_512`, `shake128`, `shake256`,
-`blake2b`, `blake2s`, `ripemd160`, `sm3`, `gost`, `sha1`, `md5`
-
-<dd>
+#### `sha256`, `sha224`, `sha384`, `sha512`, `sha512_224`, `sha512_256`, `sha3_224`, `sha3_256`, `sha3_384`, `sha3_512`, `shake128`, `shake256`, `blake2b`, `blake2s`, `ripemd160`, `sm3`, `gost`, `sha1`, `md5`
 
 Standard cryptographic hash algorithms using [the NIST names][] (converting to
 lowercase and replacing `-` with `_`) as keys and lowercase hex-encoded values,
-for cases when the method of serialization is obvious or well known:
+for cases when the method of serialization is obvious or well known.
 
-<dt>
-
-`dirHash`
-
-<dd>
+#### `dirHash`
 
 The [directory Hash1][] function, omitting the "h1:" prefix
 and output in lowercase hexadecimal instead of base64. This algorithm was
@@ -108,20 +96,20 @@ h1:Khu2En+0gcYPZ2kuIihfswbzxv/mIHXgzPZ018Oty48=
 
 </details>
 
-</dl>
+### Guidelines
 
-> It is RECOMMENDED to use at least `sha256` for compatibility between
-> producers and consumers.
->
-> Consumers MUST only accept algorithms that they consider secure and MUST
-> ignore unrecognized or unaccepted algorithms. For example, most
-> applications SHOULD NOT accept "md5" because it lacks collision resistance.
->
-> Two DigestSets SHOULD be considered matching if ANY acceptable field
-> matches.
->
-> New algorithms MUST document how the value is encoded, e.g. URL-safe base64,
-> lowercase hex, etc...
+It is RECOMMENDED to use at least `sha256` for compatibility between
+producers and consumers.
+
+Consumers MUST only accept algorithms that they consider secure and MUST
+ignore unrecognized or unaccepted algorithms. For example, most
+applications SHOULD NOT accept "md5" because it lacks collision resistance.
+
+Two DigestSets SHOULD be considered matching if ANY acceptable field
+matches.
+
+New algorithms MUST document how the value is encoded, e.g. URL-safe base64,
+lowercase hex, etc...
 
 ## Examples
 
