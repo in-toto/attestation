@@ -13,7 +13,7 @@ Index:
 
 ## Common field types
 
-As part of this specification, we also define a set of commonly [field
+As part of this specification, we also define a set of common [field
 types] for any layer of an in-toto attestation.
 
 ## Parsing rules
