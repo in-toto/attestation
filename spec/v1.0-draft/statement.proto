@@ -11,7 +11,7 @@ option go_package = "github.com/in-toto/attestation/go/spec/v1.0-draft";
 // https://github.com/in-toto/attestation/tree/main/spec/v1.0-draft
 // Validation of all fields is left to the users of this proto.
 message Statement {
-  // Expected to always be "https://in-toto.io/Statement/v1.0"
+  // Expected to always be "https://in-toto.io/Statement/v1"
   string type = 1 [json_name = "_type"];
 
   message Subject {
