@@ -10,7 +10,7 @@ particular subject and unambiguously identifying the types of the
 
 ```jsonc
 {
-  "_type": "https://in-toto.io/Statement/v1.0",
+  "_type": "https://in-toto.io/Statement/v1",
   "subject": [
     {
       "name": "<NAME>",
@@ -31,7 +31,7 @@ Additional [parsing rules] apply.
 `_type` _string ([TypeURI]), required_
 
 > Identifier for the schema of the Statement. Always
-> `https://in-toto.io/Statement/v1.0` for this version of the spec.
+> `https://in-toto.io/Statement/v1` for this version of the spec.
 
 `subject` _array of objects, required_
 
