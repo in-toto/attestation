@@ -33,7 +33,7 @@ Supported algorithms:
     `sha3_224`, `sha3_256`, `sha3_384`, `sha3_512`, `shake128`, `shake256`,
     `blake2b`, `blake2s`, `ripemd160`, `sm3`, `gost`, `sha1`, `md5`
 
--   `goModuleH1`: The [directory Hash1][] function, omitting the "h1:" prefix
+-   `dirHash1`: The [directory Hash1][] function, omitting the "h1:" prefix
     and output in lowercase hexadecimal instead of base64. This algorithm was
     designed for go modules but can be used to digest the _contents_ of an
     arbitrary archive or file tree. Equivalent to extracting the archive to an
@@ -45,7 +45,7 @@ Supported algorithms:
 
     For example, the module dirhash
     `h1:Khu2En+0gcYPZ2kuIihfswbzxv/mIHXgzPZ018Oty48=` would be encoded as
-    `{"goModuleH1": "2a1bb6127fb481c60f67692e22285fb306f3c6ffe62075e0ccf674d7c3adcb8f"}`.
+    `{"dirHash1": "2a1bb6127fb481c60f67692e22285fb306f3c6ffe62075e0ccf674d7c3adcb8f"}`.
 
     <details>
     <summary>Detailed example</summary>
