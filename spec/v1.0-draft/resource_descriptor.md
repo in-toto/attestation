@@ -12,10 +12,14 @@ or immutable).
   "name": "<NAME>",
   "uri": "<RESOURCE URI>",
   "digest": { "<ALGORITHM>": "<HEX VALUE>", ... },
-  "content": "<BASE64-ENCODED BYTES>",
+  "content": "<BASE64 VALUE>",
   "downloadLocation": "<RESOURCE URI>"
   "mediaType": "<MIME TYPE>",
-  "annotations": { /* object */ }
+  "annotations": {
+    "<FIELD_1>": { /* object */ },
+    "<FIELD_2>": { /* object */ },
+    ...
+  }
 }
 ```
 
@@ -73,22 +77,19 @@ Though all fields are optional, a ResourceDescriptor MUST specify one of
 > The [MIME Type][] (i.e., media type) of the described resource or artifact.
 >
 > For resources or artifacts that do not have a standardized MIME type,
-> producers SHOULD follow [RFC 6838] (Sections 3.2-3.4) conventions of
+> producers SHOULD follow [RFC 6838][] (Sections 3.2-3.4) conventions of
 > prefixing types with `x.`, `prs.`, or `vnd.` to avoid collisions with other
 > producers.
 
-`annotations` _object, optional_
+`annotations` _map <string, object>, optional_
 
-> An object describing annotations to resource or artifact description.
+> This field MAY be used to provide additional information or metadata about
+> the resource or artifact that may be useful to the consumer when evaluating
+> the attestation against a policy.
 >
-> The producer MAY use this field to provide additional information or
-> metadata about the resource or artifact that may be useful to the consumer.
->
-> The producer and consumer must agree on the semantics and acceptable
-> formats for the `annotations` object. There are currently no standardized
-> annotation formats. To enable consumers to parse the field, `annotations`
-> SHOULD be self-describing via a `_type` field that specifies a [TypeURI]
-> or custom MIME type per [RFC 6838] Sections 3.2-3.4.
+> The producer and consumer must agree on the semantics, and acceptable
+> fields and objects in the `annotations` map. Producers SHOULD follow the
+> same formatting conventions used in [extension fields].
 
 ## Semantics
 
@@ -124,7 +125,7 @@ Pointer to a git repo (with annotations):
 {
   "uri": "git+https://github.com/actions/runner",
   "digest": { "sha1": "d61b27b8395512..." },
-  "annotations": { "_type": "x.git.review", "twoPartyReview": false }
+  "annotations": { "git-review": { "twoPartyReview": false } }
 }
 ```
 
@@ -164,4 +165,4 @@ Descriptor for Tekton TaskRun:
 [MIME Type]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types
 [RFC 6838]: https://www.rfc-editor.org/rfc/rfc6838.html#section-3.2
 [ResourceURI]: scalar_field_types.md#ResourceURI
-[TypeURI]: scalar_field_types.md#TypeURI
+[extension fields]: https://github.com/in-toto/attestation/tree/main/spec/v1.0-draft#parsing-rules
