@@ -29,10 +29,10 @@ model.
     NOTE: 0.X versions are considered major versions.
 
 -   **Extension fields:** Producers MAY add extension fields to any JSON
-    object. Extension field SHOULD use names that are unlikely to collide
+    object. Extension fields SHOULD use names that are unlikely to collide
     with names used by other orgs. Producers MAY file an issue/PR to document
-    and/or standardize extension fields they're using. Consumers MAY parse
-    and use these extensions if desired.
+    extension fields they're using. Any consumer MAY parse and use these
+    extensions if desired.
     
     Field names SHOULD avoid special characters like `.` and `$` as these
     can make querying these fields in some databases more difficult.
