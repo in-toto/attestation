@@ -33,10 +33,10 @@ model.
     with names used by other orgs. Producers MAY file an issue/PR to document
     extension fields they're using. Any consumer MAY parse and use these
     extensions if desired.
-    
+
     Field names SHOULD avoid special characters like `.` and `$` as these
     can make querying these fields in some databases more difficult.
-    
+
     The presence or absence of the extension field MUST NOT influence the
     meaning of any other field, and the field MUST follow the monotonic
     princple.
