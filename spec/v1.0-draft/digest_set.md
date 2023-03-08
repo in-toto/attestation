@@ -96,10 +96,47 @@ h1:Khu2En+0gcYPZ2kuIihfswbzxv/mIHXgzPZ018Oty48=
 
 </details>
 
+#### `gitCommit`, `gitTree`, `gitBlob`, `gitTag`
+
+The lowercase hex SHA-1 (40 character) or SHA-256 (64 character) of a git
+commit, tree, blob, or tag object, respectively. The `gitTree` and `gitBlob` in
+particular can be used for arbitrary trees or files, even outside git.
+
+This hash is computed over `<type> SP <size> NUL <content>`, where:
+
+-   `<type>` is one of `commit`, `tree`, `blob`, `tag`
+-   `SP` is the ASCII space character, 0x20
+-   `<size>` is the number of bytes in `<content>`, represented as a decimal
+    ASCII number with no leading zeros
+-   `NUL` is the ASCII NUL character, 0x00
+-   `<content>` is git representation of the object:
+    -   For `commit`, the raw commit object
+        ([reference](https://stackoverflow.com/a/37438460/303425))
+    -   For `tree`,  the raw tree object, which is a series of
+        `<unix-octal-mode> <name> NUL <binary-digest>` entries, sorted by
+        `<name>` in the C locale
+        ([reference](https://stackoverflow.com/a/35902553))
+    -   For `blob`, the raw file contents
+    -   For `tag`, the raw tag object
+
+For more information, see
+[Git Objects](https://git-scm.com/book/en/v2/Git-Internals-Git-Objects) in the
+Git Book.
+
+Example of `gitBlob` for the file containing the 5 bytes `Hello` (no newline):
+
+```bash
+$ printf 'blob 5\0Hello' | sha1sum | cut -f1 -d' '
+5ab2f8a4323abafb10abb68657d9d39f1a775057
+$ printf 'Hello' | git hash-object -t blob --stdin
+5ab2f8a4323abafb10abb68657d9d39f1a775057
+```
+
 ### Guidelines
 
 It is RECOMMENDED to use at least `sha256` for compatibility between
-producers and consumers.
+producers and consumers, unless a different hash algorithm is more
+conventional (e.g. `gitCommit` for git).
 
 Consumers MUST only accept algorithms that they consider secure and MUST
 ignore unrecognized or unaccepted algorithms. For example, most
