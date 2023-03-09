@@ -29,11 +29,17 @@ model.
     NOTE: 0.X versions are considered major versions.
 
 -   **Extension fields:** Producers MAY add extension fields to any JSON
-    object by using a property name that is a [TypeURI]. The use of URI is
-    to protect against name collisions. Consumers MAY parse and use these
-    extensions if desired. The presence or absence of the extension field
-    MUST NOT influence the meaning of any other field, and the field MUST
-    follow the monotonic princple.
+    object. Extension fields SHOULD use names that are unlikely to collide
+    with names used by other orgs. Producers MAY file an issue/PR to document
+    extension fields they're using. Any consumer MAY parse and use these
+    extensions if desired.
+
+    Field names SHOULD avoid special characters like `.` and `$` as these
+    can make querying these fields in some databases more difficult.
+
+    The presence or absence of the extension field MUST NOT influence the
+    meaning of any other field, and the field MUST follow the monotonic
+    princple.
 
 -   **Monotonic:** A policy is considered monotonic if ignoring an
     attestation, or a field within an attestation, will never turn a DENY
