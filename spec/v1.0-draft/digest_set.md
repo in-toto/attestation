@@ -110,18 +110,14 @@ This hash is computed over `<type> SP <size> NUL <content>`, where:
     ASCII number with no leading zeros
 -   `NUL` is the ASCII NUL character, 0x00
 -   `<content>` is git representation of the object:
-    -   For `commit`, the raw commit object
-        ([reference](https://stackoverflow.com/a/37438460/303425))
+    -   For `commit`, the raw commit object ([more info][so-commit][^git-docs])
     -   For `tree`,  the raw tree object, which is a series of
         `<unix-octal-mode> <name> NUL <binary-digest>` entries, sorted by
-        `<name>` in the C locale
-        ([reference](https://stackoverflow.com/a/35902553))
+        `<name>` in the C locale ([more info][so-tree][^git-docs])
     -   For `blob`, the raw file contents
     -   For `tag`, the raw tag object
 
-For more information, see
-[Git Objects](https://git-scm.com/book/en/v2/Git-Internals-Git-Objects) in the
-Git Book.
+For more information, see [Git Objects] in the Git Book.[^git-docs]
 
 Example of `gitBlob` for the file containing the 5 bytes `Hello` (no newline):
 
@@ -154,5 +150,19 @@ lowercase hex, etc...
 -   `{"sha256": "abcd"}` does not match `{"sha256": "fedb", "sha512": "abcd"}`
 -   `{"somecoolhash": "abcd"}` uses a non-predefined algorithm
 
-[the NIST names]: https://csrc.nist.gov/projects/hash-functions
+<!-- Add a horizontal rule to separate footnotes -->
+
+---
+
+[^git-docs]: At the time of writing (2023-03), git has no official documentation
+    of the internal object format used for hashing. The [Git Objects]
+    chapter of the Git Book is the closest thing to official documentation, but
+    it is lacks many details, such as the raw tree object format. The best
+    documentation we have found are the linked Stack Overflow articles. If you
+    can find a better, more official reference, please open an issue.
+
+[Git Objects]: https://git-scm.com/book/en/v2/Git-Internals-Git-Objects
 [directory Hash1]: https://cs.opensource.google/go/x/mod/+/refs/tags/v0.5.0:sumdb/dirhash/hash.go
+[so-commit]: https://stackoverflow.com/a/37438460
+[so-tree]: https://stackoverflow.com/a/35902553
+[the NIST names]: https://csrc.nist.gov/projects/hash-functions
