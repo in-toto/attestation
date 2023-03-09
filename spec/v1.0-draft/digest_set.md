@@ -157,7 +157,7 @@ lowercase hex, etc...
 [^git-docs]: At the time of writing (2023-03), git has no official documentation
     of the internal object format used for hashing. The [Git Objects]
     chapter of the Git Book is the closest thing to official documentation, but
-    it is lacks many details, such as the raw tree object format. The best
+    it lacks many details, such as the raw tree object format. The best
     documentation we have found are the linked Stack Overflow articles. If you
     can find a better, more official reference, please open an issue.
 
