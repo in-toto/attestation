@@ -66,6 +66,6 @@ in the UTC timezone ("Z").
 [RFC 3339]: https://tools.ietf.org/html/rfc3339
 [RFC 3986]: https://tools.ietf.org/html/rfc3986
 [ResourceURI]: scalar_field_types.md#ResourceURI
-[SPDX Download Location]: https://spdx.github.io/spdx-spec/package-information/#77-package-download-location-field
+[SPDX Download Location]: https://spdx.github.io/spdx-spec/v2.3/package-information/#77-package-download-location-field
 [Timestamp]: scalar_field_types.md#Timestamp
 [TypeURI]: scalar_field_types.md#TypeURI
