@@ -26,7 +26,7 @@ or immutable).
 ## Fields
 
 Though all fields are optional, a ResourceDescriptor MUST specify one of
-`uri` or `digest` at a minimum.
+`uri`, `digest` or `content` at a minimum.
 
 `name` _string, optional_
 
@@ -39,28 +39,28 @@ Though all fields are optional, a ResourceDescriptor MUST specify one of
 `uri` _[ResourceURI], optional_
 
 > A URI used to identify the resource or artifact globally.
->
-> When a `digest`cannot be computed for the resource or artifact, the
-> producer MUST set this field.
+> This field is REQUIRED unless either `digest` or `content` is set.
 
 `digest` _[DigestSet], optional_
 
 > A set of cryptographic digests of the contents of the resource or artifact.
+> This field is REQUIRED unless either `uri` or `content` is set.
 >
 > When known, the producer SHOULD set this field to denote an immutable
-> artifact or resource. The producer and consumer must agree on acceptable
+> artifact or resource. The producer and consumer SHOULD agree on acceptable
 > algorithms.
 
 `content` _base64-encoded bytes, optional_
 
 > The contents of the resource or artifact.
+> This field is REQUIRED unless either `uri` or `digest` is set.
 >
 > The producer MAY use this field in scenarios where including the contents
 > of the resource/artifact directly in the attestation is deemed more
 > efficient for consumers than providing a pointer to another location. To
 > maintain size efficiency, the size of `content` SHOULD be less than 1KB.
 >
-> The producer and consumer must agree on the semantics. The `uri` or
+> The semantics are up to the producer and consumer. The `uri` or
 > `mediaType` MAY be used by the producer as hints for how consumers should
 > parse `content`.
 
@@ -87,7 +87,7 @@ Though all fields are optional, a ResourceDescriptor MUST specify one of
 > the resource or artifact that may be useful to the consumer when evaluating
 > the attestation against a policy.
 >
-> The producer and consumer must agree on the semantics, and acceptable
+> The producer and consumer SHOULD agree on the semantics, and acceptable
 > fields and objects in the `annotations` map. Producers SHOULD follow the
 > same formatting conventions used in [extension fields].
 
@@ -99,8 +99,10 @@ For consistency, we RECOMMEND the following:
 
 -   A descriptor that specifies a `digest` is assumed to refer to an
 immutable resource or artifact. The `digest` SHOULD match the resource or
-artifact specified in one of the `uri`, `content` or `downloadLocation`
-fields.
+artifact specified in one of the `name`, `uri`, `content` or
+`downloadLocation` fields. The field that consumers are expected to match
+the `digest` against is ultimately determined by the predicate type, and
+SHOULD be documented by the predicate specification.
 -   A descriptor without a `content` field, is assumed to serve as a
 pointer to the resource/artifact.
 -   When `uri` and `name` are specified, the scope of `name` is assumed to be
