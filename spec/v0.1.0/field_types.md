@@ -88,4 +88,4 @@ _Timestamp (string)_
 [Package URL]: https://github.com/package-url/purl-spec/
 [RFC 3339]: https://tools.ietf.org/html/rfc3339
 [RFC 3986]: https://tools.ietf.org/html/rfc3986
-[SPDX Download Location]: https://spdx.github.io/spdx-spec/package-information/#77-package-download-location-field
+[SPDX Download Location]: https://spdx.github.io/spdx-spec/v2.3/package-information/#77-package-download-location-field
