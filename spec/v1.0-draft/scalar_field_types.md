@@ -4,9 +4,9 @@ Version: v1.0-draft
 
 Index:
 
--   [ResourceURI]
--   [TypeURI]
--   [Timestamp]
+-   [ResourceURI](#resourceuri)
+-   [TypeURI](#typeuri)
+-   [Timestamp](#timestamp)
 
 ## ResourceURI
 
