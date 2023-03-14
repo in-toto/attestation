@@ -119,7 +119,7 @@ allowed_artifact_id_types = [
 
 Let's take a look at one example team's software supply chain.
 
-![drawing](images/attestation_supply_chain.png)
+![drawing](../images/attestation_supply_chain.png)
 
 -   Top-level code repository is "https://github.com/my-company/my-product".
     -   This defines submodules and the GitHub Actions workflows.
