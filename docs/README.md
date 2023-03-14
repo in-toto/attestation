@@ -14,7 +14,7 @@ engines, such as [in-toto-verify] and [Binary Authorization]. However, any
 system that creates or consumes verifiable claims about how a piece of software
 is produced can benefit from the in-toto Attestation Framework.
 
-## Project Goals
+## Project goals
 
 -   Standardize artifact metadata without being specific to the producer or
     consumer. This way CI/CD pipelines, vulnerability scanners, and other
@@ -26,7 +26,7 @@ is produced can benefit from the in-toto Attestation Framework.
 -   Support an ecosystem of verifiable metadata about software artefacts to
     improve software supply chain security.
 
-## Example Uses
+## Example uses
 
 Attestations can be used to provide data for a variety of policy decisions
 including, but not limited to, the following high-level examples:
@@ -44,7 +44,7 @@ including, but not limited to, the following high-level examples:
     within the next 4 hours, and that it used the four attestations above and as
     well as the policy with sha256 hash "79e572" to make its decision.
 
-## Detailed Documentation
+## Detailed documentation
 
 -   [background on the framework and its requirements](background.md)
 -   [motivating use case](motivating_use_case.md)
