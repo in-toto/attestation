@@ -1,4 +1,4 @@
-# in-toto Statement protos
+# Statement protobuf definitions
 
 Protobuf definitions for the in-toto statement type and some predicates are provided in the
 spec/ directory.  Pre-generated Go implementation of those protos are available in the go dir.

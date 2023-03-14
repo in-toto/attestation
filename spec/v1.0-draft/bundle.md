@@ -37,7 +37,7 @@ built from git commit `1234` could have a bundle name
 `foo-1.2.3.tar.gz.intoto.jsonl` with two attestations, one with subject
 `abcd` and one with subject `1234`.
 
-## Example Use Case
+## Example use case
 
 The Fooly app has a CI/CD system which builds the application from source,
 runs a NoVulnz vulnerability scan on the results, produces an SPDX SBOM, and
@@ -57,7 +57,7 @@ places _both_ of these signed attestations in a new file named
 { "payloadType": "application/vnd.in-toto+json", "payload": "b...", "signatures": [w...] }
 ```
 
-### Vulnerability Scanning
+### Vulnerability scanning
 
 The CI/CD system then requests a third-party vulnerability scan on
 `fooly.apk`. The vulnerability scanner doesn't use in-toto Statements but
@@ -74,7 +74,7 @@ The TestResult is then appended to the contents of `fooly.apk.intoto.jsonl`
 { "payloadType": "application/vnd.novulz+cbor", "payload": "c...", "signatures": [x...] }
 ```
 
-### SBOM Generation
+### SBOM generation
 
 The CI/CD system then generates an SPDX SBOM attestation for `fooly.apk`
 with hash `aaa...` using an in-toto Statement with
@@ -98,7 +98,7 @@ is safe to publish. The policy engine used doesn't understand
 Satisfied with the result CI/CD system now deploys `fooly.apk` to the app
 store.
 
-### Attestation Publishing
+### Attestation publishing
 
 Fooly Inc. wants to publish all of the accumulated attestations for evey
 published app _except for_ the internal build attestation. The CI/CD system
