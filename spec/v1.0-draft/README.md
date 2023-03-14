@@ -11,6 +11,11 @@ Index:
     type-specific schema.
 -   [Bundle]: Defines a method of grouping multiple attestations together.
 
+## Common field types
+
+As part of this specification, we also define a set of common [field
+types] for any layer of an in-toto attestation.
+
 ## Parsing rules
 
 The following rules apply to [Statement] and [Predicates] that opt-in to this
@@ -56,3 +61,4 @@ See [versioning rules](../versioning.md) for details and examples.
 [Predicate]: predicate.md
 [Statement]: statement.md
 [TypeURI]: scalar_field_types.md#TypeURI
+[field types]: field_types.md
