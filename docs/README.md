@@ -5,7 +5,7 @@ The **in-toto Attestation Framework**
 1.  defines a standard [format](../spec/v1.0-draft/) for attestations which
     bind subjects, the artifacts being described, to arbitrary authenticated
     metadata about the artifact
-1.  provides a set of [pre-defined statements](../spec/predicates/) for
+2.  provides a set of [pre-defined statements](../spec/predicates/) for
     communicating authenticated metadata throughout and accross software supply
     chains
 
