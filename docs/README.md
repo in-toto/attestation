@@ -48,7 +48,6 @@ including, but not limited to, the following high-level examples:
 
 -   [background on the framework and its requirements](background.md)
 -   [motivating use case](motivating_use_case.md)
--   [example attestations](examples.md)
 -   [guidelines for creating new attestation schemas](new_predicate_guidelines.md)
 -   [validation model](validation.md)
 -   [ideas for future schemas](schema_ideas.md)
