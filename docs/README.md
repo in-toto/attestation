@@ -6,7 +6,7 @@ The **in-toto Attestation Framework**
     bind subjects, the artifacts being described, to arbitrary authenticated
     metadata about the artifact
 2.  provides a set of [pre-defined statements](../spec/predicates/) for
-    communicating authenticated metadata throughout and accross software supply
+    communicating authenticated metadata throughout and across software supply
     chains
 
 The framework was designed to support use of the data by automated policy
