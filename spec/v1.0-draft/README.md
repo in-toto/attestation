@@ -60,5 +60,5 @@ See [versioning rules](../versioning.md) for details and examples.
 [Envelope]: envelope.md
 [Predicate]: predicate.md
 [Statement]: statement.md
-[TypeURI]: scalar_field_types.md#TypeURI
+[TypeURI]: field_types.md#TypeURI
 [field types]: field_types.md

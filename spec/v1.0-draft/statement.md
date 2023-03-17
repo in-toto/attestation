@@ -77,5 +77,5 @@ Additional [parsing rules] apply.
 [DigestSet]: digest_set.md
 [Predicate]: predicate.md
 [SLSA Provenance]: https://slsa.dev/provenance
-[TypeURI]: scalar_field_types.md#TypeURI
+[TypeURI]: field_types.md#TypeURI
 [parsing rules]: README.md#parsing-rules
