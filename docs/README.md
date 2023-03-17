@@ -5,7 +5,7 @@ The **in-toto Attestation Framework**
 1.  defines a standard [format](../spec/v1.0-draft/) for attestations which
     bind subjects, the artifacts being described, to arbitrary authenticated
     metadata about the artifact
-2.  provides a set of [pre-defined statements](../spec/predicates/) for
+2.  provides a set of [pre-defined predicates](../spec/predicates/) for
     communicating authenticated metadata throughout and across software supply
     chains
 
@@ -19,7 +19,7 @@ is produced can benefit from the in-toto Attestation Framework.
 -   Standardize artifact metadata without being specific to the producer or
     consumer. This way CI/CD pipelines, vulnerability scanners, and other
     systems can generate a single set of attestations that can be consumed by
-    anyone, such as [in-toto] or [Binary Authorization].
+    anyone.
 -   Make it possible to write automated policies that take advantage of
     structured information.
 -   Fit within the [SLSA Framework][SLSA].
