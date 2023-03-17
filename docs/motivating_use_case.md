@@ -267,7 +267,7 @@ allowed_artifact_id_types = ['container_image_digest']
 ```json
 {
   "predicateType": "https://example.com/BinAuthzDecision/v1",
-  "subject": [{ "container_image_digest": "sha256:c201c331d6142766c866..." },
+  "subject": [{ "container_image_digest": "sha256:c201c331d6142766c866..." }],
   "predicate": {
     "timestamp": "2020-04-12T18:04:10Z",
     "decision": "allow",
