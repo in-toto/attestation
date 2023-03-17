@@ -1,6 +1,6 @@
 # Motivating use case
 
-**TODO: This document has not yet been updated for latest schema.**
+> :warning: **These are example predicate types and do not represent real predicates**: please refer to [predicates directory](https://github.com/in-toto/attestation/tree/main/spec/predicates) for real world use cases!
 
 MyCompany wants to centrally enforce the following rules of its production
 Kubernetes environments:
