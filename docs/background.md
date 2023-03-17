@@ -9,7 +9,7 @@ This project was initiated with two main motivations:
 
 1.  Support use cases where the prior in-toto link schema was a poor fit. For
     example, test steps and vulnerability scans are not about "producing" a new
-    artifact so they are awkward to represent in the current format.
+    artifact so they are awkward to represent in the original format.
 2.  Support interoperability with [Binary Authorization], which will support
     the agreed-upon format once finalized. This way we have a single ecosystem
     of software supply chain security.
@@ -45,8 +45,8 @@ Functional requirements:
 
 Nonfunctional requirements:
 
--   Must support backwards compatible links that can be consumed by existing
-    layout files.
+-   Must support backwards compatible Links that can be consumed by existing
+    Layout files.
 -   Must differentiate between different types of related artifacts (only if
     related artifacts are standardized.) Examples: materials vs products,
     sources vs build tools.
