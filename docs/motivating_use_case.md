@@ -162,7 +162,7 @@ appropriate party; we only show the claim here.
 ```json
 {
   "predicateType": "https://example.com/CodeReview/v1",
-  "subject": [{ "git_commit": "5215a97a7978d8ee0de859ccac1bbfd2475bfe92" }],
+  "subject": [{ "digest": {"gitCommit": "5215a97a7978d8ee0de859ccac1bbfd2475bfe92" } }],
   "predicate": {
     "timestamp": "2020-04-12T13:50:00Z",
     "repo_type": "git",
