@@ -56,5 +56,4 @@ including, but not limited to, the following high-level examples:
 [Binary Authorization]: https://cloud.google.com/binary-authorization
 [SLSA Provenance]: https://slsa.dev/provenance
 [SLSA]: https://github.com/slsa-framework/slsa
-[in-toto]: https://in-toto.io
 [in-toto-verify]: https://github.com/in-toto/in-toto#verification
