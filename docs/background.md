@@ -1,7 +1,8 @@
 # Background
 
-We capture motivational context for the creation of the in-toto Attestation
-Framework here.
+We capture the historical motivational context for the creation of the in-toto
+Attestation Framework here. Terms and statements within were up-to-date at the
+time this document was authored but may be out of date now.
 
 ## Motivation
 
