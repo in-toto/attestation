@@ -69,25 +69,25 @@ good_dependent_source(relation):
 good_tool(relation):
   lookup attestations for relation.artifact
   allow if any attestation (meets reproducible_build and
-                            attestation.details.name == relation.name)
+                            attestation.predicate.name == relation.name)
   deny otherwise
 
 vulnerability_scan(attestation):
   attestation is signed by 'MyCompanyScanner'
-  attestation.attestation_type == 'https://example.com/VulnerabilityScan/v1'
-  attestation.details.vulnerability_counts.high == 0
-  attestation.details.timestamp is within 14 days of today
+  attestation.predicateType == 'https://example.com/VulnerabilityScan/v1'
+  attestation.predicate.vulnerability_counts.high == 0
+  attestation.predicate.timestamp is within 14 days of today
 
 first_party_code_review(attestation):
   attestation is signed by 'GitHub'
-  attestation.attestation_type == 'https://example.com/CodeReview/v1'
-  attestation.details.repo_url starts with 'https://github.com/my-company/'
-  attestation.details.code_reviewed == true
-  attestation.details.timestamp is within 30 days of today
+  attestation.predicateType == 'https://example.com/CodeReview/v1'
+  attestation.predicate.repo_url starts with 'https://github.com/my-company/'
+  attestation.predicate.code_reviewed == true
+  attestation.predicate.timestamp is within 30 days of today
 
 reproducible_build(attestation):
   attestation is signed by 'ReproducibleBuilds'
-  attestation.attestation_type == 'https://example.com/ReproducibleBuild/v1'
+  attestation.predicateType == 'https://example.com/ReproducibleBuild/v1'
 
 verifiable_build(attestation):
   return (hermetic_github_action(attestation) or
@@ -96,18 +96,18 @@ verifiable_build(attestation):
 
 hermetic_github_action(attestation):
   attestation is signed by 'GitHubActions'
-  attestation.attestation_type == 'https://example.com/GitHubActionProduct/v1'
-  attestation.details.hermetic == true
+  attestation.predicateType == 'https://example.com/GitHubActionProduct/v1'
+  attestation.predicate.hermetic == true
 
 hermetic_cloud_build(attestation):
   attestation is signed by 'GoogleCloudBuild'
-  attestation.attestation_type == 'https://example.com/GoogleCloudBuildProduct/v1'
-  attestation.details.no_network == true
+  attestation.predicateType == 'https://example.com/GoogleCloudBuildProduct/v1'
+  attestation.predicate.no_network == true
 
 hermetic_cloud_build(attestation):
   attestation is signed by 'AwsCodeBuild'
-  attestation.attestation_type == 'https://example.com/AwsCodeBuildProduct/v1'
-  attestation.details.no_network == true
+  attestation.predicateType == 'https://example.com/AwsCodeBuildProduct/v1'
+  attestation.predicate.no_network == true
 
 ## Types of artifact IDs considered by `lookup attestations for <X>`.
 allowed_artifact_id_types = [
@@ -133,9 +133,9 @@ appropriate party; we only show the claim here.
 
 ```json
 {
-  "attestation_type": "https://example.com/CodeReview/v1",
-  "subject": { "git_commit": "859b387b985ea0f414e4e8099c9f874acb217b94" },
-  "details": {
+  "predicateType": "https://example.com/CodeReview/v1",
+  "subject": [{ "git_commit": "859b387b985ea0f414e4e8099c9f874acb217b94" }],
+  "predicate": {
     "timestamp": "2020-04-12T13:50:00Z",
     "repo_type": "git",
     "repo_url": "https://github.com/my-company/my-product",
@@ -147,9 +147,9 @@ appropriate party; we only show the claim here.
 
 ```json
 {
-  "attestation_type": "https://example.com/CodeReview/v1",
-  "subject": { "git_commit": "2f02c094e6a9afe8e889c3f1d3cb66b437797af4" },
-  "details": {
+  "predicateType": "https://example.com/CodeReview/v1",
+  "subject": [{ "git_commit": "2f02c094e6a9afe8e889c3f1d3cb66b437797af4" }],
+  "predicate": {
     "timestamp": "2020-04-12T13:50:00Z",
     "repo_type": "git",
     "repo_url": "https://github.com/my-company/submodule1",
@@ -161,9 +161,9 @@ appropriate party; we only show the claim here.
 
 ```json
 {
-  "attestation_type": "https://example.com/CodeReview/v1",
-  "subject": { "git_commit": "5215a97a7978d8ee0de859ccac1bbfd2475bfe92" },
-  "details": {
+  "predicateType": "https://example.com/CodeReview/v1",
+  "subject": [{ "git_commit": "5215a97a7978d8ee0de859ccac1bbfd2475bfe92" }],
+  "predicate": {
     "timestamp": "2020-04-12T13:50:00Z",
     "repo_type": "git",
     "repo_url": "https://github.com/my-company/submodule2",
@@ -175,9 +175,9 @@ appropriate party; we only show the claim here.
 
 ```json
 {
-  "attestation_type": "https://example.com/VulnerabilityScan/v1",
-  "subject": { "git_commit": "859b387b985ea0f414e4e8099c9f874acb217b94" },
-  "details": {
+  "predicateType": "https://example.com/VulnerabilityScan/v1",
+  "subject": [{ "git_commit": "859b387b985ea0f414e4e8099c9f874acb217b94" }],
+  "predicate": {
     "timestamp": "2020-04-12T13:55:02Z",
     "vulnerability_counts": {
       "high": 0,
@@ -190,8 +190,8 @@ appropriate party; we only show the claim here.
 
 ```json
 {
-  "attestation_type": "https://example.com/GitHubActionProduct/v1",
-  "subject": { "container_image_digest": "sha256:c201c331d6142766c866..." },
+  "predicateType": "https://example.com/GitHubActionProduct/v1",
+  "subject": [{ "container_image_digest": "sha256:c201c331d6142766c866..." }],
   "relations": {
     "top_level_source": [{
       "artifact": { "git_commit": "859b387b985ea0f414e4e8099c9f874acb217b94" },
@@ -212,7 +212,7 @@ appropriate party; we only show the claim here.
       "name": "bazel"
     }]
   },
-  "details": {
+  "predicate": {
     "workflow_name": "Build",
     "hermetic": true
   }
@@ -221,9 +221,9 @@ appropriate party; we only show the claim here.
 
 ```json
 {
-  "attestation_type": "https://example.com/ReproducibleBuild/v1",
-  "subject": { "sha256": "411c1dfb3c8f3bea29da934d61a884baad341af8..." },
-  "details": {
+  "predicateType": "https://example.com/ReproducibleBuild/v1",
+  "subject": [{ "sha256": "411c1dfb3c8f3bea29da934d61a884baad341af8..." }],
+  "predicate": {
     "name": "clang"
   }
 }
@@ -231,9 +231,9 @@ appropriate party; we only show the claim here.
 
 ```json
 {
-  "attestation_type": "https://example.com/ReproducibleBuild/v1",
-  "subject": { "sha256": "9f5068311eb98e6dd9bb554d4b7b9ee126b13693..." },
-  "details": {
+  "predicateType": "https://example.com/ReproducibleBuild/v1",
+  "subject": [{ "sha256": "9f5068311eb98e6dd9bb554d4b7b9ee126b13693..." }],
+  "predicate": {
     "name": "bazel"
   }
 }
@@ -256,19 +256,19 @@ kubernetes_policy(artifact):
 
 passed_policy_evaluation(attestation):
   attestation is signed by 'BinaryAuthorization'
-  attestation.attestation_type == 'https://example.com/BinAuthzDecision/v1'
-  attestation.details.decision == 'allow'
-  attestation.details.timestamp is within 24 hours of now
-  attestation.details.environment matches this Kubernetes environment
+  attestation.predicateType == 'https://example.com/BinAuthzDecision/v1'
+  attestation.predicate.decision == 'allow'
+  attestation.predicate.timestamp is within 24 hours of now
+  attestation.predicate.environment matches this Kubernetes environment
 
 allowed_artifact_id_types = ['container_image_digest']
 ```
 
 ```json
 {
-  "attestation_type": "https://example.com/BinAuthzDecision/v1",
-  "subject": { "container_image_digest": "sha256:c201c331d6142766c866..." },
-  "details": {
+  "predicateType": "https://example.com/BinAuthzDecision/v1",
+  "subject": [{ "container_image_digest": "sha256:c201c331d6142766c866..." },
+  "predicate": {
     "timestamp": "2020-04-12T18:04:10Z",
     "decision": "allow",
     "environment": {
