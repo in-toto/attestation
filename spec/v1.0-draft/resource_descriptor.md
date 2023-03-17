@@ -166,5 +166,5 @@ Descriptor for Tekton TaskRun:
 [DigestSet]: digest_set.md
 [MIME Type]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types
 [RFC 6838]: https://www.rfc-editor.org/rfc/rfc6838.html#section-3.2
-[ResourceURI]: scalar_field_types.md#ResourceURI
+[ResourceURI]: field_types.md#ResourceURI
 [extension fields]: https://github.com/in-toto/attestation/tree/main/spec/v1.0-draft#parsing-rules
