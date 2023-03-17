@@ -23,7 +23,7 @@ is produced can benefit from the in-toto Attestation Framework.
 -   Make it possible to write automated policies that take advantage of
     structured information.
 -   Fit within the [SLSA Framework][SLSA].
--   Support an ecosystem of verifiable metadata about software artefacts to
+-   Support an ecosystem of verifiable metadata about software artifacts to
     improve software supply chain security.
 
 ## Example uses
