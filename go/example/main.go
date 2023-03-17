@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	ppb "github.com/in-toto/attestation/go/spec/predicates"
-	spb "github.com/in-toto/attestation/go/spec/v1.0-draft"
+	spb "github.com/in-toto/attestation/go/spec/v1.0"
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/types/known/structpb"
 	"google.golang.org/protobuf/types/known/timestamppb"

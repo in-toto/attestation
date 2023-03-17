@@ -1,6 +1,6 @@
 # Statement layer specification
 
-Version: v1.0-draft
+Version: v1.0
 
 The Statement is the middle layer of the attestation, binding it to a
 particular subject and unambiguously identifying the types of the
