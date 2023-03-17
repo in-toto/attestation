@@ -44,7 +44,7 @@ model.
 
     The presence or absence of the extension field MUST NOT influence the
     meaning of any other field, and the field MUST follow the monotonic
-    princple.
+    principle.
 
 -   **Monotonic:** A policy is considered monotonic if ignoring an
     attestation, or a field within an attestation, will never turn a DENY
