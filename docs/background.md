@@ -23,15 +23,15 @@ Functional requirements:
         explained above.
     -   Because Binary Authorization does not want to require its users to use
         the existing in-toto link schema, which is overly specific.
--   Should allow indexing of attestations by artifact ID, without having to
-    understand the user-defined schema.
+-   Should allow indexing of attestations by their artifact identifier, i.e., a
+    digest, without having to understand the user-defined schema.
     -   Primary reason: To support generic attestation indexing/storage/fetching
         without requiring user configuration for every type of attestation.
     -   Secondary reason: To simplify the programming model of policies. The
         binding between artifact and attestation can be done in a framework
         without requiring type-dependent configuration.
-    -   Implication: the association between attestation and primary artifact ID
-        must be standardized.
+    -   Implication: the association between attestation and primary artifact
+        identifier must be standardized.
 -   Should allow identification of related artifacts IDs given an attestation,
     without having to understand the user-defined schema.
     -   Reason: To support "inline attestations," where the client fetches and
