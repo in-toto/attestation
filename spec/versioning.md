@@ -82,4 +82,4 @@ Extension fields:
     }
     ```
 
-[TypeURI]: v1.0-draft/scalar_field_types.md#TypeURI
+[TypeURI]: v1.0-draft/field_types.md#TypeURI
