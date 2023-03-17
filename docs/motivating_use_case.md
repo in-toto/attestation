@@ -176,7 +176,7 @@ appropriate party; we only show the claim here.
 ```json
 {
   "predicateType": "https://example.com/VulnerabilityScan/v1",
-  "subject": [{ "git_commit": "859b387b985ea0f414e4e8099c9f874acb217b94" }],
+  "subject": [{ "digest": { "gitCommit": "859b387b985ea0f414e4e8099c9f874acb217b94" } }],
   "predicate": {
     "timestamp": "2020-04-12T13:55:02Z",
     "vulnerability_counts": {
