@@ -1,6 +1,6 @@
 # Bundle layer specification
 
-Version: v1.0-draft
+Version: v1.0
 
 An attestation bundle is a collection of multiple attestations in a single
 file. This allows attestations from multiple different points in the software
