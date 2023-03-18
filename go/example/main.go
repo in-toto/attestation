@@ -5,7 +5,7 @@ import (
 	"log"
 	"strings"
 
-	ppb "github.com/in-toto/attestation/go/spec/predicates"
+	vpb "github.com/in-toto/attestation/go/spec/predicates/vsa"
 	spb "github.com/in-toto/attestation/go/spec/v1.0"
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/types/known/structpb"
@@ -36,7 +36,7 @@ func createStatementPb(subName string, subSha256 string, predicateType string, p
 	return statement
 }
 
-func createVsa(subName string, subSha256 string, vsaBody *ppb.VerificationSummaryV02) (*spb.Statement, error) {
+func createVsa(subName string, subSha256 string, vsaBody *vpb.VerificationSummaryV02) (*spb.Statement, error) {
 	vsaJson, err := protojson.Marshal(vsaBody)
 	if err != nil {
 		return nil, err
@@ -47,6 +47,31 @@ func createVsa(subName string, subSha256 string, vsaBody *ppb.VerificationSummar
 		return nil, err
 	}
 	return createStatementPb(subName, subSha256, "https://slsa.dev/verification_summary/v0.2", vsaStruct), nil
+}
+
+func testResourceDescriptor() (*spb.ResourceDescriptor, error) {
+	// Create a ResourceDescriptor
+	a1, err := structpb.NewStruct(map[string]interface{}{
+		"keyStr": "value1",
+		"keyNum": 13})
+	if err != nil {
+		return nil, err
+	}
+	a2, err := structpb.NewStruct(map[string]interface{}{
+		"keyObj": map[string]interface{}{
+			"subKey": "subVal"}})
+	if err != nil {
+		return nil, err
+	}
+	r := &spb.ResourceDescriptor{
+		Name:             "theName",
+		Uri:              "http://example.com",
+		Digest:           map[string]string{"sha256": "abc123"},
+		Content:          []byte("bytescontent"),
+		DownloadLocation: "http://example.com/test.zip",
+		MediaType:        "theMediaType",
+		Annotations:      map[string]*structpb.Struct{"a1": a1, "a2": a2}}
+	return r, nil
 }
 
 // Example of how to use protobuf to create in-toto statements.
@@ -67,14 +92,14 @@ func main() {
 	fmt.Printf("Statement as json:\n%v\n", protojson.Format(s))
 
 	// Create a statement of a VSA
-	vsaPred := &ppb.VerificationSummaryV02{
-		Verifier: &ppb.VerificationSummaryV02_Verifier{
+	vsaPred := &vpb.VerificationSummaryV02{
+		Verifier: &vpb.VerificationSummaryV02_Verifier{
 			Id: "verifier-id"},
 		TimeVerified: timestamppb.Now(),
 		ResourceUri:  "http://example.com/the/protected/resource.tar",
-		Policy: &ppb.VerificationSummaryV02_Policy{
+		Policy: &vpb.VerificationSummaryV02_Policy{
 			Uri: "http://example.com/policy/uri"},
-		InputAttestations: []*ppb.VerificationSummaryV02_InputAttestation{{
+		InputAttestations: []*vpb.VerificationSummaryV02_InputAttestation{{
 			Uri:    "http://example.com/attestation/foo.intoto.jsonl",
 			Digest: map[string]string{"sha256": "def456"}},
 		},
@@ -107,4 +132,11 @@ func main() {
 	}
 	fmt.Printf("\nRead statement with predicateType %v\n", s.PredicateType)
 	fmt.Printf("Predicate %v\n", s.Predicate)
+
+	// Test ResourceDescriptor
+	r, err := testResourceDescriptor()
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("\nResourceDescriptor as json:\n%v\n", protojson.Format(r))
 }
