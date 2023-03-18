@@ -1,6 +1,6 @@
 # Envelope layer specification
 
-Version: v1.0-draft
+Version: v1.0
 
 The Envelope is the outermost layer of the attestation, handling
 authentication and serialization. The format and protocol are defined in

@@ -1,6 +1,6 @@
 # in-toto Attestation Framework Spec
 
-Latest version: [v1.0-draft]
+Latest version: [v1.0]
 
 An **in-toto attestation** is authenticated metadata about one or more
 software artifacts[^1]. The intended consumers are automated policy engines,
@@ -21,12 +21,12 @@ together. See the [documentation] for more background and examples.
 [^1]: This is compatible with the [SLSA Attestation Model].
 
 [Binary Authorization]: https://cloud.google.com/binary-authorization
-[Bundle]: v1.0-draft/bundle.md
-[Envelope]: v1.0-draft/envelope.md
-[Predicate]: v1.0-draft/predicate.md
+[Bundle]: v1.0/bundle.md
+[Envelope]: v1.0/envelope.md
+[Predicate]: v1.0/predicate.md
 [SLSA Attestation Model]: https://slsa.dev/attestation-model
-[Statement]: v1.0-draft/statement.md
+[Statement]: v1.0/statement.md
 [documentation]: ../docs
 [in-toto-verify]: https://github.com/in-toto/in-toto#verification
-[v1.0-draft]: v1.0-draft/README.md
+[v1.0]: v1.0/README.md
 [validation model]: ../../docs/validation.md

@@ -1,6 +1,6 @@
 # Specification for in-toto attestation layers
 
-Version: v1.0-draft
+Version: v1.0
 
 Index:
 
