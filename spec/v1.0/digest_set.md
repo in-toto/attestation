@@ -1,6 +1,6 @@
 # DigestSet field type specification
 
-Version: v1.0-draft
+Version: v1.0
 
 Set of one or more cryptographic digests for a single software artifact or
 metadata object.

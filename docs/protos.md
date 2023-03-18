@@ -26,7 +26,7 @@ Proto libraries should be regenerated & commited after any change to the proto f
 ```shell
 $ make go_protos
 go get google.golang.org/protobuf/cmd/protoc-gen-go@v1.28.1
-protoc --go_out=go --go_opt=paths=source_relative ./spec/predicates/vsa.proto ./spec/v1.0-draft/statement.proto
+protoc --go_out=go --go_opt=paths=source_relative ./spec/predicates/vsa.proto ./spec/v1.0/statement.proto
 $ git commit -asm "update protos"
 [statement_proto 5edb2c6] Update protos
 ...
