@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package io.intoto.attestation.v1_0;
+package io.in_toto.attestation.v1_0;
 
 import "google/protobuf/struct.proto";
 
