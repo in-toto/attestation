@@ -49,7 +49,7 @@ func createVsa(subName string, subSha256 string, vsaBody *vpb.VerificationSummar
 	return createStatementPb(subName, subSha256, "https://slsa.dev/verification_summary/v0.2", vsaStruct), nil
 }
 
-func testResourceDescriptor() (*spb.ResourceDescriptor, error) {
+func createTestResourceDescriptor() (*spb.ResourceDescriptor, error) {
 	// Create a ResourceDescriptor
 	a1, err := structpb.NewStruct(map[string]interface{}{
 		"keyStr": "value1",
@@ -134,7 +134,7 @@ func main() {
 	fmt.Printf("Predicate %v\n", s.Predicate)
 
 	// Test ResourceDescriptor
-	r, err := testResourceDescriptor()
+	r, err := createTestResourceDescriptor()
 	if err != nil {
 		log.Fatal(err)
 	}
