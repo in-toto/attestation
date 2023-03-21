@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package github.intoto.attestation.spec.predicates;
+package io.intoto.attestation.predicates;
 
 import "google/protobuf/timestamp.proto";
 
