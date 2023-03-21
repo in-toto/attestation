@@ -47,6 +47,10 @@ The following pseudocode implements the policy above. Assume that memoization
 takes care of cycles. This policy would be written by a security expert at the
 company and used for all Kubernetes environments.
 
+In this pseudocode `attestation` is assumed to be a signed in-toto Statement.
+In most use cases the in-toto statement would be contained in the payload of a
+[DSSE][].
+
 ```python
 policy(artifact):
   lookup attestations for artifact
@@ -111,7 +115,7 @@ hermetic_cloud_build(attestation):
 
 ## Types of artifact IDs considered by `lookup attestations for <X>`.
 allowed_artifact_id_types = [
-  'sha256', 'sha512', 'container_image_digest', 'git_commit',
+  'sha256', 'sha512', 'container_image_digest', 'gitCommit',
 ]
 ```
 
@@ -192,29 +196,29 @@ appropriate party; we only show the claim here.
 {
   "predicateType": "https://example.com/GitHubActionProduct/v1",
   "subject": [{ "container_image_digest": "sha256:c201c331d6142766c866..." }],
-  "relations": {
-    "top_level_source": [{
-      "artifact": { "git_commit": "859b387b985ea0f414e4e8099c9f874acb217b94" },
-      "git_repo": "https://github.com/example/repo"
-    }],
-    "dependent_sources": [{
-      "artifact": { "git_commit": "2f02c094e6a9afe8e889c3f1d3cb66b437797af4" },
-      "git_repo": "https://github.com/example/submodule1"
-      }, {
-      "artifact": { "git_commit": "5215a97a7978d8ee0de859ccac1bbfd2475bfe92" },
-      "git_repo": "https://github.com/example/submodule2"
-    }],
-    "tools": [{
-      "artifact": { "sha256": "411c1dfb3c8f3bea29da934d61a884baad341af8..." },
-      "name": "clang"
-      }, {
-      "artifact": { "sha256": "9f5068311eb98e6dd9bb554d4b7b9ee126b13693..." },
-      "name": "bazel"
-    }]
-  },
   "predicate": {
     "workflow_name": "Build",
-    "hermetic": true
+    "hermetic": true,
+    "relations": {
+      "top_level_source": [{
+        "artifact": { "gitCommit": "859b387b985ea0f414e4e8099c9f874acb217b94" },
+        "git_repo": "https://github.com/example/repo"
+      }],
+      "dependent_sources": [{
+        "artifact": { "gitCommit": "2f02c094e6a9afe8e889c3f1d3cb66b437797af4" },
+        "git_repo": "https://github.com/example/submodule1"
+        }, {
+        "artifact": { "gitCommit": "5215a97a7978d8ee0de859ccac1bbfd2475bfe92" },
+        "git_repo": "https://github.com/example/submodule2"
+      }],
+      "tools": [{
+        "artifact": { "sha256": "411c1dfb3c8f3bea29da934d61a884baad341af8..." },
+        "name": "clang"
+        }, {
+        "artifact": { "sha256": "9f5068311eb98e6dd9bb554d4b7b9ee126b13693..." },
+        "name": "bazel"
+      }]
+    }
   }
 }
 ```
@@ -278,3 +282,5 @@ allowed_artifact_id_types = ['container_image_digest']
   }
 }
 ```
+
+[DSSE]: https://github.com/secure-systems-lab/dsse
