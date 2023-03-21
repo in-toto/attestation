@@ -12,11 +12,12 @@ community! Please see our [New Predicate Guidelines].
 This directory contains predicate specification types that have gone through
 our [vetting process], and may be of general interest:
 
--   [SLSA Provenance]: To describe the build process of a software artifact.
+-   [SLSA Provenance]: Describes how an artifact or set of artifacts was
+    produced.
 -   [Link]: For migration from [in-toto 0.9].
 -   [SCAI Report]: Evidence-based assertions about software artifact and
     supply chain attributes or behavior.
--   [Runtime Traces]: To capture runtime traces of software supply chain
+-   [Runtime Traces]: Captures runtime traces of software supply chain
     operations.
 -   [SLSA Verification Summary]: SLSA verification decision about a software
     artifact.
