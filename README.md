@@ -2,8 +2,8 @@
 
 The in-toto Attestation Framework provides a specification for generating
 verifiable claims about any aspect of how a piece of software is produced.
-Consumers or users of software can then validate the origins of the
-software, and establish trust in its supply chain, using in-toto attestations.
+Consumers or users of software can then validate the origins of the software,
+and establish trust in its supply chain, using in-toto attestations.
 
 ## Learning about in-toto attestations
 
@@ -20,6 +20,9 @@ defines the format for in-toto attestations and the metadata they contain.
 
 We also provide a set of [attestation predicates], which are metadata
 formats vetted by our maintainers to cover a number of common use cases.
+
+For tooling integration, we provide [protobuf definitions] of the spec.
+We currently only provide a pre-generated library for Go.
 
 ## Is your use case not covered by existing predicate types?
 
@@ -55,5 +58,6 @@ the framework. In the meantime, please visit any of the language-specific
 [in-toto]: https://in-toto.io
 [in-toto implementations]: https://github.com/in-toto
 [issues]: https://github.com/in-toto/attestation/issues?q=is%3Aopen+is%3Aissue
+[protobuf definitions]: docs/protos.md
 [pull requests]: https://github.com/in-toto/attestation/pulls?q=is%3Aopen+is%3Apr
 [specification]: spec/

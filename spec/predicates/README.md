@@ -12,17 +12,21 @@ community! Please see our [New Predicate Guidelines].
 This directory contains predicate specification types that have gone through
 our [vetting process], and may be of general interest:
 
--   [SLSA Provenance]: To describe the origins of a software artifact.
+-   [SLSA Provenance]: Describes how an artifact or set of artifacts was
+    produced.
 -   [Link]: For migration from [in-toto 0.9].
 -   [SCAI Report]: Evidence-based assertions about software artifact and
     supply chain attributes or behavior.
--   [Runtime Traces]: To capture runtime traces of software supply chain
+-   [Runtime Traces]: Captures runtime traces of software supply chain
     operations.
+-   [SLSA Verification Summary]: SLSA verification decision about a software
+    artifact.
 
 [Link]: link.md
 [New Predicate Guidelines]: ../../docs/new_predicate_guidelines.md
 [SCAI Report]: scai.md
 [SLSA Provenance]: https://slsa.dev/provenance
+[SLSA Verification Summary]: https://github.com/in-toto/attestation/blob/main/spec/predicates/vsa/vsa.md
 [in-toto 0.9]: https://github.com/in-toto/docs/blob/master/in-toto-spec.md#44-file-formats-namekeyid-prefixlink
 [vetting process]: ../../docs/new_predicate_guidelines.md#vetting-process
 [Runtime Traces]: runtime-trace.md
