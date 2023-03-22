@@ -1,38 +1,23 @@
 # Envelope layer specification
 
-Version: v1.0
+Version: [DSSE v1.0]
 
 The Envelope is the outermost layer of the attestation, handling
-authentication and serialization. The format and protocol are defined in
-[DSSE] and adopted by in-toto in [ITE-5].
+authentication and serialization.
 
 ## Schema
 
-```jsonc
-{
-  "payloadType": "application/vnd.in-toto+json",
-  "payload": "<Base64(Statement)>",
-  "signatures": [{"sig": "<Base64(Signature)>"}]
-}
-```
+The format and protocol are defined per [DSSE v1.0].
 
 ## Fields
 
-`payloadType` _string, required_
+The in-toto Attestation Framework has the following requirements for the
+standard DSSE fields.
 
-> Identifier for the encoding of the payload. Always
-> `application/vnd.in-toto+json`, which indicates that it is a JSON object
-> with a `_type` field indicating its schema.
+-   `payloadType` MUST be set to `application/vnd.in-toto+json`, which
+    indicates that the Envelope contains a JSON object with a `_type` field
+    specifying its schema.
+-   `payload` MUST be a base64-encoded JSON [Statement].
 
-`payload` _string, required_
-
-> Base64-encoded JSON [Statement].
-
-`signatures` _array of objects, required_
-
-> One or more signatures over `payloadType` and `payload`, as defined in
-> [DSSE].
-
-[DSSE]: https://github.com/secure-systems-lab/dsse
-[ITE-5]: https://github.com/in-toto/ITE/blob/master/ITE/5/README.adoc
+[DSSE v1.0]: https://github.com/secure-systems-lab/dsse/blob/v1.0.0/envelope.md
 [Statement]: statement.md
