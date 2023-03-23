@@ -17,7 +17,7 @@ It has four layers that are independent but designed to work together:
 
 The following diagram visualises the relationships between the envelope, statement and predicate layers.
 
-![Relationships between the envelope, statement and predicate layers](../images/In-toto-specification.png)
+![Relationships between the envelope, statement and predicate layers](../images/specification.png)
 
 The [validation model] provides pseudocode showing how these layers fit
 together. See the [documentation] for more background and examples.
