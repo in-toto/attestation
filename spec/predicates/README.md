@@ -21,6 +21,7 @@ our [vetting process], and may be of general interest:
     operations.
 -   [SLSA Verification Summary]: SLSA verification decision about a software
     artifact.
+-   [CycloneDX]: CycloneDX BOM for software artifacts.
 
 [Link]: link.md
 [New Predicate Guidelines]: ../../docs/new_predicate_guidelines.md
