@@ -1,6 +1,6 @@
 # Predicate type: CycloneDX
 
-Type URI: (tentative) https://cyclonedx.org/bom
+Type URI: https://cyclonedx.org/bom
 
 Version: 1.4
 
