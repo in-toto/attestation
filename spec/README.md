@@ -15,6 +15,12 @@ It has four layers that are independent but designed to work together:
 -   [Envelope]: Handles authentication and serialization.
 -   [Bundle]: Defines a method of grouping multiple attestations together.
 
+The following diagram visualises the relationships between the envelope, statement and predicate layers.
+
+<img src="../images/envelope_relationships.png" alt="Relationships between the envelope, statement and predicate layers" width="600">
+
+The source of this diagram can be found [here](../images/envelope_relationships.excalidraw).
+
 The [validation model] provides pseudocode showing how these layers fit
 together. See the [documentation] for more background and examples.
 
