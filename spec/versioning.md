@@ -33,15 +33,7 @@ Implementations just use the URI as an opaque string.
 The advantage of having minor versions is that we can add new information
 without requiring consumers to update.
 
-## Extension fields
-
-An extension field is a JSON object property whose key is a [TypeURI]. Producers
-MAY add such fields so long as they follow the same rules as adding a field to a
-new minor version.
-
 ## Examples
-
-Version changes:
 
 -   Provenance 1.1.0 (minor version) adds a new `buildFinished` timestamp. This
     is OK because the absence of the `buildFinished` has no semantic meaning and
@@ -54,32 +46,3 @@ Version changes:
 
 -   Provenance 3.0.0 (major version) modifies the meaning of `builder.id`. This
     is required because an existing field was modified.
-
-Extension fields:
-
--   A hypothetical "tags" extension might annotate the type of each material in
-    Provenance. This is OK (monotonic) because ignoring the field does not
-    affect any other field and is not expected to result in an ALLOW decision:
-
-    ```jsonc
-    "materials": [{
-      "uri": "...",
-      "digest": {...},
-      "https://example.com/tags": ["dev-dependency"]
-    }]
-    ```
-
-    A future minor version could potentially standardize that field, if it
-    becomes widely used.
-
--   The following example is NOT OK because it is not monotonic, for the same
-    reason that `extraArgs` above requires a major version bump.
-
-    ```jsonc
-    "recipe": {
-      ...,
-      "https://example.com/extraArgs": {...}  // BAD
-    }
-    ```
-
-[TypeURI]: v1.0/field_types.md#TypeURI
