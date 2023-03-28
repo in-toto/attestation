@@ -21,6 +21,7 @@ our [vetting process], and may be of general interest:
     operations.
 -   [SLSA Verification Summary]: SLSA verification decision about a software
     artifact.
+-   [CycloneDX]: CycloneDX BOM for software artifacts.
 
 [Link]: link.md
 [New Predicate Guidelines]: ../../docs/new_predicate_guidelines.md
@@ -30,3 +31,4 @@ our [vetting process], and may be of general interest:
 [in-toto 0.9]: https://github.com/in-toto/docs/blob/master/in-toto-spec.md#44-file-formats-namekeyid-prefixlink
 [vetting process]: ../../docs/new_predicate_guidelines.md#vetting-process
 [Runtime Traces]: runtime-trace.md
+[CycloneDX]: https://cyclonedx.org/
