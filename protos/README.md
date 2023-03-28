@@ -16,6 +16,8 @@ predicates have protobuf definitions:
 -   [SLSA Verification Summary]: SLSA verification decision about a software
     artifact.
 -   [in-toto Link]: Generic predicate that records a software supply chain step
+-   [SCAI]: Evidence-based assertions about software artifact and supply
+    chain attributes.
 
 ## Supported language bindings
 
@@ -41,6 +43,7 @@ following packages as needed:
 Please read our protos [documentation] for instructions on building and
 testing the supported language bindings.
 
+[SCAI]: in_toto_attestation/predicates/scai.md
 [SLSA Verification Summary]: in_toto_attestation/predicates/vsa/
 [in-toto Link]: in_toto_attestation/predicates/link/
 [documentation]: ../docs/protos.md
