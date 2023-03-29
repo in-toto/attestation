@@ -3,7 +3,7 @@ go_setup:
 
 # Creates the go libs in the go/ directory.
 go_protos: go_setup
-	protoc --go_out=go --go_opt=paths=source_relative $(shell find ./spec -name "*.proto")
+	protoc --go_out=../go --go_opt=paths=source_relative $(shell find . -name "*.proto")
 
 run:
-	go run go/example/main.go
+	go run ../go/example/main.go

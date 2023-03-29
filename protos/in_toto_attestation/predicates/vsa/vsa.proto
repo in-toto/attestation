@@ -1,10 +1,10 @@
 syntax = "proto3";
 
-package io.in_toto.attestation.predicates;
+package in_toto_attestation.predicates;
 
 import "google/protobuf/timestamp.proto";
 
-option go_package = "github.com/in-toto/attestation/go/spec/predicates";
+option go_package = "github.com/in-toto/attestation/go/in_toto_attestation/predicates";
 
 
 // Proto representation of predicate type https://slsa.dev/verification_summary/v0.2
