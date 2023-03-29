@@ -1,7 +1,7 @@
 # Spec protobuf definitions
 
 Protobuf definitions for the in-toto spec and some predicates are
-provided in the spec/ directory.  Pre-generated Go implementation of those
+provided in the spec/ directory. Pre-generated Go bindings of those
 protos are available in the go/ directory.
 
 ## Pre-requisites
@@ -21,7 +21,7 @@ Proto libraries should be regenerated & commited after any change to the
 proto files:
 
 ```shell
-$ make go_protos
+$ make -C protos go_protos
 $ git commit -asm "update protos"
 ...
 ```
@@ -33,7 +33,7 @@ go/example/main.go provides an example of how these protos can be used.
 To try it:
 
 ```shell
-$ make run
+$ make -C protos run
 ...
 Read statement with predicateType https://example.com/unknownPred2
 Predicate fields:{key:"foo"  value:{struct_value:{fields:{key:"bar"  value:{string_value:"baz"}}}}}

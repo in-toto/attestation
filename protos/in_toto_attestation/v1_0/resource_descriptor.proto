@@ -1,10 +1,10 @@
 syntax = "proto3";
 
-package io.in_toto.attestation.v1_0;
+package in_toto_attestation.v1_0;
 
 import "google/protobuf/struct.proto";
 
-option go_package = "github.com/in-toto/attestation/go/spec/v1.0";
+option go_package = "github.com/in-toto/attestation/go/in_toto_attestation/v1.0";
 
 // Proto representation of the in-toto v1.0 ResourceDescriptor.
 // https://github.com/in-toto/attestation/blob/main/spec/v1.0/resource_descriptor.md
