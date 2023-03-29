@@ -4,12 +4,12 @@ package in_toto_attestation.predicates;
 
 import "google/protobuf/timestamp.proto";
 
-option go_package = "github.com/in-toto/attestation/go/in_toto_attestation/predicates";
+option go_package = "github.com/in-toto/attestation/go/predicates/vsa/v0";
 
 
 // Proto representation of predicate type https://slsa.dev/verification_summary/v0.2
 // Validation of all fields is left to the users of this proto.
-message VerificationSummaryV02 {
+message VerificationSummary {
   message Verifier {
     string id = 1;
   }
