@@ -35,4 +35,4 @@ together. See the [documentation] for more background and examples.
 [documentation]: ../docs
 [in-toto-verify]: https://github.com/in-toto/in-toto#verification
 [v1.0]: v1.0/README.md
-[validation model]: ../../docs/validation.md
+[validation model]: ../docs/validation.md
