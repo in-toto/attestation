@@ -5,6 +5,6 @@ protos: go_setup
 	make -C protos go
 
 go_run:
-	go run examples/go/example/main.go
+	go run examples/go/main.go
 
 .PHONY: protos go_setup go_run

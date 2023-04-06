@@ -16,8 +16,7 @@ func createStatementPbFromJson(subName string, subSha256 string, predicateType s
 	pred := &structpb.Struct{}
 	err := protojson.Unmarshal(predicateJson, pred)
 	if err != nil {
-		fmt.Errorf("failed to unmarshal predicate: %w", err)
-		return nil, err
+		return nil, fmt.Errorf("failed to unmarshal predicate: %w", err)
 	}
 	return createStatementPb(subName, subSha256, predicateType, pred), nil
 }

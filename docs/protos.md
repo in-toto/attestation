@@ -56,8 +56,7 @@ $ git commit -asm "update protos"
 
 ## Run the Go example
 
-examples/go/example/main.go provides an example of how these protos can be
-used.
+examples/go/main.go provides an example of how these protos can be used.
 
 To try it:
 
