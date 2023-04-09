@@ -29,15 +29,15 @@ may include the results of several individual tests.
 The supply chain owner creates a policy that records the expected test
 configurations. During verification, the policy checks that the test attestation
 used the right configurations. If verified using in-toto layouts, a custom
-inspection may optionally parse the `testRun.url` field to verify attestation
-matches the test run.
+inspection may optionally parse the `url` field to verify attestation matches
+the test run.
 
 ### Asserting Test Results
 
 In addition to the previous use case, the supply chain owner creates a policy
 verifying that test results passed. In the simplest case, the policy applies to
 all tests. Therefore, it asserts the contents of `result` and that
-`testRun.failedTests` is empty. In more nuanced cases, a subset of tests may
+`failedTests` is empty. In more nuanced cases, a subset of tests may
 matter. For example, the tested artifact may be an OS image that's to be
 deployed to three types of devices, A, B, and C. As such, the test harness
 validates the new image on an instance of each device. When verifying the
@@ -45,11 +45,10 @@ attestation prior to an image being installed on a device of type A, it only
 matters that the tests passed on the corresponding test device of type A and not
 necessarily the others. The test result attestation can be used successfully
 even if the tests failed on C. As such, the verification policy ensures that
-tests for A are all listed in `testRun.passedTests` or possibly
-`testRun.warnedTests`.
+tests for A are all listed in `passedTests` or possibly `warnedTests`.
 
 As before, if the attestation is verified using an in-toto layout, a custom
-inspection may examine the `testRun.url` contents to verify the contents of the
+inspection may examine the `url` contents to verify the contents of the
 attestation.
 
 ## Prerequisites
@@ -59,11 +58,13 @@ Understanding of the
 
 ## Model
 
-This predicate type includes two compulsory fields, `result`, that describes the
-result of the test run, and `testRun` object contains the configuration of the
-tests, as well as optionally a link to the test run, and lists of tests that
-passed, failed, and passed with warnings.  The expected `subject` for this are
-the source artifacts themselves or some reference to them such as a Git commit.
+This predicate type includes two compulsory fields, `result` that describes the
+result of the test run, and `configuration` that contains the configuration used
+for the test invocation. The optional `url` field contains a link to the test
+run. `passedTests`, `warnedTests`, and `failedTests` are lists that record the
+names of tests that passed with no errors or warnings, passed with warnings, and
+failed with errors respectively. The expected `subject` are the source artifacts
+tested.
 
 ## Schema
 
@@ -74,13 +75,11 @@ the source artifacts themselves or some reference to them such as a Git commit.
     "predicateType": "https://in-toto.io/attestation/test-result/v0.1",
     "predicate": {
         "result": "pass|fail",
-        "testRun": {
-            "url": "<URL>",
-            "configuration": ["<ResourceDescriptor>", ...],
-            "passedTests": ["<TEST_NAME>", ...],
-            "warnedTests": ["<TEST_NAME>", ...],
-            "failedTests": ["<TEST_NAME>", ...]
-        }
+        "configuration": ["<ResourceDescriptor>", ...],
+        "url": "<URL>",
+        "passedTests": ["<TEST_NAME>", ...],
+        "warnedTests": ["<TEST_NAME>", ...],
+        "failedTests": ["<TEST_NAME>", ...]
     }
 }
 ```
@@ -95,12 +94,14 @@ This predicate follows the
 `result` _boolean_ , _required_
 
 Indicates the result of the test run. If true, it indicates _all_ tests passed
-in the corresponding run. This means that `testRun.warnedTests` and
-`testRun.failedTests` must both be empty when they are used.
+in the corresponding run. This means that `warnedTests` and `failedTests` must
+both be empty when they are used.
 
-`testRun` _object_, _required_
+`configuration` _list of ResourceDescriptor_, _required_
 
-`testRun.url` _ResourceURI_, _optional_
+Reference to the configuration used for the test run.
+
+`url` _ResourceURI_, _optional_
 
 Contains a URL to the test run, if applicable. This may be used to find
 information such as the logs for test execution, to confirm the test was
@@ -112,22 +113,18 @@ a GitHub Actions run which may be determined using the domain of the URL. On the
 other hand, for custom Jenkins deployments and the like, the verifier should
 determine out of band how to use this field.
 
-`testRun.configuration` _list of ResourceDescriptor_, _required_
-
-Reference to the configuration used for the test run.
-
-`testRun.passedTests` _list of strings_, _optional_
+`passedTests` _list of strings_, _optional_
 
 Each entry corresponds to the name of a single test that passed. The semantics
 of the name must be determined separately between the producer and consumer.
 
-`testRun.warnedTests` _list of strings_, _optional_
+`warnedTests` _list of strings_, _optional_
 
 Each entry corresponds to the name of a single test that expressed a warning.
 The semantics of the name must be determined separately between the producer and
 consumer.
 
-`testRun.failedTests` _list of strings_, _optional_
+`failedTests` _list of strings_, _optional_
 
 Each entry corresponds to the name of a single test that failed. The semantics
 of the name must be determined separately between the producer and consumer.
@@ -147,33 +144,31 @@ of the name must be determined separately between the producer and consumer.
     "predicateType": "https://in-toto.io/attestation/test-result/v0.1",
     "predicate": {
         "result": "pass",
-        "testRun": {
-            "url": "https://github.com/in-toto/in-toto/actions/runs/4425592351",
-            "configuration": [{
-                "name": ".github/workflows/ci.yml",
-                "downloadLocation": "https://github.com/in-toto/in-toto/blob/d20ace7968ba43c0219f62d71334c1095bab1602/.github/workflows/ci.yml",
-                "digest": {
-                    "gitBlob": "ebe4add40f63c3c98bc9b32ff1e736f04120b023"
-                }
-            }],
-            "passedTests": [
-                "build (3.7, ubuntu-latest, py)",
-                "build (3.7, macos-latest, py)",
-                "build (3.7, windows-latest, py)",
-                "build (3.8, ubuntu-latest, py)",
-                "build (3.8, macos-latest, py)",
-                "build (3.8, windows-latest, py)",
-                "build (3.9, ubuntu-latest, py)",
-                "build (3.9, macos-latest, py)",
-                "build (3.9, windows-latest, py)",
-                "build (3.10, ubuntu-latest, py)",
-                "build (3.10, macos-latest, py)",
-                "build (3.10, windows-latest, py)",
-                "build (3.x, ubuntu-latest, lint)"
-            ],
-            "warnedTests": [],
-            "failedTests": []
-        }
+        "configuration": [{
+            "name": ".github/workflows/ci.yml",
+            "downloadLocation": "https://github.com/in-toto/in-toto/blob/d20ace7968ba43c0219f62d71334c1095bab1602/.github/workflows/ci.yml",
+            "digest": {
+                "gitBlob": "ebe4add40f63c3c98bc9b32ff1e736f04120b023"
+            }
+        }],
+        "url": "https://github.com/in-toto/in-toto/actions/runs/4425592351",
+        "passedTests": [
+            "build (3.7, ubuntu-latest, py)",
+            "build (3.7, macos-latest, py)",
+            "build (3.7, windows-latest, py)",
+            "build (3.8, ubuntu-latest, py)",
+            "build (3.8, macos-latest, py)",
+            "build (3.8, windows-latest, py)",
+            "build (3.9, ubuntu-latest, py)",
+            "build (3.9, macos-latest, py)",
+            "build (3.9, windows-latest, py)",
+            "build (3.10, ubuntu-latest, py)",
+            "build (3.10, macos-latest, py)",
+            "build (3.10, windows-latest, py)",
+            "build (3.x, ubuntu-latest, lint)"
+        ],
+        "warnedTests": [],
+        "failedTests": []
     }
 }
 ```
