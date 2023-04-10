@@ -74,7 +74,7 @@ tested.
     "subject": [{...}],
     "predicateType": "https://in-toto.io/attestation/test-result/v0.1",
     "predicate": {
-        "result": "pass|fail",
+        "result": "PASSED|WARNED|FAILED",
         "configuration": ["<ResourceDescriptor>", ...],
         "url": "<URL>",
         "passedTests": ["<TEST_NAME>", ...],
@@ -91,11 +91,9 @@ This predicate follows the
 
 ### Fields
 
-`result` _boolean_ , _required_
+`result` _enum_ , _required_
 
-Indicates the result of the test run. If true, it indicates _all_ tests passed
-in the corresponding run. This means that `warnedTests` and `failedTests` must
-both be empty when they are used.
+Indicates the result of the test run. One of `PASSED`, `WARNED`, or `FAILED`.
 
 `configuration` _list of ResourceDescriptor_, _required_
 
@@ -143,7 +141,7 @@ of the name must be determined separately between the producer and consumer.
     ],
     "predicateType": "https://in-toto.io/attestation/test-result/v0.1",
     "predicate": {
-        "result": "pass",
+        "result": "PASSED",
         "configuration": [{
             "name": ".github/workflows/ci.yml",
             "downloadLocation": "https://github.com/in-toto/in-toto/blob/d20ace7968ba43c0219f62d71334c1095bab1602/.github/workflows/ci.yml",
