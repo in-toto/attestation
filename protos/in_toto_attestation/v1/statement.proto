@@ -1,14 +1,14 @@
 syntax = "proto3";
 
-package io.in_toto.attestation.v1_0;
+package in_toto_attestation.v1;
 
 import "google/protobuf/struct.proto";
 
 
-option go_package = "github.com/in-toto/attestation/go/spec/v1.0";
+option go_package = "github.com/in-toto/attestation/go/v1";
 
-// Proto representation of the in-toto v1.0 Statement.
-// https://github.com/in-toto/attestation/tree/main/spec/v1.0
+// Proto representation of the in-toto v1 Statement.
+// https://github.com/in-toto/attestation/tree/main/spec/v1
 // Validation of all fields is left to the users of this proto.
 message Statement {
   // Expected to always be "https://in-toto.io/Statement/v1"

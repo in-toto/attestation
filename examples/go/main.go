@@ -5,8 +5,8 @@ import (
 	"log"
 	"strings"
 
-	vpb "github.com/in-toto/attestation/go/spec/predicates/vsa"
-	spb "github.com/in-toto/attestation/go/spec/v1.0"
+	vpb "github.com/in-toto/attestation/go/predicates/vsa/v0"
+	spb "github.com/in-toto/attestation/go/v1"
 	"google.golang.org/protobuf/encoding/protojson"
 	"google.golang.org/protobuf/types/known/structpb"
 	"google.golang.org/protobuf/types/known/timestamppb"
@@ -16,8 +16,7 @@ func createStatementPbFromJson(subName string, subSha256 string, predicateType s
 	pred := &structpb.Struct{}
 	err := protojson.Unmarshal(predicateJson, pred)
 	if err != nil {
-		fmt.Errorf("failed to unmarshal predicate: %w", err)
-		return nil, err
+		return nil, fmt.Errorf("failed to unmarshal predicate: %w", err)
 	}
 	return createStatementPb(subName, subSha256, predicateType, pred), nil
 }
@@ -36,7 +35,7 @@ func createStatementPb(subName string, subSha256 string, predicateType string, p
 	return statement
 }
 
-func createVsa(subName string, subSha256 string, vsaBody *vpb.VerificationSummaryV02) (*spb.Statement, error) {
+func createVsa(subName string, subSha256 string, vsaBody *vpb.VerificationSummary) (*spb.Statement, error) {
 	vsaJson, err := protojson.Marshal(vsaBody)
 	if err != nil {
 		return nil, err
@@ -92,14 +91,14 @@ func main() {
 	fmt.Printf("Statement as json:\n%v\n", protojson.Format(s))
 
 	// Create a statement of a VSA
-	vsaPred := &vpb.VerificationSummaryV02{
-		Verifier: &vpb.VerificationSummaryV02_Verifier{
+	vsaPred := &vpb.VerificationSummary{
+		Verifier: &vpb.VerificationSummary_Verifier{
 			Id: "verifier-id"},
 		TimeVerified: timestamppb.Now(),
 		ResourceUri:  "http://example.com/the/protected/resource.tar",
-		Policy: &vpb.VerificationSummaryV02_Policy{
+		Policy: &vpb.VerificationSummary_Policy{
 			Uri: "http://example.com/policy/uri"},
-		InputAttestations: []*vpb.VerificationSummaryV02_InputAttestation{{
+		InputAttestations: []*vpb.VerificationSummary_InputAttestation{{
 			Uri:    "http://example.com/attestation/foo.intoto.jsonl",
 			Digest: map[string]string{"sha256": "def456"}},
 		},
