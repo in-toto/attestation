@@ -7,11 +7,13 @@ and establish trust in its supply chain, using in-toto attestations.
 
 ## Learning about in-toto attestations
 
-Visit [https://in-toto.io](https://in-toto.io) to learn about the larger
-in-toto project.
+To get started, check out the [overview] of the in-toto Attestation Framework.
 
 For a deeper dive, we recommend reading through our [documentation] to learn
 more about the goals of the in-toto Attestation Framework.
+
+Visit [https://in-toto.io](https://in-toto.io) to learn about the larger
+in-toto project.
 
 ## Working with in-toto attestations
 
@@ -58,6 +60,7 @@ the framework. In the meantime, please visit any of the language-specific
 [in-toto]: https://in-toto.io
 [in-toto implementations]: https://github.com/in-toto
 [issues]: https://github.com/in-toto/attestation/issues?q=is%3Aopen+is%3Aissue
+[overview]: spec/README.md#in-toto-attestation-framework-spec
 [protobuf definitions]: docs/protos.md
 [pull requests]: https://github.com/in-toto/attestation/pulls?q=is%3Aopen+is%3Apr
-[specification]: spec/
+[specification]: spec/v1.0/

@@ -75,6 +75,7 @@ Additional [parsing rules] apply.
 > predicate.
 
 [DigestSet]: digest_set.md
+[JSON]: https://www.json.org/json-en.html
 [Predicate]: predicate.md
 [SLSA Provenance]: https://slsa.dev/provenance
 [TypeURI]: field_types.md#TypeURI

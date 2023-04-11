@@ -18,8 +18,8 @@ types] for any layer of an in-toto attestation.
 
 ## Parsing rules
 
-The following rules apply to [Statement] and [Predicates] that opt-in to this
-model.
+The following rules apply to [Statement] and any [Predicate] that opt into
+this model.
 
 -   **Unrecognized fields:** Consumers MUST ignore unrecognized fields unless
     otherwise noted in the predicate specification. This is to allow minor
