@@ -21,14 +21,18 @@ our [vetting process], and may be of general interest:
     operations.
 -   [SLSA Verification Summary]: SLSA verification decision about a software
     artifact.
+-   [SPDX]: SPDX-formatted BOM for software artifacts.
 -   [CycloneDX]: CycloneDX BOM for software artifacts.
+-   [Test Results]: A generic schema to express results of any type of tests.
 
+[CycloneDX]: https://cyclonedx.org/
 [Link]: link.md
 [New Predicate Guidelines]: ../../docs/new_predicate_guidelines.md
+[Runtime Traces]: runtime-trace.md
 [SCAI Report]: scai.md
 [SLSA Provenance]: https://slsa.dev/provenance
-[SLSA Verification Summary]: https://github.com/in-toto/attestation/blob/main/spec/predicates/vsa/vsa.md
+[SLSA Verification Summary]: vsa/vsa.md
+[SPDX]: spdx.md
+[Test Results]: test-results.md
 [in-toto 0.9]: https://github.com/in-toto/docs/blob/master/in-toto-spec.md#44-file-formats-namekeyid-prefixlink
 [vetting process]: ../../docs/new_predicate_guidelines.md#vetting-process
-[Runtime Traces]: runtime-trace.md
-[CycloneDX]: https://cyclonedx.org/
