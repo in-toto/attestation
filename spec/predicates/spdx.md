@@ -4,6 +4,11 @@ Type URI: https://spdx.dev/Document
 
 Version: 2.3
 
+TODO: Ask SPDX project to choose a URI and to review this spec. Ideally the URI
+would resolve to this file. Also, decide whether we want the version number to
+reflect the spdxVersion (e.g. 2.2) or have them be independent (no version
+number in URI).
+
 ## Purpose
 
 A Software Bill of Materials type following the
