@@ -1,8 +1,8 @@
 # Predicate type: SPDX
 
-Type URI: (tentative) https://spdx.dev/Document
+Type URI: https://spdx.dev/Document
 
-Version: 1.0.0
+Version: 2.3
 
 TODO: Ask SPDX project to choose a URI and to review this spec. Ideally the URI
 would resolve to this file. Also, decide whether we want the version number to
@@ -12,13 +12,40 @@ number in URI).
 ## Purpose
 
 A Software Bill of Materials type following the
-[SPDX standard](https://spdx.dev/specifications/).
+[SPDX Specification].
 
 This allows to represent an "exportable" or "published" software artifact. It
 can also be used as an entry point for other types of in-toto attestation when
 performing policy decisions.
 
+## Prerequisites
+
+The in-toto [attestation] framework and a [SPDX generation tool].
+
+## Model
+
+This is a predicate type that fits within the larger [Attestation] framework.
+
 ## Schema
+
+The schema of this predicate type is documented in the
+[SPDX Specification].
+
+### Parsing Rules
+
+The parsing rules for this predicate type are documented in the
+[SPDX Specification].
+
+### Fields
+
+The fields that make up this predicate type are documented in the
+[SPDX specification].
+
+The `predicate` contains a JSON-encoded SPDX document.
+The `subject` contains whatever software artifacts are to be associated with
+this SPDX document.
+
+## Example
 
 ```jsonc
 {
@@ -27,21 +54,21 @@ performing policy decisions.
   "subject": [{ ... }],
 
   // Predicate:
-  "predicateType": "https://spdx.dev/Document",
+  "predicateType": "https://spdx.dev/Document/v2.3",
   "predicate": {
     "SPDXID" : "SPDXRef-DOCUMENT",
-    "spdxVersion" : "SPDX-2.2",
+    "spdxVersion" : "SPDX-2.3",
     ...
   }
 }
 ```
 
-_(Note: This is a Predicate type that fits within the larger
-[Attestation](../README.md) framework.)_
+## Changelog and Migrations
 
-The `predicate` contains a JSON-encoded SPDX document. The SPDX format has a
-mandatory `spdxVersion` field, so we omit the version number from the
-`predicateType` URI to avoid confusion.
+### Version 2.3
 
-The `subject` contains whatever software artifacts are to be associated with
-this SPDX document.
+-   Added version to predicateType
+
+[Attestation]: ../README.md
+[SPDX specification]: https://spdx.github.io/spdx-spec/v2.3
+[SPDX generation tool]: https://spdx.dev/resources/tools/
