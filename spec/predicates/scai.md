@@ -1,6 +1,6 @@
 # Predicate type: Software Supply Chain Attribute Integrity (SCAI)
 
-Type URI: https://in-toto.io/scai/attribute-report
+Type URI: https://in-toto.io/attestation/scai/attribute-report
 
 Version: 0.2
 
@@ -99,7 +99,7 @@ together in a SCAI Attribute Report predicate.
 
 ```jsonc
 {
-    "predicateType": "https://in-toto.io/scai/attribute-report/v0.2",
+    "predicateType": "https://in-toto.io/attestation/scai/attribute-report/v0.2",
     "predicate": {
         "attributes": [{
             "attribute": "<ATTRIBUTE>",
@@ -136,7 +136,7 @@ The following parsing rules apply in addition:
 `predicateType` _string ([TypeURI]), required_
 
 > Identifier for the schema of the Attribute Report. Always
-> `https://in-toto.io/scai/attribute-report/v0.2` for this version of the
+> `https://in-toto.io/attestation/scai/attribute-report/v0.2` for this version of the
 > spec.
 
 `predicate.attributes` _array of objects, required_
@@ -197,7 +197,7 @@ The following parsing rules apply in addition:
         "digest": { "sha256": "78ab6a8..." }
     }],
         
-    "predicateType": "https://in-toto.io/scai/attribute-report/v0.2",
+    "predicateType": "https://in-toto.io/attestation/scai/attribute-report/v0.2",
     "predicate": {
         "subjectAttributes": [{
             "attribute": "WITH_STACK_PROTECTION",
@@ -226,7 +226,7 @@ The following parsing rules apply in addition:
         "digest": { "sha256": "78ab6a8..." }
     }],
         
-    "predicateType": "https://in-toto.io/scai/attribute-report/v0.2",
+    "predicateType": "https://in-toto.io/attestation/scai/attribute-report/v0.2",
     "predicate": {
         "attributes": [{
             "attribute": "WITH_STACK_PROTECTION",
@@ -256,7 +256,7 @@ The following parsing rules apply in addition:
         "digest": { "sha256": "78ab6a8..." }
     }],
         
-    "predicateType": "https://in-toto.io/scai/attribute-report/v0.2",
+    "predicateType": "https://in-toto.io/attestation/scai/attribute-report/v0.2",
     "predicate": {
         "subjectAttributes": [{
             "attribute": "WITH_STACK_PROTECTION",
@@ -290,7 +290,7 @@ The following parsing rules apply in addition:
         "digest": { "sha256": "78ab6a8..." }
     }],
         
-    "predicateType": "https://in-toto.io/scai/attribute-report/v0.2",
+    "predicateType": "https://in-toto.io/attestation/scai/attribute-report/v0.2",
     "predicate": {
         "attributes": [{
             "attribute": "ATTESTED_DEPENDENCIES",
@@ -323,7 +323,7 @@ The following parsing rules apply in addition:
         "digest": { "sha256": "78ab6a8..." }
     }],
         
-    "predicateType": "https://in-toto.io/scai/attribute-report/v0.2"
+    "predicateType": "https://in-toto.io/attestation/scai/attribute-report/v0.2"
     "predicate": {
         "attributes": [{
             "attribute": "HARDWARE_ENCLAVE",
@@ -354,7 +354,7 @@ The following parsing rules apply in addition:
         "digest": { "sha256": "88888888..." }
     }],
         
-    "predicateType": "https://in-toto.io/scai/attribute-report/v0.2",
+    "predicateType": "https://in-toto.io/attestation/scai/attribute-report/v0.2",
     "predicate": {
         "attributes": [{
             "attribute": "attestation-1",
