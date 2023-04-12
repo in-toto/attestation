@@ -1,103 +1,143 @@
 # Predicate type: Software Supply Chain Attribute Integrity (SCAI)
 
-Type URI: scai/attribute-report/v0.1
+Type URI: https://in-toto.io/attestation/scai/attribute-report
 
-Version: 0.1
+Version: 0.2
 
 Author: Marcela Melara <marcela.melara@intel.com>
 
 ## Purpose
 
-The Software Supply Chain Attribute Integrity, or SCAI (pronounced "sky"), specification proposes a data
-format for capturing functional attribute and integrity information about software artifacts and their supply
-chain. SCAI data can be associated with executable binaries, statically- or dynamically-linked libraries,
-software packages, container images, software toolchains, and compute environments.
+The Software Supply Chain Attribute Integrity, or SCAI (pronounced "sky"),
+specification proposes a data format for capturing functional attribute and
+integrity information about software artifacts and their supply chain. SCAI
+data can be associated with executable binaries, statically- or dynamically-
+linked libraries, software packages, container images, software toolchains,
+and compute environments.
 
-Existing supply chain data formats do not capture any information about the security functionality or
-behavior of the resulting software artifact, nor do they provide sufficient evidence to support any claims of
-integrity of the supply chain processes they describe. The SCAI data format is designed to bridge this gap.
+Existing supply chain data formats do not capture any information about the
+security functionality or behavior of the resulting software artifact, nor
+do they provide sufficient evidence to support any claims of integrity of
+the supply chain processes they describe. The SCAI data format is designed
+to bridge this gap.
 
-For more details, see the [SCAI v0.1 specification document](https://arxiv.org/pdf/2210.05813.pdf)
+For more details, see the [SCAI specification] document.
+
+## Use Cases
+
+We highlight three core use cases of SCAI, although there may be others.
+
+### Fine-grained software attributes
+
+A producer seeks to make assertions about fine-grained code-level attributes
+of the attestation `subject`. Examples of such code-level attributes include
+include cases like code features instrumented by a compiler, or properties
+tested via static analysis.
+
+See an example for [attested binary attributes](#attestation-for-binary-attributes-with-evidence) below.
+
+### Producer compute platform attributes
+
+A producer seeks to assert certain properties about its underlying compute
+platform, which produced the `subject`. Examples of compute platform
+attributes include properties like secure boot enablement or trusted
+execution enablement. Since these types of attributes are often accompanied
+by an attestation document, these hardware attestations serve as evidence
+for the asserted attributes.
+
+See an example for a [build on attested hardware](#attestation-for-build-on-intelr-sgx-hardware) below.
+
+### Evidence collection
+
+A producer seeks to assert that a collection of evidence or attestations
+applies to the `subject`. In essence, this use case serves to bind multiple
+attestations to a single `subject`. For example, the asserted attributes
+may correspond to specific attestation types.
+
+See an example for an [evidence collection](#attestation-for-evidence-collection) below.
 
 ## Prerequisites
 
-In addition to the in-toto attestation framework,
-SCAI assumes that implementers have appropriate processes and tooling in place for
-capturing other types of software supply chain metadata, which can be extended to add support for SCAI.
+In addition to the in-toto Attestation Framework, SCAI assumes that
+implementers have appropriate processes and tooling in place for capturing
+other types of software supply chain metadata, which can be extended to add
+support for SCAI.
 
 ## Model
 
-SCAI metadata, referred to as an Attribute Assertion, describes functional attributes of a software
-artifact and its supply chain, capable of covering the full software stack of the
-toolchain that produced the artifact down to the hardware platform. SCAI Attribute Assertions include
-information about the conditions under which certain functional attributes arise, as well as (authenticated)
-evidence for the asserted attributes. The set of Assertions about a subject artifact and its producer
-is referred to as the **Attribute Report**.
-Similarly, SCAI Attribute Reports about the producer of a subject artifact can be
-generated separately, with the attestation subject indicating an artifact producer.
+SCAI metadata, referred to as an Attribute Assertion, describes functional
+attributes of a software artifact and its supply chain, capable of covering
+the full software stack of the toolchain that produced the artifact down to
+the hardware platform. SCAI Attribute Assertions include information about
+the conditions under which certain functional attributes arise, as well as
+(authenticated) evidence for the asserted attributes.
 
-SCAI is intended to be implemented as part of an existing software supply chain attestation
-framework by software development tools or services (e.g., builders, CI/CD pipelines, software analysis tools)
-seeking to capture more granular information about the attributes and behavior of the software artifacts they
-produce.
-As such, we envision SCAI metadata being explictly bound to, or included within, other metadata
-objects; we recommend [in-toto Attestation Bundles](https://github.com/in-toto/attestation/blob/main/spec/bundle.md) for this purpose.
+The set of Assertions about a subject artifact and its producer is referred
+to as the **Attribute Report**. Similarly, SCAI Attribute Reports about the
+producer of a subject artifact can be generated separately, with the
+attestation subject indicating an artifact producer.
+
+We emphasize that this predicate does not dictate the types of attributes
+that can be attested, nor does it prescribe any format to the evidence for an
+assertion.
+
+SCAI is intended to be implemented as part of an existing software supply
+chain attestation framework by software development tools or services (e.g.,
+builders, CI/CD pipelines, software analysis tools) seeking to capture more
+granular information about the attributes and behavior of the software
+artifacts they produce.
+
+As such, we envision SCAI metadata being explictly bound to, or included
+within, other metadata objects; we recommend an in-toto [attestation Bundle]
+for this purpose.
 
 ## Schema
 
-The core metadata in SCAI is the Attribute Assertion. A collection of Attribute Assertions
-for a specific supply chain step or operation are issued together in a SCAI Attribute Report predicate.
+The core metadata in SCAI is the Attribute Assertion. A collection of
+Attribute Assertions for a specific supply chain step or operation are issued
+together in a SCAI Attribute Report predicate.
 
 ```jsonc
 {
-    "predicateType": "https://in-toto.io/scai/attribute-report/v0.1",
+    "predicateType": "https://in-toto.io/attestation/scai/attribute-report/v0.2",
     "predicate": {
         "attributes": [{
             "attribute": "<ATTRIBUTE>",
-            "target": { // optional
-                /* SCAI Object Reference */
-                "name": "<NAME>",
-                "digest": { "<ALGORITHM>": "<HEX VALUE>", ... },
-                "locationURI": "<RESOURCE URI>",
-                "objectType": "<OBJECT TYPE>" // optional
-            },
+            "target": { [ResourceDescriptor] }, // optional
             "conditions": { /* object */ }, // optional
-            "evidence": { /* SCAI Object Reference */ } // optional
+            "evidence": { [ResourceDescriptor] } // optional
         }],
-        "producer": {
-            "type": "<TYPE URI>",
-            "reference": { // optional
-                "name": "<NAME>",
-                "digest": { "<ALGORITHM>": "<HEX VALUE>", ... },
-                "locationURI": "<RESOURCE URI>",
-                "objectType": "<OBJECT TYPE>" // optional
-            }
-        }
+        "producer": { [ResourceDescriptor] } // optional
     }
 }
 ```
 
-This predicate has been adapted from the [SCAI v0.1 specification](https://arxiv.org/pdf/2210.05813.pdf) for greater interoperability.
+This predicate has been adapted from the [SCAI specification] for greater
+interoperability.
 
 ### Parsing Rules
 
-At a high-level, Attribute Reports MUST allow humans and programs to easily parse the asserted
-attributes. Additional fields MUST enable program-based consumers to automatically parse and evaluate
-the given information.
+At a high-level, Attribute Reports MUST allow humans and programs to easily
+parse the asserted attributes. Additional fields MUST enable program-based
+consumers to automatically parse and evaluate the given information.
 
 The following parsing rules apply in addition:
 
 -   Consumers MUST ignore unrecognized fields.
 -   Producers SHOULD omit _optional_ fields when unused to avoid ambiguity.
--   Acceptable formats of the `attribute` and `conditions` fields are up to the producer and consumer.
--   Because consumers evaluate this predicate against a policy, the semantics SHOULD be consistent and monotonic between Attestations (see in-toto Attestation Spec [parsing rules](https://github.com/in-toto/attestation/tree/main/spec#parsing-rules)).
+-   Acceptable formats of the `attribute` and `conditions` fields are up to
+    the producer and consumer.
+-   Because consumers evaluate this predicate against a policy, the semantics
+    SHOULD be consistent and monotonic between attestations (see in-toto
+    Attestation Framework [parsing rules]).
 
 ### Fields
 
-`predicateType` _string ([TypeURI](https://github.com/in-toto/attestation/blob/main/spec/field_types.md#TypeURI)), required_
+`predicateType` _string ([TypeURI]), required_
 
 > Identifier for the schema of the Attribute Report. Always
-> `scai/attribute-report/v0.1` for this version of the spec.
+> `https://in-toto.io/attestation/scai/attribute-report/v0.2` for this version of the
+> spec.
 
 `predicate.attributes` _array of objects, required_
 
@@ -105,45 +145,44 @@ The following parsing rules apply in addition:
 
 `predicate.attributes[*].attribute` _string, required_
 
-> A string describing a specific functional feature of the Attestation subject or producer.
+> A string describing a specific functional feature of the attestation
+> subject or producer.
 >
 > Attributes are expected to be domain- or application-specific.
 
-`predicate.attributes[*].target` _object ([SCAI Object Reference](https://arxiv.org/pdf/2210.05813.pdf), optional_
+`predicate.attributes[*].target` _object ([ResourceDescriptor]), optional_
 
-> An object reference to a specific artifact or metadata object to which the `attribute` field applies.
+> An object reference to a specific artifact or metadata object to which the
+> `attribute` field applies.
 >
-> The semantics of the optional `objectType` field are up to the producer and consumer.
+> The producer and consumer SHOULD agree on the ResourceDescriptor fields
+> needed for identification and validation of the target.
 
 `predicate.attributes[*].conditions` _object, optional_
 
-> An object representing specific conditions under which the associated attribute arises.
+> An object representing specific conditions under which the associated
+> attribute arises.
 
-`predicate.attributes[*].evidence` _object ([SCAI Object Reference](https://arxiv.org/pdf/2210.05813.pdf), optional_
+`predicate.attributes[*].evidence` _object ([ResourceDescriptor]), optional_
 
-> An object reference to (authenticated) evidence for the asserted `attribute`.
+> A description of (authenticated) evidence for the asserted `attribute`.
 >
-> If the evidence object is generated by the producer in parallel to the SCAI predicate
-> the producer MAY include the attestation for the evidence object in an Attestation Bundle,
-> and omit the `locationURI` field.
-> The semantics of the optional `objectType` field are up to the producer and consumer.
+> If the evidence object is generated by the producer in conjunction with the
+> SCAI predicate the producer MAY include the attestation for the evidence
+> object in the same in-toto [attestation Bundle],
 >
-> When `evidence` is omitted, a consumer MAY choose to evaluate the Attestation
-> on the basis of the producer's identity.
-
-`predicate.producer` _object, optional_
-
-> An object identifying the producer of the Attestation subject.
-
-`predicate.producer.type` _string ([TypeURI](https://github.com/in-toto/attestation/blob/main/spec/field_types.md#TypeURI)), required_
-
-> A URI describing the type of producer of the Attestation subject.
-
-`predicate.producer.reference` _object ([SCAI Object Reference](https://arxiv.org/pdf/2210.05813.pdf), optional_
-
-> An object reference to the specific producer of the Attestation subject, if applicable.
+> The producer and consumer SHOULD agree on the ResourceDescriptor fields
+> needed for identification and validation of the evidence.
 >
-> The semantics of the optional `objectType` field are up to the producer and consumer.
+> When `evidence` is omitted, a consumer MAY choose to evaluate the
+> atestation on the basis of the producer's identity.
+
+`predicate.producer` _object, ([ResourceDescriptor]) optional_
+
+> A description of the producer of the attestation subject, if applicable.
+>
+> The producer and consumer SHOULD agree on the ResourceDescriptor fields
+> needed for identification and validation of the producer.
 
 ## Examples
 
@@ -152,27 +191,25 @@ The following parsing rules apply in addition:
 ```jsonc
 {
     // Standard attestation fields
-    "_type": "https://in-toto.io/Statement/v0.1",
+    "_type": "https://in-toto.io/Statement/v1",
     "subject": [{
         "name": "my-app",
         "digest": { "sha256": "78ab6a8..." }
     }],
         
-    "predicateType": "scai/attribute-report/v0.1",
+    "predicateType": "https://in-toto.io/attestation/scai/attribute-report/v0.2",
     "predicate": {
         "subjectAttributes": [{
             "attribute": "WITH_STACK_PROTECTION",
             "conditions": { "flags": "-fstack-protector*" },
         }],
         "producer": {
-            "type": "file:/usr/bin/gcc", 
-            "reference": {
-                "name": "gcc9.3.0",
-                "digest": {
-                    "sha256": "78ab6a8..."
-                },
-                "locationURI": "http://us.archive.ubuntu.com/ubuntu/pool/main/g/gcc-defaults/gcc_9.3.0-1ubuntu2_amd64.deb"
-            }
+            "uri": "file:///usr/bin/gcc",
+            "name": "gcc9.3.0",
+            "digest": {
+                "sha256": "78ab6a8..."
+            },
+            "downloadLocation": "http://us.archive.ubuntu.com/ubuntu/pool/main/g/gcc-defaults/gcc_9.3.0-1ubuntu2_amd64.deb"
         }
     }
 }
@@ -183,13 +220,13 @@ The following parsing rules apply in addition:
 ```jsonc
 {
     // Standard attestation fields
-    "_type": "https://in-toto.io/Statement/v0.1",
+    "_type": "https://in-toto.io/Statement/v1",
     "subject": [{
         "name": "gcc9.3.0",
         "digest": { "sha256": "78ab6a8..." }
     }],
         
-    "predicateType": "scai/attribute-report/v0.1",
+    "predicateType": "https://in-toto.io/attestation/scai/attribute-report/v0.2",
     "predicate": {
         "attributes": [{
             "attribute": "WITH_STACK_PROTECTION",
@@ -198,10 +235,10 @@ The following parsing rules apply in addition:
         {
             "attribute": "REPRODUCIBLE",
             "evidence": {
-                "name": "rebuilderd-attestation",
+                "name": "gcc_9.3.0-1ubuntu2_amd64.json",
                 "digest": { "sha256": "abcdabcde..." },
-                "locationURI": "http://example.com/rebuilderd-instance/gcc_9.3.0-1ubuntu2_amd64.att",
-                "objectType": "application/vnd.in-toto+json"
+                "uri": "http://example.com/rebuilderd-instance/gcc_9.3.0-1ubuntu2_amd64.json",
+                "mediaType": "application/x.dsse+json"
             }
         }]
     }
@@ -213,33 +250,30 @@ The following parsing rules apply in addition:
 ```jsonc
 {
     // Standard attestation fields
-    "_type": "https://in-toto.io/Statement/v0.1",
+    "_type": "https://in-toto.io/Statement/v1",
     "subject": [{
         "name": "my-app",
         "digest": { "sha256": "78ab6a8..." }
     }],
         
-    "predicateType": "scai/attribute-report/v0.1",
+    "predicateType": "https://in-toto.io/attestation/scai/attribute-report/v0.2",
     "predicate": {
         "subjectAttributes": [{
             "attribute": "WITH_STACK_PROTECTION",
             "conditions": { "flags": "-fstack-protector*" },
             "evidence": {
-                "name": "gcc9.3.0-attribute-report",
+                "name": "gcc9.3.0-attribute-report.json",
                 "digest": { "sha256": "abcdabcde..." },
-                "locationURI": "http://example.com/rekor-instance",
-                "objectType": "application/vnd.in-toto+json"
+                "mediaType": "application/x.dsse+json"
             }
         }],
         "producer": {
-            "type": "file:/usr/bin/gcc", 
-            "reference": {
-                "name": "gcc9.3.0",
-                "digest": {
-                    "sha256": "78ab6a8..."
-                },
-                "locationURI": "http://us.archive.ubuntu.com/ubuntu/pool/main/g/gcc-defaults/gcc_9.3.0-1ubuntu2_amd64.deb"
-            }
+            "uri": "file:///usr/bin/gcc",
+            "name": "gcc9.3.0",
+            "digest": {
+                "sha256": "78ab6a8..."
+            },
+            "downloadLocation": "http://us.archive.ubuntu.com/ubuntu/pool/main/g/gcc-defaults/gcc_9.3.0-1ubuntu2_amd64.deb"
         }
     }
 }
@@ -250,30 +284,29 @@ The following parsing rules apply in addition:
 ```jsonc
 {
     // Standard attestation fields
-    "_type": "https://in-toto.io/Statement/v0.1",
+    "_type": "https://in-toto.io/Statement/v1",
     "subject": [{
         "name": "my-app",
         "digest": { "sha256": "78ab6a8..." }
     }],
         
-    "predicateType": "scai/attribute-report/v0.1",
+    "predicateType": "https://in-toto.io/attestation/scai/attribute-report/v0.2",
     "predicate": {
         "attributes": [{
             "attribute": "ATTESTED_DEPENDENCIES",
             "target": {
                 "name": "my-rsa-lib.so",
                 "digest": { "sha256": "ebebebe..." },
-                "locationURI": "http://example.com/libraries/my-rsa-lib.so"
+                "uri": "http://example.com/libraries/my-rsa-lib.so"
             }
             "evidence": {
-                "name": "rsa-lib-attribute-report",
+                "name": "rsa-lib-attribute-report.json",
                 "digest": { "sha256": "0987654..." },
-                "locationURI": "http://example.com/rekor-instance",
-                "objectType": "application/vnd.in-toto+json"
+                "mediaType": "application/x.dsse+json"
             }
         }],
         "producer": {
-            "type": "https://example.com/my-github-actions-runner", 
+            "uri": "https://example.com/my-github-actions-runner",
         }
     }
 }
@@ -284,28 +317,85 @@ The following parsing rules apply in addition:
 ```jsonc
 {
     // Standard attestation fields
-    "_type": "https://in-toto.io/Statement/v0.1",
+    "_type": "https://in-toto.io/Statement/v1",
     "subject": [{
         "name": "my-sgx-builder",
         "digest": { "sha256": "78ab6a8..." }
     }],
         
-    "predicateType": "scai/attribute-report/v0.1"
+    "predicateType": "https://in-toto.io/attestation/scai/attribute-report/v0.2"
     "predicate": {
         "attributes": [{
             "attribute": "HARDWARE_ENCLAVE",
             "target": {
                 "name": "enclave.signed.so",
                 "digest": { "sha256": "e3b0c44..." },
-                "locationURI": "http://example.com/enclaves/enclave.signed.so",
+                "uri": "http://example.com/enclaves/enclave.signed.so",
             },
             "evidence": {
-                "name": "my-sgx-builder.att",
+                "name": "my-sgx-builder.json",
                 "digest": { "sha256": "0987654..." },
-                "locationURI": "http://example.com/sgx-attestations/my-sgx-builder.att",
-                "objectType": "https://download.01.org/intel-sgx/sgx-dcap/1.14/linux"
+                "downloadLocation": "http://example.com/sgx-attestations/my-sgx-builder.json",
+                "mediaType": "application/x.sgx.dcap1.14+json"
             }
        }]
     }
 }
 ```
+
+### Attestation for evidence collection
+
+```jsonc
+{
+    // Standard attestation fields
+    "_type": "https://in-toto.io/Statement/v1",
+    "subject": [{
+        "name": "app-evidence-collection",
+        "digest": { "sha256": "88888888..." }
+    }],
+        
+    "predicateType": "https://in-toto.io/attestation/scai/attribute-report/v0.2",
+    "predicate": {
+        "attributes": [{
+            "attribute": "attestation-1",
+            "evidence": {
+                "uri": "https://example.com/attestations/attestation-1"
+                "digest": { "sha256": "abcdabcd..." },
+                "mediaType": "application/x.dsse+json"
+            }
+        },
+        {
+            "attribute": "attestation-2",
+            "evidence": {
+                "uri": "https://example.com/attestations/attestation-2"
+                "digest": { "sha256": "01234567..." },
+                "mediaType": "application/x.dsse+json"
+            }
+        },
+        {
+            "attribute": "attestation-3",
+            "evidence": {
+                "uri": "https://example.com/attestations/attestation-3"
+                "digest": { "sha256": "deadbeef..." },
+                "mediaType": "application/x.dsse+json"
+            }
+        }],
+        "producer": { "uri": "https://my-sw-attestor" }
+    }
+}
+```
+
+## Changelog and Migrations
+
+### New in v0.2
+
+-   Change the `target` and `evidence` field type of a SCAI Attribute
+    Assertion to [ResourceDescriptor].
+-   Simplify the `producer` field: remove the `type` sub-field, and change
+    the field type to [ResourceDescriptor].
+
+[ResourceDescriptor]: https://github.com/in-toto/attestation/blob/main/spec/v1.0/resource_descriptor.md
+[SCAI specification]: https://arxiv.org/pdf/2210.05813.pdf
+[TypeURI]: https://github.com/in-toto/attestation/blob/main/spec/v1.0/field_types.md#typeuri
+[attestation Bundle]: https://github.com/in-toto/attestation/blob/main/spec/v1.0/bundle.md
+[parsing rules]: https://github.com/in-toto/attestation/tree/main/spec/v1.0#parsing-rules
