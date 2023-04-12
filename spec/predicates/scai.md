@@ -23,6 +23,39 @@ to bridge this gap.
 
 For more details, see the [SCAI specification] document.
 
+## Use Cases
+
+We highlight three core use cases of SCAI, although there may be others.
+
+### Fine-grained software attributes
+
+A producer seeks to make assertions about fine-grained code-level attributes
+of the attestation `subject`. Examples of such code-level attributes include
+include cases like code features instrumented by a compiler, or properties
+tested via static analysis.
+
+See an example for [attested binary attributes](#attestation-for-binary-attributes-with-evidence) below.
+
+### Producer compute platform attributes
+
+A producer seeks to assert certain properties about its underlying compute
+platform, which produced the `subject`. Examples of compute platform
+attributes include properties like secure boot enablement or trusted
+execution enablement. Since these types of attributes are often accompanied
+by an attestation document, these hardware attestations serve as evidence
+for the asserted attributes.
+
+See an example for a [build on attested hardware](#attestation-for-build-on-intelr-sgx-hardware) below.
+
+### Evidence collection
+
+A producer seeks to assert that a collection of evidence or attestations
+applies to the `subject`. In essence, this use case serves to bind multiple
+attestations to a single `subject`. For example, the asserted attributes
+may correspond to specific attestation types.
+
+See an example for an [evidence collection](#attestation-for-evidence-collection) below.
+
 ## Prerequisites
 
 In addition to the in-toto Attestation Framework, SCAI assumes that
@@ -37,11 +70,16 @@ attributes of a software artifact and its supply chain, capable of covering
 the full software stack of the toolchain that produced the artifact down to
 the hardware platform. SCAI Attribute Assertions include information about
 the conditions under which certain functional attributes arise, as well as
-(authenticated) evidence for the asserted attributes. The set of Assertions
-about a subject artifact and its producer is referred to as the **Attribute
-Report**. Similarly, SCAI Attribute Reports about the producer of a subject
-artifact can be generated separately, with the attestation subject indicating
-an artifact producer.
+(authenticated) evidence for the asserted attributes.
+
+The set of Assertions about a subject artifact and its producer is referred
+to as the **Attribute Report**. Similarly, SCAI Attribute Reports about the
+producer of a subject artifact can be generated separately, with the
+attestation subject indicating an artifact producer.
+
+We emphasize that this predicate does not dictate the types of attributes
+that can be attested, nor does it prescribe any format to the evidence for an
+assertion.
 
 SCAI is intended to be implemented as part of an existing software supply
 chain attestation framework by software development tools or services (e.g.,
@@ -346,6 +384,15 @@ The following parsing rules apply in addition:
     }
 }
 ```
+
+## Changelog and Migrations
+
+### New in v0.2
+
+-   Change the `target` and `evidence` field type of a SCAI Attribute
+    Assertion to [ResourceDescriptor].
+-   Simplify the `producer` field: remove the `type` sub-field, and change
+    the field type to [ResourceDescriptor].
 
 [ResourceDescriptor]: https://github.com/in-toto/attestation/blob/main/spec/v1.0/resource_descriptor.md
 [SCAI specification]: https://arxiv.org/pdf/2210.05813.pdf
