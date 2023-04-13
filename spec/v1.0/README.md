@@ -46,7 +46,7 @@ this model.
     meaning of any other field, and the field MUST follow the monotonic
     principle.
 
--   **Monotonic:** A policy is considered monotonic if ignoring an
+-   **Monotonic principle:** A policy is considered monotonic if ignoring an
     attestation, or a field within an attestation, will never turn a DENY
     decision into an ALLOW. A predicate or field follows the monotonic
     principle if the expected policy that consumes it is monotonic.
