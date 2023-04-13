@@ -12,7 +12,7 @@ or immutable).
   "name": "<NAME>",
   "uri": "<RESOURCE URI>",
   "digest": { "<ALGORITHM>": "<HEX VALUE>", ... },
-  "content": "<BASE64 VALUE>",
+  "content": "<BASE64 VALUE>", // converted from bytes for JSON 
   "downloadLocation": "<RESOURCE URI>"
   "mediaType": "<MIME TYPE>",
   "annotations": {
@@ -50,7 +50,7 @@ Though all fields are optional, a ResourceDescriptor MUST specify one of
 > artifact or resource. The producer and consumer SHOULD agree on acceptable
 > algorithms.
 
-`content` _base64-encoded bytes, optional_
+`content` _bytes, optional_
 
 > The contents of the resource or artifact.
 > This field is REQUIRED unless either `uri` or `digest` is set.
