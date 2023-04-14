@@ -43,16 +43,11 @@ the message type [update guidelines].
 ## Regenerating Go proto libraries
 
 [It's typical to keep generated Go code in the repository itself](https://go.dev/doc/articles/go_command#:~:text=and%20then%20check%20those%20generated%20source%20files%20into%20your%20repository)
-since it makes users' lives much easier.
-
-Proto libraries should be regenerated & committed after any change to the
-proto files. From the root directory, run:
-
-```shell
-$ make protos
-$ git commit -asm "update protos"
-...
-```
+since it makes users' lives much easier. However, to ensure libraries are
+generated using consistent tooling, we have
+[automated their generation](/.github/workflows/make-protos.yml). Therefore, if
+your change modifies or adds protos, do NOT regenerate and check in the
+libraries. After your change is merged, they will be regenerated automatically.
 
 ## Run the Go example
 
