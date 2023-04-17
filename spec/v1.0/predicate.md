@@ -30,3 +30,4 @@ Additional [parsing rules] apply.
 [Statement]: statement.md
 [TypeURI]: field_types.md#TypeURI
 [parsing rules]: README.md#parsing-rules
+[existing predicate type]: ../predicates
