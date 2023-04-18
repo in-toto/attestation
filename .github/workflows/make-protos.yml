@@ -1,0 +1,49 @@
+name: Generate attestation libraries
+on:
+  push:
+    branches:
+      - "main"
+  schedule:
+    # There are two reasons we may need to regenerate libraries.
+    # First, there's an explicit change merged into main. That's caught by the
+    # other trigger. The second reason is when protoc is updated to a newer
+    # version (still within the versions specified here, as 3.x may map to 3.20
+    # instead of 3.19) without any changes to the main branch of this
+    # repository. For this reason, the second trigger runs this workflow once a
+    # week.
+    - cron: '0 14 * * 1'
+jobs:
+  run-make-protos:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install protoc
+        uses: arduino/setup-protoc@ab6203da1c3118e4406048171b09238ad31ad73e
+        with:
+          version: '3.x'
+      - name: Install Go
+        uses: actions/setup-go@4d34df0c2316fe8122ab82dc22947d607c0c91f9
+        with:
+          go-version: 1.20.x
+      - name: setup env
+        run: |
+          echo "$(go env GOPATH)/bin" >> $GITHUB_PATH
+      - name: Checkout repo
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
+      - name: Generate libraries
+        run: |
+          make protos
+      - name: Create PR
+        # This step opens a PR if make protos resulted in a difference from
+        # what's currently in the main branch. It has no permissions to write to
+        # the repository, maintainers are required to approve and merge the PRs.
+        uses: peter-evans/create-pull-request@5b4a9f6a9e2af26e5f02351490b90d01eb8ec1e5
+        with:
+          commit-message: Regenerate attestation libraries
+          title: Regenerate attestation libraries
+          body: This PR updates the attestation libraries generated using protoc.
+          base: main
+          branch: actions-regenerate-attestation-libraries
+          delete-branch: true
+          signoff: true
+          author: GitHub <noreply@github.com>
+          committer: GitHub <noreply@github.com>
