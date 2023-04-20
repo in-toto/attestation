@@ -3,6 +3,7 @@ go_setup:
 
 protos: go_setup
 	make -C protos go
+	make -C protos python
 
 go_run:
 	go run examples/go/main.go
