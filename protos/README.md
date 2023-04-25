@@ -22,6 +22,7 @@ We currently support bindings for the following languages:
 
 -   [go]
 -   [python]
+-   [java]
 
 ## Usage
 
@@ -43,3 +44,4 @@ testing the supported language bindings.
 [documentation]: ../docs/protos.md
 [go]: ../go/
 [python]: ../python/
+[java]: ../java/
