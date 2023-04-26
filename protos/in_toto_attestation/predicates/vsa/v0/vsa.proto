@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package in_toto_attestation.predicates;
+package in_toto_attestation.predicates.vsa.v0;
 
 import "google/protobuf/timestamp.proto";
 

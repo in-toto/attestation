@@ -31,7 +31,7 @@ our [vetting process], and may be of general interest:
 [Runtime Traces]: runtime-trace.md
 [SCAI Report]: scai.md
 [SLSA Provenance]: https://slsa.dev/provenance
-[SLSA Verification Summary]: vsa/vsa.md
+[SLSA Verification Summary]: vsa.md
 [SPDX]: spdx.md
 [Test Results]: test-results.md
 [in-toto 0.9]: https://github.com/in-toto/docs/blob/master/in-toto-spec.md#44-file-formats-namekeyid-prefixlink
