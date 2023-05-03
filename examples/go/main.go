@@ -27,7 +27,7 @@ func createStatementPb(subName string, subSha256 string, predicateType string, p
 		Digest: map[string]string{"sha256": strings.ToLower(subSha256)},
 	}}
 	statement := &spb.Statement{
-		Type:          "https://in-toto.io/Statement/v1.0",
+		Type:          "https://in-toto.io/Statement/v1",
 		Subject:       sub,
 		PredicateType: predicateType,
 		Predicate:     predicate,
@@ -114,7 +114,7 @@ func main() {
 
 	// Read JSON text into a Statement
 	err = protojson.Unmarshal([]byte(`{
-            "_type": "https://in-toto.io/Statement/v1.0",
+            "_type": "https://in-toto.io/Statement/v1",
             "subject": [{
               "name": "sub name",
               "digest": { "sha256": "abc123" }
