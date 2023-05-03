@@ -57,9 +57,9 @@ Our vetting process is simple.
 3.  If accepted, the new predicate type will be included in our directory.
 
 [ITE-9]: https://github.com/in-toto/ITE/tree/master/ITE/9#document-format
-[Predicates]: ../spec/v1.0/predicate.md
+[Predicates]: ../spec/v1/predicate.md
 [RFC 3339]: https://tools.ietf.org/html/rfc3339
-[field types]: ../spec/v1.0/field_types.md
+[field types]: ../spec/v1/field_types.md
 [existing predicates]: ../spec/predicates
-[parsing rules]: ../spec/v1.0/README.md#parsing-rules
+[parsing rules]: ../spec/v1/README.md#parsing-rules
 [vetting process]: #vetting-process

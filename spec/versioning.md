@@ -3,7 +3,7 @@
 ## Objective
 
 This document explains how version changes and extension fields are handled. For
-a summary, see [parsing rules](v1.0/README.md#parsing-rules) in the README.
+a summary, see [parsing rules](v1/README.md#parsing-rules) in the README.
 
 ## Versioning rules
 

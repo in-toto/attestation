@@ -47,7 +47,7 @@ authority MUST be in lowercase.
 
 **Example:**
 
-`"https://in-toto.io/Statement/v1.0"`.
+`"https://in-toto.io/Statement/v1"`.
 
 ## Timestamp
 
