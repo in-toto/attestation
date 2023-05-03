@@ -65,6 +65,7 @@ public final class ResourceDescriptorOuterClass {
     /**
      * <code>map&lt;string, string&gt; digest = 3;</code>
      */
+
     /* nullable */
 java.lang.String getDigestOrDefault(
         java.lang.String key,
@@ -73,6 +74,7 @@ java.lang.String defaultValue);
     /**
      * <code>map&lt;string, string&gt; digest = 3;</code>
      */
+
     java.lang.String getDigestOrThrow(
         java.lang.String key);
 
@@ -129,6 +131,7 @@ java.lang.String defaultValue);
     /**
      * <code>map&lt;string, .google.protobuf.Struct&gt; annotations = 7;</code>
      */
+
     /* nullable */
 com.google.protobuf.Struct getAnnotationsOrDefault(
         java.lang.String key,
@@ -137,6 +140,7 @@ com.google.protobuf.Struct defaultValue);
     /**
      * <code>map&lt;string, .google.protobuf.Struct&gt; annotations = 7;</code>
      */
+
     com.google.protobuf.Struct getAnnotationsOrThrow(
         java.lang.String key);
   }
@@ -206,8 +210,7 @@ com.google.protobuf.Struct defaultValue);
     }
 
     public static final int NAME_FIELD_NUMBER = 1;
-    @SuppressWarnings("serial")
-    private volatile java.lang.Object name_ = "";
+    private volatile java.lang.Object name_;
     /**
      * <code>string name = 1;</code>
      * @return The name.
@@ -245,8 +248,7 @@ com.google.protobuf.Struct defaultValue);
     }
 
     public static final int URI_FIELD_NUMBER = 2;
-    @SuppressWarnings("serial")
-    private volatile java.lang.Object uri_ = "";
+    private volatile java.lang.Object uri_;
     /**
      * <code>string uri = 2;</code>
      * @return The uri.
@@ -295,7 +297,6 @@ com.google.protobuf.Struct defaultValue);
                   com.google.protobuf.WireFormat.FieldType.STRING,
                   "");
     }
-    @SuppressWarnings("serial")
     private com.google.protobuf.MapField<
         java.lang.String, java.lang.String> digest_;
     private com.google.protobuf.MapField<java.lang.String, java.lang.String>
@@ -306,12 +307,14 @@ com.google.protobuf.Struct defaultValue);
       }
       return digest_;
     }
+
     public int getDigestCount() {
       return internalGetDigest().getMap().size();
     }
     /**
      * <code>map&lt;string, string&gt; digest = 3;</code>
      */
+
     @java.lang.Override
     public boolean containsDigest(
         java.lang.String key) {
@@ -330,6 +333,7 @@ com.google.protobuf.Struct defaultValue);
      * <code>map&lt;string, string&gt; digest = 3;</code>
      */
     @java.lang.Override
+
     public java.util.Map<java.lang.String, java.lang.String> getDigestMap() {
       return internalGetDigest().getMap();
     }
@@ -337,11 +341,10 @@ com.google.protobuf.Struct defaultValue);
      * <code>map&lt;string, string&gt; digest = 3;</code>
      */
     @java.lang.Override
-    public /* nullable */
-java.lang.String getDigestOrDefault(
+
+    public java.lang.String getDigestOrDefault(
         java.lang.String key,
-        /* nullable */
-java.lang.String defaultValue) {
+        java.lang.String defaultValue) {
       if (key == null) { throw new NullPointerException("map key"); }
       java.util.Map<java.lang.String, java.lang.String> map =
           internalGetDigest().getMap();
@@ -351,6 +354,7 @@ java.lang.String defaultValue) {
      * <code>map&lt;string, string&gt; digest = 3;</code>
      */
     @java.lang.Override
+
     public java.lang.String getDigestOrThrow(
         java.lang.String key) {
       if (key == null) { throw new NullPointerException("map key"); }
@@ -363,7 +367,7 @@ java.lang.String defaultValue) {
     }
 
     public static final int CONTENT_FIELD_NUMBER = 4;
-    private com.google.protobuf.ByteString content_ = com.google.protobuf.ByteString.EMPTY;
+    private com.google.protobuf.ByteString content_;
     /**
      * <code>bytes content = 4;</code>
      * @return The content.
@@ -374,8 +378,7 @@ java.lang.String defaultValue) {
     }
 
     public static final int DOWNLOADLOCATION_FIELD_NUMBER = 5;
-    @SuppressWarnings("serial")
-    private volatile java.lang.Object downloadLocation_ = "";
+    private volatile java.lang.Object downloadLocation_;
     /**
      * <code>string downloadLocation = 5;</code>
      * @return The downloadLocation.
@@ -413,8 +416,7 @@ java.lang.String defaultValue) {
     }
 
     public static final int MEDIATYPE_FIELD_NUMBER = 6;
-    @SuppressWarnings("serial")
-    private volatile java.lang.Object mediaType_ = "";
+    private volatile java.lang.Object mediaType_;
     /**
      * <code>string mediaType = 6;</code>
      * @return The mediaType.
@@ -463,7 +465,6 @@ java.lang.String defaultValue) {
                   com.google.protobuf.WireFormat.FieldType.MESSAGE,
                   com.google.protobuf.Struct.getDefaultInstance());
     }
-    @SuppressWarnings("serial")
     private com.google.protobuf.MapField<
         java.lang.String, com.google.protobuf.Struct> annotations_;
     private com.google.protobuf.MapField<java.lang.String, com.google.protobuf.Struct>
@@ -474,12 +475,14 @@ java.lang.String defaultValue) {
       }
       return annotations_;
     }
+
     public int getAnnotationsCount() {
       return internalGetAnnotations().getMap().size();
     }
     /**
      * <code>map&lt;string, .google.protobuf.Struct&gt; annotations = 7;</code>
      */
+
     @java.lang.Override
     public boolean containsAnnotations(
         java.lang.String key) {
@@ -498,6 +501,7 @@ java.lang.String defaultValue) {
      * <code>map&lt;string, .google.protobuf.Struct&gt; annotations = 7;</code>
      */
     @java.lang.Override
+
     public java.util.Map<java.lang.String, com.google.protobuf.Struct> getAnnotationsMap() {
       return internalGetAnnotations().getMap();
     }
@@ -505,11 +509,10 @@ java.lang.String defaultValue) {
      * <code>map&lt;string, .google.protobuf.Struct&gt; annotations = 7;</code>
      */
     @java.lang.Override
-    public /* nullable */
-com.google.protobuf.Struct getAnnotationsOrDefault(
+
+    public com.google.protobuf.Struct getAnnotationsOrDefault(
         java.lang.String key,
-        /* nullable */
-com.google.protobuf.Struct defaultValue) {
+        com.google.protobuf.Struct defaultValue) {
       if (key == null) { throw new NullPointerException("map key"); }
       java.util.Map<java.lang.String, com.google.protobuf.Struct> map =
           internalGetAnnotations().getMap();
@@ -519,6 +522,7 @@ com.google.protobuf.Struct defaultValue) {
      * <code>map&lt;string, .google.protobuf.Struct&gt; annotations = 7;</code>
      */
     @java.lang.Override
+
     public com.google.protobuf.Struct getAnnotationsOrThrow(
         java.lang.String key) {
       if (key == null) { throw new NullPointerException("map key"); }
@@ -834,13 +838,17 @@ com.google.protobuf.Struct defaultValue) {
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        bitField0_ = 0;
         name_ = "";
+
         uri_ = "";
+
         internalGetMutableDigest().clear();
         content_ = com.google.protobuf.ByteString.EMPTY;
+
         downloadLocation_ = "";
+
         mediaType_ = "";
+
         internalGetMutableAnnotations().clear();
         return this;
       }
@@ -868,36 +876,18 @@ com.google.protobuf.Struct defaultValue) {
       @java.lang.Override
       public io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptor buildPartial() {
         io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptor result = new io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptor(this);
-        if (bitField0_ != 0) { buildPartial0(result); }
+        int from_bitField0_ = bitField0_;
+        result.name_ = name_;
+        result.uri_ = uri_;
+        result.digest_ = internalGetDigest();
+        result.digest_.makeImmutable();
+        result.content_ = content_;
+        result.downloadLocation_ = downloadLocation_;
+        result.mediaType_ = mediaType_;
+        result.annotations_ = internalGetAnnotations();
+        result.annotations_.makeImmutable();
         onBuilt();
         return result;
-      }
-
-      private void buildPartial0(io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptor result) {
-        int from_bitField0_ = bitField0_;
-        if (((from_bitField0_ & 0x00000001) != 0)) {
-          result.name_ = name_;
-        }
-        if (((from_bitField0_ & 0x00000002) != 0)) {
-          result.uri_ = uri_;
-        }
-        if (((from_bitField0_ & 0x00000004) != 0)) {
-          result.digest_ = internalGetDigest();
-          result.digest_.makeImmutable();
-        }
-        if (((from_bitField0_ & 0x00000008) != 0)) {
-          result.content_ = content_;
-        }
-        if (((from_bitField0_ & 0x00000010) != 0)) {
-          result.downloadLocation_ = downloadLocation_;
-        }
-        if (((from_bitField0_ & 0x00000020) != 0)) {
-          result.mediaType_ = mediaType_;
-        }
-        if (((from_bitField0_ & 0x00000040) != 0)) {
-          result.annotations_ = internalGetAnnotations();
-          result.annotations_.makeImmutable();
-        }
       }
 
       @java.lang.Override
@@ -946,33 +936,27 @@ com.google.protobuf.Struct defaultValue) {
         if (other == io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptor.getDefaultInstance()) return this;
         if (!other.getName().isEmpty()) {
           name_ = other.name_;
-          bitField0_ |= 0x00000001;
           onChanged();
         }
         if (!other.getUri().isEmpty()) {
           uri_ = other.uri_;
-          bitField0_ |= 0x00000002;
           onChanged();
         }
         internalGetMutableDigest().mergeFrom(
             other.internalGetDigest());
-        bitField0_ |= 0x00000004;
         if (other.getContent() != com.google.protobuf.ByteString.EMPTY) {
           setContent(other.getContent());
         }
         if (!other.getDownloadLocation().isEmpty()) {
           downloadLocation_ = other.downloadLocation_;
-          bitField0_ |= 0x00000010;
           onChanged();
         }
         if (!other.getMediaType().isEmpty()) {
           mediaType_ = other.mediaType_;
-          bitField0_ |= 0x00000020;
           onChanged();
         }
         internalGetMutableAnnotations().mergeFrom(
             other.internalGetAnnotations());
-        bitField0_ |= 0x00000040;
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
         return this;
@@ -1001,12 +985,12 @@ com.google.protobuf.Struct defaultValue) {
                 break;
               case 10: {
                 name_ = input.readStringRequireUtf8();
-                bitField0_ |= 0x00000001;
+
                 break;
               } // case 10
               case 18: {
                 uri_ = input.readStringRequireUtf8();
-                bitField0_ |= 0x00000002;
+
                 break;
               } // case 18
               case 26: {
@@ -1015,22 +999,21 @@ com.google.protobuf.Struct defaultValue) {
                     DigestDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
                 internalGetMutableDigest().getMutableMap().put(
                     digest__.getKey(), digest__.getValue());
-                bitField0_ |= 0x00000004;
                 break;
               } // case 26
               case 34: {
                 content_ = input.readBytes();
-                bitField0_ |= 0x00000008;
+
                 break;
               } // case 34
               case 42: {
                 downloadLocation_ = input.readStringRequireUtf8();
-                bitField0_ |= 0x00000010;
+
                 break;
               } // case 42
               case 50: {
                 mediaType_ = input.readStringRequireUtf8();
-                bitField0_ |= 0x00000020;
+
                 break;
               } // case 50
               case 58: {
@@ -1039,7 +1022,6 @@ com.google.protobuf.Struct defaultValue) {
                     AnnotationsDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
                 internalGetMutableAnnotations().getMutableMap().put(
                     annotations__.getKey(), annotations__.getValue());
-                bitField0_ |= 0x00000040;
                 break;
               } // case 58
               default: {
@@ -1100,9 +1082,11 @@ com.google.protobuf.Struct defaultValue) {
        */
       public Builder setName(
           java.lang.String value) {
-        if (value == null) { throw new NullPointerException(); }
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
         name_ = value;
-        bitField0_ |= 0x00000001;
         onChanged();
         return this;
       }
@@ -1111,8 +1095,8 @@ com.google.protobuf.Struct defaultValue) {
        * @return This builder for chaining.
        */
       public Builder clearName() {
+        
         name_ = getDefaultInstance().getName();
-        bitField0_ = (bitField0_ & ~0x00000001);
         onChanged();
         return this;
       }
@@ -1123,10 +1107,12 @@ com.google.protobuf.Struct defaultValue) {
        */
       public Builder setNameBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) { throw new NullPointerException(); }
-        checkByteStringIsUtf8(value);
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
         name_ = value;
-        bitField0_ |= 0x00000001;
         onChanged();
         return this;
       }
@@ -1172,9 +1158,11 @@ com.google.protobuf.Struct defaultValue) {
        */
       public Builder setUri(
           java.lang.String value) {
-        if (value == null) { throw new NullPointerException(); }
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
         uri_ = value;
-        bitField0_ |= 0x00000002;
         onChanged();
         return this;
       }
@@ -1183,8 +1171,8 @@ com.google.protobuf.Struct defaultValue) {
        * @return This builder for chaining.
        */
       public Builder clearUri() {
+        
         uri_ = getDefaultInstance().getUri();
-        bitField0_ = (bitField0_ & ~0x00000002);
         onChanged();
         return this;
       }
@@ -1195,10 +1183,12 @@ com.google.protobuf.Struct defaultValue) {
        */
       public Builder setUriBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) { throw new NullPointerException(); }
-        checkByteStringIsUtf8(value);
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
         uri_ = value;
-        bitField0_ |= 0x00000002;
         onChanged();
         return this;
       }
@@ -1206,7 +1196,7 @@ com.google.protobuf.Struct defaultValue) {
       private com.google.protobuf.MapField<
           java.lang.String, java.lang.String> digest_;
       private com.google.protobuf.MapField<java.lang.String, java.lang.String>
-          internalGetDigest() {
+      internalGetDigest() {
         if (digest_ == null) {
           return com.google.protobuf.MapField.emptyMapField(
               DigestDefaultEntryHolder.defaultEntry);
@@ -1214,7 +1204,8 @@ com.google.protobuf.Struct defaultValue) {
         return digest_;
       }
       private com.google.protobuf.MapField<java.lang.String, java.lang.String>
-          internalGetMutableDigest() {
+      internalGetMutableDigest() {
+        onChanged();;
         if (digest_ == null) {
           digest_ = com.google.protobuf.MapField.newMapField(
               DigestDefaultEntryHolder.defaultEntry);
@@ -1222,16 +1213,16 @@ com.google.protobuf.Struct defaultValue) {
         if (!digest_.isMutable()) {
           digest_ = digest_.copy();
         }
-        bitField0_ |= 0x00000004;
-        onChanged();
         return digest_;
       }
+
       public int getDigestCount() {
         return internalGetDigest().getMap().size();
       }
       /**
        * <code>map&lt;string, string&gt; digest = 3;</code>
        */
+
       @java.lang.Override
       public boolean containsDigest(
           java.lang.String key) {
@@ -1250,6 +1241,7 @@ com.google.protobuf.Struct defaultValue) {
        * <code>map&lt;string, string&gt; digest = 3;</code>
        */
       @java.lang.Override
+
       public java.util.Map<java.lang.String, java.lang.String> getDigestMap() {
         return internalGetDigest().getMap();
       }
@@ -1257,11 +1249,10 @@ com.google.protobuf.Struct defaultValue) {
        * <code>map&lt;string, string&gt; digest = 3;</code>
        */
       @java.lang.Override
-      public /* nullable */
-java.lang.String getDigestOrDefault(
+
+      public java.lang.String getDigestOrDefault(
           java.lang.String key,
-          /* nullable */
-java.lang.String defaultValue) {
+          java.lang.String defaultValue) {
         if (key == null) { throw new NullPointerException("map key"); }
         java.util.Map<java.lang.String, java.lang.String> map =
             internalGetDigest().getMap();
@@ -1271,6 +1262,7 @@ java.lang.String defaultValue) {
        * <code>map&lt;string, string&gt; digest = 3;</code>
        */
       @java.lang.Override
+
       public java.lang.String getDigestOrThrow(
           java.lang.String key) {
         if (key == null) { throw new NullPointerException("map key"); }
@@ -1281,8 +1273,8 @@ java.lang.String defaultValue) {
         }
         return map.get(key);
       }
+
       public Builder clearDigest() {
-        bitField0_ = (bitField0_ & ~0x00000004);
         internalGetMutableDigest().getMutableMap()
             .clear();
         return this;
@@ -1290,6 +1282,7 @@ java.lang.String defaultValue) {
       /**
        * <code>map&lt;string, string&gt; digest = 3;</code>
        */
+
       public Builder removeDigest(
           java.lang.String key) {
         if (key == null) { throw new NullPointerException("map key"); }
@@ -1302,8 +1295,7 @@ java.lang.String defaultValue) {
        */
       @java.lang.Deprecated
       public java.util.Map<java.lang.String, java.lang.String>
-          getMutableDigest() {
-        bitField0_ |= 0x00000004;
+      getMutableDigest() {
         return internalGetMutableDigest().getMutableMap();
       }
       /**
@@ -1313,20 +1305,22 @@ java.lang.String defaultValue) {
           java.lang.String key,
           java.lang.String value) {
         if (key == null) { throw new NullPointerException("map key"); }
-        if (value == null) { throw new NullPointerException("map value"); }
+        if (value == null) {
+  throw new NullPointerException("map value");
+}
+
         internalGetMutableDigest().getMutableMap()
             .put(key, value);
-        bitField0_ |= 0x00000004;
         return this;
       }
       /**
        * <code>map&lt;string, string&gt; digest = 3;</code>
        */
+
       public Builder putAllDigest(
           java.util.Map<java.lang.String, java.lang.String> values) {
         internalGetMutableDigest().getMutableMap()
             .putAll(values);
-        bitField0_ |= 0x00000004;
         return this;
       }
 
@@ -1345,9 +1339,11 @@ java.lang.String defaultValue) {
        * @return This builder for chaining.
        */
       public Builder setContent(com.google.protobuf.ByteString value) {
-        if (value == null) { throw new NullPointerException(); }
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
         content_ = value;
-        bitField0_ |= 0x00000008;
         onChanged();
         return this;
       }
@@ -1356,7 +1352,7 @@ java.lang.String defaultValue) {
        * @return This builder for chaining.
        */
       public Builder clearContent() {
-        bitField0_ = (bitField0_ & ~0x00000008);
+        
         content_ = getDefaultInstance().getContent();
         onChanged();
         return this;
@@ -1403,9 +1399,11 @@ java.lang.String defaultValue) {
        */
       public Builder setDownloadLocation(
           java.lang.String value) {
-        if (value == null) { throw new NullPointerException(); }
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
         downloadLocation_ = value;
-        bitField0_ |= 0x00000010;
         onChanged();
         return this;
       }
@@ -1414,8 +1412,8 @@ java.lang.String defaultValue) {
        * @return This builder for chaining.
        */
       public Builder clearDownloadLocation() {
+        
         downloadLocation_ = getDefaultInstance().getDownloadLocation();
-        bitField0_ = (bitField0_ & ~0x00000010);
         onChanged();
         return this;
       }
@@ -1426,10 +1424,12 @@ java.lang.String defaultValue) {
        */
       public Builder setDownloadLocationBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) { throw new NullPointerException(); }
-        checkByteStringIsUtf8(value);
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
         downloadLocation_ = value;
-        bitField0_ |= 0x00000010;
         onChanged();
         return this;
       }
@@ -1475,9 +1475,11 @@ java.lang.String defaultValue) {
        */
       public Builder setMediaType(
           java.lang.String value) {
-        if (value == null) { throw new NullPointerException(); }
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
         mediaType_ = value;
-        bitField0_ |= 0x00000020;
         onChanged();
         return this;
       }
@@ -1486,8 +1488,8 @@ java.lang.String defaultValue) {
        * @return This builder for chaining.
        */
       public Builder clearMediaType() {
+        
         mediaType_ = getDefaultInstance().getMediaType();
-        bitField0_ = (bitField0_ & ~0x00000020);
         onChanged();
         return this;
       }
@@ -1498,10 +1500,12 @@ java.lang.String defaultValue) {
        */
       public Builder setMediaTypeBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) { throw new NullPointerException(); }
-        checkByteStringIsUtf8(value);
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
         mediaType_ = value;
-        bitField0_ |= 0x00000020;
         onChanged();
         return this;
       }
@@ -1509,7 +1513,7 @@ java.lang.String defaultValue) {
       private com.google.protobuf.MapField<
           java.lang.String, com.google.protobuf.Struct> annotations_;
       private com.google.protobuf.MapField<java.lang.String, com.google.protobuf.Struct>
-          internalGetAnnotations() {
+      internalGetAnnotations() {
         if (annotations_ == null) {
           return com.google.protobuf.MapField.emptyMapField(
               AnnotationsDefaultEntryHolder.defaultEntry);
@@ -1517,7 +1521,8 @@ java.lang.String defaultValue) {
         return annotations_;
       }
       private com.google.protobuf.MapField<java.lang.String, com.google.protobuf.Struct>
-          internalGetMutableAnnotations() {
+      internalGetMutableAnnotations() {
+        onChanged();;
         if (annotations_ == null) {
           annotations_ = com.google.protobuf.MapField.newMapField(
               AnnotationsDefaultEntryHolder.defaultEntry);
@@ -1525,16 +1530,16 @@ java.lang.String defaultValue) {
         if (!annotations_.isMutable()) {
           annotations_ = annotations_.copy();
         }
-        bitField0_ |= 0x00000040;
-        onChanged();
         return annotations_;
       }
+
       public int getAnnotationsCount() {
         return internalGetAnnotations().getMap().size();
       }
       /**
        * <code>map&lt;string, .google.protobuf.Struct&gt; annotations = 7;</code>
        */
+
       @java.lang.Override
       public boolean containsAnnotations(
           java.lang.String key) {
@@ -1553,6 +1558,7 @@ java.lang.String defaultValue) {
        * <code>map&lt;string, .google.protobuf.Struct&gt; annotations = 7;</code>
        */
       @java.lang.Override
+
       public java.util.Map<java.lang.String, com.google.protobuf.Struct> getAnnotationsMap() {
         return internalGetAnnotations().getMap();
       }
@@ -1560,11 +1566,10 @@ java.lang.String defaultValue) {
        * <code>map&lt;string, .google.protobuf.Struct&gt; annotations = 7;</code>
        */
       @java.lang.Override
-      public /* nullable */
-com.google.protobuf.Struct getAnnotationsOrDefault(
+
+      public com.google.protobuf.Struct getAnnotationsOrDefault(
           java.lang.String key,
-          /* nullable */
-com.google.protobuf.Struct defaultValue) {
+          com.google.protobuf.Struct defaultValue) {
         if (key == null) { throw new NullPointerException("map key"); }
         java.util.Map<java.lang.String, com.google.protobuf.Struct> map =
             internalGetAnnotations().getMap();
@@ -1574,6 +1579,7 @@ com.google.protobuf.Struct defaultValue) {
        * <code>map&lt;string, .google.protobuf.Struct&gt; annotations = 7;</code>
        */
       @java.lang.Override
+
       public com.google.protobuf.Struct getAnnotationsOrThrow(
           java.lang.String key) {
         if (key == null) { throw new NullPointerException("map key"); }
@@ -1584,8 +1590,8 @@ com.google.protobuf.Struct defaultValue) {
         }
         return map.get(key);
       }
+
       public Builder clearAnnotations() {
-        bitField0_ = (bitField0_ & ~0x00000040);
         internalGetMutableAnnotations().getMutableMap()
             .clear();
         return this;
@@ -1593,6 +1599,7 @@ com.google.protobuf.Struct defaultValue) {
       /**
        * <code>map&lt;string, .google.protobuf.Struct&gt; annotations = 7;</code>
        */
+
       public Builder removeAnnotations(
           java.lang.String key) {
         if (key == null) { throw new NullPointerException("map key"); }
@@ -1605,8 +1612,7 @@ com.google.protobuf.Struct defaultValue) {
        */
       @java.lang.Deprecated
       public java.util.Map<java.lang.String, com.google.protobuf.Struct>
-          getMutableAnnotations() {
-        bitField0_ |= 0x00000040;
+      getMutableAnnotations() {
         return internalGetMutableAnnotations().getMutableMap();
       }
       /**
@@ -1616,20 +1622,22 @@ com.google.protobuf.Struct defaultValue) {
           java.lang.String key,
           com.google.protobuf.Struct value) {
         if (key == null) { throw new NullPointerException("map key"); }
-        if (value == null) { throw new NullPointerException("map value"); }
+        if (value == null) {
+  throw new NullPointerException("map value");
+}
+
         internalGetMutableAnnotations().getMutableMap()
             .put(key, value);
-        bitField0_ |= 0x00000040;
         return this;
       }
       /**
        * <code>map&lt;string, .google.protobuf.Struct&gt; annotations = 7;</code>
        */
+
       public Builder putAllAnnotations(
           java.util.Map<java.lang.String, com.google.protobuf.Struct> values) {
         internalGetMutableAnnotations().getMutableMap()
             .putAll(values);
-        bitField0_ |= 0x00000040;
         return this;
       }
       @java.lang.Override
