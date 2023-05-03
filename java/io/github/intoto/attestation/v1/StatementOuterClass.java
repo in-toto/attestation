@@ -177,6 +177,7 @@ public final class StatementOuterClass {
       /**
        * <code>map&lt;string, string&gt; digest = 2;</code>
        */
+
       /* nullable */
 java.lang.String getDigestOrDefault(
           java.lang.String key,
@@ -185,6 +186,7 @@ java.lang.String defaultValue);
       /**
        * <code>map&lt;string, string&gt; digest = 2;</code>
        */
+
       java.lang.String getDigestOrThrow(
           java.lang.String key);
     }
@@ -242,8 +244,7 @@ java.lang.String defaultValue);
       }
 
       public static final int NAME_FIELD_NUMBER = 1;
-      @SuppressWarnings("serial")
-      private volatile java.lang.Object name_ = "";
+      private volatile java.lang.Object name_;
       /**
        * <code>string name = 1;</code>
        * @return The name.
@@ -292,7 +293,6 @@ java.lang.String defaultValue);
                     com.google.protobuf.WireFormat.FieldType.STRING,
                     "");
       }
-      @SuppressWarnings("serial")
       private com.google.protobuf.MapField<
           java.lang.String, java.lang.String> digest_;
       private com.google.protobuf.MapField<java.lang.String, java.lang.String>
@@ -303,12 +303,14 @@ java.lang.String defaultValue);
         }
         return digest_;
       }
+
       public int getDigestCount() {
         return internalGetDigest().getMap().size();
       }
       /**
        * <code>map&lt;string, string&gt; digest = 2;</code>
        */
+
       @java.lang.Override
       public boolean containsDigest(
           java.lang.String key) {
@@ -327,6 +329,7 @@ java.lang.String defaultValue);
        * <code>map&lt;string, string&gt; digest = 2;</code>
        */
       @java.lang.Override
+
       public java.util.Map<java.lang.String, java.lang.String> getDigestMap() {
         return internalGetDigest().getMap();
       }
@@ -334,11 +337,10 @@ java.lang.String defaultValue);
        * <code>map&lt;string, string&gt; digest = 2;</code>
        */
       @java.lang.Override
-      public /* nullable */
-java.lang.String getDigestOrDefault(
+
+      public java.lang.String getDigestOrDefault(
           java.lang.String key,
-          /* nullable */
-java.lang.String defaultValue) {
+          java.lang.String defaultValue) {
         if (key == null) { throw new NullPointerException("map key"); }
         java.util.Map<java.lang.String, java.lang.String> map =
             internalGetDigest().getMap();
@@ -348,6 +350,7 @@ java.lang.String defaultValue) {
        * <code>map&lt;string, string&gt; digest = 2;</code>
        */
       @java.lang.Override
+
       public java.lang.String getDigestOrThrow(
           java.lang.String key) {
         if (key == null) { throw new NullPointerException("map key"); }
@@ -590,8 +593,8 @@ java.lang.String defaultValue) {
         @java.lang.Override
         public Builder clear() {
           super.clear();
-          bitField0_ = 0;
           name_ = "";
+
           internalGetMutableDigest().clear();
           return this;
         }
@@ -619,20 +622,12 @@ java.lang.String defaultValue) {
         @java.lang.Override
         public io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject buildPartial() {
           io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject result = new io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject(this);
-          if (bitField0_ != 0) { buildPartial0(result); }
+          int from_bitField0_ = bitField0_;
+          result.name_ = name_;
+          result.digest_ = internalGetDigest();
+          result.digest_.makeImmutable();
           onBuilt();
           return result;
-        }
-
-        private void buildPartial0(io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject result) {
-          int from_bitField0_ = bitField0_;
-          if (((from_bitField0_ & 0x00000001) != 0)) {
-            result.name_ = name_;
-          }
-          if (((from_bitField0_ & 0x00000002) != 0)) {
-            result.digest_ = internalGetDigest();
-            result.digest_.makeImmutable();
-          }
         }
 
         @java.lang.Override
@@ -681,12 +676,10 @@ java.lang.String defaultValue) {
           if (other == io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject.getDefaultInstance()) return this;
           if (!other.getName().isEmpty()) {
             name_ = other.name_;
-            bitField0_ |= 0x00000001;
             onChanged();
           }
           internalGetMutableDigest().mergeFrom(
               other.internalGetDigest());
-          bitField0_ |= 0x00000002;
           this.mergeUnknownFields(other.getUnknownFields());
           onChanged();
           return this;
@@ -715,7 +708,7 @@ java.lang.String defaultValue) {
                   break;
                 case 10: {
                   name_ = input.readStringRequireUtf8();
-                  bitField0_ |= 0x00000001;
+
                   break;
                 } // case 10
                 case 18: {
@@ -724,7 +717,6 @@ java.lang.String defaultValue) {
                       DigestDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
                   internalGetMutableDigest().getMutableMap().put(
                       digest__.getKey(), digest__.getValue());
-                  bitField0_ |= 0x00000002;
                   break;
                 } // case 18
                 default: {
@@ -785,9 +777,11 @@ java.lang.String defaultValue) {
          */
         public Builder setName(
             java.lang.String value) {
-          if (value == null) { throw new NullPointerException(); }
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  
           name_ = value;
-          bitField0_ |= 0x00000001;
           onChanged();
           return this;
         }
@@ -796,8 +790,8 @@ java.lang.String defaultValue) {
          * @return This builder for chaining.
          */
         public Builder clearName() {
+          
           name_ = getDefaultInstance().getName();
-          bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
           return this;
         }
@@ -808,10 +802,12 @@ java.lang.String defaultValue) {
          */
         public Builder setNameBytes(
             com.google.protobuf.ByteString value) {
-          if (value == null) { throw new NullPointerException(); }
-          checkByteStringIsUtf8(value);
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+          
           name_ = value;
-          bitField0_ |= 0x00000001;
           onChanged();
           return this;
         }
@@ -819,7 +815,7 @@ java.lang.String defaultValue) {
         private com.google.protobuf.MapField<
             java.lang.String, java.lang.String> digest_;
         private com.google.protobuf.MapField<java.lang.String, java.lang.String>
-            internalGetDigest() {
+        internalGetDigest() {
           if (digest_ == null) {
             return com.google.protobuf.MapField.emptyMapField(
                 DigestDefaultEntryHolder.defaultEntry);
@@ -827,7 +823,8 @@ java.lang.String defaultValue) {
           return digest_;
         }
         private com.google.protobuf.MapField<java.lang.String, java.lang.String>
-            internalGetMutableDigest() {
+        internalGetMutableDigest() {
+          onChanged();;
           if (digest_ == null) {
             digest_ = com.google.protobuf.MapField.newMapField(
                 DigestDefaultEntryHolder.defaultEntry);
@@ -835,16 +832,16 @@ java.lang.String defaultValue) {
           if (!digest_.isMutable()) {
             digest_ = digest_.copy();
           }
-          bitField0_ |= 0x00000002;
-          onChanged();
           return digest_;
         }
+
         public int getDigestCount() {
           return internalGetDigest().getMap().size();
         }
         /**
          * <code>map&lt;string, string&gt; digest = 2;</code>
          */
+
         @java.lang.Override
         public boolean containsDigest(
             java.lang.String key) {
@@ -863,6 +860,7 @@ java.lang.String defaultValue) {
          * <code>map&lt;string, string&gt; digest = 2;</code>
          */
         @java.lang.Override
+
         public java.util.Map<java.lang.String, java.lang.String> getDigestMap() {
           return internalGetDigest().getMap();
         }
@@ -870,11 +868,10 @@ java.lang.String defaultValue) {
          * <code>map&lt;string, string&gt; digest = 2;</code>
          */
         @java.lang.Override
-        public /* nullable */
-java.lang.String getDigestOrDefault(
+
+        public java.lang.String getDigestOrDefault(
             java.lang.String key,
-            /* nullable */
-java.lang.String defaultValue) {
+            java.lang.String defaultValue) {
           if (key == null) { throw new NullPointerException("map key"); }
           java.util.Map<java.lang.String, java.lang.String> map =
               internalGetDigest().getMap();
@@ -884,6 +881,7 @@ java.lang.String defaultValue) {
          * <code>map&lt;string, string&gt; digest = 2;</code>
          */
         @java.lang.Override
+
         public java.lang.String getDigestOrThrow(
             java.lang.String key) {
           if (key == null) { throw new NullPointerException("map key"); }
@@ -894,8 +892,8 @@ java.lang.String defaultValue) {
           }
           return map.get(key);
         }
+
         public Builder clearDigest() {
-          bitField0_ = (bitField0_ & ~0x00000002);
           internalGetMutableDigest().getMutableMap()
               .clear();
           return this;
@@ -903,6 +901,7 @@ java.lang.String defaultValue) {
         /**
          * <code>map&lt;string, string&gt; digest = 2;</code>
          */
+
         public Builder removeDigest(
             java.lang.String key) {
           if (key == null) { throw new NullPointerException("map key"); }
@@ -915,8 +914,7 @@ java.lang.String defaultValue) {
          */
         @java.lang.Deprecated
         public java.util.Map<java.lang.String, java.lang.String>
-            getMutableDigest() {
-          bitField0_ |= 0x00000002;
+        getMutableDigest() {
           return internalGetMutableDigest().getMutableMap();
         }
         /**
@@ -926,20 +924,22 @@ java.lang.String defaultValue) {
             java.lang.String key,
             java.lang.String value) {
           if (key == null) { throw new NullPointerException("map key"); }
-          if (value == null) { throw new NullPointerException("map value"); }
+          if (value == null) {
+  throw new NullPointerException("map value");
+}
+
           internalGetMutableDigest().getMutableMap()
               .put(key, value);
-          bitField0_ |= 0x00000002;
           return this;
         }
         /**
          * <code>map&lt;string, string&gt; digest = 2;</code>
          */
+
         public Builder putAllDigest(
             java.util.Map<java.lang.String, java.lang.String> values) {
           internalGetMutableDigest().getMutableMap()
               .putAll(values);
-          bitField0_ |= 0x00000002;
           return this;
         }
         @java.lang.Override
@@ -1007,8 +1007,7 @@ java.lang.String defaultValue) {
     }
 
     public static final int TYPE_FIELD_NUMBER = 1;
-    @SuppressWarnings("serial")
-    private volatile java.lang.Object type_ = "";
+    private volatile java.lang.Object type_;
     /**
      * <pre>
      * Expected to always be "https://in-toto.io/Statement/v1"
@@ -1054,7 +1053,6 @@ java.lang.String defaultValue) {
     }
 
     public static final int SUBJECT_FIELD_NUMBER = 2;
-    @SuppressWarnings("serial")
     private java.util.List<io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject> subject_;
     /**
      * <code>repeated .in_toto_attestation.v1.Statement.Subject subject = 2;</code>
@@ -1095,8 +1093,7 @@ java.lang.String defaultValue) {
     }
 
     public static final int PREDICATETYPE_FIELD_NUMBER = 3;
-    @SuppressWarnings("serial")
-    private volatile java.lang.Object predicateType_ = "";
+    private volatile java.lang.Object predicateType_;
     /**
      * <code>string predicateType = 3;</code>
      * @return The predicateType.
@@ -1156,7 +1153,7 @@ java.lang.String defaultValue) {
      */
     @java.lang.Override
     public com.google.protobuf.StructOrBuilder getPredicateOrBuilder() {
-      return predicate_ == null ? com.google.protobuf.Struct.getDefaultInstance() : predicate_;
+      return getPredicate();
     }
 
     private byte memoizedIsInitialized = -1;
@@ -1391,19 +1388,21 @@ java.lang.String defaultValue) {
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        bitField0_ = 0;
         type_ = "";
+
         if (subjectBuilder_ == null) {
           subject_ = java.util.Collections.emptyList();
         } else {
           subject_ = null;
           subjectBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000001);
         predicateType_ = "";
-        predicate_ = null;
-        if (predicateBuilder_ != null) {
-          predicateBuilder_.dispose();
+
+        if (predicateBuilder_ == null) {
+          predicate_ = null;
+        } else {
+          predicate_ = null;
           predicateBuilder_ = null;
         }
         return this;
@@ -1432,37 +1431,25 @@ java.lang.String defaultValue) {
       @java.lang.Override
       public io.github.intoto.attestation.v1.StatementOuterClass.Statement buildPartial() {
         io.github.intoto.attestation.v1.StatementOuterClass.Statement result = new io.github.intoto.attestation.v1.StatementOuterClass.Statement(this);
-        buildPartialRepeatedFields(result);
-        if (bitField0_ != 0) { buildPartial0(result); }
-        onBuilt();
-        return result;
-      }
-
-      private void buildPartialRepeatedFields(io.github.intoto.attestation.v1.StatementOuterClass.Statement result) {
+        int from_bitField0_ = bitField0_;
+        result.type_ = type_;
         if (subjectBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) != 0)) {
+          if (((bitField0_ & 0x00000001) != 0)) {
             subject_ = java.util.Collections.unmodifiableList(subject_);
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000001);
           }
           result.subject_ = subject_;
         } else {
           result.subject_ = subjectBuilder_.build();
         }
-      }
-
-      private void buildPartial0(io.github.intoto.attestation.v1.StatementOuterClass.Statement result) {
-        int from_bitField0_ = bitField0_;
-        if (((from_bitField0_ & 0x00000001) != 0)) {
-          result.type_ = type_;
+        result.predicateType_ = predicateType_;
+        if (predicateBuilder_ == null) {
+          result.predicate_ = predicate_;
+        } else {
+          result.predicate_ = predicateBuilder_.build();
         }
-        if (((from_bitField0_ & 0x00000004) != 0)) {
-          result.predicateType_ = predicateType_;
-        }
-        if (((from_bitField0_ & 0x00000008) != 0)) {
-          result.predicate_ = predicateBuilder_ == null
-              ? predicate_
-              : predicateBuilder_.build();
-        }
+        onBuilt();
+        return result;
       }
 
       @java.lang.Override
@@ -1511,14 +1498,13 @@ java.lang.String defaultValue) {
         if (other == io.github.intoto.attestation.v1.StatementOuterClass.Statement.getDefaultInstance()) return this;
         if (!other.getType().isEmpty()) {
           type_ = other.type_;
-          bitField0_ |= 0x00000001;
           onChanged();
         }
         if (subjectBuilder_ == null) {
           if (!other.subject_.isEmpty()) {
             if (subject_.isEmpty()) {
               subject_ = other.subject_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000001);
             } else {
               ensureSubjectIsMutable();
               subject_.addAll(other.subject_);
@@ -1531,7 +1517,7 @@ java.lang.String defaultValue) {
               subjectBuilder_.dispose();
               subjectBuilder_ = null;
               subject_ = other.subject_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000001);
               subjectBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getSubjectFieldBuilder() : null;
@@ -1542,7 +1528,6 @@ java.lang.String defaultValue) {
         }
         if (!other.getPredicateType().isEmpty()) {
           predicateType_ = other.predicateType_;
-          bitField0_ |= 0x00000004;
           onChanged();
         }
         if (other.hasPredicate()) {
@@ -1576,7 +1561,7 @@ java.lang.String defaultValue) {
                 break;
               case 10: {
                 type_ = input.readStringRequireUtf8();
-                bitField0_ |= 0x00000001;
+
                 break;
               } // case 10
               case 18: {
@@ -1594,14 +1579,14 @@ java.lang.String defaultValue) {
               } // case 18
               case 26: {
                 predicateType_ = input.readStringRequireUtf8();
-                bitField0_ |= 0x00000004;
+
                 break;
               } // case 26
               case 34: {
                 input.readMessage(
                     getPredicateFieldBuilder().getBuilder(),
                     extensionRegistry);
-                bitField0_ |= 0x00000008;
+
                 break;
               } // case 34
               default: {
@@ -1674,9 +1659,11 @@ java.lang.String defaultValue) {
        */
       public Builder setType(
           java.lang.String value) {
-        if (value == null) { throw new NullPointerException(); }
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
         type_ = value;
-        bitField0_ |= 0x00000001;
         onChanged();
         return this;
       }
@@ -1689,8 +1676,8 @@ java.lang.String defaultValue) {
        * @return This builder for chaining.
        */
       public Builder clearType() {
+        
         type_ = getDefaultInstance().getType();
-        bitField0_ = (bitField0_ & ~0x00000001);
         onChanged();
         return this;
       }
@@ -1705,10 +1692,12 @@ java.lang.String defaultValue) {
        */
       public Builder setTypeBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) { throw new NullPointerException(); }
-        checkByteStringIsUtf8(value);
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
         type_ = value;
-        bitField0_ |= 0x00000001;
         onChanged();
         return this;
       }
@@ -1716,9 +1705,9 @@ java.lang.String defaultValue) {
       private java.util.List<io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject> subject_ =
         java.util.Collections.emptyList();
       private void ensureSubjectIsMutable() {
-        if (!((bitField0_ & 0x00000002) != 0)) {
+        if (!((bitField0_ & 0x00000001) != 0)) {
           subject_ = new java.util.ArrayList<io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject>(subject_);
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000001;
          }
       }
 
@@ -1868,7 +1857,7 @@ java.lang.String defaultValue) {
       public Builder clearSubject() {
         if (subjectBuilder_ == null) {
           subject_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
         } else {
           subjectBuilder_.clear();
@@ -1945,7 +1934,7 @@ java.lang.String defaultValue) {
           subjectBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject, io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject.Builder, io.github.intoto.attestation.v1.StatementOuterClass.Statement.SubjectOrBuilder>(
                   subject_,
-                  ((bitField0_ & 0x00000002) != 0),
+                  ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
                   isClean());
           subject_ = null;
@@ -1994,9 +1983,11 @@ java.lang.String defaultValue) {
        */
       public Builder setPredicateType(
           java.lang.String value) {
-        if (value == null) { throw new NullPointerException(); }
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
         predicateType_ = value;
-        bitField0_ |= 0x00000004;
         onChanged();
         return this;
       }
@@ -2005,8 +1996,8 @@ java.lang.String defaultValue) {
        * @return This builder for chaining.
        */
       public Builder clearPredicateType() {
+        
         predicateType_ = getDefaultInstance().getPredicateType();
-        bitField0_ = (bitField0_ & ~0x00000004);
         onChanged();
         return this;
       }
@@ -2017,10 +2008,12 @@ java.lang.String defaultValue) {
        */
       public Builder setPredicateTypeBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) { throw new NullPointerException(); }
-        checkByteStringIsUtf8(value);
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
         predicateType_ = value;
-        bitField0_ |= 0x00000004;
         onChanged();
         return this;
       }
@@ -2033,7 +2026,7 @@ java.lang.String defaultValue) {
        * @return Whether the predicate field is set.
        */
       public boolean hasPredicate() {
-        return ((bitField0_ & 0x00000008) != 0);
+        return predicateBuilder_ != null || predicate_ != null;
       }
       /**
        * <code>.google.protobuf.Struct predicate = 4;</code>
@@ -2055,11 +2048,11 @@ java.lang.String defaultValue) {
             throw new NullPointerException();
           }
           predicate_ = value;
+          onChanged();
         } else {
           predicateBuilder_.setMessage(value);
         }
-        bitField0_ |= 0x00000008;
-        onChanged();
+
         return this;
       }
       /**
@@ -2069,11 +2062,11 @@ java.lang.String defaultValue) {
           com.google.protobuf.Struct.Builder builderForValue) {
         if (predicateBuilder_ == null) {
           predicate_ = builderForValue.build();
+          onChanged();
         } else {
           predicateBuilder_.setMessage(builderForValue.build());
         }
-        bitField0_ |= 0x00000008;
-        onChanged();
+
         return this;
       }
       /**
@@ -2081,38 +2074,38 @@ java.lang.String defaultValue) {
        */
       public Builder mergePredicate(com.google.protobuf.Struct value) {
         if (predicateBuilder_ == null) {
-          if (((bitField0_ & 0x00000008) != 0) &&
-            predicate_ != null &&
-            predicate_ != com.google.protobuf.Struct.getDefaultInstance()) {
-            getPredicateBuilder().mergeFrom(value);
+          if (predicate_ != null) {
+            predicate_ =
+              com.google.protobuf.Struct.newBuilder(predicate_).mergeFrom(value).buildPartial();
           } else {
             predicate_ = value;
           }
+          onChanged();
         } else {
           predicateBuilder_.mergeFrom(value);
         }
-        bitField0_ |= 0x00000008;
-        onChanged();
+
         return this;
       }
       /**
        * <code>.google.protobuf.Struct predicate = 4;</code>
        */
       public Builder clearPredicate() {
-        bitField0_ = (bitField0_ & ~0x00000008);
-        predicate_ = null;
-        if (predicateBuilder_ != null) {
-          predicateBuilder_.dispose();
+        if (predicateBuilder_ == null) {
+          predicate_ = null;
+          onChanged();
+        } else {
+          predicate_ = null;
           predicateBuilder_ = null;
         }
-        onChanged();
+
         return this;
       }
       /**
        * <code>.google.protobuf.Struct predicate = 4;</code>
        */
       public com.google.protobuf.Struct.Builder getPredicateBuilder() {
-        bitField0_ |= 0x00000008;
+        
         onChanged();
         return getPredicateFieldBuilder().getBuilder();
       }
