@@ -25,8 +25,12 @@ or immutable).
 
 ## Fields
 
-Though all fields are optional, a ResourceDescriptor MUST specify one of
-`uri`, `digest` or `content` at a minimum.
+Though all fields are optional, a ResourceDescriptor MUST specify one of `uri`,
+`digest` or `content` at a minimum. Further, a context that uses the
+ResourceDescriptor can require one or more fields. For example, a predicate may
+require the `name` and `digest` fields. Note that those requirements cannot
+override the minimum requirement of one of `uri`, `digest`, or `content`
+specified here.
 
 `name` _string, optional_
 
