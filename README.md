@@ -10,7 +10,10 @@ and establish trust in its supply chain, using in-toto attestations.
 To get started, check out the [overview] of the in-toto Attestation Framework.
 
 For a deeper dive, we recommend reading through our [documentation] to learn
-more about the goals of the in-toto Attestation Framework.
+more about the goals of the in-toto Attestation Framework. If you encountered
+in-toto via the SLSA project, take a look at this
+[blog post](https://slsa.dev/blog/2023/05/in-toto-and-slsa) to understand how
+the two frameworks intersect and how you can use in-toto for SLSA.
 
 Visit [https://in-toto.io](https://in-toto.io) to learn about the larger
 in-toto project.
