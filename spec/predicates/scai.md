@@ -4,7 +4,7 @@ Type URI: https://in-toto.io/attestation/scai/attribute-report
 
 Version: 0.2
 
-Author: Marcela Melara <marcela.melara@intel.com>
+Author: Marcela Melara ([@marcelamelara](https://github.com/marcelamelara))
 
 ## Purpose
 
@@ -199,7 +199,7 @@ The following parsing rules apply in addition:
         
     "predicateType": "https://in-toto.io/attestation/scai/attribute-report/v0.2",
     "predicate": {
-        "subjectAttributes": [{
+        "attributes": [{
             "attribute": "WITH_STACK_PROTECTION",
             "conditions": { "flags": "-fstack-protector*" },
         }],
@@ -258,7 +258,7 @@ The following parsing rules apply in addition:
         
     "predicateType": "https://in-toto.io/attestation/scai/attribute-report/v0.2",
     "predicate": {
-        "subjectAttributes": [{
+        "attributes": [{
             "attribute": "WITH_STACK_PROTECTION",
             "conditions": { "flags": "-fstack-protector*" },
             "evidence": {
@@ -326,7 +326,7 @@ The following parsing rules apply in addition:
     "predicateType": "https://in-toto.io/attestation/scai/attribute-report/v0.2"
     "predicate": {
         "attributes": [{
-            "attribute": "HARDWARE_ENCLAVE",
+            "attribute": "VALID_ENCLAVE",
             "target": {
                 "name": "enclave.signed.so",
                 "digest": { "sha256": "e3b0c44..." },
