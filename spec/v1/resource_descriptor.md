@@ -13,7 +13,7 @@ or immutable).
   "uri": "<RESOURCE URI>",
   "digest": { "<ALGORITHM>": "<HEX VALUE>", ... },
   "content": "<BASE64 VALUE>", // converted from bytes for JSON 
-  "downloadLocation": "<RESOURCE URI>"
+  "downloadLocation": "<RESOURCE URI>",
   "mediaType": "<MIME TYPE>",
   "annotations": {
     "<FIELD_1>": { /* object */ },
