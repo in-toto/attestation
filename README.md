@@ -66,4 +66,4 @@ the framework. In the meantime, please visit any of the language-specific
 [overview]: spec/README.md#in-toto-attestation-framework-spec
 [protobuf definitions]: protos/
 [pull requests]: https://github.com/in-toto/attestation/pulls?q=is%3Aopen+is%3Apr
-[specification]: spec/v1.0/
+[specification]: spec/v1/

@@ -394,8 +394,8 @@ The following parsing rules apply in addition:
 -   Simplify the `producer` field: remove the `type` sub-field, and change
     the field type to [ResourceDescriptor].
 
-[ResourceDescriptor]: https://github.com/in-toto/attestation/blob/main/spec/v1.0/resource_descriptor.md
+[ResourceDescriptor]: ../v1/resource_descriptor.md
 [SCAI specification]: https://arxiv.org/pdf/2210.05813.pdf
-[TypeURI]: https://github.com/in-toto/attestation/blob/main/spec/v1.0/field_types.md#typeuri
-[attestation Bundle]: https://github.com/in-toto/attestation/blob/main/spec/v1.0/bundle.md
-[parsing rules]: https://github.com/in-toto/attestation/tree/main/spec/v1.0#parsing-rules
+[TypeURI]: ../v1/field_types.md#typeuri
+[attestation Bundle]: ../v1/bundle.md
+[parsing rules]: ../v1#parsing-rules
