@@ -33,7 +33,7 @@ Steps:
     -   Reject if `envelope.payloadType` != `application/vnd.in-toto+json`
     -   `statement` := decode `envelope.payload` as a JSON-encoded
         [Statement]; reject if decoding fails
-    -   Reject if `statement.type` != `https://in-toto.io/Statement/v1.0`
+    -   Reject if `statement.type` != `https://in-toto.io/Statement/v1`
     -   `artifactNames` := empty set of names
     -   For each `s` in `statement.subject`:
         -   For each digest (`alg`, `value`) in `s.digest`:
