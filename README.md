@@ -45,7 +45,7 @@ review our [New Predicate Guidelines].
 ## Governance
 
 The in-toto Attestation Framework is part of the [in-toto] project under the
-[CNCF].
+[CNCF]. For more information, see [GOVERNANCE.md].
 
 Use `@in-toto/attestation-maintainers` to tag the maintainers on GitHub.
 
@@ -57,6 +57,7 @@ the framework. In the meantime, please visit any of the language-specific
 [in-toto implementations] to become familiar with current tooling options.
 
 [CNCF]: https://www.cncf.io/projects/in-toto/
+[GOVERNANCE.md]: GOVERNANCE.md
 [New Predicate Guidelines]: docs/new_predicate_guidelines.md
 [attestation predicates]: spec/predicates/
 [documentation]: docs/
