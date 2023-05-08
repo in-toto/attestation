@@ -39,27 +39,27 @@ public final class StatementOuterClass {
         getTypeBytes();
 
     /**
-     * <code>repeated .in_toto_attestation.v1.Statement.Subject subject = 2;</code>
+     * <code>repeated .in_toto_attestation.v1.ResourceDescriptor subject = 2;</code>
      */
-    java.util.List<io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject> 
+    java.util.List<io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptor> 
         getSubjectList();
     /**
-     * <code>repeated .in_toto_attestation.v1.Statement.Subject subject = 2;</code>
+     * <code>repeated .in_toto_attestation.v1.ResourceDescriptor subject = 2;</code>
      */
-    io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject getSubject(int index);
+    io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptor getSubject(int index);
     /**
-     * <code>repeated .in_toto_attestation.v1.Statement.Subject subject = 2;</code>
+     * <code>repeated .in_toto_attestation.v1.ResourceDescriptor subject = 2;</code>
      */
     int getSubjectCount();
     /**
-     * <code>repeated .in_toto_attestation.v1.Statement.Subject subject = 2;</code>
+     * <code>repeated .in_toto_attestation.v1.ResourceDescriptor subject = 2;</code>
      */
-    java.util.List<? extends io.github.intoto.attestation.v1.StatementOuterClass.Statement.SubjectOrBuilder> 
+    java.util.List<? extends io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptorOrBuilder> 
         getSubjectOrBuilderList();
     /**
-     * <code>repeated .in_toto_attestation.v1.Statement.Subject subject = 2;</code>
+     * <code>repeated .in_toto_attestation.v1.ResourceDescriptor subject = 2;</code>
      */
-    io.github.intoto.attestation.v1.StatementOuterClass.Statement.SubjectOrBuilder getSubjectOrBuilder(
+    io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptorOrBuilder getSubjectOrBuilder(
         int index);
 
     /**
@@ -138,874 +138,6 @@ public final class StatementOuterClass {
               io.github.intoto.attestation.v1.StatementOuterClass.Statement.class, io.github.intoto.attestation.v1.StatementOuterClass.Statement.Builder.class);
     }
 
-    public interface SubjectOrBuilder extends
-        // @@protoc_insertion_point(interface_extends:in_toto_attestation.v1.Statement.Subject)
-        com.google.protobuf.MessageOrBuilder {
-
-      /**
-       * <code>string name = 1;</code>
-       * @return The name.
-       */
-      java.lang.String getName();
-      /**
-       * <code>string name = 1;</code>
-       * @return The bytes for name.
-       */
-      com.google.protobuf.ByteString
-          getNameBytes();
-
-      /**
-       * <code>map&lt;string, string&gt; digest = 2;</code>
-       */
-      int getDigestCount();
-      /**
-       * <code>map&lt;string, string&gt; digest = 2;</code>
-       */
-      boolean containsDigest(
-          java.lang.String key);
-      /**
-       * Use {@link #getDigestMap()} instead.
-       */
-      @java.lang.Deprecated
-      java.util.Map<java.lang.String, java.lang.String>
-      getDigest();
-      /**
-       * <code>map&lt;string, string&gt; digest = 2;</code>
-       */
-      java.util.Map<java.lang.String, java.lang.String>
-      getDigestMap();
-      /**
-       * <code>map&lt;string, string&gt; digest = 2;</code>
-       */
-
-      /* nullable */
-java.lang.String getDigestOrDefault(
-          java.lang.String key,
-          /* nullable */
-java.lang.String defaultValue);
-      /**
-       * <code>map&lt;string, string&gt; digest = 2;</code>
-       */
-
-      java.lang.String getDigestOrThrow(
-          java.lang.String key);
-    }
-    /**
-     * Protobuf type {@code in_toto_attestation.v1.Statement.Subject}
-     */
-    public static final class Subject extends
-        com.google.protobuf.GeneratedMessageV3 implements
-        // @@protoc_insertion_point(message_implements:in_toto_attestation.v1.Statement.Subject)
-        SubjectOrBuilder {
-    private static final long serialVersionUID = 0L;
-      // Use Subject.newBuilder() to construct.
-      private Subject(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-        super(builder);
-      }
-      private Subject() {
-        name_ = "";
-      }
-
-      @java.lang.Override
-      @SuppressWarnings({"unused"})
-      protected java.lang.Object newInstance(
-          UnusedPrivateParameter unused) {
-        return new Subject();
-      }
-
-      @java.lang.Override
-      public final com.google.protobuf.UnknownFieldSet
-      getUnknownFields() {
-        return this.unknownFields;
-      }
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return io.github.intoto.attestation.v1.StatementOuterClass.internal_static_in_toto_attestation_v1_Statement_Subject_descriptor;
-      }
-
-      @SuppressWarnings({"rawtypes"})
-      @java.lang.Override
-      protected com.google.protobuf.MapField internalGetMapField(
-          int number) {
-        switch (number) {
-          case 2:
-            return internalGetDigest();
-          default:
-            throw new RuntimeException(
-                "Invalid map field number: " + number);
-        }
-      }
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return io.github.intoto.attestation.v1.StatementOuterClass.internal_static_in_toto_attestation_v1_Statement_Subject_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject.class, io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject.Builder.class);
-      }
-
-      public static final int NAME_FIELD_NUMBER = 1;
-      private volatile java.lang.Object name_;
-      /**
-       * <code>string name = 1;</code>
-       * @return The name.
-       */
-      @java.lang.Override
-      public java.lang.String getName() {
-        java.lang.Object ref = name_;
-        if (ref instanceof java.lang.String) {
-          return (java.lang.String) ref;
-        } else {
-          com.google.protobuf.ByteString bs = 
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          name_ = s;
-          return s;
-        }
-      }
-      /**
-       * <code>string name = 1;</code>
-       * @return The bytes for name.
-       */
-      @java.lang.Override
-      public com.google.protobuf.ByteString
-          getNameBytes() {
-        java.lang.Object ref = name_;
-        if (ref instanceof java.lang.String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          name_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-
-      public static final int DIGEST_FIELD_NUMBER = 2;
-      private static final class DigestDefaultEntryHolder {
-        static final com.google.protobuf.MapEntry<
-            java.lang.String, java.lang.String> defaultEntry =
-                com.google.protobuf.MapEntry
-                .<java.lang.String, java.lang.String>newDefaultInstance(
-                    io.github.intoto.attestation.v1.StatementOuterClass.internal_static_in_toto_attestation_v1_Statement_Subject_DigestEntry_descriptor, 
-                    com.google.protobuf.WireFormat.FieldType.STRING,
-                    "",
-                    com.google.protobuf.WireFormat.FieldType.STRING,
-                    "");
-      }
-      private com.google.protobuf.MapField<
-          java.lang.String, java.lang.String> digest_;
-      private com.google.protobuf.MapField<java.lang.String, java.lang.String>
-      internalGetDigest() {
-        if (digest_ == null) {
-          return com.google.protobuf.MapField.emptyMapField(
-              DigestDefaultEntryHolder.defaultEntry);
-        }
-        return digest_;
-      }
-
-      public int getDigestCount() {
-        return internalGetDigest().getMap().size();
-      }
-      /**
-       * <code>map&lt;string, string&gt; digest = 2;</code>
-       */
-
-      @java.lang.Override
-      public boolean containsDigest(
-          java.lang.String key) {
-        if (key == null) { throw new NullPointerException("map key"); }
-        return internalGetDigest().getMap().containsKey(key);
-      }
-      /**
-       * Use {@link #getDigestMap()} instead.
-       */
-      @java.lang.Override
-      @java.lang.Deprecated
-      public java.util.Map<java.lang.String, java.lang.String> getDigest() {
-        return getDigestMap();
-      }
-      /**
-       * <code>map&lt;string, string&gt; digest = 2;</code>
-       */
-      @java.lang.Override
-
-      public java.util.Map<java.lang.String, java.lang.String> getDigestMap() {
-        return internalGetDigest().getMap();
-      }
-      /**
-       * <code>map&lt;string, string&gt; digest = 2;</code>
-       */
-      @java.lang.Override
-
-      public java.lang.String getDigestOrDefault(
-          java.lang.String key,
-          java.lang.String defaultValue) {
-        if (key == null) { throw new NullPointerException("map key"); }
-        java.util.Map<java.lang.String, java.lang.String> map =
-            internalGetDigest().getMap();
-        return map.containsKey(key) ? map.get(key) : defaultValue;
-      }
-      /**
-       * <code>map&lt;string, string&gt; digest = 2;</code>
-       */
-      @java.lang.Override
-
-      public java.lang.String getDigestOrThrow(
-          java.lang.String key) {
-        if (key == null) { throw new NullPointerException("map key"); }
-        java.util.Map<java.lang.String, java.lang.String> map =
-            internalGetDigest().getMap();
-        if (!map.containsKey(key)) {
-          throw new java.lang.IllegalArgumentException();
-        }
-        return map.get(key);
-      }
-
-      private byte memoizedIsInitialized = -1;
-      @java.lang.Override
-      public final boolean isInitialized() {
-        byte isInitialized = memoizedIsInitialized;
-        if (isInitialized == 1) return true;
-        if (isInitialized == 0) return false;
-
-        memoizedIsInitialized = 1;
-        return true;
-      }
-
-      @java.lang.Override
-      public void writeTo(com.google.protobuf.CodedOutputStream output)
-                          throws java.io.IOException {
-        if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(name_)) {
-          com.google.protobuf.GeneratedMessageV3.writeString(output, 1, name_);
-        }
-        com.google.protobuf.GeneratedMessageV3
-          .serializeStringMapTo(
-            output,
-            internalGetDigest(),
-            DigestDefaultEntryHolder.defaultEntry,
-            2);
-        getUnknownFields().writeTo(output);
-      }
-
-      @java.lang.Override
-      public int getSerializedSize() {
-        int size = memoizedSize;
-        if (size != -1) return size;
-
-        size = 0;
-        if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(name_)) {
-          size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, name_);
-        }
-        for (java.util.Map.Entry<java.lang.String, java.lang.String> entry
-             : internalGetDigest().getMap().entrySet()) {
-          com.google.protobuf.MapEntry<java.lang.String, java.lang.String>
-          digest__ = DigestDefaultEntryHolder.defaultEntry.newBuilderForType()
-              .setKey(entry.getKey())
-              .setValue(entry.getValue())
-              .build();
-          size += com.google.protobuf.CodedOutputStream
-              .computeMessageSize(2, digest__);
-        }
-        size += getUnknownFields().getSerializedSize();
-        memoizedSize = size;
-        return size;
-      }
-
-      @java.lang.Override
-      public boolean equals(final java.lang.Object obj) {
-        if (obj == this) {
-         return true;
-        }
-        if (!(obj instanceof io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject)) {
-          return super.equals(obj);
-        }
-        io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject other = (io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject) obj;
-
-        if (!getName()
-            .equals(other.getName())) return false;
-        if (!internalGetDigest().equals(
-            other.internalGetDigest())) return false;
-        if (!getUnknownFields().equals(other.getUnknownFields())) return false;
-        return true;
-      }
-
-      @java.lang.Override
-      public int hashCode() {
-        if (memoizedHashCode != 0) {
-          return memoizedHashCode;
-        }
-        int hash = 41;
-        hash = (19 * hash) + getDescriptor().hashCode();
-        hash = (37 * hash) + NAME_FIELD_NUMBER;
-        hash = (53 * hash) + getName().hashCode();
-        if (!internalGetDigest().getMap().isEmpty()) {
-          hash = (37 * hash) + DIGEST_FIELD_NUMBER;
-          hash = (53 * hash) + internalGetDigest().hashCode();
-        }
-        hash = (29 * hash) + getUnknownFields().hashCode();
-        memoizedHashCode = hash;
-        return hash;
-      }
-
-      public static io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject parseFrom(
-          java.nio.ByteBuffer data)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data);
-      }
-      public static io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject parseFrom(
-          java.nio.ByteBuffer data,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data, extensionRegistry);
-      }
-      public static io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject parseFrom(
-          com.google.protobuf.ByteString data)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data);
-      }
-      public static io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject parseFrom(
-          com.google.protobuf.ByteString data,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data, extensionRegistry);
-      }
-      public static io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject parseFrom(byte[] data)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data);
-      }
-      public static io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject parseFrom(
-          byte[] data,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return PARSER.parseFrom(data, extensionRegistry);
-      }
-      public static io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject parseFrom(java.io.InputStream input)
-          throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessageV3
-            .parseWithIOException(PARSER, input);
-      }
-      public static io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject parseFrom(
-          java.io.InputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessageV3
-            .parseWithIOException(PARSER, input, extensionRegistry);
-      }
-      public static io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject parseDelimitedFrom(java.io.InputStream input)
-          throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessageV3
-            .parseDelimitedWithIOException(PARSER, input);
-      }
-      public static io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject parseDelimitedFrom(
-          java.io.InputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessageV3
-            .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-      }
-      public static io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject parseFrom(
-          com.google.protobuf.CodedInputStream input)
-          throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessageV3
-            .parseWithIOException(PARSER, input);
-      }
-      public static io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject parseFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessageV3
-            .parseWithIOException(PARSER, input, extensionRegistry);
-      }
-
-      @java.lang.Override
-      public Builder newBuilderForType() { return newBuilder(); }
-      public static Builder newBuilder() {
-        return DEFAULT_INSTANCE.toBuilder();
-      }
-      public static Builder newBuilder(io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject prototype) {
-        return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-      }
-      @java.lang.Override
-      public Builder toBuilder() {
-        return this == DEFAULT_INSTANCE
-            ? new Builder() : new Builder().mergeFrom(this);
-      }
-
-      @java.lang.Override
-      protected Builder newBuilderForType(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-        Builder builder = new Builder(parent);
-        return builder;
-      }
-      /**
-       * Protobuf type {@code in_toto_attestation.v1.Statement.Subject}
-       */
-      public static final class Builder extends
-          com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-          // @@protoc_insertion_point(builder_implements:in_toto_attestation.v1.Statement.Subject)
-          io.github.intoto.attestation.v1.StatementOuterClass.Statement.SubjectOrBuilder {
-        public static final com.google.protobuf.Descriptors.Descriptor
-            getDescriptor() {
-          return io.github.intoto.attestation.v1.StatementOuterClass.internal_static_in_toto_attestation_v1_Statement_Subject_descriptor;
-        }
-
-        @SuppressWarnings({"rawtypes"})
-        protected com.google.protobuf.MapField internalGetMapField(
-            int number) {
-          switch (number) {
-            case 2:
-              return internalGetDigest();
-            default:
-              throw new RuntimeException(
-                  "Invalid map field number: " + number);
-          }
-        }
-        @SuppressWarnings({"rawtypes"})
-        protected com.google.protobuf.MapField internalGetMutableMapField(
-            int number) {
-          switch (number) {
-            case 2:
-              return internalGetMutableDigest();
-            default:
-              throw new RuntimeException(
-                  "Invalid map field number: " + number);
-          }
-        }
-        @java.lang.Override
-        protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-            internalGetFieldAccessorTable() {
-          return io.github.intoto.attestation.v1.StatementOuterClass.internal_static_in_toto_attestation_v1_Statement_Subject_fieldAccessorTable
-              .ensureFieldAccessorsInitialized(
-                  io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject.class, io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject.Builder.class);
-        }
-
-        // Construct using io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject.newBuilder()
-        private Builder() {
-
-        }
-
-        private Builder(
-            com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-          super(parent);
-
-        }
-        @java.lang.Override
-        public Builder clear() {
-          super.clear();
-          name_ = "";
-
-          internalGetMutableDigest().clear();
-          return this;
-        }
-
-        @java.lang.Override
-        public com.google.protobuf.Descriptors.Descriptor
-            getDescriptorForType() {
-          return io.github.intoto.attestation.v1.StatementOuterClass.internal_static_in_toto_attestation_v1_Statement_Subject_descriptor;
-        }
-
-        @java.lang.Override
-        public io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject getDefaultInstanceForType() {
-          return io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject.getDefaultInstance();
-        }
-
-        @java.lang.Override
-        public io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject build() {
-          io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject result = buildPartial();
-          if (!result.isInitialized()) {
-            throw newUninitializedMessageException(result);
-          }
-          return result;
-        }
-
-        @java.lang.Override
-        public io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject buildPartial() {
-          io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject result = new io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject(this);
-          int from_bitField0_ = bitField0_;
-          result.name_ = name_;
-          result.digest_ = internalGetDigest();
-          result.digest_.makeImmutable();
-          onBuilt();
-          return result;
-        }
-
-        @java.lang.Override
-        public Builder clone() {
-          return super.clone();
-        }
-        @java.lang.Override
-        public Builder setField(
-            com.google.protobuf.Descriptors.FieldDescriptor field,
-            java.lang.Object value) {
-          return super.setField(field, value);
-        }
-        @java.lang.Override
-        public Builder clearField(
-            com.google.protobuf.Descriptors.FieldDescriptor field) {
-          return super.clearField(field);
-        }
-        @java.lang.Override
-        public Builder clearOneof(
-            com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-          return super.clearOneof(oneof);
-        }
-        @java.lang.Override
-        public Builder setRepeatedField(
-            com.google.protobuf.Descriptors.FieldDescriptor field,
-            int index, java.lang.Object value) {
-          return super.setRepeatedField(field, index, value);
-        }
-        @java.lang.Override
-        public Builder addRepeatedField(
-            com.google.protobuf.Descriptors.FieldDescriptor field,
-            java.lang.Object value) {
-          return super.addRepeatedField(field, value);
-        }
-        @java.lang.Override
-        public Builder mergeFrom(com.google.protobuf.Message other) {
-          if (other instanceof io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject) {
-            return mergeFrom((io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject)other);
-          } else {
-            super.mergeFrom(other);
-            return this;
-          }
-        }
-
-        public Builder mergeFrom(io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject other) {
-          if (other == io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject.getDefaultInstance()) return this;
-          if (!other.getName().isEmpty()) {
-            name_ = other.name_;
-            onChanged();
-          }
-          internalGetMutableDigest().mergeFrom(
-              other.internalGetDigest());
-          this.mergeUnknownFields(other.getUnknownFields());
-          onChanged();
-          return this;
-        }
-
-        @java.lang.Override
-        public final boolean isInitialized() {
-          return true;
-        }
-
-        @java.lang.Override
-        public Builder mergeFrom(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws java.io.IOException {
-          if (extensionRegistry == null) {
-            throw new java.lang.NullPointerException();
-          }
-          try {
-            boolean done = false;
-            while (!done) {
-              int tag = input.readTag();
-              switch (tag) {
-                case 0:
-                  done = true;
-                  break;
-                case 10: {
-                  name_ = input.readStringRequireUtf8();
-
-                  break;
-                } // case 10
-                case 18: {
-                  com.google.protobuf.MapEntry<java.lang.String, java.lang.String>
-                  digest__ = input.readMessage(
-                      DigestDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
-                  internalGetMutableDigest().getMutableMap().put(
-                      digest__.getKey(), digest__.getValue());
-                  break;
-                } // case 18
-                default: {
-                  if (!super.parseUnknownField(input, extensionRegistry, tag)) {
-                    done = true; // was an endgroup tag
-                  }
-                  break;
-                } // default:
-              } // switch (tag)
-            } // while (!done)
-          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-            throw e.unwrapIOException();
-          } finally {
-            onChanged();
-          } // finally
-          return this;
-        }
-        private int bitField0_;
-
-        private java.lang.Object name_ = "";
-        /**
-         * <code>string name = 1;</code>
-         * @return The name.
-         */
-        public java.lang.String getName() {
-          java.lang.Object ref = name_;
-          if (!(ref instanceof java.lang.String)) {
-            com.google.protobuf.ByteString bs =
-                (com.google.protobuf.ByteString) ref;
-            java.lang.String s = bs.toStringUtf8();
-            name_ = s;
-            return s;
-          } else {
-            return (java.lang.String) ref;
-          }
-        }
-        /**
-         * <code>string name = 1;</code>
-         * @return The bytes for name.
-         */
-        public com.google.protobuf.ByteString
-            getNameBytes() {
-          java.lang.Object ref = name_;
-          if (ref instanceof String) {
-            com.google.protobuf.ByteString b = 
-                com.google.protobuf.ByteString.copyFromUtf8(
-                    (java.lang.String) ref);
-            name_ = b;
-            return b;
-          } else {
-            return (com.google.protobuf.ByteString) ref;
-          }
-        }
-        /**
-         * <code>string name = 1;</code>
-         * @param value The name to set.
-         * @return This builder for chaining.
-         */
-        public Builder setName(
-            java.lang.String value) {
-          if (value == null) {
-    throw new NullPointerException();
-  }
-  
-          name_ = value;
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>string name = 1;</code>
-         * @return This builder for chaining.
-         */
-        public Builder clearName() {
-          
-          name_ = getDefaultInstance().getName();
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>string name = 1;</code>
-         * @param value The bytes for name to set.
-         * @return This builder for chaining.
-         */
-        public Builder setNameBytes(
-            com.google.protobuf.ByteString value) {
-          if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-          
-          name_ = value;
-          onChanged();
-          return this;
-        }
-
-        private com.google.protobuf.MapField<
-            java.lang.String, java.lang.String> digest_;
-        private com.google.protobuf.MapField<java.lang.String, java.lang.String>
-        internalGetDigest() {
-          if (digest_ == null) {
-            return com.google.protobuf.MapField.emptyMapField(
-                DigestDefaultEntryHolder.defaultEntry);
-          }
-          return digest_;
-        }
-        private com.google.protobuf.MapField<java.lang.String, java.lang.String>
-        internalGetMutableDigest() {
-          onChanged();;
-          if (digest_ == null) {
-            digest_ = com.google.protobuf.MapField.newMapField(
-                DigestDefaultEntryHolder.defaultEntry);
-          }
-          if (!digest_.isMutable()) {
-            digest_ = digest_.copy();
-          }
-          return digest_;
-        }
-
-        public int getDigestCount() {
-          return internalGetDigest().getMap().size();
-        }
-        /**
-         * <code>map&lt;string, string&gt; digest = 2;</code>
-         */
-
-        @java.lang.Override
-        public boolean containsDigest(
-            java.lang.String key) {
-          if (key == null) { throw new NullPointerException("map key"); }
-          return internalGetDigest().getMap().containsKey(key);
-        }
-        /**
-         * Use {@link #getDigestMap()} instead.
-         */
-        @java.lang.Override
-        @java.lang.Deprecated
-        public java.util.Map<java.lang.String, java.lang.String> getDigest() {
-          return getDigestMap();
-        }
-        /**
-         * <code>map&lt;string, string&gt; digest = 2;</code>
-         */
-        @java.lang.Override
-
-        public java.util.Map<java.lang.String, java.lang.String> getDigestMap() {
-          return internalGetDigest().getMap();
-        }
-        /**
-         * <code>map&lt;string, string&gt; digest = 2;</code>
-         */
-        @java.lang.Override
-
-        public java.lang.String getDigestOrDefault(
-            java.lang.String key,
-            java.lang.String defaultValue) {
-          if (key == null) { throw new NullPointerException("map key"); }
-          java.util.Map<java.lang.String, java.lang.String> map =
-              internalGetDigest().getMap();
-          return map.containsKey(key) ? map.get(key) : defaultValue;
-        }
-        /**
-         * <code>map&lt;string, string&gt; digest = 2;</code>
-         */
-        @java.lang.Override
-
-        public java.lang.String getDigestOrThrow(
-            java.lang.String key) {
-          if (key == null) { throw new NullPointerException("map key"); }
-          java.util.Map<java.lang.String, java.lang.String> map =
-              internalGetDigest().getMap();
-          if (!map.containsKey(key)) {
-            throw new java.lang.IllegalArgumentException();
-          }
-          return map.get(key);
-        }
-
-        public Builder clearDigest() {
-          internalGetMutableDigest().getMutableMap()
-              .clear();
-          return this;
-        }
-        /**
-         * <code>map&lt;string, string&gt; digest = 2;</code>
-         */
-
-        public Builder removeDigest(
-            java.lang.String key) {
-          if (key == null) { throw new NullPointerException("map key"); }
-          internalGetMutableDigest().getMutableMap()
-              .remove(key);
-          return this;
-        }
-        /**
-         * Use alternate mutation accessors instead.
-         */
-        @java.lang.Deprecated
-        public java.util.Map<java.lang.String, java.lang.String>
-        getMutableDigest() {
-          return internalGetMutableDigest().getMutableMap();
-        }
-        /**
-         * <code>map&lt;string, string&gt; digest = 2;</code>
-         */
-        public Builder putDigest(
-            java.lang.String key,
-            java.lang.String value) {
-          if (key == null) { throw new NullPointerException("map key"); }
-          if (value == null) {
-  throw new NullPointerException("map value");
-}
-
-          internalGetMutableDigest().getMutableMap()
-              .put(key, value);
-          return this;
-        }
-        /**
-         * <code>map&lt;string, string&gt; digest = 2;</code>
-         */
-
-        public Builder putAllDigest(
-            java.util.Map<java.lang.String, java.lang.String> values) {
-          internalGetMutableDigest().getMutableMap()
-              .putAll(values);
-          return this;
-        }
-        @java.lang.Override
-        public final Builder setUnknownFields(
-            final com.google.protobuf.UnknownFieldSet unknownFields) {
-          return super.setUnknownFields(unknownFields);
-        }
-
-        @java.lang.Override
-        public final Builder mergeUnknownFields(
-            final com.google.protobuf.UnknownFieldSet unknownFields) {
-          return super.mergeUnknownFields(unknownFields);
-        }
-
-
-        // @@protoc_insertion_point(builder_scope:in_toto_attestation.v1.Statement.Subject)
-      }
-
-      // @@protoc_insertion_point(class_scope:in_toto_attestation.v1.Statement.Subject)
-      private static final io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject DEFAULT_INSTANCE;
-      static {
-        DEFAULT_INSTANCE = new io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject();
-      }
-
-      public static io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject getDefaultInstance() {
-        return DEFAULT_INSTANCE;
-      }
-
-      private static final com.google.protobuf.Parser<Subject>
-          PARSER = new com.google.protobuf.AbstractParser<Subject>() {
-        @java.lang.Override
-        public Subject parsePartialFrom(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
-          Builder builder = newBuilder();
-          try {
-            builder.mergeFrom(input, extensionRegistry);
-          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-            throw e.setUnfinishedMessage(builder.buildPartial());
-          } catch (com.google.protobuf.UninitializedMessageException e) {
-            throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
-          } catch (java.io.IOException e) {
-            throw new com.google.protobuf.InvalidProtocolBufferException(e)
-                .setUnfinishedMessage(builder.buildPartial());
-          }
-          return builder.buildPartial();
-        }
-      };
-
-      public static com.google.protobuf.Parser<Subject> parser() {
-        return PARSER;
-      }
-
-      @java.lang.Override
-      public com.google.protobuf.Parser<Subject> getParserForType() {
-        return PARSER;
-      }
-
-      @java.lang.Override
-      public io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject getDefaultInstanceForType() {
-        return DEFAULT_INSTANCE;
-      }
-
-    }
-
     public static final int TYPE_FIELD_NUMBER = 1;
     private volatile java.lang.Object type_;
     /**
@@ -1053,41 +185,41 @@ java.lang.String defaultValue);
     }
 
     public static final int SUBJECT_FIELD_NUMBER = 2;
-    private java.util.List<io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject> subject_;
+    private java.util.List<io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptor> subject_;
     /**
-     * <code>repeated .in_toto_attestation.v1.Statement.Subject subject = 2;</code>
+     * <code>repeated .in_toto_attestation.v1.ResourceDescriptor subject = 2;</code>
      */
     @java.lang.Override
-    public java.util.List<io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject> getSubjectList() {
+    public java.util.List<io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptor> getSubjectList() {
       return subject_;
     }
     /**
-     * <code>repeated .in_toto_attestation.v1.Statement.Subject subject = 2;</code>
+     * <code>repeated .in_toto_attestation.v1.ResourceDescriptor subject = 2;</code>
      */
     @java.lang.Override
-    public java.util.List<? extends io.github.intoto.attestation.v1.StatementOuterClass.Statement.SubjectOrBuilder> 
+    public java.util.List<? extends io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptorOrBuilder> 
         getSubjectOrBuilderList() {
       return subject_;
     }
     /**
-     * <code>repeated .in_toto_attestation.v1.Statement.Subject subject = 2;</code>
+     * <code>repeated .in_toto_attestation.v1.ResourceDescriptor subject = 2;</code>
      */
     @java.lang.Override
     public int getSubjectCount() {
       return subject_.size();
     }
     /**
-     * <code>repeated .in_toto_attestation.v1.Statement.Subject subject = 2;</code>
+     * <code>repeated .in_toto_attestation.v1.ResourceDescriptor subject = 2;</code>
      */
     @java.lang.Override
-    public io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject getSubject(int index) {
+    public io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptor getSubject(int index) {
       return subject_.get(index);
     }
     /**
-     * <code>repeated .in_toto_attestation.v1.Statement.Subject subject = 2;</code>
+     * <code>repeated .in_toto_attestation.v1.ResourceDescriptor subject = 2;</code>
      */
     @java.lang.Override
-    public io.github.intoto.attestation.v1.StatementOuterClass.Statement.SubjectOrBuilder getSubjectOrBuilder(
+    public io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptorOrBuilder getSubjectOrBuilder(
         int index) {
       return subject_.get(index);
     }
@@ -1565,9 +697,9 @@ java.lang.String defaultValue);
                 break;
               } // case 10
               case 18: {
-                io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject m =
+                io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptor m =
                     input.readMessage(
-                        io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject.parser(),
+                        io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptor.parser(),
                         extensionRegistry);
                 if (subjectBuilder_ == null) {
                   ensureSubjectIsMutable();
@@ -1702,22 +834,22 @@ java.lang.String defaultValue);
         return this;
       }
 
-      private java.util.List<io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject> subject_ =
+      private java.util.List<io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptor> subject_ =
         java.util.Collections.emptyList();
       private void ensureSubjectIsMutable() {
         if (!((bitField0_ & 0x00000001) != 0)) {
-          subject_ = new java.util.ArrayList<io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject>(subject_);
+          subject_ = new java.util.ArrayList<io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptor>(subject_);
           bitField0_ |= 0x00000001;
          }
       }
 
       private com.google.protobuf.RepeatedFieldBuilderV3<
-          io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject, io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject.Builder, io.github.intoto.attestation.v1.StatementOuterClass.Statement.SubjectOrBuilder> subjectBuilder_;
+          io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptor, io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptor.Builder, io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptorOrBuilder> subjectBuilder_;
 
       /**
-       * <code>repeated .in_toto_attestation.v1.Statement.Subject subject = 2;</code>
+       * <code>repeated .in_toto_attestation.v1.ResourceDescriptor subject = 2;</code>
        */
-      public java.util.List<io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject> getSubjectList() {
+      public java.util.List<io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptor> getSubjectList() {
         if (subjectBuilder_ == null) {
           return java.util.Collections.unmodifiableList(subject_);
         } else {
@@ -1725,7 +857,7 @@ java.lang.String defaultValue);
         }
       }
       /**
-       * <code>repeated .in_toto_attestation.v1.Statement.Subject subject = 2;</code>
+       * <code>repeated .in_toto_attestation.v1.ResourceDescriptor subject = 2;</code>
        */
       public int getSubjectCount() {
         if (subjectBuilder_ == null) {
@@ -1735,9 +867,9 @@ java.lang.String defaultValue);
         }
       }
       /**
-       * <code>repeated .in_toto_attestation.v1.Statement.Subject subject = 2;</code>
+       * <code>repeated .in_toto_attestation.v1.ResourceDescriptor subject = 2;</code>
        */
-      public io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject getSubject(int index) {
+      public io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptor getSubject(int index) {
         if (subjectBuilder_ == null) {
           return subject_.get(index);
         } else {
@@ -1745,10 +877,10 @@ java.lang.String defaultValue);
         }
       }
       /**
-       * <code>repeated .in_toto_attestation.v1.Statement.Subject subject = 2;</code>
+       * <code>repeated .in_toto_attestation.v1.ResourceDescriptor subject = 2;</code>
        */
       public Builder setSubject(
-          int index, io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject value) {
+          int index, io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptor value) {
         if (subjectBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -1762,10 +894,10 @@ java.lang.String defaultValue);
         return this;
       }
       /**
-       * <code>repeated .in_toto_attestation.v1.Statement.Subject subject = 2;</code>
+       * <code>repeated .in_toto_attestation.v1.ResourceDescriptor subject = 2;</code>
        */
       public Builder setSubject(
-          int index, io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject.Builder builderForValue) {
+          int index, io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptor.Builder builderForValue) {
         if (subjectBuilder_ == null) {
           ensureSubjectIsMutable();
           subject_.set(index, builderForValue.build());
@@ -1776,9 +908,9 @@ java.lang.String defaultValue);
         return this;
       }
       /**
-       * <code>repeated .in_toto_attestation.v1.Statement.Subject subject = 2;</code>
+       * <code>repeated .in_toto_attestation.v1.ResourceDescriptor subject = 2;</code>
        */
-      public Builder addSubject(io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject value) {
+      public Builder addSubject(io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptor value) {
         if (subjectBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -1792,10 +924,10 @@ java.lang.String defaultValue);
         return this;
       }
       /**
-       * <code>repeated .in_toto_attestation.v1.Statement.Subject subject = 2;</code>
+       * <code>repeated .in_toto_attestation.v1.ResourceDescriptor subject = 2;</code>
        */
       public Builder addSubject(
-          int index, io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject value) {
+          int index, io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptor value) {
         if (subjectBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -1809,10 +941,10 @@ java.lang.String defaultValue);
         return this;
       }
       /**
-       * <code>repeated .in_toto_attestation.v1.Statement.Subject subject = 2;</code>
+       * <code>repeated .in_toto_attestation.v1.ResourceDescriptor subject = 2;</code>
        */
       public Builder addSubject(
-          io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject.Builder builderForValue) {
+          io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptor.Builder builderForValue) {
         if (subjectBuilder_ == null) {
           ensureSubjectIsMutable();
           subject_.add(builderForValue.build());
@@ -1823,10 +955,10 @@ java.lang.String defaultValue);
         return this;
       }
       /**
-       * <code>repeated .in_toto_attestation.v1.Statement.Subject subject = 2;</code>
+       * <code>repeated .in_toto_attestation.v1.ResourceDescriptor subject = 2;</code>
        */
       public Builder addSubject(
-          int index, io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject.Builder builderForValue) {
+          int index, io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptor.Builder builderForValue) {
         if (subjectBuilder_ == null) {
           ensureSubjectIsMutable();
           subject_.add(index, builderForValue.build());
@@ -1837,10 +969,10 @@ java.lang.String defaultValue);
         return this;
       }
       /**
-       * <code>repeated .in_toto_attestation.v1.Statement.Subject subject = 2;</code>
+       * <code>repeated .in_toto_attestation.v1.ResourceDescriptor subject = 2;</code>
        */
       public Builder addAllSubject(
-          java.lang.Iterable<? extends io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject> values) {
+          java.lang.Iterable<? extends io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptor> values) {
         if (subjectBuilder_ == null) {
           ensureSubjectIsMutable();
           com.google.protobuf.AbstractMessageLite.Builder.addAll(
@@ -1852,7 +984,7 @@ java.lang.String defaultValue);
         return this;
       }
       /**
-       * <code>repeated .in_toto_attestation.v1.Statement.Subject subject = 2;</code>
+       * <code>repeated .in_toto_attestation.v1.ResourceDescriptor subject = 2;</code>
        */
       public Builder clearSubject() {
         if (subjectBuilder_ == null) {
@@ -1865,7 +997,7 @@ java.lang.String defaultValue);
         return this;
       }
       /**
-       * <code>repeated .in_toto_attestation.v1.Statement.Subject subject = 2;</code>
+       * <code>repeated .in_toto_attestation.v1.ResourceDescriptor subject = 2;</code>
        */
       public Builder removeSubject(int index) {
         if (subjectBuilder_ == null) {
@@ -1878,16 +1010,16 @@ java.lang.String defaultValue);
         return this;
       }
       /**
-       * <code>repeated .in_toto_attestation.v1.Statement.Subject subject = 2;</code>
+       * <code>repeated .in_toto_attestation.v1.ResourceDescriptor subject = 2;</code>
        */
-      public io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject.Builder getSubjectBuilder(
+      public io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptor.Builder getSubjectBuilder(
           int index) {
         return getSubjectFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .in_toto_attestation.v1.Statement.Subject subject = 2;</code>
+       * <code>repeated .in_toto_attestation.v1.ResourceDescriptor subject = 2;</code>
        */
-      public io.github.intoto.attestation.v1.StatementOuterClass.Statement.SubjectOrBuilder getSubjectOrBuilder(
+      public io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptorOrBuilder getSubjectOrBuilder(
           int index) {
         if (subjectBuilder_ == null) {
           return subject_.get(index);  } else {
@@ -1895,9 +1027,9 @@ java.lang.String defaultValue);
         }
       }
       /**
-       * <code>repeated .in_toto_attestation.v1.Statement.Subject subject = 2;</code>
+       * <code>repeated .in_toto_attestation.v1.ResourceDescriptor subject = 2;</code>
        */
-      public java.util.List<? extends io.github.intoto.attestation.v1.StatementOuterClass.Statement.SubjectOrBuilder> 
+      public java.util.List<? extends io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptorOrBuilder> 
            getSubjectOrBuilderList() {
         if (subjectBuilder_ != null) {
           return subjectBuilder_.getMessageOrBuilderList();
@@ -1906,33 +1038,33 @@ java.lang.String defaultValue);
         }
       }
       /**
-       * <code>repeated .in_toto_attestation.v1.Statement.Subject subject = 2;</code>
+       * <code>repeated .in_toto_attestation.v1.ResourceDescriptor subject = 2;</code>
        */
-      public io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject.Builder addSubjectBuilder() {
+      public io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptor.Builder addSubjectBuilder() {
         return getSubjectFieldBuilder().addBuilder(
-            io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject.getDefaultInstance());
+            io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptor.getDefaultInstance());
       }
       /**
-       * <code>repeated .in_toto_attestation.v1.Statement.Subject subject = 2;</code>
+       * <code>repeated .in_toto_attestation.v1.ResourceDescriptor subject = 2;</code>
        */
-      public io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject.Builder addSubjectBuilder(
+      public io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptor.Builder addSubjectBuilder(
           int index) {
         return getSubjectFieldBuilder().addBuilder(
-            index, io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject.getDefaultInstance());
+            index, io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptor.getDefaultInstance());
       }
       /**
-       * <code>repeated .in_toto_attestation.v1.Statement.Subject subject = 2;</code>
+       * <code>repeated .in_toto_attestation.v1.ResourceDescriptor subject = 2;</code>
        */
-      public java.util.List<io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject.Builder> 
+      public java.util.List<io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptor.Builder> 
            getSubjectBuilderList() {
         return getSubjectFieldBuilder().getBuilderList();
       }
       private com.google.protobuf.RepeatedFieldBuilderV3<
-          io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject, io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject.Builder, io.github.intoto.attestation.v1.StatementOuterClass.Statement.SubjectOrBuilder> 
+          io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptor, io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptor.Builder, io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptorOrBuilder> 
           getSubjectFieldBuilder() {
         if (subjectBuilder_ == null) {
           subjectBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-              io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject, io.github.intoto.attestation.v1.StatementOuterClass.Statement.Subject.Builder, io.github.intoto.attestation.v1.StatementOuterClass.Statement.SubjectOrBuilder>(
+              io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptor, io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptor.Builder, io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptorOrBuilder>(
                   subject_,
                   ((bitField0_ & 0x00000001) != 0),
                   getParentForChildren(),
@@ -2205,16 +1337,6 @@ java.lang.String defaultValue);
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_in_toto_attestation_v1_Statement_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_in_toto_attestation_v1_Statement_Subject_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_in_toto_attestation_v1_Statement_Subject_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_in_toto_attestation_v1_Statement_Subject_DigestEntry_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_in_toto_attestation_v1_Statement_Subject_DigestEntry_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -2226,22 +1348,20 @@ java.lang.String defaultValue);
     java.lang.String[] descriptorData = {
       "\n&in_toto_attestation/v1/statement.proto" +
       "\022\026in_toto_attestation.v1\032\034google/protobu" +
-      "f/struct.proto\"\257\002\n\tStatement\022\023\n\004type\030\001 \001" +
-      "(\tR\005_type\022:\n\007subject\030\002 \003(\0132).in_toto_att" +
-      "estation.v1.Statement.Subject\022\025\n\rpredica" +
-      "teType\030\003 \001(\t\022*\n\tpredicate\030\004 \001(\0132\027.google" +
-      ".protobuf.Struct\032\215\001\n\007Subject\022\014\n\004name\030\001 \001" +
-      "(\t\022E\n\006digest\030\002 \003(\01325.in_toto_attestation" +
-      ".v1.Statement.Subject.DigestEntry\032-\n\013Dig" +
-      "estEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001" +
-      "BG\n\037io.github.intoto.attestation.v1Z$git" +
-      "hub.com/in-toto/attestation/go/v1b\006proto" +
-      "3"
+      "f/struct.proto\0320in_toto_attestation/v1/r" +
+      "esource_descriptor.proto\"\240\001\n\tStatement\022\023" +
+      "\n\004type\030\001 \001(\tR\005_type\022;\n\007subject\030\002 \003(\0132*.i" +
+      "n_toto_attestation.v1.ResourceDescriptor" +
+      "\022\025\n\rpredicateType\030\003 \001(\t\022*\n\tpredicate\030\004 \001" +
+      "(\0132\027.google.protobuf.StructBG\n\037io.github" +
+      ".intoto.attestation.v1Z$github.com/in-to" +
+      "to/attestation/go/v1b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           com.google.protobuf.StructProto.getDescriptor(),
+          io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.getDescriptor(),
         });
     internal_static_in_toto_attestation_v1_Statement_descriptor =
       getDescriptor().getMessageTypes().get(0);
@@ -2249,19 +1369,8 @@ java.lang.String defaultValue);
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_in_toto_attestation_v1_Statement_descriptor,
         new java.lang.String[] { "Type", "Subject", "PredicateType", "Predicate", });
-    internal_static_in_toto_attestation_v1_Statement_Subject_descriptor =
-      internal_static_in_toto_attestation_v1_Statement_descriptor.getNestedTypes().get(0);
-    internal_static_in_toto_attestation_v1_Statement_Subject_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_in_toto_attestation_v1_Statement_Subject_descriptor,
-        new java.lang.String[] { "Name", "Digest", });
-    internal_static_in_toto_attestation_v1_Statement_Subject_DigestEntry_descriptor =
-      internal_static_in_toto_attestation_v1_Statement_Subject_descriptor.getNestedTypes().get(0);
-    internal_static_in_toto_attestation_v1_Statement_Subject_DigestEntry_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_in_toto_attestation_v1_Statement_Subject_DigestEntry_descriptor,
-        new java.lang.String[] { "Key", "Value", });
     com.google.protobuf.StructProto.getDescriptor();
+    io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.getDescriptor();
   }
 
   // @@protoc_insertion_point(outer_class_scope)
