@@ -34,17 +34,16 @@ Steps:
     -   `statement` := decode `envelope.payload` as a JSON-encoded
         [Statement]; reject if decoding fails
     -   Reject if `statement.type` != `https://in-toto.io/Statement/v1`
-    -   `artifactNames` := empty set of names
-    -   For each `s` in `statement.subject`:
-        -   For each digest (`alg`, `value`) in `s.digest`:
-            -   If `alg` is in `acceptableDigestAlgorithms`:
-                -   If `hash(alg, artifactToVerify)` == `hexDecode(value)`:
-                    -   Add `s.name` to `artifactNames`
-    -   Reject if `artifactNames` is empty
+    -   `matchedSubjects` := the subset of entries `s` in `statement.subject`
+        where:
+        -   there exists at least one `(alg, value)` in `s.digest` where:
+            -   `alg` is in `acceptableDigestAlgorithms` AND
+            -   `hash(alg, artifactToVerify)` == `hexDecode(value)`
+    -   Reject if `matchedSubjects` is empty
 
 Output (to be fed into policy engine):
 
 -   `statement.predicateType`
 -   `statement.predicate`
--   `artifactNames`
+-   `matchedSubjects`
 -   `attesterNames`
