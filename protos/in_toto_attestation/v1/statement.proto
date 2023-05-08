@@ -3,6 +3,7 @@ syntax = "proto3";
 package in_toto_attestation.v1;
 
 import "google/protobuf/struct.proto";
+import "in_toto_attestation/v1/resource_descriptor.proto";
 
 
 option go_package = "github.com/in-toto/attestation/go/v1";
@@ -15,12 +16,7 @@ message Statement {
   // Expected to always be "https://in-toto.io/Statement/v1"
   string type = 1 [json_name = "_type"];
 
-  message Subject {
-    string name = 1;
-    map<string, string> digest = 2;
-  }
-
-  repeated Subject subject = 2;
+  repeated in_toto_attestation.v1.ResourceDescriptor subject = 2;
 
   string predicateType = 3;
 
