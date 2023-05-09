@@ -9,4 +9,7 @@ protos: go_setup
 go_run:
 	go run examples/go/main.go
 
-.PHONY: protos go_setup go_run
+go_test: go_setup
+	go test ./...
+
+.PHONY: protos go_setup go_run go_test
