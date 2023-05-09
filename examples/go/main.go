@@ -22,17 +22,16 @@ func createStatementPbFromJson(subName string, subSha256 string, predicateType s
 }
 
 func createStatementPb(subName string, subSha256 string, predicateType string, predicate *structpb.Struct) *spb.Statement {
-	sub := []*spb.Statement_Subject{{
+	sub := []*spb.ResourceDescriptor{{
 		Name:   subName,
 		Digest: map[string]string{"sha256": strings.ToLower(subSha256)},
 	}}
-	statement := &spb.Statement{
-		Type:          "https://in-toto.io/Statement/v1",
+	return &spb.Statement{
+		Type:          spb.StatementTypeUri,
 		Subject:       sub,
 		PredicateType: predicateType,
 		Predicate:     predicate,
 	}
-	return statement
 }
 
 func createVsa(subName string, subSha256 string, vsaBody *vpb.VerificationSummary) (*spb.Statement, error) {
@@ -46,31 +45,6 @@ func createVsa(subName string, subSha256 string, vsaBody *vpb.VerificationSummar
 		return nil, err
 	}
 	return createStatementPb(subName, subSha256, "https://slsa.dev/verification_summary/v0.2", vsaStruct), nil
-}
-
-func createTestResourceDescriptor() (*spb.ResourceDescriptor, error) {
-	// Create a ResourceDescriptor
-	a1, err := structpb.NewStruct(map[string]interface{}{
-		"keyStr": "value1",
-		"keyNum": 13})
-	if err != nil {
-		return nil, err
-	}
-	a2, err := structpb.NewStruct(map[string]interface{}{
-		"keyObj": map[string]interface{}{
-			"subKey": "subVal"}})
-	if err != nil {
-		return nil, err
-	}
-	r := &spb.ResourceDescriptor{
-		Name:             "theName",
-		Uri:              "http://example.com",
-		Digest:           map[string]string{"sha256": "abc123"},
-		Content:          []byte("bytescontent"),
-		DownloadLocation: "http://example.com/test.zip",
-		MediaType:        "theMediaType",
-		Annotations:      map[string]*structpb.Struct{"a1": a1, "a2": a2}}
-	return r, nil
 }
 
 // Example of how to use protobuf to create in-toto statements.
@@ -131,11 +105,4 @@ func main() {
 	}
 	fmt.Printf("\nRead statement with predicateType %v\n", s.PredicateType)
 	fmt.Printf("Predicate %v\n", s.Predicate)
-
-	// Test ResourceDescriptor
-	r, err := createTestResourceDescriptor()
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Printf("\nResourceDescriptor as json:\n%v\n", protojson.Format(r))
 }
