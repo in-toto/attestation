@@ -12,9 +12,10 @@ _sym_db = _symbol_database.Default()
 
 
 from google.protobuf import struct_pb2 as google_dot_protobuf_dot_struct__pb2
+from in_toto_attestation.v1 import resource_descriptor_pb2 as in__toto__attestation_dot_v1_dot_resource__descriptor__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n&in_toto_attestation/v1/statement.proto\x12\x16in_toto_attestation.v1\x1a\x1cgoogle/protobuf/struct.proto\"\xaf\x02\n\tStatement\x12\x13\n\x04type\x18\x01 \x01(\tR\x05_type\x12:\n\x07subject\x18\x02 \x03(\x0b\x32).in_toto_attestation.v1.Statement.Subject\x12\x15\n\rpredicateType\x18\x03 \x01(\t\x12*\n\tpredicate\x18\x04 \x01(\x0b\x32\x17.google.protobuf.Struct\x1a\x8d\x01\n\x07Subject\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x45\n\x06\x64igest\x18\x02 \x03(\x0b\x32\x35.in_toto_attestation.v1.Statement.Subject.DigestEntry\x1a-\n\x0b\x44igestEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\x42G\n\x1fio.github.intoto.attestation.v1Z$github.com/in-toto/attestation/go/v1b\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n&in_toto_attestation/v1/statement.proto\x12\x16in_toto_attestation.v1\x1a\x1cgoogle/protobuf/struct.proto\x1a\x30in_toto_attestation/v1/resource_descriptor.proto\"\xa0\x01\n\tStatement\x12\x13\n\x04type\x18\x01 \x01(\tR\x05_type\x12;\n\x07subject\x18\x02 \x03(\x0b\x32*.in_toto_attestation.v1.ResourceDescriptor\x12\x15\n\rpredicateType\x18\x03 \x01(\t\x12*\n\tpredicate\x18\x04 \x01(\x0b\x32\x17.google.protobuf.StructBG\n\x1fio.github.intoto.attestation.v1Z$github.com/in-toto/attestation/go/v1b\x06proto3')
 
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, globals())
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'in_toto_attestation.v1.statement_pb2', globals())
@@ -22,12 +23,6 @@ if _descriptor._USE_C_DESCRIPTORS == False:
 
   DESCRIPTOR._options = None
   DESCRIPTOR._serialized_options = b'\n\037io.github.intoto.attestation.v1Z$github.com/in-toto/attestation/go/v1'
-  _STATEMENT_SUBJECT_DIGESTENTRY._options = None
-  _STATEMENT_SUBJECT_DIGESTENTRY._serialized_options = b'8\001'
-  _STATEMENT._serialized_start=97
-  _STATEMENT._serialized_end=400
-  _STATEMENT_SUBJECT._serialized_start=259
-  _STATEMENT_SUBJECT._serialized_end=400
-  _STATEMENT_SUBJECT_DIGESTENTRY._serialized_start=355
-  _STATEMENT_SUBJECT_DIGESTENTRY._serialized_end=400
+  _STATEMENT._serialized_start=147
+  _STATEMENT._serialized_end=307
 # @@protoc_insertion_point(module_scope)
