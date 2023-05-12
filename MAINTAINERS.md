@@ -2,7 +2,7 @@
 
 | Name                       | GitHub          |
 |----------------------------|-----------------|
-| Joshua Lock (Verizon)       | [@joshuagl](https://github.com/joshuagl) |
+| Joshua Lock (Verizon)      | [@joshuagl](https://github.com/joshuagl) |
 | Marcela Melara (Intel)     | [@marcelamelara](https://github.com/marcelamelara) |
 | Mikhail Swift (TestifySec) | [@mikhailswift](https://github.com/mikhailswift) |
 | Parth Patel (Kusari)       | [@pxp928](https://github.com/pxp928) |
