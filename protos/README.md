@@ -13,9 +13,11 @@ considered stable before the v1.1 tagged release. Use at your own risk.
 In addition to the core in-toto attestation spec, the following attestation
 predicates have protobuf definitions:
 
+-   [in-toto Link]: Generic predicate that records a software supply chain    step.
+-   [SLSA Provenance]: Describes how an artifact or set of artifacts was
+    produced.
 -   [SLSA Verification Summary]: SLSA verification decision about a software
     artifact.
--   [in-toto Link]: Generic predicate that records a software supply chain step.
 -   [Test Result]: Expresses the result of a test run in the software supply
     chain.
 
@@ -43,6 +45,7 @@ following packages as needed:
 Please read our protos [documentation] for instructions on building and
 testing the supported language bindings.
 
+[SLSA Provenance]: in_toto_attestation/predicates/provenance/
 [SLSA Verification Summary]: in_toto_attestation/predicates/vsa/
 [in-toto Link]: in_toto_attestation/predicates/link/
 [Test Result]: in_toto_attestation/predicates/test_result/

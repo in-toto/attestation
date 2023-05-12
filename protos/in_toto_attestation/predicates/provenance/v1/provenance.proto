@@ -1,0 +1,43 @@
+// Keep in sync with schema at https://github.com/slsa-framework/slsa/blob/main/docs/provenance/schema/v1/provenance.proto
+syntax = "proto3";
+
+package in_toto_attestation.predicates.provenance.v1;
+
+import "in_toto_attestation/v1/resource_descriptor.proto";
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/in-toto/attestation/go/predicates/provenance/v1";
+option java_package = "io.github.intoto.attestation.predicates.provenance.v1";
+
+// Proto representation of predicate type https://slsa.dev/provenance/v1
+// Validation of all fields is left to the users of this proto.
+message Provenance {
+  BuildDefinition build_definition = 1;
+  RunDetails run_details = 2;
+}
+
+message BuildDefinition {
+  string build_type = 1;
+  google.protobuf.Struct external_parameters = 2;
+  google.protobuf.Struct internal_parameters = 3;
+  repeated in_toto_attestation.v1.ResourceDescriptor resolved_dependencies = 4;
+}
+
+message RunDetails {
+  Builder builder = 1;
+  BuildMetadata metadata = 2;
+  repeated in_toto_attestation.v1.ResourceDescriptor byproducts = 3;
+}
+
+message Builder {
+  string id = 1;
+  map<string, string> version = 2;
+  repeated in_toto_attestation.v1.ResourceDescriptor builder_dependencies = 3;
+}
+
+message BuildMetadata {
+  string invocation_id = 1;
+  google.protobuf.Timestamp started_on = 2;
+  google.protobuf.Timestamp finished_on = 3;
+}
