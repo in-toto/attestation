@@ -58,9 +58,9 @@ func TestBadStatementType(t *testing.T) {
 
 	assert.NoError(t, err, "Error during JSON unmarshalling")
 
-	result := got.Validate()
+	err = got.Validate()
 
-	assert.False(t, result, "Error: created malformed Statement (bad type)")
+	assert.Error(t, err, "Error: created malformed Statement (bad type)")
 }
 
 func TestBadStatementSubject(t *testing.T) {
@@ -71,9 +71,9 @@ func TestBadStatementSubject(t *testing.T) {
 
 	assert.NoError(t, err, "Error during JSON unmarshalling")
 
-	result := got.Validate()
+	err = got.Validate()
 
-	assert.False(t, result, "Error: created malformed Statement (empty subject)")
+	assert.Error(t, err, "Error: created malformed Statement (empty subject)")
 
 	var badStBadSub = `{"_type":"https://in-toto.io/Statement/v1","subject":[{"downloadLocation":"https://example.com/test.zip"}],"predicateType":"thePredicate","predicate":{"keyObj":{"subKey":"subVal"}}}`
 
@@ -82,9 +82,9 @@ func TestBadStatementSubject(t *testing.T) {
 
 	assert.NoError(t, err, "Error during JSON unmarshalling")
 
-	result = got.Validate()
+	err = got.Validate()
 
-	assert.False(t, result, "Error: created malformed Statement (bad subject)")
+	assert.Error(t, err, "Error: created malformed Statement (bad subject)")
 }
 
 func TestBadStatementPredicate(t *testing.T) {
@@ -95,9 +95,9 @@ func TestBadStatementPredicate(t *testing.T) {
 
 	assert.NoError(t, err, "Error during JSON unmarshalling")
 
-	result := got.Validate()
+	err = got.Validate()
 
-	assert.False(t, result, "Error: created malformed Statement (bad predicate type)")
+	assert.Error(t, err, "Error: created malformed Statement (bad predicate type)")
 
 	var badStPred = `{"_type":"https://in-toto.io/Statement/v1","subject":[{"name":"theSub","digest":{"alg1":"abc123"}}],"predicateType":"thePredicate"}`
 
@@ -106,7 +106,7 @@ func TestBadStatementPredicate(t *testing.T) {
 
 	assert.NoError(t, err, "Error during JSON unmarshalling")
 
-	result = got.Validate()
+	err = got.Validate()
 
-	assert.False(t, result, "Error: created malformed Statement (no prdicate)")
+	assert.Error(t, err, "Error: created malformed Statement (no prdicate)")
 }
