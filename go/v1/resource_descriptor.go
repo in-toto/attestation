@@ -4,11 +4,13 @@ Wrapper APIs for in-toto attestation ResourceDescriptor protos.
 
 package v1
 
-func (d *ResourceDescriptor) Validate() bool {
+import "errors"
+
+func (d *ResourceDescriptor) Validate() error {
 	// at least one of name, URI or digest are required
 	if d.GetName() == "" && d.GetUri() == "" && len(d.GetDigest()) == 0 {
-		return false
+		return errors.New("At least one of name, URI or digest are required")
 	}
 
-	return true
+	return nil
 }
