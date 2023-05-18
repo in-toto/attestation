@@ -62,6 +62,9 @@ The `predicate` has the same schema as the link's `signed` field in
 -   `predicate.materials` is updated to a list of `ResourceDescriptors`.
     Each `ResourceDescriptor` entry MUST include `name` and `digest`.
 
+Further, each subject's `name` in a link attestation MUST be unique within the
+scope of that attestation.
+
 `name`, _string, required_
 
 Name of the step. When used with an in-toto layout as described in the
@@ -76,9 +79,9 @@ is required, it may be empty.
 `materials`, _list of [ResourceDescriptor] objects, optional_
 
 List of artifacts that make up the materials of the step. The `name` and
-`digest` fields of each entry MUST be set. [ITE-4] artifact types may be
-identified using the `uri` or `mediaType` fields instead of overloading the
-`name` field.
+`digest` fields of each entry MUST be set, and `name` MUST be unique among the
+`materials` entries. [ITE-4] artifact types may be identified using the `uri`
+or `mediaType` fields instead of overloading the `name` field.
 
 `byproducts`, _object, optional_
 
@@ -125,7 +128,8 @@ def convert(statement):
 
 -   0.3: Updated `materials` to use a list of `ResourceDescriptor` objects.
     Reverted `command` to a list of strings to match the original link
-    specification.
+    specification. Supports use of `ResourceDescriptor` for attestation
+    subjects and requires their `name` to be unique.
 -   0.2: Removed `_type` and `products`. Defined conversion rules.
 -   0.1: Initial version as described in [in-toto specification].
 
