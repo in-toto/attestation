@@ -15,7 +15,9 @@ predicates have protobuf definitions:
 
 -   [SLSA Verification Summary]: SLSA verification decision about a software
     artifact.
--   [in-toto Link]: Generic predicate that records a software supply chain step
+-   [in-toto Link]: Generic predicate that records a software supply chain step.
+-   [Test Result]: Expresses the result of a test run in the software supply
+    chain.
 
 ## Supported language bindings
 
@@ -43,6 +45,7 @@ testing the supported language bindings.
 
 [SLSA Verification Summary]: in_toto_attestation/predicates/vsa/
 [in-toto Link]: in_toto_attestation/predicates/link/
+[Test Result]: in_toto_attestation/predicates/test_result/
 [documentation]: ../docs/protos.md
 [go]: ../go/
 [python]: ../python/
