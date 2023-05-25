@@ -52,6 +52,7 @@ including, but not limited to, the following high-level examples:
 -   [validation model](validation.md)
 -   [ideas for future schemas](schema_ideas.md)
 -   [protobuf definitions](protos.md)
+-   [testing the implementations](testing.md)
 
 [Binary Authorization]: https://cloud.google.com/binary-authorization
 [SLSA Provenance]: https://slsa.dev/provenance
