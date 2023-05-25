@@ -1,0 +1,29 @@
+name: Run Go tests
+on:
+  workflow_dispatch:
+
+  # Want to trigger these tests whenever the attestation
+  # libraries are regenerated, or new modules/tests are
+  # added to the language bindings
+  pull_request:
+      paths:
+          - 'go/**'
+permissions: read-all
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
+      - name: Install Go
+        uses: actions/setup-go@4d34df0c2316fe8122ab82dc22947d607c0c91f9
+        with:
+          go-version: 1.20.x
+      - name: Format
+        run: if [ "$(gofmt -s -l . | wc -l)" -gt 0 ]; then exit 1; fi
+      - name: Setup Env
+        run: |
+          echo "$(go env GOPATH)/bin" >> $GITHUB_PATH
+      - name: Run tests
+        run: |
+          make go_test

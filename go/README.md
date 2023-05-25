@@ -15,6 +15,10 @@ The Go bindings for the attestations layers and predicates are provided in
 the `github.com/in-toto/attestation/go/v1` and
 `github.com/in-toto/attestation/go/predicates` packages, respectively.
 
+## Testing
+
+See the [testing docs] for info and instructions for testing this implementation.
+
 ## Run the Go example
 
 examples/go/main.go provides an example of how these protos can be used.
@@ -27,3 +31,5 @@ $ make go_run
 Read statement with predicateType https://example.com/unknownPred2
 Predicate fields:{key:"foo"  value:{struct_value:{fields:{key:"bar"  value:{string_value:"baz"}}}}}
 ```
+
+[testing docs]: ../docs/testing.md#testing-the-go-bindings
