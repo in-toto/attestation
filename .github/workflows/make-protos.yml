@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Install protoc
-        uses: arduino/setup-protoc@51cd93c098e1954cb0a224bd1008cd1ec645f816
+        uses: arduino/setup-protoc@28fd3e5ddcc4ae8820e0c2085bfea8ab68f631e3
         with:
           version: '3.x'
       - name: Install Go
