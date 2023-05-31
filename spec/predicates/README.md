@@ -23,7 +23,7 @@ our [vetting process], and may be of general interest:
     artifact.
 -   [SPDX]: SPDX-formatted BOM for software artifacts.
 -   [CycloneDX]: CycloneDX BOM for software artifacts.
--   [Test Results]: A generic schema to express results of any type of tests.
+-   [Test Result]: A generic schema to express results of any type of tests.
 
 [CycloneDX]: https://cyclonedx.org/
 [Link]: link.md
@@ -33,6 +33,6 @@ our [vetting process], and may be of general interest:
 [SLSA Provenance]: https://slsa.dev/provenance
 [SLSA Verification Summary]: vsa.md
 [SPDX]: spdx.md
-[Test Results]: test-results.md
+[Test Result]: test-result.md
 [in-toto 0.9]: https://github.com/in-toto/docs/blob/master/in-toto-spec.md#44-file-formats-namekeyid-prefixlink
 [vetting process]: ../../docs/new_predicate_guidelines.md#vetting-process

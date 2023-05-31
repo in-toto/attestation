@@ -1,4 +1,4 @@
-# Predicate type: Test Results
+# Predicate type: Test Result
 
 Type URI: https://in-toto.io/attestation/test-result/v0.1
 

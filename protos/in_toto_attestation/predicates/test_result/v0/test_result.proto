@@ -1,0 +1,23 @@
+
+syntax = "proto3";
+
+package in_toto_attestation.predicates.test_result.v0;
+
+import "in_toto_attestation/v1/resource_descriptor.proto";
+
+option go_package = "github.com/in-toto/attestation/go/predicates/test_result/v0";
+option java_package = "io.github.intoto.attestation.predicates.test_result.v0";
+
+message TestResult {
+    string result = 1;
+
+    repeated in_toto_attestation.v1.ResourceDescriptor configuration = 2;
+
+    string url = 3;
+
+    repeated string passed_tests = 4;
+
+    repeated string warned_tests = 5;
+
+    repeated string failed_tests = 6;
+}
