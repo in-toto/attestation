@@ -120,11 +120,6 @@ public final class StatementOuterClass {
       return new Statement();
     }
 
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
       return io.github.intoto.attestation.v1.StatementOuterClass.internal_static_in_toto_attestation_v1_Statement_descriptor;
@@ -139,7 +134,8 @@ public final class StatementOuterClass {
     }
 
     public static final int TYPE_FIELD_NUMBER = 1;
-    private volatile java.lang.Object type_;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object type_ = "";
     /**
      * <pre>
      * Expected to always be "https://in-toto.io/Statement/v1"
@@ -185,6 +181,7 @@ public final class StatementOuterClass {
     }
 
     public static final int SUBJECT_FIELD_NUMBER = 2;
+    @SuppressWarnings("serial")
     private java.util.List<io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptor> subject_;
     /**
      * <code>repeated .in_toto_attestation.v1.ResourceDescriptor subject = 2;</code>
@@ -225,7 +222,8 @@ public final class StatementOuterClass {
     }
 
     public static final int PREDICATETYPE_FIELD_NUMBER = 3;
-    private volatile java.lang.Object predicateType_;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object predicateType_ = "";
     /**
      * <code>string predicateType = 3;</code>
      * @return The predicateType.
@@ -285,7 +283,7 @@ public final class StatementOuterClass {
      */
     @java.lang.Override
     public com.google.protobuf.StructOrBuilder getPredicateOrBuilder() {
-      return getPredicate();
+      return predicate_ == null ? com.google.protobuf.Struct.getDefaultInstance() : predicate_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -435,11 +433,13 @@ public final class StatementOuterClass {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
+
     public static io.github.intoto.attestation.v1.StatementOuterClass.Statement parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
+
     public static io.github.intoto.attestation.v1.StatementOuterClass.Statement parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -520,21 +520,19 @@ public final class StatementOuterClass {
       @java.lang.Override
       public Builder clear() {
         super.clear();
+        bitField0_ = 0;
         type_ = "";
-
         if (subjectBuilder_ == null) {
           subject_ = java.util.Collections.emptyList();
         } else {
           subject_ = null;
           subjectBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000001);
+        bitField0_ = (bitField0_ & ~0x00000002);
         predicateType_ = "";
-
-        if (predicateBuilder_ == null) {
-          predicate_ = null;
-        } else {
-          predicate_ = null;
+        predicate_ = null;
+        if (predicateBuilder_ != null) {
+          predicateBuilder_.dispose();
           predicateBuilder_ = null;
         }
         return this;
@@ -563,25 +561,37 @@ public final class StatementOuterClass {
       @java.lang.Override
       public io.github.intoto.attestation.v1.StatementOuterClass.Statement buildPartial() {
         io.github.intoto.attestation.v1.StatementOuterClass.Statement result = new io.github.intoto.attestation.v1.StatementOuterClass.Statement(this);
-        int from_bitField0_ = bitField0_;
-        result.type_ = type_;
+        buildPartialRepeatedFields(result);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartialRepeatedFields(io.github.intoto.attestation.v1.StatementOuterClass.Statement result) {
         if (subjectBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) != 0)) {
+          if (((bitField0_ & 0x00000002) != 0)) {
             subject_ = java.util.Collections.unmodifiableList(subject_);
-            bitField0_ = (bitField0_ & ~0x00000001);
+            bitField0_ = (bitField0_ & ~0x00000002);
           }
           result.subject_ = subject_;
         } else {
           result.subject_ = subjectBuilder_.build();
         }
-        result.predicateType_ = predicateType_;
-        if (predicateBuilder_ == null) {
-          result.predicate_ = predicate_;
-        } else {
-          result.predicate_ = predicateBuilder_.build();
+      }
+
+      private void buildPartial0(io.github.intoto.attestation.v1.StatementOuterClass.Statement result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.type_ = type_;
         }
-        onBuilt();
-        return result;
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.predicateType_ = predicateType_;
+        }
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          result.predicate_ = predicateBuilder_ == null
+              ? predicate_
+              : predicateBuilder_.build();
+        }
       }
 
       @java.lang.Override
@@ -630,13 +640,14 @@ public final class StatementOuterClass {
         if (other == io.github.intoto.attestation.v1.StatementOuterClass.Statement.getDefaultInstance()) return this;
         if (!other.getType().isEmpty()) {
           type_ = other.type_;
+          bitField0_ |= 0x00000001;
           onChanged();
         }
         if (subjectBuilder_ == null) {
           if (!other.subject_.isEmpty()) {
             if (subject_.isEmpty()) {
               subject_ = other.subject_;
-              bitField0_ = (bitField0_ & ~0x00000001);
+              bitField0_ = (bitField0_ & ~0x00000002);
             } else {
               ensureSubjectIsMutable();
               subject_.addAll(other.subject_);
@@ -649,7 +660,7 @@ public final class StatementOuterClass {
               subjectBuilder_.dispose();
               subjectBuilder_ = null;
               subject_ = other.subject_;
-              bitField0_ = (bitField0_ & ~0x00000001);
+              bitField0_ = (bitField0_ & ~0x00000002);
               subjectBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getSubjectFieldBuilder() : null;
@@ -660,6 +671,7 @@ public final class StatementOuterClass {
         }
         if (!other.getPredicateType().isEmpty()) {
           predicateType_ = other.predicateType_;
+          bitField0_ |= 0x00000004;
           onChanged();
         }
         if (other.hasPredicate()) {
@@ -693,7 +705,7 @@ public final class StatementOuterClass {
                 break;
               case 10: {
                 type_ = input.readStringRequireUtf8();
-
+                bitField0_ |= 0x00000001;
                 break;
               } // case 10
               case 18: {
@@ -711,14 +723,14 @@ public final class StatementOuterClass {
               } // case 18
               case 26: {
                 predicateType_ = input.readStringRequireUtf8();
-
+                bitField0_ |= 0x00000004;
                 break;
               } // case 26
               case 34: {
                 input.readMessage(
                     getPredicateFieldBuilder().getBuilder(),
                     extensionRegistry);
-
+                bitField0_ |= 0x00000008;
                 break;
               } // case 34
               default: {
@@ -791,11 +803,9 @@ public final class StatementOuterClass {
        */
       public Builder setType(
           java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
+        if (value == null) { throw new NullPointerException(); }
         type_ = value;
+        bitField0_ |= 0x00000001;
         onChanged();
         return this;
       }
@@ -808,8 +818,8 @@ public final class StatementOuterClass {
        * @return This builder for chaining.
        */
       public Builder clearType() {
-        
         type_ = getDefaultInstance().getType();
+        bitField0_ = (bitField0_ & ~0x00000001);
         onChanged();
         return this;
       }
@@ -824,12 +834,10 @@ public final class StatementOuterClass {
        */
       public Builder setTypeBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
         type_ = value;
+        bitField0_ |= 0x00000001;
         onChanged();
         return this;
       }
@@ -837,9 +845,9 @@ public final class StatementOuterClass {
       private java.util.List<io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptor> subject_ =
         java.util.Collections.emptyList();
       private void ensureSubjectIsMutable() {
-        if (!((bitField0_ & 0x00000001) != 0)) {
+        if (!((bitField0_ & 0x00000002) != 0)) {
           subject_ = new java.util.ArrayList<io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptor>(subject_);
-          bitField0_ |= 0x00000001;
+          bitField0_ |= 0x00000002;
          }
       }
 
@@ -989,7 +997,7 @@ public final class StatementOuterClass {
       public Builder clearSubject() {
         if (subjectBuilder_ == null) {
           subject_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
+          bitField0_ = (bitField0_ & ~0x00000002);
           onChanged();
         } else {
           subjectBuilder_.clear();
@@ -1066,7 +1074,7 @@ public final class StatementOuterClass {
           subjectBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptor, io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptor.Builder, io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptorOrBuilder>(
                   subject_,
-                  ((bitField0_ & 0x00000001) != 0),
+                  ((bitField0_ & 0x00000002) != 0),
                   getParentForChildren(),
                   isClean());
           subject_ = null;
@@ -1115,11 +1123,9 @@ public final class StatementOuterClass {
        */
       public Builder setPredicateType(
           java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
+        if (value == null) { throw new NullPointerException(); }
         predicateType_ = value;
+        bitField0_ |= 0x00000004;
         onChanged();
         return this;
       }
@@ -1128,8 +1134,8 @@ public final class StatementOuterClass {
        * @return This builder for chaining.
        */
       public Builder clearPredicateType() {
-        
         predicateType_ = getDefaultInstance().getPredicateType();
+        bitField0_ = (bitField0_ & ~0x00000004);
         onChanged();
         return this;
       }
@@ -1140,12 +1146,10 @@ public final class StatementOuterClass {
        */
       public Builder setPredicateTypeBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
         predicateType_ = value;
+        bitField0_ |= 0x00000004;
         onChanged();
         return this;
       }
@@ -1158,7 +1162,7 @@ public final class StatementOuterClass {
        * @return Whether the predicate field is set.
        */
       public boolean hasPredicate() {
-        return predicateBuilder_ != null || predicate_ != null;
+        return ((bitField0_ & 0x00000008) != 0);
       }
       /**
        * <code>.google.protobuf.Struct predicate = 4;</code>
@@ -1180,11 +1184,11 @@ public final class StatementOuterClass {
             throw new NullPointerException();
           }
           predicate_ = value;
-          onChanged();
         } else {
           predicateBuilder_.setMessage(value);
         }
-
+        bitField0_ |= 0x00000008;
+        onChanged();
         return this;
       }
       /**
@@ -1194,11 +1198,11 @@ public final class StatementOuterClass {
           com.google.protobuf.Struct.Builder builderForValue) {
         if (predicateBuilder_ == null) {
           predicate_ = builderForValue.build();
-          onChanged();
         } else {
           predicateBuilder_.setMessage(builderForValue.build());
         }
-
+        bitField0_ |= 0x00000008;
+        onChanged();
         return this;
       }
       /**
@@ -1206,38 +1210,38 @@ public final class StatementOuterClass {
        */
       public Builder mergePredicate(com.google.protobuf.Struct value) {
         if (predicateBuilder_ == null) {
-          if (predicate_ != null) {
-            predicate_ =
-              com.google.protobuf.Struct.newBuilder(predicate_).mergeFrom(value).buildPartial();
+          if (((bitField0_ & 0x00000008) != 0) &&
+            predicate_ != null &&
+            predicate_ != com.google.protobuf.Struct.getDefaultInstance()) {
+            getPredicateBuilder().mergeFrom(value);
           } else {
             predicate_ = value;
           }
-          onChanged();
         } else {
           predicateBuilder_.mergeFrom(value);
         }
-
+        bitField0_ |= 0x00000008;
+        onChanged();
         return this;
       }
       /**
        * <code>.google.protobuf.Struct predicate = 4;</code>
        */
       public Builder clearPredicate() {
-        if (predicateBuilder_ == null) {
-          predicate_ = null;
-          onChanged();
-        } else {
-          predicate_ = null;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        predicate_ = null;
+        if (predicateBuilder_ != null) {
+          predicateBuilder_.dispose();
           predicateBuilder_ = null;
         }
-
+        onChanged();
         return this;
       }
       /**
        * <code>.google.protobuf.Struct predicate = 4;</code>
        */
       public com.google.protobuf.Struct.Builder getPredicateBuilder() {
-        
+        bitField0_ |= 0x00000008;
         onChanged();
         return getPredicateFieldBuilder().getBuilder();
       }
