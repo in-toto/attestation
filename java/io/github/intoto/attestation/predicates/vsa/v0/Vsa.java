@@ -146,14 +146,12 @@ public final class Vsa {
     /**
      * <code>map&lt;string, uint64&gt; dependencyLevels = 8 [json_name = "dependency_levels"];</code>
      */
-
     long getDependencyLevelsOrDefault(
         java.lang.String key,
         long defaultValue);
     /**
      * <code>map&lt;string, uint64&gt; dependencyLevels = 8 [json_name = "dependency_levels"];</code>
      */
-
     long getDependencyLevelsOrThrow(
         java.lang.String key);
   }
@@ -188,11 +186,6 @@ public final class Vsa {
       return new VerificationSummary();
     }
 
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
       return io.github.intoto.attestation.predicates.vsa.v0.Vsa.internal_static_in_toto_attestation_predicates_vsa_v0_VerificationSummary_descriptor;
@@ -257,11 +250,6 @@ public final class Vsa {
         return new Verifier();
       }
 
-      @java.lang.Override
-      public final com.google.protobuf.UnknownFieldSet
-      getUnknownFields() {
-        return this.unknownFields;
-      }
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return io.github.intoto.attestation.predicates.vsa.v0.Vsa.internal_static_in_toto_attestation_predicates_vsa_v0_VerificationSummary_Verifier_descriptor;
@@ -276,7 +264,8 @@ public final class Vsa {
       }
 
       public static final int ID_FIELD_NUMBER = 1;
-      private volatile java.lang.Object id_;
+      @SuppressWarnings("serial")
+      private volatile java.lang.Object id_ = "";
       /**
        * <code>string id = 1;</code>
        * @return The id.
@@ -421,11 +410,13 @@ public final class Vsa {
         return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
+
       public static io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.Verifier parseDelimitedFrom(java.io.InputStream input)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseDelimitedWithIOException(PARSER, input);
       }
+
       public static io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.Verifier parseDelimitedFrom(
           java.io.InputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -500,8 +491,8 @@ public final class Vsa {
         @java.lang.Override
         public Builder clear() {
           super.clear();
+          bitField0_ = 0;
           id_ = "";
-
           return this;
         }
 
@@ -528,9 +519,16 @@ public final class Vsa {
         @java.lang.Override
         public io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.Verifier buildPartial() {
           io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.Verifier result = new io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.Verifier(this);
-          result.id_ = id_;
+          if (bitField0_ != 0) { buildPartial0(result); }
           onBuilt();
           return result;
+        }
+
+        private void buildPartial0(io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.Verifier result) {
+          int from_bitField0_ = bitField0_;
+          if (((from_bitField0_ & 0x00000001) != 0)) {
+            result.id_ = id_;
+          }
         }
 
         @java.lang.Override
@@ -579,6 +577,7 @@ public final class Vsa {
           if (other == io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.Verifier.getDefaultInstance()) return this;
           if (!other.getId().isEmpty()) {
             id_ = other.id_;
+            bitField0_ |= 0x00000001;
             onChanged();
           }
           this.mergeUnknownFields(other.getUnknownFields());
@@ -609,7 +608,7 @@ public final class Vsa {
                   break;
                 case 10: {
                   id_ = input.readStringRequireUtf8();
-
+                  bitField0_ |= 0x00000001;
                   break;
                 } // case 10
                 default: {
@@ -627,6 +626,7 @@ public final class Vsa {
           } // finally
           return this;
         }
+        private int bitField0_;
 
         private java.lang.Object id_ = "";
         /**
@@ -669,11 +669,9 @@ public final class Vsa {
          */
         public Builder setId(
             java.lang.String value) {
-          if (value == null) {
-    throw new NullPointerException();
-  }
-  
+          if (value == null) { throw new NullPointerException(); }
           id_ = value;
+          bitField0_ |= 0x00000001;
           onChanged();
           return this;
         }
@@ -682,8 +680,8 @@ public final class Vsa {
          * @return This builder for chaining.
          */
         public Builder clearId() {
-          
           id_ = getDefaultInstance().getId();
+          bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
           return this;
         }
@@ -694,12 +692,10 @@ public final class Vsa {
          */
         public Builder setIdBytes(
             com.google.protobuf.ByteString value) {
-          if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-          
+          if (value == null) { throw new NullPointerException(); }
+          checkByteStringIsUtf8(value);
           id_ = value;
+          bitField0_ |= 0x00000001;
           onChanged();
           return this;
         }
@@ -806,7 +802,6 @@ public final class Vsa {
       /**
        * <code>map&lt;string, string&gt; digest = 2;</code>
        */
-
       /* nullable */
 java.lang.String getDigestOrDefault(
           java.lang.String key,
@@ -815,7 +810,6 @@ java.lang.String defaultValue);
       /**
        * <code>map&lt;string, string&gt; digest = 2;</code>
        */
-
       java.lang.String getDigestOrThrow(
           java.lang.String key);
     }
@@ -842,11 +836,6 @@ java.lang.String defaultValue);
         return new Policy();
       }
 
-      @java.lang.Override
-      public final com.google.protobuf.UnknownFieldSet
-      getUnknownFields() {
-        return this.unknownFields;
-      }
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return io.github.intoto.attestation.predicates.vsa.v0.Vsa.internal_static_in_toto_attestation_predicates_vsa_v0_VerificationSummary_Policy_descriptor;
@@ -873,7 +862,8 @@ java.lang.String defaultValue);
       }
 
       public static final int URI_FIELD_NUMBER = 1;
-      private volatile java.lang.Object uri_;
+      @SuppressWarnings("serial")
+      private volatile java.lang.Object uri_ = "";
       /**
        * <code>string uri = 1;</code>
        * @return The uri.
@@ -922,6 +912,7 @@ java.lang.String defaultValue);
                     com.google.protobuf.WireFormat.FieldType.STRING,
                     "");
       }
+      @SuppressWarnings("serial")
       private com.google.protobuf.MapField<
           java.lang.String, java.lang.String> digest_;
       private com.google.protobuf.MapField<java.lang.String, java.lang.String>
@@ -932,14 +923,12 @@ java.lang.String defaultValue);
         }
         return digest_;
       }
-
       public int getDigestCount() {
         return internalGetDigest().getMap().size();
       }
       /**
        * <code>map&lt;string, string&gt; digest = 2;</code>
        */
-
       @java.lang.Override
       public boolean containsDigest(
           java.lang.String key) {
@@ -958,7 +947,6 @@ java.lang.String defaultValue);
        * <code>map&lt;string, string&gt; digest = 2;</code>
        */
       @java.lang.Override
-
       public java.util.Map<java.lang.String, java.lang.String> getDigestMap() {
         return internalGetDigest().getMap();
       }
@@ -966,10 +954,11 @@ java.lang.String defaultValue);
        * <code>map&lt;string, string&gt; digest = 2;</code>
        */
       @java.lang.Override
-
-      public java.lang.String getDigestOrDefault(
+      public /* nullable */
+java.lang.String getDigestOrDefault(
           java.lang.String key,
-          java.lang.String defaultValue) {
+          /* nullable */
+java.lang.String defaultValue) {
         if (key == null) { throw new NullPointerException("map key"); }
         java.util.Map<java.lang.String, java.lang.String> map =
             internalGetDigest().getMap();
@@ -979,7 +968,6 @@ java.lang.String defaultValue);
        * <code>map&lt;string, string&gt; digest = 2;</code>
        */
       @java.lang.Override
-
       public java.lang.String getDigestOrThrow(
           java.lang.String key) {
         if (key == null) { throw new NullPointerException("map key"); }
@@ -1121,11 +1109,13 @@ java.lang.String defaultValue);
         return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
+
       public static io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.Policy parseDelimitedFrom(java.io.InputStream input)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseDelimitedWithIOException(PARSER, input);
       }
+
       public static io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.Policy parseDelimitedFrom(
           java.io.InputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1222,8 +1212,8 @@ java.lang.String defaultValue);
         @java.lang.Override
         public Builder clear() {
           super.clear();
+          bitField0_ = 0;
           uri_ = "";
-
           internalGetMutableDigest().clear();
           return this;
         }
@@ -1251,12 +1241,20 @@ java.lang.String defaultValue);
         @java.lang.Override
         public io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.Policy buildPartial() {
           io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.Policy result = new io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.Policy(this);
-          int from_bitField0_ = bitField0_;
-          result.uri_ = uri_;
-          result.digest_ = internalGetDigest();
-          result.digest_.makeImmutable();
+          if (bitField0_ != 0) { buildPartial0(result); }
           onBuilt();
           return result;
+        }
+
+        private void buildPartial0(io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.Policy result) {
+          int from_bitField0_ = bitField0_;
+          if (((from_bitField0_ & 0x00000001) != 0)) {
+            result.uri_ = uri_;
+          }
+          if (((from_bitField0_ & 0x00000002) != 0)) {
+            result.digest_ = internalGetDigest();
+            result.digest_.makeImmutable();
+          }
         }
 
         @java.lang.Override
@@ -1305,10 +1303,12 @@ java.lang.String defaultValue);
           if (other == io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.Policy.getDefaultInstance()) return this;
           if (!other.getUri().isEmpty()) {
             uri_ = other.uri_;
+            bitField0_ |= 0x00000001;
             onChanged();
           }
           internalGetMutableDigest().mergeFrom(
               other.internalGetDigest());
+          bitField0_ |= 0x00000002;
           this.mergeUnknownFields(other.getUnknownFields());
           onChanged();
           return this;
@@ -1337,7 +1337,7 @@ java.lang.String defaultValue);
                   break;
                 case 10: {
                   uri_ = input.readStringRequireUtf8();
-
+                  bitField0_ |= 0x00000001;
                   break;
                 } // case 10
                 case 18: {
@@ -1346,6 +1346,7 @@ java.lang.String defaultValue);
                       DigestDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
                   internalGetMutableDigest().getMutableMap().put(
                       digest__.getKey(), digest__.getValue());
+                  bitField0_ |= 0x00000002;
                   break;
                 } // case 18
                 default: {
@@ -1406,11 +1407,9 @@ java.lang.String defaultValue);
          */
         public Builder setUri(
             java.lang.String value) {
-          if (value == null) {
-    throw new NullPointerException();
-  }
-  
+          if (value == null) { throw new NullPointerException(); }
           uri_ = value;
+          bitField0_ |= 0x00000001;
           onChanged();
           return this;
         }
@@ -1419,8 +1418,8 @@ java.lang.String defaultValue);
          * @return This builder for chaining.
          */
         public Builder clearUri() {
-          
           uri_ = getDefaultInstance().getUri();
+          bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
           return this;
         }
@@ -1431,12 +1430,10 @@ java.lang.String defaultValue);
          */
         public Builder setUriBytes(
             com.google.protobuf.ByteString value) {
-          if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-          
+          if (value == null) { throw new NullPointerException(); }
+          checkByteStringIsUtf8(value);
           uri_ = value;
+          bitField0_ |= 0x00000001;
           onChanged();
           return this;
         }
@@ -1444,7 +1441,7 @@ java.lang.String defaultValue);
         private com.google.protobuf.MapField<
             java.lang.String, java.lang.String> digest_;
         private com.google.protobuf.MapField<java.lang.String, java.lang.String>
-        internalGetDigest() {
+            internalGetDigest() {
           if (digest_ == null) {
             return com.google.protobuf.MapField.emptyMapField(
                 DigestDefaultEntryHolder.defaultEntry);
@@ -1452,8 +1449,7 @@ java.lang.String defaultValue);
           return digest_;
         }
         private com.google.protobuf.MapField<java.lang.String, java.lang.String>
-        internalGetMutableDigest() {
-          onChanged();;
+            internalGetMutableDigest() {
           if (digest_ == null) {
             digest_ = com.google.protobuf.MapField.newMapField(
                 DigestDefaultEntryHolder.defaultEntry);
@@ -1461,16 +1457,16 @@ java.lang.String defaultValue);
           if (!digest_.isMutable()) {
             digest_ = digest_.copy();
           }
+          bitField0_ |= 0x00000002;
+          onChanged();
           return digest_;
         }
-
         public int getDigestCount() {
           return internalGetDigest().getMap().size();
         }
         /**
          * <code>map&lt;string, string&gt; digest = 2;</code>
          */
-
         @java.lang.Override
         public boolean containsDigest(
             java.lang.String key) {
@@ -1489,7 +1485,6 @@ java.lang.String defaultValue);
          * <code>map&lt;string, string&gt; digest = 2;</code>
          */
         @java.lang.Override
-
         public java.util.Map<java.lang.String, java.lang.String> getDigestMap() {
           return internalGetDigest().getMap();
         }
@@ -1497,10 +1492,11 @@ java.lang.String defaultValue);
          * <code>map&lt;string, string&gt; digest = 2;</code>
          */
         @java.lang.Override
-
-        public java.lang.String getDigestOrDefault(
+        public /* nullable */
+java.lang.String getDigestOrDefault(
             java.lang.String key,
-            java.lang.String defaultValue) {
+            /* nullable */
+java.lang.String defaultValue) {
           if (key == null) { throw new NullPointerException("map key"); }
           java.util.Map<java.lang.String, java.lang.String> map =
               internalGetDigest().getMap();
@@ -1510,7 +1506,6 @@ java.lang.String defaultValue);
          * <code>map&lt;string, string&gt; digest = 2;</code>
          */
         @java.lang.Override
-
         public java.lang.String getDigestOrThrow(
             java.lang.String key) {
           if (key == null) { throw new NullPointerException("map key"); }
@@ -1521,8 +1516,8 @@ java.lang.String defaultValue);
           }
           return map.get(key);
         }
-
         public Builder clearDigest() {
+          bitField0_ = (bitField0_ & ~0x00000002);
           internalGetMutableDigest().getMutableMap()
               .clear();
           return this;
@@ -1530,7 +1525,6 @@ java.lang.String defaultValue);
         /**
          * <code>map&lt;string, string&gt; digest = 2;</code>
          */
-
         public Builder removeDigest(
             java.lang.String key) {
           if (key == null) { throw new NullPointerException("map key"); }
@@ -1543,7 +1537,8 @@ java.lang.String defaultValue);
          */
         @java.lang.Deprecated
         public java.util.Map<java.lang.String, java.lang.String>
-        getMutableDigest() {
+            getMutableDigest() {
+          bitField0_ |= 0x00000002;
           return internalGetMutableDigest().getMutableMap();
         }
         /**
@@ -1553,22 +1548,20 @@ java.lang.String defaultValue);
             java.lang.String key,
             java.lang.String value) {
           if (key == null) { throw new NullPointerException("map key"); }
-          if (value == null) {
-  throw new NullPointerException("map value");
-}
-
+          if (value == null) { throw new NullPointerException("map value"); }
           internalGetMutableDigest().getMutableMap()
               .put(key, value);
+          bitField0_ |= 0x00000002;
           return this;
         }
         /**
          * <code>map&lt;string, string&gt; digest = 2;</code>
          */
-
         public Builder putAllDigest(
             java.util.Map<java.lang.String, java.lang.String> values) {
           internalGetMutableDigest().getMutableMap()
               .putAll(values);
+          bitField0_ |= 0x00000002;
           return this;
         }
         @java.lang.Override
@@ -1674,7 +1667,6 @@ java.lang.String defaultValue);
       /**
        * <code>map&lt;string, string&gt; digest = 2;</code>
        */
-
       /* nullable */
 java.lang.String getDigestOrDefault(
           java.lang.String key,
@@ -1683,7 +1675,6 @@ java.lang.String defaultValue);
       /**
        * <code>map&lt;string, string&gt; digest = 2;</code>
        */
-
       java.lang.String getDigestOrThrow(
           java.lang.String key);
     }
@@ -1710,11 +1701,6 @@ java.lang.String defaultValue);
         return new InputAttestation();
       }
 
-      @java.lang.Override
-      public final com.google.protobuf.UnknownFieldSet
-      getUnknownFields() {
-        return this.unknownFields;
-      }
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
         return io.github.intoto.attestation.predicates.vsa.v0.Vsa.internal_static_in_toto_attestation_predicates_vsa_v0_VerificationSummary_InputAttestation_descriptor;
@@ -1741,7 +1727,8 @@ java.lang.String defaultValue);
       }
 
       public static final int URI_FIELD_NUMBER = 1;
-      private volatile java.lang.Object uri_;
+      @SuppressWarnings("serial")
+      private volatile java.lang.Object uri_ = "";
       /**
        * <code>string uri = 1;</code>
        * @return The uri.
@@ -1790,6 +1777,7 @@ java.lang.String defaultValue);
                     com.google.protobuf.WireFormat.FieldType.STRING,
                     "");
       }
+      @SuppressWarnings("serial")
       private com.google.protobuf.MapField<
           java.lang.String, java.lang.String> digest_;
       private com.google.protobuf.MapField<java.lang.String, java.lang.String>
@@ -1800,14 +1788,12 @@ java.lang.String defaultValue);
         }
         return digest_;
       }
-
       public int getDigestCount() {
         return internalGetDigest().getMap().size();
       }
       /**
        * <code>map&lt;string, string&gt; digest = 2;</code>
        */
-
       @java.lang.Override
       public boolean containsDigest(
           java.lang.String key) {
@@ -1826,7 +1812,6 @@ java.lang.String defaultValue);
        * <code>map&lt;string, string&gt; digest = 2;</code>
        */
       @java.lang.Override
-
       public java.util.Map<java.lang.String, java.lang.String> getDigestMap() {
         return internalGetDigest().getMap();
       }
@@ -1834,10 +1819,11 @@ java.lang.String defaultValue);
        * <code>map&lt;string, string&gt; digest = 2;</code>
        */
       @java.lang.Override
-
-      public java.lang.String getDigestOrDefault(
+      public /* nullable */
+java.lang.String getDigestOrDefault(
           java.lang.String key,
-          java.lang.String defaultValue) {
+          /* nullable */
+java.lang.String defaultValue) {
         if (key == null) { throw new NullPointerException("map key"); }
         java.util.Map<java.lang.String, java.lang.String> map =
             internalGetDigest().getMap();
@@ -1847,7 +1833,6 @@ java.lang.String defaultValue);
        * <code>map&lt;string, string&gt; digest = 2;</code>
        */
       @java.lang.Override
-
       public java.lang.String getDigestOrThrow(
           java.lang.String key) {
         if (key == null) { throw new NullPointerException("map key"); }
@@ -1989,11 +1974,13 @@ java.lang.String defaultValue);
         return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
+
       public static io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.InputAttestation parseDelimitedFrom(java.io.InputStream input)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseDelimitedWithIOException(PARSER, input);
       }
+
       public static io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.InputAttestation parseDelimitedFrom(
           java.io.InputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2090,8 +2077,8 @@ java.lang.String defaultValue);
         @java.lang.Override
         public Builder clear() {
           super.clear();
+          bitField0_ = 0;
           uri_ = "";
-
           internalGetMutableDigest().clear();
           return this;
         }
@@ -2119,12 +2106,20 @@ java.lang.String defaultValue);
         @java.lang.Override
         public io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.InputAttestation buildPartial() {
           io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.InputAttestation result = new io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.InputAttestation(this);
-          int from_bitField0_ = bitField0_;
-          result.uri_ = uri_;
-          result.digest_ = internalGetDigest();
-          result.digest_.makeImmutable();
+          if (bitField0_ != 0) { buildPartial0(result); }
           onBuilt();
           return result;
+        }
+
+        private void buildPartial0(io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.InputAttestation result) {
+          int from_bitField0_ = bitField0_;
+          if (((from_bitField0_ & 0x00000001) != 0)) {
+            result.uri_ = uri_;
+          }
+          if (((from_bitField0_ & 0x00000002) != 0)) {
+            result.digest_ = internalGetDigest();
+            result.digest_.makeImmutable();
+          }
         }
 
         @java.lang.Override
@@ -2173,10 +2168,12 @@ java.lang.String defaultValue);
           if (other == io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.InputAttestation.getDefaultInstance()) return this;
           if (!other.getUri().isEmpty()) {
             uri_ = other.uri_;
+            bitField0_ |= 0x00000001;
             onChanged();
           }
           internalGetMutableDigest().mergeFrom(
               other.internalGetDigest());
+          bitField0_ |= 0x00000002;
           this.mergeUnknownFields(other.getUnknownFields());
           onChanged();
           return this;
@@ -2205,7 +2202,7 @@ java.lang.String defaultValue);
                   break;
                 case 10: {
                   uri_ = input.readStringRequireUtf8();
-
+                  bitField0_ |= 0x00000001;
                   break;
                 } // case 10
                 case 18: {
@@ -2214,6 +2211,7 @@ java.lang.String defaultValue);
                       DigestDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
                   internalGetMutableDigest().getMutableMap().put(
                       digest__.getKey(), digest__.getValue());
+                  bitField0_ |= 0x00000002;
                   break;
                 } // case 18
                 default: {
@@ -2274,11 +2272,9 @@ java.lang.String defaultValue);
          */
         public Builder setUri(
             java.lang.String value) {
-          if (value == null) {
-    throw new NullPointerException();
-  }
-  
+          if (value == null) { throw new NullPointerException(); }
           uri_ = value;
+          bitField0_ |= 0x00000001;
           onChanged();
           return this;
         }
@@ -2287,8 +2283,8 @@ java.lang.String defaultValue);
          * @return This builder for chaining.
          */
         public Builder clearUri() {
-          
           uri_ = getDefaultInstance().getUri();
+          bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
           return this;
         }
@@ -2299,12 +2295,10 @@ java.lang.String defaultValue);
          */
         public Builder setUriBytes(
             com.google.protobuf.ByteString value) {
-          if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-          
+          if (value == null) { throw new NullPointerException(); }
+          checkByteStringIsUtf8(value);
           uri_ = value;
+          bitField0_ |= 0x00000001;
           onChanged();
           return this;
         }
@@ -2312,7 +2306,7 @@ java.lang.String defaultValue);
         private com.google.protobuf.MapField<
             java.lang.String, java.lang.String> digest_;
         private com.google.protobuf.MapField<java.lang.String, java.lang.String>
-        internalGetDigest() {
+            internalGetDigest() {
           if (digest_ == null) {
             return com.google.protobuf.MapField.emptyMapField(
                 DigestDefaultEntryHolder.defaultEntry);
@@ -2320,8 +2314,7 @@ java.lang.String defaultValue);
           return digest_;
         }
         private com.google.protobuf.MapField<java.lang.String, java.lang.String>
-        internalGetMutableDigest() {
-          onChanged();;
+            internalGetMutableDigest() {
           if (digest_ == null) {
             digest_ = com.google.protobuf.MapField.newMapField(
                 DigestDefaultEntryHolder.defaultEntry);
@@ -2329,16 +2322,16 @@ java.lang.String defaultValue);
           if (!digest_.isMutable()) {
             digest_ = digest_.copy();
           }
+          bitField0_ |= 0x00000002;
+          onChanged();
           return digest_;
         }
-
         public int getDigestCount() {
           return internalGetDigest().getMap().size();
         }
         /**
          * <code>map&lt;string, string&gt; digest = 2;</code>
          */
-
         @java.lang.Override
         public boolean containsDigest(
             java.lang.String key) {
@@ -2357,7 +2350,6 @@ java.lang.String defaultValue);
          * <code>map&lt;string, string&gt; digest = 2;</code>
          */
         @java.lang.Override
-
         public java.util.Map<java.lang.String, java.lang.String> getDigestMap() {
           return internalGetDigest().getMap();
         }
@@ -2365,10 +2357,11 @@ java.lang.String defaultValue);
          * <code>map&lt;string, string&gt; digest = 2;</code>
          */
         @java.lang.Override
-
-        public java.lang.String getDigestOrDefault(
+        public /* nullable */
+java.lang.String getDigestOrDefault(
             java.lang.String key,
-            java.lang.String defaultValue) {
+            /* nullable */
+java.lang.String defaultValue) {
           if (key == null) { throw new NullPointerException("map key"); }
           java.util.Map<java.lang.String, java.lang.String> map =
               internalGetDigest().getMap();
@@ -2378,7 +2371,6 @@ java.lang.String defaultValue);
          * <code>map&lt;string, string&gt; digest = 2;</code>
          */
         @java.lang.Override
-
         public java.lang.String getDigestOrThrow(
             java.lang.String key) {
           if (key == null) { throw new NullPointerException("map key"); }
@@ -2389,8 +2381,8 @@ java.lang.String defaultValue);
           }
           return map.get(key);
         }
-
         public Builder clearDigest() {
+          bitField0_ = (bitField0_ & ~0x00000002);
           internalGetMutableDigest().getMutableMap()
               .clear();
           return this;
@@ -2398,7 +2390,6 @@ java.lang.String defaultValue);
         /**
          * <code>map&lt;string, string&gt; digest = 2;</code>
          */
-
         public Builder removeDigest(
             java.lang.String key) {
           if (key == null) { throw new NullPointerException("map key"); }
@@ -2411,7 +2402,8 @@ java.lang.String defaultValue);
          */
         @java.lang.Deprecated
         public java.util.Map<java.lang.String, java.lang.String>
-        getMutableDigest() {
+            getMutableDigest() {
+          bitField0_ |= 0x00000002;
           return internalGetMutableDigest().getMutableMap();
         }
         /**
@@ -2421,22 +2413,20 @@ java.lang.String defaultValue);
             java.lang.String key,
             java.lang.String value) {
           if (key == null) { throw new NullPointerException("map key"); }
-          if (value == null) {
-  throw new NullPointerException("map value");
-}
-
+          if (value == null) { throw new NullPointerException("map value"); }
           internalGetMutableDigest().getMutableMap()
               .put(key, value);
+          bitField0_ |= 0x00000002;
           return this;
         }
         /**
          * <code>map&lt;string, string&gt; digest = 2;</code>
          */
-
         public Builder putAllDigest(
             java.util.Map<java.lang.String, java.lang.String> values) {
           internalGetMutableDigest().getMutableMap()
               .putAll(values);
+          bitField0_ |= 0x00000002;
           return this;
         }
         @java.lang.Override
@@ -2526,7 +2516,7 @@ java.lang.String defaultValue);
      */
     @java.lang.Override
     public io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.VerifierOrBuilder getVerifierOrBuilder() {
-      return getVerifier();
+      return verifier_ == null ? io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.Verifier.getDefaultInstance() : verifier_;
     }
 
     public static final int TIMEVERIFIED_FIELD_NUMBER = 2;
@@ -2552,11 +2542,12 @@ java.lang.String defaultValue);
      */
     @java.lang.Override
     public com.google.protobuf.TimestampOrBuilder getTimeVerifiedOrBuilder() {
-      return getTimeVerified();
+      return timeVerified_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : timeVerified_;
     }
 
     public static final int RESOURCEURI_FIELD_NUMBER = 3;
-    private volatile java.lang.Object resourceUri_;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object resourceUri_ = "";
     /**
      * <code>string resourceUri = 3 [json_name = "resource_uri"];</code>
      * @return The resourceUri.
@@ -2616,10 +2607,11 @@ java.lang.String defaultValue);
      */
     @java.lang.Override
     public io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.PolicyOrBuilder getPolicyOrBuilder() {
-      return getPolicy();
+      return policy_ == null ? io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.Policy.getDefaultInstance() : policy_;
     }
 
     public static final int INPUTATTESTATIONS_FIELD_NUMBER = 5;
+    @SuppressWarnings("serial")
     private java.util.List<io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.InputAttestation> inputAttestations_;
     /**
      * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation inputAttestations = 5 [json_name = "input_attestations"];</code>
@@ -2660,7 +2652,8 @@ java.lang.String defaultValue);
     }
 
     public static final int VERIFICATIONRESULT_FIELD_NUMBER = 6;
-    private volatile java.lang.Object verificationResult_;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object verificationResult_ = "";
     /**
      * <code>string verificationResult = 6 [json_name = "verification_result"];</code>
      * @return The verificationResult.
@@ -2698,7 +2691,8 @@ java.lang.String defaultValue);
     }
 
     public static final int POLICYLEVEL_FIELD_NUMBER = 7;
-    private volatile java.lang.Object policyLevel_;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object policyLevel_ = "";
     /**
      * <code>string policyLevel = 7 [json_name = "policy_level"];</code>
      * @return The policyLevel.
@@ -2747,6 +2741,7 @@ java.lang.String defaultValue);
                   com.google.protobuf.WireFormat.FieldType.UINT64,
                   0L);
     }
+    @SuppressWarnings("serial")
     private com.google.protobuf.MapField<
         java.lang.String, java.lang.Long> dependencyLevels_;
     private com.google.protobuf.MapField<java.lang.String, java.lang.Long>
@@ -2757,14 +2752,12 @@ java.lang.String defaultValue);
       }
       return dependencyLevels_;
     }
-
     public int getDependencyLevelsCount() {
       return internalGetDependencyLevels().getMap().size();
     }
     /**
      * <code>map&lt;string, uint64&gt; dependencyLevels = 8 [json_name = "dependency_levels"];</code>
      */
-
     @java.lang.Override
     public boolean containsDependencyLevels(
         java.lang.String key) {
@@ -2783,7 +2776,6 @@ java.lang.String defaultValue);
      * <code>map&lt;string, uint64&gt; dependencyLevels = 8 [json_name = "dependency_levels"];</code>
      */
     @java.lang.Override
-
     public java.util.Map<java.lang.String, java.lang.Long> getDependencyLevelsMap() {
       return internalGetDependencyLevels().getMap();
     }
@@ -2791,7 +2783,6 @@ java.lang.String defaultValue);
      * <code>map&lt;string, uint64&gt; dependencyLevels = 8 [json_name = "dependency_levels"];</code>
      */
     @java.lang.Override
-
     public long getDependencyLevelsOrDefault(
         java.lang.String key,
         long defaultValue) {
@@ -2804,7 +2795,6 @@ java.lang.String defaultValue);
      * <code>map&lt;string, uint64&gt; dependencyLevels = 8 [json_name = "dependency_levels"];</code>
      */
     @java.lang.Override
-
     public long getDependencyLevelsOrThrow(
         java.lang.String key) {
       if (key == null) { throw new NullPointerException("map key"); }
@@ -3027,11 +3017,13 @@ java.lang.String defaultValue);
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
+
     public static io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
+
     public static io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -3133,24 +3125,21 @@ java.lang.String defaultValue);
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        if (verifierBuilder_ == null) {
-          verifier_ = null;
-        } else {
-          verifier_ = null;
+        bitField0_ = 0;
+        verifier_ = null;
+        if (verifierBuilder_ != null) {
+          verifierBuilder_.dispose();
           verifierBuilder_ = null;
         }
-        if (timeVerifiedBuilder_ == null) {
-          timeVerified_ = null;
-        } else {
-          timeVerified_ = null;
+        timeVerified_ = null;
+        if (timeVerifiedBuilder_ != null) {
+          timeVerifiedBuilder_.dispose();
           timeVerifiedBuilder_ = null;
         }
         resourceUri_ = "";
-
-        if (policyBuilder_ == null) {
-          policy_ = null;
-        } else {
-          policy_ = null;
+        policy_ = null;
+        if (policyBuilder_ != null) {
+          policyBuilder_.dispose();
           policyBuilder_ = null;
         }
         if (inputAttestationsBuilder_ == null) {
@@ -3159,11 +3148,9 @@ java.lang.String defaultValue);
           inputAttestations_ = null;
           inputAttestationsBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000001);
+        bitField0_ = (bitField0_ & ~0x00000010);
         verificationResult_ = "";
-
         policyLevel_ = "";
-
         internalGetMutableDependencyLevels().clear();
         return this;
       }
@@ -3191,38 +3178,54 @@ java.lang.String defaultValue);
       @java.lang.Override
       public io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary buildPartial() {
         io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary result = new io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary(this);
-        int from_bitField0_ = bitField0_;
-        if (verifierBuilder_ == null) {
-          result.verifier_ = verifier_;
-        } else {
-          result.verifier_ = verifierBuilder_.build();
-        }
-        if (timeVerifiedBuilder_ == null) {
-          result.timeVerified_ = timeVerified_;
-        } else {
-          result.timeVerified_ = timeVerifiedBuilder_.build();
-        }
-        result.resourceUri_ = resourceUri_;
-        if (policyBuilder_ == null) {
-          result.policy_ = policy_;
-        } else {
-          result.policy_ = policyBuilder_.build();
-        }
+        buildPartialRepeatedFields(result);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartialRepeatedFields(io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary result) {
         if (inputAttestationsBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) != 0)) {
+          if (((bitField0_ & 0x00000010) != 0)) {
             inputAttestations_ = java.util.Collections.unmodifiableList(inputAttestations_);
-            bitField0_ = (bitField0_ & ~0x00000001);
+            bitField0_ = (bitField0_ & ~0x00000010);
           }
           result.inputAttestations_ = inputAttestations_;
         } else {
           result.inputAttestations_ = inputAttestationsBuilder_.build();
         }
-        result.verificationResult_ = verificationResult_;
-        result.policyLevel_ = policyLevel_;
-        result.dependencyLevels_ = internalGetDependencyLevels();
-        result.dependencyLevels_.makeImmutable();
-        onBuilt();
-        return result;
+      }
+
+      private void buildPartial0(io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.verifier_ = verifierBuilder_ == null
+              ? verifier_
+              : verifierBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.timeVerified_ = timeVerifiedBuilder_ == null
+              ? timeVerified_
+              : timeVerifiedBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000004) != 0)) {
+          result.resourceUri_ = resourceUri_;
+        }
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          result.policy_ = policyBuilder_ == null
+              ? policy_
+              : policyBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000020) != 0)) {
+          result.verificationResult_ = verificationResult_;
+        }
+        if (((from_bitField0_ & 0x00000040) != 0)) {
+          result.policyLevel_ = policyLevel_;
+        }
+        if (((from_bitField0_ & 0x00000080) != 0)) {
+          result.dependencyLevels_ = internalGetDependencyLevels();
+          result.dependencyLevels_.makeImmutable();
+        }
       }
 
       @java.lang.Override
@@ -3277,6 +3280,7 @@ java.lang.String defaultValue);
         }
         if (!other.getResourceUri().isEmpty()) {
           resourceUri_ = other.resourceUri_;
+          bitField0_ |= 0x00000004;
           onChanged();
         }
         if (other.hasPolicy()) {
@@ -3286,7 +3290,7 @@ java.lang.String defaultValue);
           if (!other.inputAttestations_.isEmpty()) {
             if (inputAttestations_.isEmpty()) {
               inputAttestations_ = other.inputAttestations_;
-              bitField0_ = (bitField0_ & ~0x00000001);
+              bitField0_ = (bitField0_ & ~0x00000010);
             } else {
               ensureInputAttestationsIsMutable();
               inputAttestations_.addAll(other.inputAttestations_);
@@ -3299,7 +3303,7 @@ java.lang.String defaultValue);
               inputAttestationsBuilder_.dispose();
               inputAttestationsBuilder_ = null;
               inputAttestations_ = other.inputAttestations_;
-              bitField0_ = (bitField0_ & ~0x00000001);
+              bitField0_ = (bitField0_ & ~0x00000010);
               inputAttestationsBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getInputAttestationsFieldBuilder() : null;
@@ -3310,14 +3314,17 @@ java.lang.String defaultValue);
         }
         if (!other.getVerificationResult().isEmpty()) {
           verificationResult_ = other.verificationResult_;
+          bitField0_ |= 0x00000020;
           onChanged();
         }
         if (!other.getPolicyLevel().isEmpty()) {
           policyLevel_ = other.policyLevel_;
+          bitField0_ |= 0x00000040;
           onChanged();
         }
         internalGetMutableDependencyLevels().mergeFrom(
             other.internalGetDependencyLevels());
+        bitField0_ |= 0x00000080;
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
         return this;
@@ -3348,26 +3355,26 @@ java.lang.String defaultValue);
                 input.readMessage(
                     getVerifierFieldBuilder().getBuilder(),
                     extensionRegistry);
-
+                bitField0_ |= 0x00000001;
                 break;
               } // case 10
               case 18: {
                 input.readMessage(
                     getTimeVerifiedFieldBuilder().getBuilder(),
                     extensionRegistry);
-
+                bitField0_ |= 0x00000002;
                 break;
               } // case 18
               case 26: {
                 resourceUri_ = input.readStringRequireUtf8();
-
+                bitField0_ |= 0x00000004;
                 break;
               } // case 26
               case 34: {
                 input.readMessage(
                     getPolicyFieldBuilder().getBuilder(),
                     extensionRegistry);
-
+                bitField0_ |= 0x00000008;
                 break;
               } // case 34
               case 42: {
@@ -3385,12 +3392,12 @@ java.lang.String defaultValue);
               } // case 42
               case 50: {
                 verificationResult_ = input.readStringRequireUtf8();
-
+                bitField0_ |= 0x00000020;
                 break;
               } // case 50
               case 58: {
                 policyLevel_ = input.readStringRequireUtf8();
-
+                bitField0_ |= 0x00000040;
                 break;
               } // case 58
               case 66: {
@@ -3399,6 +3406,7 @@ java.lang.String defaultValue);
                     DependencyLevelsDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
                 internalGetMutableDependencyLevels().getMutableMap().put(
                     dependencyLevels__.getKey(), dependencyLevels__.getValue());
+                bitField0_ |= 0x00000080;
                 break;
               } // case 66
               default: {
@@ -3426,7 +3434,7 @@ java.lang.String defaultValue);
        * @return Whether the verifier field is set.
        */
       public boolean hasVerifier() {
-        return verifierBuilder_ != null || verifier_ != null;
+        return ((bitField0_ & 0x00000001) != 0);
       }
       /**
        * <code>.in_toto_attestation.predicates.vsa.v0.VerificationSummary.Verifier verifier = 1;</code>
@@ -3448,11 +3456,11 @@ java.lang.String defaultValue);
             throw new NullPointerException();
           }
           verifier_ = value;
-          onChanged();
         } else {
           verifierBuilder_.setMessage(value);
         }
-
+        bitField0_ |= 0x00000001;
+        onChanged();
         return this;
       }
       /**
@@ -3462,11 +3470,11 @@ java.lang.String defaultValue);
           io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.Verifier.Builder builderForValue) {
         if (verifierBuilder_ == null) {
           verifier_ = builderForValue.build();
-          onChanged();
         } else {
           verifierBuilder_.setMessage(builderForValue.build());
         }
-
+        bitField0_ |= 0x00000001;
+        onChanged();
         return this;
       }
       /**
@@ -3474,38 +3482,38 @@ java.lang.String defaultValue);
        */
       public Builder mergeVerifier(io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.Verifier value) {
         if (verifierBuilder_ == null) {
-          if (verifier_ != null) {
-            verifier_ =
-              io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.Verifier.newBuilder(verifier_).mergeFrom(value).buildPartial();
+          if (((bitField0_ & 0x00000001) != 0) &&
+            verifier_ != null &&
+            verifier_ != io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.Verifier.getDefaultInstance()) {
+            getVerifierBuilder().mergeFrom(value);
           } else {
             verifier_ = value;
           }
-          onChanged();
         } else {
           verifierBuilder_.mergeFrom(value);
         }
-
+        bitField0_ |= 0x00000001;
+        onChanged();
         return this;
       }
       /**
        * <code>.in_toto_attestation.predicates.vsa.v0.VerificationSummary.Verifier verifier = 1;</code>
        */
       public Builder clearVerifier() {
-        if (verifierBuilder_ == null) {
-          verifier_ = null;
-          onChanged();
-        } else {
-          verifier_ = null;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        verifier_ = null;
+        if (verifierBuilder_ != null) {
+          verifierBuilder_.dispose();
           verifierBuilder_ = null;
         }
-
+        onChanged();
         return this;
       }
       /**
        * <code>.in_toto_attestation.predicates.vsa.v0.VerificationSummary.Verifier verifier = 1;</code>
        */
       public io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.Verifier.Builder getVerifierBuilder() {
-        
+        bitField0_ |= 0x00000001;
         onChanged();
         return getVerifierFieldBuilder().getBuilder();
       }
@@ -3545,7 +3553,7 @@ java.lang.String defaultValue);
        * @return Whether the timeVerified field is set.
        */
       public boolean hasTimeVerified() {
-        return timeVerifiedBuilder_ != null || timeVerified_ != null;
+        return ((bitField0_ & 0x00000002) != 0);
       }
       /**
        * <code>.google.protobuf.Timestamp timeVerified = 2 [json_name = "time_verified"];</code>
@@ -3567,11 +3575,11 @@ java.lang.String defaultValue);
             throw new NullPointerException();
           }
           timeVerified_ = value;
-          onChanged();
         } else {
           timeVerifiedBuilder_.setMessage(value);
         }
-
+        bitField0_ |= 0x00000002;
+        onChanged();
         return this;
       }
       /**
@@ -3581,11 +3589,11 @@ java.lang.String defaultValue);
           com.google.protobuf.Timestamp.Builder builderForValue) {
         if (timeVerifiedBuilder_ == null) {
           timeVerified_ = builderForValue.build();
-          onChanged();
         } else {
           timeVerifiedBuilder_.setMessage(builderForValue.build());
         }
-
+        bitField0_ |= 0x00000002;
+        onChanged();
         return this;
       }
       /**
@@ -3593,38 +3601,38 @@ java.lang.String defaultValue);
        */
       public Builder mergeTimeVerified(com.google.protobuf.Timestamp value) {
         if (timeVerifiedBuilder_ == null) {
-          if (timeVerified_ != null) {
-            timeVerified_ =
-              com.google.protobuf.Timestamp.newBuilder(timeVerified_).mergeFrom(value).buildPartial();
+          if (((bitField0_ & 0x00000002) != 0) &&
+            timeVerified_ != null &&
+            timeVerified_ != com.google.protobuf.Timestamp.getDefaultInstance()) {
+            getTimeVerifiedBuilder().mergeFrom(value);
           } else {
             timeVerified_ = value;
           }
-          onChanged();
         } else {
           timeVerifiedBuilder_.mergeFrom(value);
         }
-
+        bitField0_ |= 0x00000002;
+        onChanged();
         return this;
       }
       /**
        * <code>.google.protobuf.Timestamp timeVerified = 2 [json_name = "time_verified"];</code>
        */
       public Builder clearTimeVerified() {
-        if (timeVerifiedBuilder_ == null) {
-          timeVerified_ = null;
-          onChanged();
-        } else {
-          timeVerified_ = null;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        timeVerified_ = null;
+        if (timeVerifiedBuilder_ != null) {
+          timeVerifiedBuilder_.dispose();
           timeVerifiedBuilder_ = null;
         }
-
+        onChanged();
         return this;
       }
       /**
        * <code>.google.protobuf.Timestamp timeVerified = 2 [json_name = "time_verified"];</code>
        */
       public com.google.protobuf.Timestamp.Builder getTimeVerifiedBuilder() {
-        
+        bitField0_ |= 0x00000002;
         onChanged();
         return getTimeVerifiedFieldBuilder().getBuilder();
       }
@@ -3697,11 +3705,9 @@ java.lang.String defaultValue);
        */
       public Builder setResourceUri(
           java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
+        if (value == null) { throw new NullPointerException(); }
         resourceUri_ = value;
+        bitField0_ |= 0x00000004;
         onChanged();
         return this;
       }
@@ -3710,8 +3716,8 @@ java.lang.String defaultValue);
        * @return This builder for chaining.
        */
       public Builder clearResourceUri() {
-        
         resourceUri_ = getDefaultInstance().getResourceUri();
+        bitField0_ = (bitField0_ & ~0x00000004);
         onChanged();
         return this;
       }
@@ -3722,12 +3728,10 @@ java.lang.String defaultValue);
        */
       public Builder setResourceUriBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
         resourceUri_ = value;
+        bitField0_ |= 0x00000004;
         onChanged();
         return this;
       }
@@ -3740,7 +3744,7 @@ java.lang.String defaultValue);
        * @return Whether the policy field is set.
        */
       public boolean hasPolicy() {
-        return policyBuilder_ != null || policy_ != null;
+        return ((bitField0_ & 0x00000008) != 0);
       }
       /**
        * <code>.in_toto_attestation.predicates.vsa.v0.VerificationSummary.Policy policy = 4;</code>
@@ -3762,11 +3766,11 @@ java.lang.String defaultValue);
             throw new NullPointerException();
           }
           policy_ = value;
-          onChanged();
         } else {
           policyBuilder_.setMessage(value);
         }
-
+        bitField0_ |= 0x00000008;
+        onChanged();
         return this;
       }
       /**
@@ -3776,11 +3780,11 @@ java.lang.String defaultValue);
           io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.Policy.Builder builderForValue) {
         if (policyBuilder_ == null) {
           policy_ = builderForValue.build();
-          onChanged();
         } else {
           policyBuilder_.setMessage(builderForValue.build());
         }
-
+        bitField0_ |= 0x00000008;
+        onChanged();
         return this;
       }
       /**
@@ -3788,38 +3792,38 @@ java.lang.String defaultValue);
        */
       public Builder mergePolicy(io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.Policy value) {
         if (policyBuilder_ == null) {
-          if (policy_ != null) {
-            policy_ =
-              io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.Policy.newBuilder(policy_).mergeFrom(value).buildPartial();
+          if (((bitField0_ & 0x00000008) != 0) &&
+            policy_ != null &&
+            policy_ != io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.Policy.getDefaultInstance()) {
+            getPolicyBuilder().mergeFrom(value);
           } else {
             policy_ = value;
           }
-          onChanged();
         } else {
           policyBuilder_.mergeFrom(value);
         }
-
+        bitField0_ |= 0x00000008;
+        onChanged();
         return this;
       }
       /**
        * <code>.in_toto_attestation.predicates.vsa.v0.VerificationSummary.Policy policy = 4;</code>
        */
       public Builder clearPolicy() {
-        if (policyBuilder_ == null) {
-          policy_ = null;
-          onChanged();
-        } else {
-          policy_ = null;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        policy_ = null;
+        if (policyBuilder_ != null) {
+          policyBuilder_.dispose();
           policyBuilder_ = null;
         }
-
+        onChanged();
         return this;
       }
       /**
        * <code>.in_toto_attestation.predicates.vsa.v0.VerificationSummary.Policy policy = 4;</code>
        */
       public io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.Policy.Builder getPolicyBuilder() {
-        
+        bitField0_ |= 0x00000008;
         onChanged();
         return getPolicyFieldBuilder().getBuilder();
       }
@@ -3854,9 +3858,9 @@ java.lang.String defaultValue);
       private java.util.List<io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.InputAttestation> inputAttestations_ =
         java.util.Collections.emptyList();
       private void ensureInputAttestationsIsMutable() {
-        if (!((bitField0_ & 0x00000001) != 0)) {
+        if (!((bitField0_ & 0x00000010) != 0)) {
           inputAttestations_ = new java.util.ArrayList<io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.InputAttestation>(inputAttestations_);
-          bitField0_ |= 0x00000001;
+          bitField0_ |= 0x00000010;
          }
       }
 
@@ -4006,7 +4010,7 @@ java.lang.String defaultValue);
       public Builder clearInputAttestations() {
         if (inputAttestationsBuilder_ == null) {
           inputAttestations_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
+          bitField0_ = (bitField0_ & ~0x00000010);
           onChanged();
         } else {
           inputAttestationsBuilder_.clear();
@@ -4083,7 +4087,7 @@ java.lang.String defaultValue);
           inputAttestationsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.InputAttestation, io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.InputAttestation.Builder, io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.InputAttestationOrBuilder>(
                   inputAttestations_,
-                  ((bitField0_ & 0x00000001) != 0),
+                  ((bitField0_ & 0x00000010) != 0),
                   getParentForChildren(),
                   isClean());
           inputAttestations_ = null;
@@ -4132,11 +4136,9 @@ java.lang.String defaultValue);
        */
       public Builder setVerificationResult(
           java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
+        if (value == null) { throw new NullPointerException(); }
         verificationResult_ = value;
+        bitField0_ |= 0x00000020;
         onChanged();
         return this;
       }
@@ -4145,8 +4147,8 @@ java.lang.String defaultValue);
        * @return This builder for chaining.
        */
       public Builder clearVerificationResult() {
-        
         verificationResult_ = getDefaultInstance().getVerificationResult();
+        bitField0_ = (bitField0_ & ~0x00000020);
         onChanged();
         return this;
       }
@@ -4157,12 +4159,10 @@ java.lang.String defaultValue);
        */
       public Builder setVerificationResultBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
         verificationResult_ = value;
+        bitField0_ |= 0x00000020;
         onChanged();
         return this;
       }
@@ -4208,11 +4208,9 @@ java.lang.String defaultValue);
        */
       public Builder setPolicyLevel(
           java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
+        if (value == null) { throw new NullPointerException(); }
         policyLevel_ = value;
+        bitField0_ |= 0x00000040;
         onChanged();
         return this;
       }
@@ -4221,8 +4219,8 @@ java.lang.String defaultValue);
        * @return This builder for chaining.
        */
       public Builder clearPolicyLevel() {
-        
         policyLevel_ = getDefaultInstance().getPolicyLevel();
+        bitField0_ = (bitField0_ & ~0x00000040);
         onChanged();
         return this;
       }
@@ -4233,12 +4231,10 @@ java.lang.String defaultValue);
        */
       public Builder setPolicyLevelBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
         policyLevel_ = value;
+        bitField0_ |= 0x00000040;
         onChanged();
         return this;
       }
@@ -4246,7 +4242,7 @@ java.lang.String defaultValue);
       private com.google.protobuf.MapField<
           java.lang.String, java.lang.Long> dependencyLevels_;
       private com.google.protobuf.MapField<java.lang.String, java.lang.Long>
-      internalGetDependencyLevels() {
+          internalGetDependencyLevels() {
         if (dependencyLevels_ == null) {
           return com.google.protobuf.MapField.emptyMapField(
               DependencyLevelsDefaultEntryHolder.defaultEntry);
@@ -4254,8 +4250,7 @@ java.lang.String defaultValue);
         return dependencyLevels_;
       }
       private com.google.protobuf.MapField<java.lang.String, java.lang.Long>
-      internalGetMutableDependencyLevels() {
-        onChanged();;
+          internalGetMutableDependencyLevels() {
         if (dependencyLevels_ == null) {
           dependencyLevels_ = com.google.protobuf.MapField.newMapField(
               DependencyLevelsDefaultEntryHolder.defaultEntry);
@@ -4263,16 +4258,16 @@ java.lang.String defaultValue);
         if (!dependencyLevels_.isMutable()) {
           dependencyLevels_ = dependencyLevels_.copy();
         }
+        bitField0_ |= 0x00000080;
+        onChanged();
         return dependencyLevels_;
       }
-
       public int getDependencyLevelsCount() {
         return internalGetDependencyLevels().getMap().size();
       }
       /**
        * <code>map&lt;string, uint64&gt; dependencyLevels = 8 [json_name = "dependency_levels"];</code>
        */
-
       @java.lang.Override
       public boolean containsDependencyLevels(
           java.lang.String key) {
@@ -4291,7 +4286,6 @@ java.lang.String defaultValue);
        * <code>map&lt;string, uint64&gt; dependencyLevels = 8 [json_name = "dependency_levels"];</code>
        */
       @java.lang.Override
-
       public java.util.Map<java.lang.String, java.lang.Long> getDependencyLevelsMap() {
         return internalGetDependencyLevels().getMap();
       }
@@ -4299,7 +4293,6 @@ java.lang.String defaultValue);
        * <code>map&lt;string, uint64&gt; dependencyLevels = 8 [json_name = "dependency_levels"];</code>
        */
       @java.lang.Override
-
       public long getDependencyLevelsOrDefault(
           java.lang.String key,
           long defaultValue) {
@@ -4312,7 +4305,6 @@ java.lang.String defaultValue);
        * <code>map&lt;string, uint64&gt; dependencyLevels = 8 [json_name = "dependency_levels"];</code>
        */
       @java.lang.Override
-
       public long getDependencyLevelsOrThrow(
           java.lang.String key) {
         if (key == null) { throw new NullPointerException("map key"); }
@@ -4323,8 +4315,8 @@ java.lang.String defaultValue);
         }
         return map.get(key);
       }
-
       public Builder clearDependencyLevels() {
+        bitField0_ = (bitField0_ & ~0x00000080);
         internalGetMutableDependencyLevels().getMutableMap()
             .clear();
         return this;
@@ -4332,7 +4324,6 @@ java.lang.String defaultValue);
       /**
        * <code>map&lt;string, uint64&gt; dependencyLevels = 8 [json_name = "dependency_levels"];</code>
        */
-
       public Builder removeDependencyLevels(
           java.lang.String key) {
         if (key == null) { throw new NullPointerException("map key"); }
@@ -4345,7 +4336,8 @@ java.lang.String defaultValue);
        */
       @java.lang.Deprecated
       public java.util.Map<java.lang.String, java.lang.Long>
-      getMutableDependencyLevels() {
+          getMutableDependencyLevels() {
+        bitField0_ |= 0x00000080;
         return internalGetMutableDependencyLevels().getMutableMap();
       }
       /**
@@ -4355,19 +4347,20 @@ java.lang.String defaultValue);
           java.lang.String key,
           long value) {
         if (key == null) { throw new NullPointerException("map key"); }
-        
+
         internalGetMutableDependencyLevels().getMutableMap()
             .put(key, value);
+        bitField0_ |= 0x00000080;
         return this;
       }
       /**
        * <code>map&lt;string, uint64&gt; dependencyLevels = 8 [json_name = "dependency_levels"];</code>
        */
-
       public Builder putAllDependencyLevels(
           java.util.Map<java.lang.String, java.lang.Long> values) {
         internalGetMutableDependencyLevels().getMutableMap()
             .putAll(values);
+        bitField0_ |= 0x00000080;
         return this;
       }
       @java.lang.Override
