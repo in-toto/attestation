@@ -123,7 +123,8 @@ public final class LinkOuterClass {
     }
     private Link() {
       name_ = "";
-      command_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      command_ =
+          com.google.protobuf.LazyStringArrayList.emptyList();
       materials_ = java.util.Collections.emptyList();
     }
 
@@ -134,11 +135,6 @@ public final class LinkOuterClass {
       return new Link();
     }
 
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
       return io.github.intoto.attestation.predicates.link.v0.LinkOuterClass.internal_static_in_toto_attestation_predicates_link_v0_Link_descriptor;
@@ -153,7 +149,8 @@ public final class LinkOuterClass {
     }
 
     public static final int NAME_FIELD_NUMBER = 1;
-    private volatile java.lang.Object name_;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object name_ = "";
     /**
      * <code>string name = 1;</code>
      * @return The name.
@@ -191,7 +188,9 @@ public final class LinkOuterClass {
     }
 
     public static final int COMMAND_FIELD_NUMBER = 2;
-    private com.google.protobuf.LazyStringList command_;
+    @SuppressWarnings("serial")
+    private com.google.protobuf.LazyStringArrayList command_ =
+        com.google.protobuf.LazyStringArrayList.emptyList();
     /**
      * <code>repeated string command = 2;</code>
      * @return A list containing the command.
@@ -226,6 +225,7 @@ public final class LinkOuterClass {
     }
 
     public static final int MATERIALS_FIELD_NUMBER = 3;
+    @SuppressWarnings("serial")
     private java.util.List<io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptor> materials_;
     /**
      * <code>repeated .in_toto_attestation.v1.ResourceDescriptor materials = 3;</code>
@@ -288,7 +288,7 @@ public final class LinkOuterClass {
      */
     @java.lang.Override
     public com.google.protobuf.StructOrBuilder getByproductsOrBuilder() {
-      return getByproducts();
+      return byproducts_ == null ? com.google.protobuf.Struct.getDefaultInstance() : byproducts_;
     }
 
     public static final int ENVIRONMENT_FIELD_NUMBER = 5;
@@ -314,7 +314,7 @@ public final class LinkOuterClass {
      */
     @java.lang.Override
     public com.google.protobuf.StructOrBuilder getEnvironmentOrBuilder() {
-      return getEnvironment();
+      return environment_ == null ? com.google.protobuf.Struct.getDefaultInstance() : environment_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -487,11 +487,13 @@ public final class LinkOuterClass {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
+
     public static io.github.intoto.attestation.predicates.link.v0.LinkOuterClass.Link parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
+
     public static io.github.intoto.attestation.predicates.link.v0.LinkOuterClass.Link parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -566,27 +568,25 @@ public final class LinkOuterClass {
       @java.lang.Override
       public Builder clear() {
         super.clear();
+        bitField0_ = 0;
         name_ = "";
-
-        command_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000001);
+        command_ =
+            com.google.protobuf.LazyStringArrayList.emptyList();
         if (materialsBuilder_ == null) {
           materials_ = java.util.Collections.emptyList();
         } else {
           materials_ = null;
           materialsBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000002);
-        if (byproductsBuilder_ == null) {
-          byproducts_ = null;
-        } else {
-          byproducts_ = null;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        byproducts_ = null;
+        if (byproductsBuilder_ != null) {
+          byproductsBuilder_.dispose();
           byproductsBuilder_ = null;
         }
-        if (environmentBuilder_ == null) {
-          environment_ = null;
-        } else {
-          environment_ = null;
+        environment_ = null;
+        if (environmentBuilder_ != null) {
+          environmentBuilder_.dispose();
           environmentBuilder_ = null;
         }
         return this;
@@ -615,34 +615,43 @@ public final class LinkOuterClass {
       @java.lang.Override
       public io.github.intoto.attestation.predicates.link.v0.LinkOuterClass.Link buildPartial() {
         io.github.intoto.attestation.predicates.link.v0.LinkOuterClass.Link result = new io.github.intoto.attestation.predicates.link.v0.LinkOuterClass.Link(this);
-        int from_bitField0_ = bitField0_;
-        result.name_ = name_;
-        if (((bitField0_ & 0x00000001) != 0)) {
-          command_ = command_.getUnmodifiableView();
-          bitField0_ = (bitField0_ & ~0x00000001);
-        }
-        result.command_ = command_;
+        buildPartialRepeatedFields(result);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartialRepeatedFields(io.github.intoto.attestation.predicates.link.v0.LinkOuterClass.Link result) {
         if (materialsBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) != 0)) {
+          if (((bitField0_ & 0x00000004) != 0)) {
             materials_ = java.util.Collections.unmodifiableList(materials_);
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000004);
           }
           result.materials_ = materials_;
         } else {
           result.materials_ = materialsBuilder_.build();
         }
-        if (byproductsBuilder_ == null) {
-          result.byproducts_ = byproducts_;
-        } else {
-          result.byproducts_ = byproductsBuilder_.build();
+      }
+
+      private void buildPartial0(io.github.intoto.attestation.predicates.link.v0.LinkOuterClass.Link result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.name_ = name_;
         }
-        if (environmentBuilder_ == null) {
-          result.environment_ = environment_;
-        } else {
-          result.environment_ = environmentBuilder_.build();
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          command_.makeImmutable();
+          result.command_ = command_;
         }
-        onBuilt();
-        return result;
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          result.byproducts_ = byproductsBuilder_ == null
+              ? byproducts_
+              : byproductsBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000010) != 0)) {
+          result.environment_ = environmentBuilder_ == null
+              ? environment_
+              : environmentBuilder_.build();
+        }
       }
 
       @java.lang.Override
@@ -691,12 +700,13 @@ public final class LinkOuterClass {
         if (other == io.github.intoto.attestation.predicates.link.v0.LinkOuterClass.Link.getDefaultInstance()) return this;
         if (!other.getName().isEmpty()) {
           name_ = other.name_;
+          bitField0_ |= 0x00000001;
           onChanged();
         }
         if (!other.command_.isEmpty()) {
           if (command_.isEmpty()) {
             command_ = other.command_;
-            bitField0_ = (bitField0_ & ~0x00000001);
+            bitField0_ |= 0x00000002;
           } else {
             ensureCommandIsMutable();
             command_.addAll(other.command_);
@@ -707,7 +717,7 @@ public final class LinkOuterClass {
           if (!other.materials_.isEmpty()) {
             if (materials_.isEmpty()) {
               materials_ = other.materials_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000004);
             } else {
               ensureMaterialsIsMutable();
               materials_.addAll(other.materials_);
@@ -720,7 +730,7 @@ public final class LinkOuterClass {
               materialsBuilder_.dispose();
               materialsBuilder_ = null;
               materials_ = other.materials_;
-              bitField0_ = (bitField0_ & ~0x00000002);
+              bitField0_ = (bitField0_ & ~0x00000004);
               materialsBuilder_ = 
                 com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getMaterialsFieldBuilder() : null;
@@ -763,7 +773,7 @@ public final class LinkOuterClass {
                 break;
               case 10: {
                 name_ = input.readStringRequireUtf8();
-
+                bitField0_ |= 0x00000001;
                 break;
               } // case 10
               case 18: {
@@ -789,14 +799,14 @@ public final class LinkOuterClass {
                 input.readMessage(
                     getByproductsFieldBuilder().getBuilder(),
                     extensionRegistry);
-
+                bitField0_ |= 0x00000008;
                 break;
               } // case 34
               case 42: {
                 input.readMessage(
                     getEnvironmentFieldBuilder().getBuilder(),
                     extensionRegistry);
-
+                bitField0_ |= 0x00000010;
                 break;
               } // case 42
               default: {
@@ -857,11 +867,9 @@ public final class LinkOuterClass {
        */
       public Builder setName(
           java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
+        if (value == null) { throw new NullPointerException(); }
         name_ = value;
+        bitField0_ |= 0x00000001;
         onChanged();
         return this;
       }
@@ -870,8 +878,8 @@ public final class LinkOuterClass {
        * @return This builder for chaining.
        */
       public Builder clearName() {
-        
         name_ = getDefaultInstance().getName();
+        bitField0_ = (bitField0_ & ~0x00000001);
         onChanged();
         return this;
       }
@@ -882,22 +890,21 @@ public final class LinkOuterClass {
        */
       public Builder setNameBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
         name_ = value;
+        bitField0_ |= 0x00000001;
         onChanged();
         return this;
       }
 
-      private com.google.protobuf.LazyStringList command_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private com.google.protobuf.LazyStringArrayList command_ =
+          com.google.protobuf.LazyStringArrayList.emptyList();
       private void ensureCommandIsMutable() {
-        if (!((bitField0_ & 0x00000001) != 0)) {
+        if (!command_.isModifiable()) {
           command_ = new com.google.protobuf.LazyStringArrayList(command_);
-          bitField0_ |= 0x00000001;
-         }
+        }
+        bitField0_ |= 0x00000002;
       }
       /**
        * <code>repeated string command = 2;</code>
@@ -905,7 +912,8 @@ public final class LinkOuterClass {
        */
       public com.google.protobuf.ProtocolStringList
           getCommandList() {
-        return command_.getUnmodifiableView();
+        command_.makeImmutable();
+        return command_;
       }
       /**
        * <code>repeated string command = 2;</code>
@@ -939,11 +947,10 @@ public final class LinkOuterClass {
        */
       public Builder setCommand(
           int index, java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureCommandIsMutable();
+        if (value == null) { throw new NullPointerException(); }
+        ensureCommandIsMutable();
         command_.set(index, value);
+        bitField0_ |= 0x00000002;
         onChanged();
         return this;
       }
@@ -954,11 +961,10 @@ public final class LinkOuterClass {
        */
       public Builder addCommand(
           java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureCommandIsMutable();
+        if (value == null) { throw new NullPointerException(); }
+        ensureCommandIsMutable();
         command_.add(value);
+        bitField0_ |= 0x00000002;
         onChanged();
         return this;
       }
@@ -972,6 +978,7 @@ public final class LinkOuterClass {
         ensureCommandIsMutable();
         com.google.protobuf.AbstractMessageLite.Builder.addAll(
             values, command_);
+        bitField0_ |= 0x00000002;
         onChanged();
         return this;
       }
@@ -980,8 +987,9 @@ public final class LinkOuterClass {
        * @return This builder for chaining.
        */
       public Builder clearCommand() {
-        command_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000001);
+        command_ =
+          com.google.protobuf.LazyStringArrayList.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000002);;
         onChanged();
         return this;
       }
@@ -992,12 +1000,11 @@ public final class LinkOuterClass {
        */
       public Builder addCommandBytes(
           com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
         ensureCommandIsMutable();
         command_.add(value);
+        bitField0_ |= 0x00000002;
         onChanged();
         return this;
       }
@@ -1005,9 +1012,9 @@ public final class LinkOuterClass {
       private java.util.List<io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptor> materials_ =
         java.util.Collections.emptyList();
       private void ensureMaterialsIsMutable() {
-        if (!((bitField0_ & 0x00000002) != 0)) {
+        if (!((bitField0_ & 0x00000004) != 0)) {
           materials_ = new java.util.ArrayList<io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptor>(materials_);
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000004;
          }
       }
 
@@ -1157,7 +1164,7 @@ public final class LinkOuterClass {
       public Builder clearMaterials() {
         if (materialsBuilder_ == null) {
           materials_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000004);
           onChanged();
         } else {
           materialsBuilder_.clear();
@@ -1234,7 +1241,7 @@ public final class LinkOuterClass {
           materialsBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptor, io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptor.Builder, io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptorOrBuilder>(
                   materials_,
-                  ((bitField0_ & 0x00000002) != 0),
+                  ((bitField0_ & 0x00000004) != 0),
                   getParentForChildren(),
                   isClean());
           materials_ = null;
@@ -1250,7 +1257,7 @@ public final class LinkOuterClass {
        * @return Whether the byproducts field is set.
        */
       public boolean hasByproducts() {
-        return byproductsBuilder_ != null || byproducts_ != null;
+        return ((bitField0_ & 0x00000008) != 0);
       }
       /**
        * <code>.google.protobuf.Struct byproducts = 4;</code>
@@ -1272,11 +1279,11 @@ public final class LinkOuterClass {
             throw new NullPointerException();
           }
           byproducts_ = value;
-          onChanged();
         } else {
           byproductsBuilder_.setMessage(value);
         }
-
+        bitField0_ |= 0x00000008;
+        onChanged();
         return this;
       }
       /**
@@ -1286,11 +1293,11 @@ public final class LinkOuterClass {
           com.google.protobuf.Struct.Builder builderForValue) {
         if (byproductsBuilder_ == null) {
           byproducts_ = builderForValue.build();
-          onChanged();
         } else {
           byproductsBuilder_.setMessage(builderForValue.build());
         }
-
+        bitField0_ |= 0x00000008;
+        onChanged();
         return this;
       }
       /**
@@ -1298,38 +1305,38 @@ public final class LinkOuterClass {
        */
       public Builder mergeByproducts(com.google.protobuf.Struct value) {
         if (byproductsBuilder_ == null) {
-          if (byproducts_ != null) {
-            byproducts_ =
-              com.google.protobuf.Struct.newBuilder(byproducts_).mergeFrom(value).buildPartial();
+          if (((bitField0_ & 0x00000008) != 0) &&
+            byproducts_ != null &&
+            byproducts_ != com.google.protobuf.Struct.getDefaultInstance()) {
+            getByproductsBuilder().mergeFrom(value);
           } else {
             byproducts_ = value;
           }
-          onChanged();
         } else {
           byproductsBuilder_.mergeFrom(value);
         }
-
+        bitField0_ |= 0x00000008;
+        onChanged();
         return this;
       }
       /**
        * <code>.google.protobuf.Struct byproducts = 4;</code>
        */
       public Builder clearByproducts() {
-        if (byproductsBuilder_ == null) {
-          byproducts_ = null;
-          onChanged();
-        } else {
-          byproducts_ = null;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        byproducts_ = null;
+        if (byproductsBuilder_ != null) {
+          byproductsBuilder_.dispose();
           byproductsBuilder_ = null;
         }
-
+        onChanged();
         return this;
       }
       /**
        * <code>.google.protobuf.Struct byproducts = 4;</code>
        */
       public com.google.protobuf.Struct.Builder getByproductsBuilder() {
-        
+        bitField0_ |= 0x00000008;
         onChanged();
         return getByproductsFieldBuilder().getBuilder();
       }
@@ -1369,7 +1376,7 @@ public final class LinkOuterClass {
        * @return Whether the environment field is set.
        */
       public boolean hasEnvironment() {
-        return environmentBuilder_ != null || environment_ != null;
+        return ((bitField0_ & 0x00000010) != 0);
       }
       /**
        * <code>.google.protobuf.Struct environment = 5;</code>
@@ -1391,11 +1398,11 @@ public final class LinkOuterClass {
             throw new NullPointerException();
           }
           environment_ = value;
-          onChanged();
         } else {
           environmentBuilder_.setMessage(value);
         }
-
+        bitField0_ |= 0x00000010;
+        onChanged();
         return this;
       }
       /**
@@ -1405,11 +1412,11 @@ public final class LinkOuterClass {
           com.google.protobuf.Struct.Builder builderForValue) {
         if (environmentBuilder_ == null) {
           environment_ = builderForValue.build();
-          onChanged();
         } else {
           environmentBuilder_.setMessage(builderForValue.build());
         }
-
+        bitField0_ |= 0x00000010;
+        onChanged();
         return this;
       }
       /**
@@ -1417,38 +1424,38 @@ public final class LinkOuterClass {
        */
       public Builder mergeEnvironment(com.google.protobuf.Struct value) {
         if (environmentBuilder_ == null) {
-          if (environment_ != null) {
-            environment_ =
-              com.google.protobuf.Struct.newBuilder(environment_).mergeFrom(value).buildPartial();
+          if (((bitField0_ & 0x00000010) != 0) &&
+            environment_ != null &&
+            environment_ != com.google.protobuf.Struct.getDefaultInstance()) {
+            getEnvironmentBuilder().mergeFrom(value);
           } else {
             environment_ = value;
           }
-          onChanged();
         } else {
           environmentBuilder_.mergeFrom(value);
         }
-
+        bitField0_ |= 0x00000010;
+        onChanged();
         return this;
       }
       /**
        * <code>.google.protobuf.Struct environment = 5;</code>
        */
       public Builder clearEnvironment() {
-        if (environmentBuilder_ == null) {
-          environment_ = null;
-          onChanged();
-        } else {
-          environment_ = null;
+        bitField0_ = (bitField0_ & ~0x00000010);
+        environment_ = null;
+        if (environmentBuilder_ != null) {
+          environmentBuilder_.dispose();
           environmentBuilder_ = null;
         }
-
+        onChanged();
         return this;
       }
       /**
        * <code>.google.protobuf.Struct environment = 5;</code>
        */
       public com.google.protobuf.Struct.Builder getEnvironmentBuilder() {
-        
+        bitField0_ |= 0x00000010;
         onChanged();
         return getEnvironmentFieldBuilder().getBuilder();
       }
