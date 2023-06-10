@@ -18,7 +18,7 @@ make go_test
 
 ### Writing new Go tests
 
-Please use the standard [Golang testing package] to write tests
+Please use the standard [Go testing package] to write tests
 for new predicates. For example tests, take a look at the `*_test.go`
 files in the `go/` directory tree.
 
@@ -47,5 +47,5 @@ modules in the `tests/python/` directory tree.
 At a minimum, we suggest testing JSON marshalling and unmarshalling
 of the Python language bindings.
 
-[Golang testing package]: https://pkg.go.dev/testing
+[Go testing package]: https://pkg.go.dev/testing
 [Python unittest package]: https://docs.python.org/3/library/unittest.html
