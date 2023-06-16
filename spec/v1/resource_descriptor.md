@@ -134,7 +134,7 @@ Pointer to a git repo (with annotations):
 {
   "uri": "git+https://github.com/actions/runner",
   "digest": { "sha1": "d61b27b8395512..." },
-  "annotations": { "git-review": { "twoPartyReview": false } }
+  "annotations": { "twoPartyReview": false }
 }
 ```
 
