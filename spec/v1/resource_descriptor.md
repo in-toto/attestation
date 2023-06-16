@@ -16,8 +16,8 @@ or immutable).
   "downloadLocation": "<RESOURCE URI>",
   "mediaType": "<MIME TYPE>",
   "annotations": {
-    "<FIELD_1>": { /* object */ },
-    "<FIELD_2>": { /* object */ },
+    "<FIELD_1>": /* value */,
+    "<FIELD_2>": /* value */,
     ...
   }
 }
@@ -85,15 +85,18 @@ specified here.
 > prefixing types with `x.`, `prs.`, or `vnd.` to avoid collisions with other
 > producers.
 
-`annotations` _map <string, object>, optional_
+`annotations` _map <string, value>, optional_
 
 > This field MAY be used to provide additional information or metadata about
 > the resource or artifact that may be useful to the consumer when evaluating
 > the attestation against a policy.
 >
+> For maximum flexibility annotations may be any mapping from a field name to
+> any JSON value (string, number, object, array, boolean or _null_).
+>
 > The producer and consumer SHOULD agree on the semantics, and acceptable
-> fields and objects in the `annotations` map. Producers SHOULD follow the
-> same formatting conventions used in [extension fields].
+> fields and values in the `annotations` map. Producers SHOULD follow the
+> same naming conventions for annotation fields as for [extension fields].
 
 ## Semantics
 
