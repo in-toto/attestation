@@ -49,9 +49,10 @@ the message type [update guidelines].
 
 ## Regenerating proto libraries
 
-[It's typical to keep generated Go code in the repository itself](https://go.dev/doc/articles/go_command#:~:text=and%20then%20check%20those%20generated%20source%20files%20into%20your%20repository)
+[It's typical](https://go.dev/doc/articles/go_command#:~:text=and%20then%20check%20those%20generated%20source%20files%20into%20your%20repository)
+to keep code generated from protobuf definitions in the repository itself,
 since it makes users' lives much easier. However, do NOT manually regenerate
-and check in the libraries, if your change modifies or adds protos,
+and check in the libraries if your change modifies or adds protos.
 
 To ensure libraries are generated using consistent tooling, we have
 [automated their generation](/.github/workflows/make-protos.yml).
