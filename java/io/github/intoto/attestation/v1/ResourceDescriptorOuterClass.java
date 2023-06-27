@@ -107,11 +107,11 @@ java.lang.String defaultValue);
         getMediaTypeBytes();
 
     /**
-     * <code>map&lt;string, .google.protobuf.Struct&gt; annotations = 7;</code>
+     * <code>map&lt;string, .google.protobuf.Value&gt; annotations = 7;</code>
      */
     int getAnnotationsCount();
     /**
-     * <code>map&lt;string, .google.protobuf.Struct&gt; annotations = 7;</code>
+     * <code>map&lt;string, .google.protobuf.Value&gt; annotations = 7;</code>
      */
     boolean containsAnnotations(
         java.lang.String key);
@@ -119,25 +119,25 @@ java.lang.String defaultValue);
      * Use {@link #getAnnotationsMap()} instead.
      */
     @java.lang.Deprecated
-    java.util.Map<java.lang.String, com.google.protobuf.Struct>
+    java.util.Map<java.lang.String, com.google.protobuf.Value>
     getAnnotations();
     /**
-     * <code>map&lt;string, .google.protobuf.Struct&gt; annotations = 7;</code>
+     * <code>map&lt;string, .google.protobuf.Value&gt; annotations = 7;</code>
      */
-    java.util.Map<java.lang.String, com.google.protobuf.Struct>
+    java.util.Map<java.lang.String, com.google.protobuf.Value>
     getAnnotationsMap();
     /**
-     * <code>map&lt;string, .google.protobuf.Struct&gt; annotations = 7;</code>
+     * <code>map&lt;string, .google.protobuf.Value&gt; annotations = 7;</code>
      */
     /* nullable */
-com.google.protobuf.Struct getAnnotationsOrDefault(
+com.google.protobuf.Value getAnnotationsOrDefault(
         java.lang.String key,
         /* nullable */
-com.google.protobuf.Struct defaultValue);
+com.google.protobuf.Value defaultValue);
     /**
-     * <code>map&lt;string, .google.protobuf.Struct&gt; annotations = 7;</code>
+     * <code>map&lt;string, .google.protobuf.Value&gt; annotations = 7;</code>
      */
-    com.google.protobuf.Struct getAnnotationsOrThrow(
+    com.google.protobuf.Value getAnnotationsOrThrow(
         java.lang.String key);
   }
   /**
@@ -449,19 +449,19 @@ java.lang.String defaultValue) {
     public static final int ANNOTATIONS_FIELD_NUMBER = 7;
     private static final class AnnotationsDefaultEntryHolder {
       static final com.google.protobuf.MapEntry<
-          java.lang.String, com.google.protobuf.Struct> defaultEntry =
+          java.lang.String, com.google.protobuf.Value> defaultEntry =
               com.google.protobuf.MapEntry
-              .<java.lang.String, com.google.protobuf.Struct>newDefaultInstance(
+              .<java.lang.String, com.google.protobuf.Value>newDefaultInstance(
                   io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.internal_static_in_toto_attestation_v1_ResourceDescriptor_AnnotationsEntry_descriptor, 
                   com.google.protobuf.WireFormat.FieldType.STRING,
                   "",
                   com.google.protobuf.WireFormat.FieldType.MESSAGE,
-                  com.google.protobuf.Struct.getDefaultInstance());
+                  com.google.protobuf.Value.getDefaultInstance());
     }
     @SuppressWarnings("serial")
     private com.google.protobuf.MapField<
-        java.lang.String, com.google.protobuf.Struct> annotations_;
-    private com.google.protobuf.MapField<java.lang.String, com.google.protobuf.Struct>
+        java.lang.String, com.google.protobuf.Value> annotations_;
+    private com.google.protobuf.MapField<java.lang.String, com.google.protobuf.Value>
     internalGetAnnotations() {
       if (annotations_ == null) {
         return com.google.protobuf.MapField.emptyMapField(
@@ -473,7 +473,7 @@ java.lang.String defaultValue) {
       return internalGetAnnotations().getMap().size();
     }
     /**
-     * <code>map&lt;string, .google.protobuf.Struct&gt; annotations = 7;</code>
+     * <code>map&lt;string, .google.protobuf.Value&gt; annotations = 7;</code>
      */
     @java.lang.Override
     public boolean containsAnnotations(
@@ -486,38 +486,38 @@ java.lang.String defaultValue) {
      */
     @java.lang.Override
     @java.lang.Deprecated
-    public java.util.Map<java.lang.String, com.google.protobuf.Struct> getAnnotations() {
+    public java.util.Map<java.lang.String, com.google.protobuf.Value> getAnnotations() {
       return getAnnotationsMap();
     }
     /**
-     * <code>map&lt;string, .google.protobuf.Struct&gt; annotations = 7;</code>
+     * <code>map&lt;string, .google.protobuf.Value&gt; annotations = 7;</code>
      */
     @java.lang.Override
-    public java.util.Map<java.lang.String, com.google.protobuf.Struct> getAnnotationsMap() {
+    public java.util.Map<java.lang.String, com.google.protobuf.Value> getAnnotationsMap() {
       return internalGetAnnotations().getMap();
     }
     /**
-     * <code>map&lt;string, .google.protobuf.Struct&gt; annotations = 7;</code>
+     * <code>map&lt;string, .google.protobuf.Value&gt; annotations = 7;</code>
      */
     @java.lang.Override
     public /* nullable */
-com.google.protobuf.Struct getAnnotationsOrDefault(
+com.google.protobuf.Value getAnnotationsOrDefault(
         java.lang.String key,
         /* nullable */
-com.google.protobuf.Struct defaultValue) {
+com.google.protobuf.Value defaultValue) {
       if (key == null) { throw new NullPointerException("map key"); }
-      java.util.Map<java.lang.String, com.google.protobuf.Struct> map =
+      java.util.Map<java.lang.String, com.google.protobuf.Value> map =
           internalGetAnnotations().getMap();
       return map.containsKey(key) ? map.get(key) : defaultValue;
     }
     /**
-     * <code>map&lt;string, .google.protobuf.Struct&gt; annotations = 7;</code>
+     * <code>map&lt;string, .google.protobuf.Value&gt; annotations = 7;</code>
      */
     @java.lang.Override
-    public com.google.protobuf.Struct getAnnotationsOrThrow(
+    public com.google.protobuf.Value getAnnotationsOrThrow(
         java.lang.String key) {
       if (key == null) { throw new NullPointerException("map key"); }
-      java.util.Map<java.lang.String, com.google.protobuf.Struct> map =
+      java.util.Map<java.lang.String, com.google.protobuf.Value> map =
           internalGetAnnotations().getMap();
       if (!map.containsKey(key)) {
         throw new java.lang.IllegalArgumentException();
@@ -601,9 +601,9 @@ com.google.protobuf.Struct defaultValue) {
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(mediaType_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, mediaType_);
       }
-      for (java.util.Map.Entry<java.lang.String, com.google.protobuf.Struct> entry
+      for (java.util.Map.Entry<java.lang.String, com.google.protobuf.Value> entry
            : internalGetAnnotations().getMap().entrySet()) {
-        com.google.protobuf.MapEntry<java.lang.String, com.google.protobuf.Struct>
+        com.google.protobuf.MapEntry<java.lang.String, com.google.protobuf.Value>
         annotations__ = AnnotationsDefaultEntryHolder.defaultEntry.newBuilderForType()
             .setKey(entry.getKey())
             .setValue(entry.getValue())
@@ -1031,7 +1031,7 @@ com.google.protobuf.Struct defaultValue) {
                 break;
               } // case 50
               case 58: {
-                com.google.protobuf.MapEntry<java.lang.String, com.google.protobuf.Struct>
+                com.google.protobuf.MapEntry<java.lang.String, com.google.protobuf.Value>
                 annotations__ = input.readMessage(
                     AnnotationsDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
                 internalGetMutableAnnotations().getMutableMap().put(
@@ -1504,8 +1504,8 @@ java.lang.String defaultValue) {
       }
 
       private com.google.protobuf.MapField<
-          java.lang.String, com.google.protobuf.Struct> annotations_;
-      private com.google.protobuf.MapField<java.lang.String, com.google.protobuf.Struct>
+          java.lang.String, com.google.protobuf.Value> annotations_;
+      private com.google.protobuf.MapField<java.lang.String, com.google.protobuf.Value>
           internalGetAnnotations() {
         if (annotations_ == null) {
           return com.google.protobuf.MapField.emptyMapField(
@@ -1513,7 +1513,7 @@ java.lang.String defaultValue) {
         }
         return annotations_;
       }
-      private com.google.protobuf.MapField<java.lang.String, com.google.protobuf.Struct>
+      private com.google.protobuf.MapField<java.lang.String, com.google.protobuf.Value>
           internalGetMutableAnnotations() {
         if (annotations_ == null) {
           annotations_ = com.google.protobuf.MapField.newMapField(
@@ -1530,7 +1530,7 @@ java.lang.String defaultValue) {
         return internalGetAnnotations().getMap().size();
       }
       /**
-       * <code>map&lt;string, .google.protobuf.Struct&gt; annotations = 7;</code>
+       * <code>map&lt;string, .google.protobuf.Value&gt; annotations = 7;</code>
        */
       @java.lang.Override
       public boolean containsAnnotations(
@@ -1543,38 +1543,38 @@ java.lang.String defaultValue) {
        */
       @java.lang.Override
       @java.lang.Deprecated
-      public java.util.Map<java.lang.String, com.google.protobuf.Struct> getAnnotations() {
+      public java.util.Map<java.lang.String, com.google.protobuf.Value> getAnnotations() {
         return getAnnotationsMap();
       }
       /**
-       * <code>map&lt;string, .google.protobuf.Struct&gt; annotations = 7;</code>
+       * <code>map&lt;string, .google.protobuf.Value&gt; annotations = 7;</code>
        */
       @java.lang.Override
-      public java.util.Map<java.lang.String, com.google.protobuf.Struct> getAnnotationsMap() {
+      public java.util.Map<java.lang.String, com.google.protobuf.Value> getAnnotationsMap() {
         return internalGetAnnotations().getMap();
       }
       /**
-       * <code>map&lt;string, .google.protobuf.Struct&gt; annotations = 7;</code>
+       * <code>map&lt;string, .google.protobuf.Value&gt; annotations = 7;</code>
        */
       @java.lang.Override
       public /* nullable */
-com.google.protobuf.Struct getAnnotationsOrDefault(
+com.google.protobuf.Value getAnnotationsOrDefault(
           java.lang.String key,
           /* nullable */
-com.google.protobuf.Struct defaultValue) {
+com.google.protobuf.Value defaultValue) {
         if (key == null) { throw new NullPointerException("map key"); }
-        java.util.Map<java.lang.String, com.google.protobuf.Struct> map =
+        java.util.Map<java.lang.String, com.google.protobuf.Value> map =
             internalGetAnnotations().getMap();
         return map.containsKey(key) ? map.get(key) : defaultValue;
       }
       /**
-       * <code>map&lt;string, .google.protobuf.Struct&gt; annotations = 7;</code>
+       * <code>map&lt;string, .google.protobuf.Value&gt; annotations = 7;</code>
        */
       @java.lang.Override
-      public com.google.protobuf.Struct getAnnotationsOrThrow(
+      public com.google.protobuf.Value getAnnotationsOrThrow(
           java.lang.String key) {
         if (key == null) { throw new NullPointerException("map key"); }
-        java.util.Map<java.lang.String, com.google.protobuf.Struct> map =
+        java.util.Map<java.lang.String, com.google.protobuf.Value> map =
             internalGetAnnotations().getMap();
         if (!map.containsKey(key)) {
           throw new java.lang.IllegalArgumentException();
@@ -1588,7 +1588,7 @@ com.google.protobuf.Struct defaultValue) {
         return this;
       }
       /**
-       * <code>map&lt;string, .google.protobuf.Struct&gt; annotations = 7;</code>
+       * <code>map&lt;string, .google.protobuf.Value&gt; annotations = 7;</code>
        */
       public Builder removeAnnotations(
           java.lang.String key) {
@@ -1601,17 +1601,17 @@ com.google.protobuf.Struct defaultValue) {
        * Use alternate mutation accessors instead.
        */
       @java.lang.Deprecated
-      public java.util.Map<java.lang.String, com.google.protobuf.Struct>
+      public java.util.Map<java.lang.String, com.google.protobuf.Value>
           getMutableAnnotations() {
         bitField0_ |= 0x00000040;
         return internalGetMutableAnnotations().getMutableMap();
       }
       /**
-       * <code>map&lt;string, .google.protobuf.Struct&gt; annotations = 7;</code>
+       * <code>map&lt;string, .google.protobuf.Value&gt; annotations = 7;</code>
        */
       public Builder putAnnotations(
           java.lang.String key,
-          com.google.protobuf.Struct value) {
+          com.google.protobuf.Value value) {
         if (key == null) { throw new NullPointerException("map key"); }
         if (value == null) { throw new NullPointerException("map value"); }
         internalGetMutableAnnotations().getMutableMap()
@@ -1620,10 +1620,10 @@ com.google.protobuf.Struct defaultValue) {
         return this;
       }
       /**
-       * <code>map&lt;string, .google.protobuf.Struct&gt; annotations = 7;</code>
+       * <code>map&lt;string, .google.protobuf.Value&gt; annotations = 7;</code>
        */
       public Builder putAllAnnotations(
-          java.util.Map<java.lang.String, com.google.protobuf.Struct> values) {
+          java.util.Map<java.lang.String, com.google.protobuf.Value> values) {
         internalGetMutableAnnotations().getMutableMap()
             .putAll(values);
         bitField0_ |= 0x00000040;
@@ -1719,7 +1719,7 @@ com.google.protobuf.Struct defaultValue) {
     java.lang.String[] descriptorData = {
       "\n0in_toto_attestation/v1/resource_descri" +
       "ptor.proto\022\026in_toto_attestation.v1\032\034goog" +
-      "le/protobuf/struct.proto\"\203\003\n\022ResourceDes" +
+      "le/protobuf/struct.proto\"\202\003\n\022ResourceDes" +
       "criptor\022\014\n\004name\030\001 \001(\t\022\013\n\003uri\030\002 \001(\t\022F\n\006di" +
       "gest\030\003 \003(\01326.in_toto_attestation.v1.Reso" +
       "urceDescriptor.DigestEntry\022\017\n\007content\030\004 " +
@@ -1727,11 +1727,11 @@ com.google.protobuf.Struct defaultValue) {
       "pe\030\006 \001(\t\022P\n\013annotations\030\007 \003(\0132;.in_toto_" +
       "attestation.v1.ResourceDescriptor.Annota" +
       "tionsEntry\032-\n\013DigestEntry\022\013\n\003key\030\001 \001(\t\022\r" +
-      "\n\005value\030\002 \001(\t:\0028\001\032K\n\020AnnotationsEntry\022\013\n" +
-      "\003key\030\001 \001(\t\022&\n\005value\030\002 \001(\0132\027.google.proto" +
-      "buf.Struct:\0028\001BG\n\037io.github.intoto.attes" +
-      "tation.v1Z$github.com/in-toto/attestatio" +
-      "n/go/v1b\006proto3"
+      "\n\005value\030\002 \001(\t:\0028\001\032J\n\020AnnotationsEntry\022\013\n" +
+      "\003key\030\001 \001(\t\022%\n\005value\030\002 \001(\0132\026.google.proto" +
+      "buf.Value:\0028\001BG\n\037io.github.intoto.attest" +
+      "ation.v1Z$github.com/in-toto/attestation" +
+      "/go/v1b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
