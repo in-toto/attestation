@@ -18,7 +18,14 @@ sudo apt install build-essential protobuf-compiler golang python3 python3-pip
 ## Protobuf programming practices
 
 You should follow standard [protobuf programming practices] when developing
-a protobuf definition. In addition, we establish the following practices.
+a protobuf definition.
+
+**NOTE**: This means that while [specification documents] [by convention use]
+lowerCamelCase for field names, the protobuf definitions use lower_snake_case
+for field names per the standard protobuf convention.
+
+We establish the following project specific practices, in addition to the
+standard protobuf programming practices:
 
 ### Package versioning
 
@@ -57,4 +64,6 @@ merged.
 [update guidelines]: https://protobuf.dev/programming-guides/proto3/#updating
 [protos/]: ../protos/
 [semver guidelines]: https://semver.org/#summary
+[by convention use]: ../docs/new_predicate_guidelines.md#predicate-conventions
+[specification documents]: ../spec/
 [supported language bindings]: ../protos/README.md#supported-language-bindings
