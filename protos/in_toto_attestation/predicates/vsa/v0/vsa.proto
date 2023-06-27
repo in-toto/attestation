@@ -16,9 +16,9 @@ message VerificationSummary {
   }
   Verifier verifier = 1;
 
-  google.protobuf.Timestamp timeVerified = 2 [json_name = "time_verified"];
+  google.protobuf.Timestamp time_verified = 2 [json_name = "time_verified"];
 
-  string resourceUri = 3 [json_name = "resource_uri"];
+  string resource_uri = 3 [json_name = "resource_uri"];
 
   message Policy {
     string uri = 1;
@@ -30,9 +30,9 @@ message VerificationSummary {
     string uri = 1;
     map<string, string> digest = 2;
   }
-  repeated InputAttestation inputAttestations = 5 [json_name = "input_attestations"];
+  repeated InputAttestation input_attestations = 5 [json_name = "input_attestations"];
 
-  string verificationResult = 6 [json_name = "verification_result"];
-  string policyLevel = 7 [json_name = "policy_level"];
-  map<string, uint64> dependencyLevels = 8 [json_name = "dependency_levels"];
+  string verification_result = 6 [json_name = "verification_result"];
+  string policy_level = 7 [json_name = "policy_level"];
+  map<string, uint64> dependency_levels = 8 [json_name = "dependency_levels"];
 }
