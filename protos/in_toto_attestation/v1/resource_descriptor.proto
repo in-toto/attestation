@@ -19,9 +19,9 @@ message ResourceDescriptor {
 
   bytes content = 4;
 
-  string downloadLocation = 5;
+  string download_location = 5;
 
-  string mediaType = 6;
+  string media_type = 6;
 
   map<string, google.protobuf.Struct> annotations = 7;
 }
