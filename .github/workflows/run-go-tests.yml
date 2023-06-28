@@ -1,7 +1,11 @@
 name: Run Go tests
 on:
   workflow_dispatch:
-
+  push:
+    branches:
+      - main
+    paths:
+      - 'go/**'
   # Want to trigger these tests whenever the attestation
   # libraries are regenerated, or new modules/tests are
   # added to the language bindings
