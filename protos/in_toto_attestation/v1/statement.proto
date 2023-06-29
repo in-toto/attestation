@@ -18,7 +18,7 @@ message Statement {
 
   repeated in_toto_attestation.v1.ResourceDescriptor subject = 2;
 
-  string predicateType = 3;
+  string predicate_type = 3;
 
   google.protobuf.Struct predicate = 4;
 }
