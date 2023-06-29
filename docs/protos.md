@@ -18,7 +18,14 @@ sudo apt install build-essential protobuf-compiler golang python3 python3-pip
 ## Protobuf programming practices
 
 You should follow standard [protobuf programming practices] when developing
-a protobuf definition. In addition, we establish the following practices.
+a protobuf definition.
+
+**NOTE**: This means that while [specification documents] [by convention use]
+lowerCamelCase for field names, the protobuf definitions use lower_snake_case
+for field names per the standard protobuf convention.
+
+We establish the following project specific practices, in addition to the
+standard protobuf programming practices:
 
 ### Package versioning
 
@@ -42,9 +49,10 @@ the message type [update guidelines].
 
 ## Regenerating proto libraries
 
-[It's typical to keep generated Go code in the repository itself](https://go.dev/doc/articles/go_command#:~:text=and%20then%20check%20those%20generated%20source%20files%20into%20your%20repository)
+[It's typical](https://go.dev/doc/articles/go_command#:~:text=and%20then%20check%20those%20generated%20source%20files%20into%20your%20repository)
+to keep code generated from protobuf definitions in the repository itself,
 since it makes users' lives much easier. However, do NOT manually regenerate
-and check in the libraries, if your change modifies or adds protos,
+and check in the libraries if your change modifies or adds protos.
 
 To ensure libraries are generated using consistent tooling, we have
 [automated their generation](/.github/workflows/make-protos.yml).
@@ -57,4 +65,6 @@ merged.
 [update guidelines]: https://protobuf.dev/programming-guides/proto3/#updating
 [protos/]: ../protos/
 [semver guidelines]: https://semver.org/#summary
+[by convention use]: ../docs/new_predicate_guidelines.md#predicate-conventions
+[specification documents]: ../spec/
 [supported language bindings]: ../protos/README.md#supported-language-bindings
