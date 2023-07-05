@@ -19,15 +19,14 @@ const badRd = `{"downloadLocation":"https://example.com/test.zip","mediaType":"t
 
 func createTestResourceDescriptor() (*ResourceDescriptor, error) {
 	// Create a ResourceDescriptor
-	a1, err := structpb.NewValue(map[string]interface{}{
-		"keyStr": "value1",
-		"keyNum": 13})
-	if err != nil {
-		return nil, err
-	}
-	a2, err := structpb.NewValue(map[string]interface{}{
-		"keyObj": map[string]interface{}{
-			"subKey": "subVal"}})
+	a, err := structpb.NewStruct(map[string]interface{}{
+		"a1": map[string]interface{}{
+			"keyStr": "value1",
+			"keyNum": 13},
+		"a2": map[string]interface{}{
+			"keyObj": map[string]interface{}{
+				"subKey": "subVal"}},
+	})
 	if err != nil {
 		return nil, err
 	}
@@ -41,7 +40,7 @@ func createTestResourceDescriptor() (*ResourceDescriptor, error) {
 		Content:          []byte("bytescontent"),
 		DownloadLocation: "https://example.com/test.zip",
 		MediaType:        "theMediaType",
-		Annotations:      map[string]*structpb.Value{"a1": a1, "a2": a2},
+		Annotations:      a,
 	}, nil
 }
 
