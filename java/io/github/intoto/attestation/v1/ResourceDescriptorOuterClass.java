@@ -83,62 +83,70 @@ java.lang.String defaultValue);
     com.google.protobuf.ByteString getContent();
 
     /**
-     * <code>string downloadLocation = 5;</code>
+     * <code>string download_location = 5;</code>
      * @return The downloadLocation.
      */
     java.lang.String getDownloadLocation();
     /**
-     * <code>string downloadLocation = 5;</code>
+     * <code>string download_location = 5;</code>
      * @return The bytes for downloadLocation.
      */
     com.google.protobuf.ByteString
         getDownloadLocationBytes();
 
     /**
-     * <code>string mediaType = 6;</code>
+     * <code>string media_type = 6;</code>
      * @return The mediaType.
      */
     java.lang.String getMediaType();
     /**
-     * <code>string mediaType = 6;</code>
+     * <code>string media_type = 6;</code>
      * @return The bytes for mediaType.
      */
     com.google.protobuf.ByteString
         getMediaTypeBytes();
 
     /**
-     * <code>map&lt;string, .google.protobuf.Value&gt; annotations = 7;</code>
+     * <pre>
+     * Per the Struct protobuf spec, this type corresponds to
+     * a JSON Object, which is truly a map&lt;string, Value&gt; under the hood.
+     * So, the Struct a) is still consistent with our specification for
+     * the `annotations` field, and b) has native support in some language
+     * bindings making their use easier in implementations.
+     * See: https://pkg.go.dev/google.golang.org/protobuf/types/known/structpb#Struct
+     * </pre>
+     *
+     * <code>.google.protobuf.Struct annotations = 7;</code>
+     * @return Whether the annotations field is set.
      */
-    int getAnnotationsCount();
+    boolean hasAnnotations();
     /**
-     * <code>map&lt;string, .google.protobuf.Value&gt; annotations = 7;</code>
+     * <pre>
+     * Per the Struct protobuf spec, this type corresponds to
+     * a JSON Object, which is truly a map&lt;string, Value&gt; under the hood.
+     * So, the Struct a) is still consistent with our specification for
+     * the `annotations` field, and b) has native support in some language
+     * bindings making their use easier in implementations.
+     * See: https://pkg.go.dev/google.golang.org/protobuf/types/known/structpb#Struct
+     * </pre>
+     *
+     * <code>.google.protobuf.Struct annotations = 7;</code>
+     * @return The annotations.
      */
-    boolean containsAnnotations(
-        java.lang.String key);
+    com.google.protobuf.Struct getAnnotations();
     /**
-     * Use {@link #getAnnotationsMap()} instead.
+     * <pre>
+     * Per the Struct protobuf spec, this type corresponds to
+     * a JSON Object, which is truly a map&lt;string, Value&gt; under the hood.
+     * So, the Struct a) is still consistent with our specification for
+     * the `annotations` field, and b) has native support in some language
+     * bindings making their use easier in implementations.
+     * See: https://pkg.go.dev/google.golang.org/protobuf/types/known/structpb#Struct
+     * </pre>
+     *
+     * <code>.google.protobuf.Struct annotations = 7;</code>
      */
-    @java.lang.Deprecated
-    java.util.Map<java.lang.String, com.google.protobuf.Value>
-    getAnnotations();
-    /**
-     * <code>map&lt;string, .google.protobuf.Value&gt; annotations = 7;</code>
-     */
-    java.util.Map<java.lang.String, com.google.protobuf.Value>
-    getAnnotationsMap();
-    /**
-     * <code>map&lt;string, .google.protobuf.Value&gt; annotations = 7;</code>
-     */
-    /* nullable */
-com.google.protobuf.Value getAnnotationsOrDefault(
-        java.lang.String key,
-        /* nullable */
-com.google.protobuf.Value defaultValue);
-    /**
-     * <code>map&lt;string, .google.protobuf.Value&gt; annotations = 7;</code>
-     */
-    com.google.protobuf.Value getAnnotationsOrThrow(
-        java.lang.String key);
+    com.google.protobuf.StructOrBuilder getAnnotationsOrBuilder();
   }
   /**
    * <pre>
@@ -185,8 +193,6 @@ com.google.protobuf.Value defaultValue);
       switch (number) {
         case 3:
           return internalGetDigest();
-        case 7:
-          return internalGetAnnotations();
         default:
           throw new RuntimeException(
               "Invalid map field number: " + number);
@@ -368,11 +374,11 @@ java.lang.String defaultValue) {
       return content_;
     }
 
-    public static final int DOWNLOADLOCATION_FIELD_NUMBER = 5;
+    public static final int DOWNLOAD_LOCATION_FIELD_NUMBER = 5;
     @SuppressWarnings("serial")
     private volatile java.lang.Object downloadLocation_ = "";
     /**
-     * <code>string downloadLocation = 5;</code>
+     * <code>string download_location = 5;</code>
      * @return The downloadLocation.
      */
     @java.lang.Override
@@ -389,7 +395,7 @@ java.lang.String defaultValue) {
       }
     }
     /**
-     * <code>string downloadLocation = 5;</code>
+     * <code>string download_location = 5;</code>
      * @return The bytes for downloadLocation.
      */
     @java.lang.Override
@@ -407,11 +413,11 @@ java.lang.String defaultValue) {
       }
     }
 
-    public static final int MEDIATYPE_FIELD_NUMBER = 6;
+    public static final int MEDIA_TYPE_FIELD_NUMBER = 6;
     @SuppressWarnings("serial")
     private volatile java.lang.Object mediaType_ = "";
     /**
-     * <code>string mediaType = 6;</code>
+     * <code>string media_type = 6;</code>
      * @return The mediaType.
      */
     @java.lang.Override
@@ -428,7 +434,7 @@ java.lang.String defaultValue) {
       }
     }
     /**
-     * <code>string mediaType = 6;</code>
+     * <code>string media_type = 6;</code>
      * @return The bytes for mediaType.
      */
     @java.lang.Override
@@ -447,82 +453,56 @@ java.lang.String defaultValue) {
     }
 
     public static final int ANNOTATIONS_FIELD_NUMBER = 7;
-    private static final class AnnotationsDefaultEntryHolder {
-      static final com.google.protobuf.MapEntry<
-          java.lang.String, com.google.protobuf.Value> defaultEntry =
-              com.google.protobuf.MapEntry
-              .<java.lang.String, com.google.protobuf.Value>newDefaultInstance(
-                  io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.internal_static_in_toto_attestation_v1_ResourceDescriptor_AnnotationsEntry_descriptor, 
-                  com.google.protobuf.WireFormat.FieldType.STRING,
-                  "",
-                  com.google.protobuf.WireFormat.FieldType.MESSAGE,
-                  com.google.protobuf.Value.getDefaultInstance());
-    }
-    @SuppressWarnings("serial")
-    private com.google.protobuf.MapField<
-        java.lang.String, com.google.protobuf.Value> annotations_;
-    private com.google.protobuf.MapField<java.lang.String, com.google.protobuf.Value>
-    internalGetAnnotations() {
-      if (annotations_ == null) {
-        return com.google.protobuf.MapField.emptyMapField(
-            AnnotationsDefaultEntryHolder.defaultEntry);
-      }
-      return annotations_;
-    }
-    public int getAnnotationsCount() {
-      return internalGetAnnotations().getMap().size();
-    }
+    private com.google.protobuf.Struct annotations_;
     /**
-     * <code>map&lt;string, .google.protobuf.Value&gt; annotations = 7;</code>
+     * <pre>
+     * Per the Struct protobuf spec, this type corresponds to
+     * a JSON Object, which is truly a map&lt;string, Value&gt; under the hood.
+     * So, the Struct a) is still consistent with our specification for
+     * the `annotations` field, and b) has native support in some language
+     * bindings making their use easier in implementations.
+     * See: https://pkg.go.dev/google.golang.org/protobuf/types/known/structpb#Struct
+     * </pre>
+     *
+     * <code>.google.protobuf.Struct annotations = 7;</code>
+     * @return Whether the annotations field is set.
      */
     @java.lang.Override
-    public boolean containsAnnotations(
-        java.lang.String key) {
-      if (key == null) { throw new NullPointerException("map key"); }
-      return internalGetAnnotations().getMap().containsKey(key);
+    public boolean hasAnnotations() {
+      return annotations_ != null;
     }
     /**
-     * Use {@link #getAnnotationsMap()} instead.
+     * <pre>
+     * Per the Struct protobuf spec, this type corresponds to
+     * a JSON Object, which is truly a map&lt;string, Value&gt; under the hood.
+     * So, the Struct a) is still consistent with our specification for
+     * the `annotations` field, and b) has native support in some language
+     * bindings making their use easier in implementations.
+     * See: https://pkg.go.dev/google.golang.org/protobuf/types/known/structpb#Struct
+     * </pre>
+     *
+     * <code>.google.protobuf.Struct annotations = 7;</code>
+     * @return The annotations.
      */
     @java.lang.Override
-    @java.lang.Deprecated
-    public java.util.Map<java.lang.String, com.google.protobuf.Value> getAnnotations() {
-      return getAnnotationsMap();
+    public com.google.protobuf.Struct getAnnotations() {
+      return annotations_ == null ? com.google.protobuf.Struct.getDefaultInstance() : annotations_;
     }
     /**
-     * <code>map&lt;string, .google.protobuf.Value&gt; annotations = 7;</code>
+     * <pre>
+     * Per the Struct protobuf spec, this type corresponds to
+     * a JSON Object, which is truly a map&lt;string, Value&gt; under the hood.
+     * So, the Struct a) is still consistent with our specification for
+     * the `annotations` field, and b) has native support in some language
+     * bindings making their use easier in implementations.
+     * See: https://pkg.go.dev/google.golang.org/protobuf/types/known/structpb#Struct
+     * </pre>
+     *
+     * <code>.google.protobuf.Struct annotations = 7;</code>
      */
     @java.lang.Override
-    public java.util.Map<java.lang.String, com.google.protobuf.Value> getAnnotationsMap() {
-      return internalGetAnnotations().getMap();
-    }
-    /**
-     * <code>map&lt;string, .google.protobuf.Value&gt; annotations = 7;</code>
-     */
-    @java.lang.Override
-    public /* nullable */
-com.google.protobuf.Value getAnnotationsOrDefault(
-        java.lang.String key,
-        /* nullable */
-com.google.protobuf.Value defaultValue) {
-      if (key == null) { throw new NullPointerException("map key"); }
-      java.util.Map<java.lang.String, com.google.protobuf.Value> map =
-          internalGetAnnotations().getMap();
-      return map.containsKey(key) ? map.get(key) : defaultValue;
-    }
-    /**
-     * <code>map&lt;string, .google.protobuf.Value&gt; annotations = 7;</code>
-     */
-    @java.lang.Override
-    public com.google.protobuf.Value getAnnotationsOrThrow(
-        java.lang.String key) {
-      if (key == null) { throw new NullPointerException("map key"); }
-      java.util.Map<java.lang.String, com.google.protobuf.Value> map =
-          internalGetAnnotations().getMap();
-      if (!map.containsKey(key)) {
-        throw new java.lang.IllegalArgumentException();
-      }
-      return map.get(key);
+    public com.google.protobuf.StructOrBuilder getAnnotationsOrBuilder() {
+      return annotations_ == null ? com.google.protobuf.Struct.getDefaultInstance() : annotations_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -560,12 +540,9 @@ com.google.protobuf.Value defaultValue) {
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(mediaType_)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 6, mediaType_);
       }
-      com.google.protobuf.GeneratedMessageV3
-        .serializeStringMapTo(
-          output,
-          internalGetAnnotations(),
-          AnnotationsDefaultEntryHolder.defaultEntry,
-          7);
+      if (annotations_ != null) {
+        output.writeMessage(7, getAnnotations());
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -601,15 +578,9 @@ com.google.protobuf.Value defaultValue) {
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(mediaType_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, mediaType_);
       }
-      for (java.util.Map.Entry<java.lang.String, com.google.protobuf.Value> entry
-           : internalGetAnnotations().getMap().entrySet()) {
-        com.google.protobuf.MapEntry<java.lang.String, com.google.protobuf.Value>
-        annotations__ = AnnotationsDefaultEntryHolder.defaultEntry.newBuilderForType()
-            .setKey(entry.getKey())
-            .setValue(entry.getValue())
-            .build();
+      if (annotations_ != null) {
         size += com.google.protobuf.CodedOutputStream
-            .computeMessageSize(7, annotations__);
+          .computeMessageSize(7, getAnnotations());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -638,8 +609,11 @@ com.google.protobuf.Value defaultValue) {
           .equals(other.getDownloadLocation())) return false;
       if (!getMediaType()
           .equals(other.getMediaType())) return false;
-      if (!internalGetAnnotations().equals(
-          other.internalGetAnnotations())) return false;
+      if (hasAnnotations() != other.hasAnnotations()) return false;
+      if (hasAnnotations()) {
+        if (!getAnnotations()
+            .equals(other.getAnnotations())) return false;
+      }
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -661,13 +635,13 @@ com.google.protobuf.Value defaultValue) {
       }
       hash = (37 * hash) + CONTENT_FIELD_NUMBER;
       hash = (53 * hash) + getContent().hashCode();
-      hash = (37 * hash) + DOWNLOADLOCATION_FIELD_NUMBER;
+      hash = (37 * hash) + DOWNLOAD_LOCATION_FIELD_NUMBER;
       hash = (53 * hash) + getDownloadLocation().hashCode();
-      hash = (37 * hash) + MEDIATYPE_FIELD_NUMBER;
+      hash = (37 * hash) + MEDIA_TYPE_FIELD_NUMBER;
       hash = (53 * hash) + getMediaType().hashCode();
-      if (!internalGetAnnotations().getMap().isEmpty()) {
+      if (hasAnnotations()) {
         hash = (37 * hash) + ANNOTATIONS_FIELD_NUMBER;
-        hash = (53 * hash) + internalGetAnnotations().hashCode();
+        hash = (53 * hash) + getAnnotations().hashCode();
       }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
@@ -790,8 +764,6 @@ com.google.protobuf.Value defaultValue) {
         switch (number) {
           case 3:
             return internalGetDigest();
-          case 7:
-            return internalGetAnnotations();
           default:
             throw new RuntimeException(
                 "Invalid map field number: " + number);
@@ -803,8 +775,6 @@ com.google.protobuf.Value defaultValue) {
         switch (number) {
           case 3:
             return internalGetMutableDigest();
-          case 7:
-            return internalGetMutableAnnotations();
           default:
             throw new RuntimeException(
                 "Invalid map field number: " + number);
@@ -838,7 +808,11 @@ com.google.protobuf.Value defaultValue) {
         content_ = com.google.protobuf.ByteString.EMPTY;
         downloadLocation_ = "";
         mediaType_ = "";
-        internalGetMutableAnnotations().clear();
+        annotations_ = null;
+        if (annotationsBuilder_ != null) {
+          annotationsBuilder_.dispose();
+          annotationsBuilder_ = null;
+        }
         return this;
       }
 
@@ -892,8 +866,9 @@ com.google.protobuf.Value defaultValue) {
           result.mediaType_ = mediaType_;
         }
         if (((from_bitField0_ & 0x00000040) != 0)) {
-          result.annotations_ = internalGetAnnotations();
-          result.annotations_.makeImmutable();
+          result.annotations_ = annotationsBuilder_ == null
+              ? annotations_
+              : annotationsBuilder_.build();
         }
       }
 
@@ -967,9 +942,9 @@ com.google.protobuf.Value defaultValue) {
           bitField0_ |= 0x00000020;
           onChanged();
         }
-        internalGetMutableAnnotations().mergeFrom(
-            other.internalGetAnnotations());
-        bitField0_ |= 0x00000040;
+        if (other.hasAnnotations()) {
+          mergeAnnotations(other.getAnnotations());
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
         return this;
@@ -1031,11 +1006,9 @@ com.google.protobuf.Value defaultValue) {
                 break;
               } // case 50
               case 58: {
-                com.google.protobuf.MapEntry<java.lang.String, com.google.protobuf.Value>
-                annotations__ = input.readMessage(
-                    AnnotationsDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
-                internalGetMutableAnnotations().getMutableMap().put(
-                    annotations__.getKey(), annotations__.getValue());
+                input.readMessage(
+                    getAnnotationsFieldBuilder().getBuilder(),
+                    extensionRegistry);
                 bitField0_ |= 0x00000040;
                 break;
               } // case 58
@@ -1361,7 +1334,7 @@ java.lang.String defaultValue) {
 
       private java.lang.Object downloadLocation_ = "";
       /**
-       * <code>string downloadLocation = 5;</code>
+       * <code>string download_location = 5;</code>
        * @return The downloadLocation.
        */
       public java.lang.String getDownloadLocation() {
@@ -1377,7 +1350,7 @@ java.lang.String defaultValue) {
         }
       }
       /**
-       * <code>string downloadLocation = 5;</code>
+       * <code>string download_location = 5;</code>
        * @return The bytes for downloadLocation.
        */
       public com.google.protobuf.ByteString
@@ -1394,7 +1367,7 @@ java.lang.String defaultValue) {
         }
       }
       /**
-       * <code>string downloadLocation = 5;</code>
+       * <code>string download_location = 5;</code>
        * @param value The downloadLocation to set.
        * @return This builder for chaining.
        */
@@ -1407,7 +1380,7 @@ java.lang.String defaultValue) {
         return this;
       }
       /**
-       * <code>string downloadLocation = 5;</code>
+       * <code>string download_location = 5;</code>
        * @return This builder for chaining.
        */
       public Builder clearDownloadLocation() {
@@ -1417,7 +1390,7 @@ java.lang.String defaultValue) {
         return this;
       }
       /**
-       * <code>string downloadLocation = 5;</code>
+       * <code>string download_location = 5;</code>
        * @param value The bytes for downloadLocation to set.
        * @return This builder for chaining.
        */
@@ -1433,7 +1406,7 @@ java.lang.String defaultValue) {
 
       private java.lang.Object mediaType_ = "";
       /**
-       * <code>string mediaType = 6;</code>
+       * <code>string media_type = 6;</code>
        * @return The mediaType.
        */
       public java.lang.String getMediaType() {
@@ -1449,7 +1422,7 @@ java.lang.String defaultValue) {
         }
       }
       /**
-       * <code>string mediaType = 6;</code>
+       * <code>string media_type = 6;</code>
        * @return The bytes for mediaType.
        */
       public com.google.protobuf.ByteString
@@ -1466,7 +1439,7 @@ java.lang.String defaultValue) {
         }
       }
       /**
-       * <code>string mediaType = 6;</code>
+       * <code>string media_type = 6;</code>
        * @param value The mediaType to set.
        * @return This builder for chaining.
        */
@@ -1479,7 +1452,7 @@ java.lang.String defaultValue) {
         return this;
       }
       /**
-       * <code>string mediaType = 6;</code>
+       * <code>string media_type = 6;</code>
        * @return This builder for chaining.
        */
       public Builder clearMediaType() {
@@ -1489,7 +1462,7 @@ java.lang.String defaultValue) {
         return this;
       }
       /**
-       * <code>string mediaType = 6;</code>
+       * <code>string media_type = 6;</code>
        * @param value The bytes for mediaType to set.
        * @return This builder for chaining.
        */
@@ -1503,131 +1476,204 @@ java.lang.String defaultValue) {
         return this;
       }
 
-      private com.google.protobuf.MapField<
-          java.lang.String, com.google.protobuf.Value> annotations_;
-      private com.google.protobuf.MapField<java.lang.String, com.google.protobuf.Value>
-          internalGetAnnotations() {
-        if (annotations_ == null) {
-          return com.google.protobuf.MapField.emptyMapField(
-              AnnotationsDefaultEntryHolder.defaultEntry);
-        }
-        return annotations_;
+      private com.google.protobuf.Struct annotations_;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.google.protobuf.Struct, com.google.protobuf.Struct.Builder, com.google.protobuf.StructOrBuilder> annotationsBuilder_;
+      /**
+       * <pre>
+       * Per the Struct protobuf spec, this type corresponds to
+       * a JSON Object, which is truly a map&lt;string, Value&gt; under the hood.
+       * So, the Struct a) is still consistent with our specification for
+       * the `annotations` field, and b) has native support in some language
+       * bindings making their use easier in implementations.
+       * See: https://pkg.go.dev/google.golang.org/protobuf/types/known/structpb#Struct
+       * </pre>
+       *
+       * <code>.google.protobuf.Struct annotations = 7;</code>
+       * @return Whether the annotations field is set.
+       */
+      public boolean hasAnnotations() {
+        return ((bitField0_ & 0x00000040) != 0);
       }
-      private com.google.protobuf.MapField<java.lang.String, com.google.protobuf.Value>
-          internalGetMutableAnnotations() {
-        if (annotations_ == null) {
-          annotations_ = com.google.protobuf.MapField.newMapField(
-              AnnotationsDefaultEntryHolder.defaultEntry);
+      /**
+       * <pre>
+       * Per the Struct protobuf spec, this type corresponds to
+       * a JSON Object, which is truly a map&lt;string, Value&gt; under the hood.
+       * So, the Struct a) is still consistent with our specification for
+       * the `annotations` field, and b) has native support in some language
+       * bindings making their use easier in implementations.
+       * See: https://pkg.go.dev/google.golang.org/protobuf/types/known/structpb#Struct
+       * </pre>
+       *
+       * <code>.google.protobuf.Struct annotations = 7;</code>
+       * @return The annotations.
+       */
+      public com.google.protobuf.Struct getAnnotations() {
+        if (annotationsBuilder_ == null) {
+          return annotations_ == null ? com.google.protobuf.Struct.getDefaultInstance() : annotations_;
+        } else {
+          return annotationsBuilder_.getMessage();
         }
-        if (!annotations_.isMutable()) {
-          annotations_ = annotations_.copy();
+      }
+      /**
+       * <pre>
+       * Per the Struct protobuf spec, this type corresponds to
+       * a JSON Object, which is truly a map&lt;string, Value&gt; under the hood.
+       * So, the Struct a) is still consistent with our specification for
+       * the `annotations` field, and b) has native support in some language
+       * bindings making their use easier in implementations.
+       * See: https://pkg.go.dev/google.golang.org/protobuf/types/known/structpb#Struct
+       * </pre>
+       *
+       * <code>.google.protobuf.Struct annotations = 7;</code>
+       */
+      public Builder setAnnotations(com.google.protobuf.Struct value) {
+        if (annotationsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          annotations_ = value;
+        } else {
+          annotationsBuilder_.setMessage(value);
         }
         bitField0_ |= 0x00000040;
         onChanged();
-        return annotations_;
-      }
-      public int getAnnotationsCount() {
-        return internalGetAnnotations().getMap().size();
+        return this;
       }
       /**
-       * <code>map&lt;string, .google.protobuf.Value&gt; annotations = 7;</code>
+       * <pre>
+       * Per the Struct protobuf spec, this type corresponds to
+       * a JSON Object, which is truly a map&lt;string, Value&gt; under the hood.
+       * So, the Struct a) is still consistent with our specification for
+       * the `annotations` field, and b) has native support in some language
+       * bindings making their use easier in implementations.
+       * See: https://pkg.go.dev/google.golang.org/protobuf/types/known/structpb#Struct
+       * </pre>
+       *
+       * <code>.google.protobuf.Struct annotations = 7;</code>
        */
-      @java.lang.Override
-      public boolean containsAnnotations(
-          java.lang.String key) {
-        if (key == null) { throw new NullPointerException("map key"); }
-        return internalGetAnnotations().getMap().containsKey(key);
-      }
-      /**
-       * Use {@link #getAnnotationsMap()} instead.
-       */
-      @java.lang.Override
-      @java.lang.Deprecated
-      public java.util.Map<java.lang.String, com.google.protobuf.Value> getAnnotations() {
-        return getAnnotationsMap();
-      }
-      /**
-       * <code>map&lt;string, .google.protobuf.Value&gt; annotations = 7;</code>
-       */
-      @java.lang.Override
-      public java.util.Map<java.lang.String, com.google.protobuf.Value> getAnnotationsMap() {
-        return internalGetAnnotations().getMap();
-      }
-      /**
-       * <code>map&lt;string, .google.protobuf.Value&gt; annotations = 7;</code>
-       */
-      @java.lang.Override
-      public /* nullable */
-com.google.protobuf.Value getAnnotationsOrDefault(
-          java.lang.String key,
-          /* nullable */
-com.google.protobuf.Value defaultValue) {
-        if (key == null) { throw new NullPointerException("map key"); }
-        java.util.Map<java.lang.String, com.google.protobuf.Value> map =
-            internalGetAnnotations().getMap();
-        return map.containsKey(key) ? map.get(key) : defaultValue;
-      }
-      /**
-       * <code>map&lt;string, .google.protobuf.Value&gt; annotations = 7;</code>
-       */
-      @java.lang.Override
-      public com.google.protobuf.Value getAnnotationsOrThrow(
-          java.lang.String key) {
-        if (key == null) { throw new NullPointerException("map key"); }
-        java.util.Map<java.lang.String, com.google.protobuf.Value> map =
-            internalGetAnnotations().getMap();
-        if (!map.containsKey(key)) {
-          throw new java.lang.IllegalArgumentException();
+      public Builder setAnnotations(
+          com.google.protobuf.Struct.Builder builderForValue) {
+        if (annotationsBuilder_ == null) {
+          annotations_ = builderForValue.build();
+        } else {
+          annotationsBuilder_.setMessage(builderForValue.build());
         }
-        return map.get(key);
+        bitField0_ |= 0x00000040;
+        onChanged();
+        return this;
       }
+      /**
+       * <pre>
+       * Per the Struct protobuf spec, this type corresponds to
+       * a JSON Object, which is truly a map&lt;string, Value&gt; under the hood.
+       * So, the Struct a) is still consistent with our specification for
+       * the `annotations` field, and b) has native support in some language
+       * bindings making their use easier in implementations.
+       * See: https://pkg.go.dev/google.golang.org/protobuf/types/known/structpb#Struct
+       * </pre>
+       *
+       * <code>.google.protobuf.Struct annotations = 7;</code>
+       */
+      public Builder mergeAnnotations(com.google.protobuf.Struct value) {
+        if (annotationsBuilder_ == null) {
+          if (((bitField0_ & 0x00000040) != 0) &&
+            annotations_ != null &&
+            annotations_ != com.google.protobuf.Struct.getDefaultInstance()) {
+            getAnnotationsBuilder().mergeFrom(value);
+          } else {
+            annotations_ = value;
+          }
+        } else {
+          annotationsBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000040;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Per the Struct protobuf spec, this type corresponds to
+       * a JSON Object, which is truly a map&lt;string, Value&gt; under the hood.
+       * So, the Struct a) is still consistent with our specification for
+       * the `annotations` field, and b) has native support in some language
+       * bindings making their use easier in implementations.
+       * See: https://pkg.go.dev/google.golang.org/protobuf/types/known/structpb#Struct
+       * </pre>
+       *
+       * <code>.google.protobuf.Struct annotations = 7;</code>
+       */
       public Builder clearAnnotations() {
         bitField0_ = (bitField0_ & ~0x00000040);
-        internalGetMutableAnnotations().getMutableMap()
-            .clear();
+        annotations_ = null;
+        if (annotationsBuilder_ != null) {
+          annotationsBuilder_.dispose();
+          annotationsBuilder_ = null;
+        }
+        onChanged();
         return this;
       }
       /**
-       * <code>map&lt;string, .google.protobuf.Value&gt; annotations = 7;</code>
+       * <pre>
+       * Per the Struct protobuf spec, this type corresponds to
+       * a JSON Object, which is truly a map&lt;string, Value&gt; under the hood.
+       * So, the Struct a) is still consistent with our specification for
+       * the `annotations` field, and b) has native support in some language
+       * bindings making their use easier in implementations.
+       * See: https://pkg.go.dev/google.golang.org/protobuf/types/known/structpb#Struct
+       * </pre>
+       *
+       * <code>.google.protobuf.Struct annotations = 7;</code>
        */
-      public Builder removeAnnotations(
-          java.lang.String key) {
-        if (key == null) { throw new NullPointerException("map key"); }
-        internalGetMutableAnnotations().getMutableMap()
-            .remove(key);
-        return this;
-      }
-      /**
-       * Use alternate mutation accessors instead.
-       */
-      @java.lang.Deprecated
-      public java.util.Map<java.lang.String, com.google.protobuf.Value>
-          getMutableAnnotations() {
+      public com.google.protobuf.Struct.Builder getAnnotationsBuilder() {
         bitField0_ |= 0x00000040;
-        return internalGetMutableAnnotations().getMutableMap();
+        onChanged();
+        return getAnnotationsFieldBuilder().getBuilder();
       }
       /**
-       * <code>map&lt;string, .google.protobuf.Value&gt; annotations = 7;</code>
+       * <pre>
+       * Per the Struct protobuf spec, this type corresponds to
+       * a JSON Object, which is truly a map&lt;string, Value&gt; under the hood.
+       * So, the Struct a) is still consistent with our specification for
+       * the `annotations` field, and b) has native support in some language
+       * bindings making their use easier in implementations.
+       * See: https://pkg.go.dev/google.golang.org/protobuf/types/known/structpb#Struct
+       * </pre>
+       *
+       * <code>.google.protobuf.Struct annotations = 7;</code>
        */
-      public Builder putAnnotations(
-          java.lang.String key,
-          com.google.protobuf.Value value) {
-        if (key == null) { throw new NullPointerException("map key"); }
-        if (value == null) { throw new NullPointerException("map value"); }
-        internalGetMutableAnnotations().getMutableMap()
-            .put(key, value);
-        bitField0_ |= 0x00000040;
-        return this;
+      public com.google.protobuf.StructOrBuilder getAnnotationsOrBuilder() {
+        if (annotationsBuilder_ != null) {
+          return annotationsBuilder_.getMessageOrBuilder();
+        } else {
+          return annotations_ == null ?
+              com.google.protobuf.Struct.getDefaultInstance() : annotations_;
+        }
       }
       /**
-       * <code>map&lt;string, .google.protobuf.Value&gt; annotations = 7;</code>
+       * <pre>
+       * Per the Struct protobuf spec, this type corresponds to
+       * a JSON Object, which is truly a map&lt;string, Value&gt; under the hood.
+       * So, the Struct a) is still consistent with our specification for
+       * the `annotations` field, and b) has native support in some language
+       * bindings making their use easier in implementations.
+       * See: https://pkg.go.dev/google.golang.org/protobuf/types/known/structpb#Struct
+       * </pre>
+       *
+       * <code>.google.protobuf.Struct annotations = 7;</code>
        */
-      public Builder putAllAnnotations(
-          java.util.Map<java.lang.String, com.google.protobuf.Value> values) {
-        internalGetMutableAnnotations().getMutableMap()
-            .putAll(values);
-        bitField0_ |= 0x00000040;
-        return this;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          com.google.protobuf.Struct, com.google.protobuf.Struct.Builder, com.google.protobuf.StructOrBuilder> 
+          getAnnotationsFieldBuilder() {
+        if (annotationsBuilder_ == null) {
+          annotationsBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              com.google.protobuf.Struct, com.google.protobuf.Struct.Builder, com.google.protobuf.StructOrBuilder>(
+                  getAnnotations(),
+                  getParentForChildren(),
+                  isClean());
+          annotations_ = null;
+        }
+        return annotationsBuilder_;
       }
       @java.lang.Override
       public final Builder setUnknownFields(
@@ -1703,11 +1749,6 @@ com.google.protobuf.Value defaultValue) {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_in_toto_attestation_v1_ResourceDescriptor_DigestEntry_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_in_toto_attestation_v1_ResourceDescriptor_AnnotationsEntry_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_in_toto_attestation_v1_ResourceDescriptor_AnnotationsEntry_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -1719,19 +1760,16 @@ com.google.protobuf.Value defaultValue) {
     java.lang.String[] descriptorData = {
       "\n0in_toto_attestation/v1/resource_descri" +
       "ptor.proto\022\026in_toto_attestation.v1\032\034goog" +
-      "le/protobuf/struct.proto\"\202\003\n\022ResourceDes" +
+      "le/protobuf/struct.proto\"\224\002\n\022ResourceDes" +
       "criptor\022\014\n\004name\030\001 \001(\t\022\013\n\003uri\030\002 \001(\t\022F\n\006di" +
       "gest\030\003 \003(\01326.in_toto_attestation.v1.Reso" +
       "urceDescriptor.DigestEntry\022\017\n\007content\030\004 " +
-      "\001(\014\022\030\n\020downloadLocation\030\005 \001(\t\022\021\n\tmediaTy" +
-      "pe\030\006 \001(\t\022P\n\013annotations\030\007 \003(\0132;.in_toto_" +
-      "attestation.v1.ResourceDescriptor.Annota" +
-      "tionsEntry\032-\n\013DigestEntry\022\013\n\003key\030\001 \001(\t\022\r" +
-      "\n\005value\030\002 \001(\t:\0028\001\032J\n\020AnnotationsEntry\022\013\n" +
-      "\003key\030\001 \001(\t\022%\n\005value\030\002 \001(\0132\026.google.proto" +
-      "buf.Value:\0028\001BG\n\037io.github.intoto.attest" +
-      "ation.v1Z$github.com/in-toto/attestation" +
-      "/go/v1b\006proto3"
+      "\001(\014\022\031\n\021download_location\030\005 \001(\t\022\022\n\nmedia_" +
+      "type\030\006 \001(\t\022,\n\013annotations\030\007 \001(\0132\027.google" +
+      ".protobuf.Struct\032-\n\013DigestEntry\022\013\n\003key\030\001" +
+      " \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001BG\n\037io.github.int" +
+      "oto.attestation.v1Z$github.com/in-toto/a" +
+      "ttestation/go/v1b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -1749,12 +1787,6 @@ com.google.protobuf.Value defaultValue) {
     internal_static_in_toto_attestation_v1_ResourceDescriptor_DigestEntry_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_in_toto_attestation_v1_ResourceDescriptor_DigestEntry_descriptor,
-        new java.lang.String[] { "Key", "Value", });
-    internal_static_in_toto_attestation_v1_ResourceDescriptor_AnnotationsEntry_descriptor =
-      internal_static_in_toto_attestation_v1_ResourceDescriptor_descriptor.getNestedTypes().get(1);
-    internal_static_in_toto_attestation_v1_ResourceDescriptor_AnnotationsEntry_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_in_toto_attestation_v1_ResourceDescriptor_AnnotationsEntry_descriptor,
         new java.lang.String[] { "Key", "Value", });
     com.google.protobuf.StructProto.getDescriptor();
   }

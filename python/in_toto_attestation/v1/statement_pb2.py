@@ -15,7 +15,7 @@ from google.protobuf import struct_pb2 as google_dot_protobuf_dot_struct__pb2
 from in_toto_attestation.v1 import resource_descriptor_pb2 as in__toto__attestation_dot_v1_dot_resource__descriptor__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n&in_toto_attestation/v1/statement.proto\x12\x16in_toto_attestation.v1\x1a\x1cgoogle/protobuf/struct.proto\x1a\x30in_toto_attestation/v1/resource_descriptor.proto\"\xa0\x01\n\tStatement\x12\x13\n\x04type\x18\x01 \x01(\tR\x05_type\x12;\n\x07subject\x18\x02 \x03(\x0b\x32*.in_toto_attestation.v1.ResourceDescriptor\x12\x15\n\rpredicateType\x18\x03 \x01(\t\x12*\n\tpredicate\x18\x04 \x01(\x0b\x32\x17.google.protobuf.StructBG\n\x1fio.github.intoto.attestation.v1Z$github.com/in-toto/attestation/go/v1b\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n&in_toto_attestation/v1/statement.proto\x12\x16in_toto_attestation.v1\x1a\x1cgoogle/protobuf/struct.proto\x1a\x30in_toto_attestation/v1/resource_descriptor.proto\"\xa1\x01\n\tStatement\x12\x13\n\x04type\x18\x01 \x01(\tR\x05_type\x12;\n\x07subject\x18\x02 \x03(\x0b\x32*.in_toto_attestation.v1.ResourceDescriptor\x12\x16\n\x0epredicate_type\x18\x03 \x01(\t\x12*\n\tpredicate\x18\x04 \x01(\x0b\x32\x17.google.protobuf.StructBG\n\x1fio.github.intoto.attestation.v1Z$github.com/in-toto/attestation/go/v1b\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -25,5 +25,5 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   DESCRIPTOR._options = None
   DESCRIPTOR._serialized_options = b'\n\037io.github.intoto.attestation.v1Z$github.com/in-toto/attestation/go/v1'
   _globals['_STATEMENT']._serialized_start=147
-  _globals['_STATEMENT']._serialized_end=307
+  _globals['_STATEMENT']._serialized_end=308
 # @@protoc_insertion_point(module_scope)
