@@ -34,27 +34,27 @@ public final class Vsa {
     io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.VerifierOrBuilder getVerifierOrBuilder();
 
     /**
-     * <code>.google.protobuf.Timestamp timeVerified = 2 [json_name = "time_verified"];</code>
+     * <code>.google.protobuf.Timestamp time_verified = 2 [json_name = "time_verified"];</code>
      * @return Whether the timeVerified field is set.
      */
     boolean hasTimeVerified();
     /**
-     * <code>.google.protobuf.Timestamp timeVerified = 2 [json_name = "time_verified"];</code>
+     * <code>.google.protobuf.Timestamp time_verified = 2 [json_name = "time_verified"];</code>
      * @return The timeVerified.
      */
     com.google.protobuf.Timestamp getTimeVerified();
     /**
-     * <code>.google.protobuf.Timestamp timeVerified = 2 [json_name = "time_verified"];</code>
+     * <code>.google.protobuf.Timestamp time_verified = 2 [json_name = "time_verified"];</code>
      */
     com.google.protobuf.TimestampOrBuilder getTimeVerifiedOrBuilder();
 
     /**
-     * <code>string resourceUri = 3 [json_name = "resource_uri"];</code>
+     * <code>string resource_uri = 3 [json_name = "resource_uri"];</code>
      * @return The resourceUri.
      */
     java.lang.String getResourceUri();
     /**
-     * <code>string resourceUri = 3 [json_name = "resource_uri"];</code>
+     * <code>string resource_uri = 3 [json_name = "resource_uri"];</code>
      * @return The bytes for resourceUri.
      */
     com.google.protobuf.ByteString
@@ -76,59 +76,59 @@ public final class Vsa {
     io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.PolicyOrBuilder getPolicyOrBuilder();
 
     /**
-     * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation inputAttestations = 5 [json_name = "input_attestations"];</code>
+     * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation input_attestations = 5 [json_name = "input_attestations"];</code>
      */
     java.util.List<io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.InputAttestation> 
         getInputAttestationsList();
     /**
-     * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation inputAttestations = 5 [json_name = "input_attestations"];</code>
+     * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation input_attestations = 5 [json_name = "input_attestations"];</code>
      */
     io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.InputAttestation getInputAttestations(int index);
     /**
-     * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation inputAttestations = 5 [json_name = "input_attestations"];</code>
+     * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation input_attestations = 5 [json_name = "input_attestations"];</code>
      */
     int getInputAttestationsCount();
     /**
-     * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation inputAttestations = 5 [json_name = "input_attestations"];</code>
+     * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation input_attestations = 5 [json_name = "input_attestations"];</code>
      */
     java.util.List<? extends io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.InputAttestationOrBuilder> 
         getInputAttestationsOrBuilderList();
     /**
-     * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation inputAttestations = 5 [json_name = "input_attestations"];</code>
+     * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation input_attestations = 5 [json_name = "input_attestations"];</code>
      */
     io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.InputAttestationOrBuilder getInputAttestationsOrBuilder(
         int index);
 
     /**
-     * <code>string verificationResult = 6 [json_name = "verification_result"];</code>
+     * <code>string verification_result = 6 [json_name = "verification_result"];</code>
      * @return The verificationResult.
      */
     java.lang.String getVerificationResult();
     /**
-     * <code>string verificationResult = 6 [json_name = "verification_result"];</code>
+     * <code>string verification_result = 6 [json_name = "verification_result"];</code>
      * @return The bytes for verificationResult.
      */
     com.google.protobuf.ByteString
         getVerificationResultBytes();
 
     /**
-     * <code>string policyLevel = 7 [json_name = "policy_level"];</code>
+     * <code>string policy_level = 7 [json_name = "policy_level"];</code>
      * @return The policyLevel.
      */
     java.lang.String getPolicyLevel();
     /**
-     * <code>string policyLevel = 7 [json_name = "policy_level"];</code>
+     * <code>string policy_level = 7 [json_name = "policy_level"];</code>
      * @return The bytes for policyLevel.
      */
     com.google.protobuf.ByteString
         getPolicyLevelBytes();
 
     /**
-     * <code>map&lt;string, uint64&gt; dependencyLevels = 8 [json_name = "dependency_levels"];</code>
+     * <code>map&lt;string, uint64&gt; dependency_levels = 8 [json_name = "dependency_levels"];</code>
      */
     int getDependencyLevelsCount();
     /**
-     * <code>map&lt;string, uint64&gt; dependencyLevels = 8 [json_name = "dependency_levels"];</code>
+     * <code>map&lt;string, uint64&gt; dependency_levels = 8 [json_name = "dependency_levels"];</code>
      */
     boolean containsDependencyLevels(
         java.lang.String key);
@@ -139,18 +139,18 @@ public final class Vsa {
     java.util.Map<java.lang.String, java.lang.Long>
     getDependencyLevels();
     /**
-     * <code>map&lt;string, uint64&gt; dependencyLevels = 8 [json_name = "dependency_levels"];</code>
+     * <code>map&lt;string, uint64&gt; dependency_levels = 8 [json_name = "dependency_levels"];</code>
      */
     java.util.Map<java.lang.String, java.lang.Long>
     getDependencyLevelsMap();
     /**
-     * <code>map&lt;string, uint64&gt; dependencyLevels = 8 [json_name = "dependency_levels"];</code>
+     * <code>map&lt;string, uint64&gt; dependency_levels = 8 [json_name = "dependency_levels"];</code>
      */
     long getDependencyLevelsOrDefault(
         java.lang.String key,
         long defaultValue);
     /**
-     * <code>map&lt;string, uint64&gt; dependencyLevels = 8 [json_name = "dependency_levels"];</code>
+     * <code>map&lt;string, uint64&gt; dependency_levels = 8 [json_name = "dependency_levels"];</code>
      */
     long getDependencyLevelsOrThrow(
         java.lang.String key);
@@ -2519,10 +2519,10 @@ java.lang.String defaultValue) {
       return verifier_ == null ? io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.Verifier.getDefaultInstance() : verifier_;
     }
 
-    public static final int TIMEVERIFIED_FIELD_NUMBER = 2;
+    public static final int TIME_VERIFIED_FIELD_NUMBER = 2;
     private com.google.protobuf.Timestamp timeVerified_;
     /**
-     * <code>.google.protobuf.Timestamp timeVerified = 2 [json_name = "time_verified"];</code>
+     * <code>.google.protobuf.Timestamp time_verified = 2 [json_name = "time_verified"];</code>
      * @return Whether the timeVerified field is set.
      */
     @java.lang.Override
@@ -2530,7 +2530,7 @@ java.lang.String defaultValue) {
       return timeVerified_ != null;
     }
     /**
-     * <code>.google.protobuf.Timestamp timeVerified = 2 [json_name = "time_verified"];</code>
+     * <code>.google.protobuf.Timestamp time_verified = 2 [json_name = "time_verified"];</code>
      * @return The timeVerified.
      */
     @java.lang.Override
@@ -2538,18 +2538,18 @@ java.lang.String defaultValue) {
       return timeVerified_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : timeVerified_;
     }
     /**
-     * <code>.google.protobuf.Timestamp timeVerified = 2 [json_name = "time_verified"];</code>
+     * <code>.google.protobuf.Timestamp time_verified = 2 [json_name = "time_verified"];</code>
      */
     @java.lang.Override
     public com.google.protobuf.TimestampOrBuilder getTimeVerifiedOrBuilder() {
       return timeVerified_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : timeVerified_;
     }
 
-    public static final int RESOURCEURI_FIELD_NUMBER = 3;
+    public static final int RESOURCE_URI_FIELD_NUMBER = 3;
     @SuppressWarnings("serial")
     private volatile java.lang.Object resourceUri_ = "";
     /**
-     * <code>string resourceUri = 3 [json_name = "resource_uri"];</code>
+     * <code>string resource_uri = 3 [json_name = "resource_uri"];</code>
      * @return The resourceUri.
      */
     @java.lang.Override
@@ -2566,7 +2566,7 @@ java.lang.String defaultValue) {
       }
     }
     /**
-     * <code>string resourceUri = 3 [json_name = "resource_uri"];</code>
+     * <code>string resource_uri = 3 [json_name = "resource_uri"];</code>
      * @return The bytes for resourceUri.
      */
     @java.lang.Override
@@ -2610,18 +2610,18 @@ java.lang.String defaultValue) {
       return policy_ == null ? io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.Policy.getDefaultInstance() : policy_;
     }
 
-    public static final int INPUTATTESTATIONS_FIELD_NUMBER = 5;
+    public static final int INPUT_ATTESTATIONS_FIELD_NUMBER = 5;
     @SuppressWarnings("serial")
     private java.util.List<io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.InputAttestation> inputAttestations_;
     /**
-     * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation inputAttestations = 5 [json_name = "input_attestations"];</code>
+     * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation input_attestations = 5 [json_name = "input_attestations"];</code>
      */
     @java.lang.Override
     public java.util.List<io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.InputAttestation> getInputAttestationsList() {
       return inputAttestations_;
     }
     /**
-     * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation inputAttestations = 5 [json_name = "input_attestations"];</code>
+     * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation input_attestations = 5 [json_name = "input_attestations"];</code>
      */
     @java.lang.Override
     public java.util.List<? extends io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.InputAttestationOrBuilder> 
@@ -2629,21 +2629,21 @@ java.lang.String defaultValue) {
       return inputAttestations_;
     }
     /**
-     * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation inputAttestations = 5 [json_name = "input_attestations"];</code>
+     * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation input_attestations = 5 [json_name = "input_attestations"];</code>
      */
     @java.lang.Override
     public int getInputAttestationsCount() {
       return inputAttestations_.size();
     }
     /**
-     * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation inputAttestations = 5 [json_name = "input_attestations"];</code>
+     * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation input_attestations = 5 [json_name = "input_attestations"];</code>
      */
     @java.lang.Override
     public io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.InputAttestation getInputAttestations(int index) {
       return inputAttestations_.get(index);
     }
     /**
-     * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation inputAttestations = 5 [json_name = "input_attestations"];</code>
+     * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation input_attestations = 5 [json_name = "input_attestations"];</code>
      */
     @java.lang.Override
     public io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.InputAttestationOrBuilder getInputAttestationsOrBuilder(
@@ -2651,11 +2651,11 @@ java.lang.String defaultValue) {
       return inputAttestations_.get(index);
     }
 
-    public static final int VERIFICATIONRESULT_FIELD_NUMBER = 6;
+    public static final int VERIFICATION_RESULT_FIELD_NUMBER = 6;
     @SuppressWarnings("serial")
     private volatile java.lang.Object verificationResult_ = "";
     /**
-     * <code>string verificationResult = 6 [json_name = "verification_result"];</code>
+     * <code>string verification_result = 6 [json_name = "verification_result"];</code>
      * @return The verificationResult.
      */
     @java.lang.Override
@@ -2672,7 +2672,7 @@ java.lang.String defaultValue) {
       }
     }
     /**
-     * <code>string verificationResult = 6 [json_name = "verification_result"];</code>
+     * <code>string verification_result = 6 [json_name = "verification_result"];</code>
      * @return The bytes for verificationResult.
      */
     @java.lang.Override
@@ -2690,11 +2690,11 @@ java.lang.String defaultValue) {
       }
     }
 
-    public static final int POLICYLEVEL_FIELD_NUMBER = 7;
+    public static final int POLICY_LEVEL_FIELD_NUMBER = 7;
     @SuppressWarnings("serial")
     private volatile java.lang.Object policyLevel_ = "";
     /**
-     * <code>string policyLevel = 7 [json_name = "policy_level"];</code>
+     * <code>string policy_level = 7 [json_name = "policy_level"];</code>
      * @return The policyLevel.
      */
     @java.lang.Override
@@ -2711,7 +2711,7 @@ java.lang.String defaultValue) {
       }
     }
     /**
-     * <code>string policyLevel = 7 [json_name = "policy_level"];</code>
+     * <code>string policy_level = 7 [json_name = "policy_level"];</code>
      * @return The bytes for policyLevel.
      */
     @java.lang.Override
@@ -2729,7 +2729,7 @@ java.lang.String defaultValue) {
       }
     }
 
-    public static final int DEPENDENCYLEVELS_FIELD_NUMBER = 8;
+    public static final int DEPENDENCY_LEVELS_FIELD_NUMBER = 8;
     private static final class DependencyLevelsDefaultEntryHolder {
       static final com.google.protobuf.MapEntry<
           java.lang.String, java.lang.Long> defaultEntry =
@@ -2756,7 +2756,7 @@ java.lang.String defaultValue) {
       return internalGetDependencyLevels().getMap().size();
     }
     /**
-     * <code>map&lt;string, uint64&gt; dependencyLevels = 8 [json_name = "dependency_levels"];</code>
+     * <code>map&lt;string, uint64&gt; dependency_levels = 8 [json_name = "dependency_levels"];</code>
      */
     @java.lang.Override
     public boolean containsDependencyLevels(
@@ -2773,14 +2773,14 @@ java.lang.String defaultValue) {
       return getDependencyLevelsMap();
     }
     /**
-     * <code>map&lt;string, uint64&gt; dependencyLevels = 8 [json_name = "dependency_levels"];</code>
+     * <code>map&lt;string, uint64&gt; dependency_levels = 8 [json_name = "dependency_levels"];</code>
      */
     @java.lang.Override
     public java.util.Map<java.lang.String, java.lang.Long> getDependencyLevelsMap() {
       return internalGetDependencyLevels().getMap();
     }
     /**
-     * <code>map&lt;string, uint64&gt; dependencyLevels = 8 [json_name = "dependency_levels"];</code>
+     * <code>map&lt;string, uint64&gt; dependency_levels = 8 [json_name = "dependency_levels"];</code>
      */
     @java.lang.Override
     public long getDependencyLevelsOrDefault(
@@ -2792,7 +2792,7 @@ java.lang.String defaultValue) {
       return map.containsKey(key) ? map.get(key) : defaultValue;
     }
     /**
-     * <code>map&lt;string, uint64&gt; dependencyLevels = 8 [json_name = "dependency_levels"];</code>
+     * <code>map&lt;string, uint64&gt; dependency_levels = 8 [json_name = "dependency_levels"];</code>
      */
     @java.lang.Override
     public long getDependencyLevelsOrThrow(
@@ -2947,25 +2947,25 @@ java.lang.String defaultValue) {
         hash = (53 * hash) + getVerifier().hashCode();
       }
       if (hasTimeVerified()) {
-        hash = (37 * hash) + TIMEVERIFIED_FIELD_NUMBER;
+        hash = (37 * hash) + TIME_VERIFIED_FIELD_NUMBER;
         hash = (53 * hash) + getTimeVerified().hashCode();
       }
-      hash = (37 * hash) + RESOURCEURI_FIELD_NUMBER;
+      hash = (37 * hash) + RESOURCE_URI_FIELD_NUMBER;
       hash = (53 * hash) + getResourceUri().hashCode();
       if (hasPolicy()) {
         hash = (37 * hash) + POLICY_FIELD_NUMBER;
         hash = (53 * hash) + getPolicy().hashCode();
       }
       if (getInputAttestationsCount() > 0) {
-        hash = (37 * hash) + INPUTATTESTATIONS_FIELD_NUMBER;
+        hash = (37 * hash) + INPUT_ATTESTATIONS_FIELD_NUMBER;
         hash = (53 * hash) + getInputAttestationsList().hashCode();
       }
-      hash = (37 * hash) + VERIFICATIONRESULT_FIELD_NUMBER;
+      hash = (37 * hash) + VERIFICATION_RESULT_FIELD_NUMBER;
       hash = (53 * hash) + getVerificationResult().hashCode();
-      hash = (37 * hash) + POLICYLEVEL_FIELD_NUMBER;
+      hash = (37 * hash) + POLICY_LEVEL_FIELD_NUMBER;
       hash = (53 * hash) + getPolicyLevel().hashCode();
       if (!internalGetDependencyLevels().getMap().isEmpty()) {
-        hash = (37 * hash) + DEPENDENCYLEVELS_FIELD_NUMBER;
+        hash = (37 * hash) + DEPENDENCY_LEVELS_FIELD_NUMBER;
         hash = (53 * hash) + internalGetDependencyLevels().hashCode();
       }
       hash = (29 * hash) + getUnknownFields().hashCode();
@@ -3549,14 +3549,14 @@ java.lang.String defaultValue) {
       private com.google.protobuf.SingleFieldBuilderV3<
           com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> timeVerifiedBuilder_;
       /**
-       * <code>.google.protobuf.Timestamp timeVerified = 2 [json_name = "time_verified"];</code>
+       * <code>.google.protobuf.Timestamp time_verified = 2 [json_name = "time_verified"];</code>
        * @return Whether the timeVerified field is set.
        */
       public boolean hasTimeVerified() {
         return ((bitField0_ & 0x00000002) != 0);
       }
       /**
-       * <code>.google.protobuf.Timestamp timeVerified = 2 [json_name = "time_verified"];</code>
+       * <code>.google.protobuf.Timestamp time_verified = 2 [json_name = "time_verified"];</code>
        * @return The timeVerified.
        */
       public com.google.protobuf.Timestamp getTimeVerified() {
@@ -3567,7 +3567,7 @@ java.lang.String defaultValue) {
         }
       }
       /**
-       * <code>.google.protobuf.Timestamp timeVerified = 2 [json_name = "time_verified"];</code>
+       * <code>.google.protobuf.Timestamp time_verified = 2 [json_name = "time_verified"];</code>
        */
       public Builder setTimeVerified(com.google.protobuf.Timestamp value) {
         if (timeVerifiedBuilder_ == null) {
@@ -3583,7 +3583,7 @@ java.lang.String defaultValue) {
         return this;
       }
       /**
-       * <code>.google.protobuf.Timestamp timeVerified = 2 [json_name = "time_verified"];</code>
+       * <code>.google.protobuf.Timestamp time_verified = 2 [json_name = "time_verified"];</code>
        */
       public Builder setTimeVerified(
           com.google.protobuf.Timestamp.Builder builderForValue) {
@@ -3597,7 +3597,7 @@ java.lang.String defaultValue) {
         return this;
       }
       /**
-       * <code>.google.protobuf.Timestamp timeVerified = 2 [json_name = "time_verified"];</code>
+       * <code>.google.protobuf.Timestamp time_verified = 2 [json_name = "time_verified"];</code>
        */
       public Builder mergeTimeVerified(com.google.protobuf.Timestamp value) {
         if (timeVerifiedBuilder_ == null) {
@@ -3616,7 +3616,7 @@ java.lang.String defaultValue) {
         return this;
       }
       /**
-       * <code>.google.protobuf.Timestamp timeVerified = 2 [json_name = "time_verified"];</code>
+       * <code>.google.protobuf.Timestamp time_verified = 2 [json_name = "time_verified"];</code>
        */
       public Builder clearTimeVerified() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -3629,7 +3629,7 @@ java.lang.String defaultValue) {
         return this;
       }
       /**
-       * <code>.google.protobuf.Timestamp timeVerified = 2 [json_name = "time_verified"];</code>
+       * <code>.google.protobuf.Timestamp time_verified = 2 [json_name = "time_verified"];</code>
        */
       public com.google.protobuf.Timestamp.Builder getTimeVerifiedBuilder() {
         bitField0_ |= 0x00000002;
@@ -3637,7 +3637,7 @@ java.lang.String defaultValue) {
         return getTimeVerifiedFieldBuilder().getBuilder();
       }
       /**
-       * <code>.google.protobuf.Timestamp timeVerified = 2 [json_name = "time_verified"];</code>
+       * <code>.google.protobuf.Timestamp time_verified = 2 [json_name = "time_verified"];</code>
        */
       public com.google.protobuf.TimestampOrBuilder getTimeVerifiedOrBuilder() {
         if (timeVerifiedBuilder_ != null) {
@@ -3648,7 +3648,7 @@ java.lang.String defaultValue) {
         }
       }
       /**
-       * <code>.google.protobuf.Timestamp timeVerified = 2 [json_name = "time_verified"];</code>
+       * <code>.google.protobuf.Timestamp time_verified = 2 [json_name = "time_verified"];</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> 
@@ -3666,7 +3666,7 @@ java.lang.String defaultValue) {
 
       private java.lang.Object resourceUri_ = "";
       /**
-       * <code>string resourceUri = 3 [json_name = "resource_uri"];</code>
+       * <code>string resource_uri = 3 [json_name = "resource_uri"];</code>
        * @return The resourceUri.
        */
       public java.lang.String getResourceUri() {
@@ -3682,7 +3682,7 @@ java.lang.String defaultValue) {
         }
       }
       /**
-       * <code>string resourceUri = 3 [json_name = "resource_uri"];</code>
+       * <code>string resource_uri = 3 [json_name = "resource_uri"];</code>
        * @return The bytes for resourceUri.
        */
       public com.google.protobuf.ByteString
@@ -3699,7 +3699,7 @@ java.lang.String defaultValue) {
         }
       }
       /**
-       * <code>string resourceUri = 3 [json_name = "resource_uri"];</code>
+       * <code>string resource_uri = 3 [json_name = "resource_uri"];</code>
        * @param value The resourceUri to set.
        * @return This builder for chaining.
        */
@@ -3712,7 +3712,7 @@ java.lang.String defaultValue) {
         return this;
       }
       /**
-       * <code>string resourceUri = 3 [json_name = "resource_uri"];</code>
+       * <code>string resource_uri = 3 [json_name = "resource_uri"];</code>
        * @return This builder for chaining.
        */
       public Builder clearResourceUri() {
@@ -3722,7 +3722,7 @@ java.lang.String defaultValue) {
         return this;
       }
       /**
-       * <code>string resourceUri = 3 [json_name = "resource_uri"];</code>
+       * <code>string resource_uri = 3 [json_name = "resource_uri"];</code>
        * @param value The bytes for resourceUri to set.
        * @return This builder for chaining.
        */
@@ -3868,7 +3868,7 @@ java.lang.String defaultValue) {
           io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.InputAttestation, io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.InputAttestation.Builder, io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.InputAttestationOrBuilder> inputAttestationsBuilder_;
 
       /**
-       * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation inputAttestations = 5 [json_name = "input_attestations"];</code>
+       * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation input_attestations = 5 [json_name = "input_attestations"];</code>
        */
       public java.util.List<io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.InputAttestation> getInputAttestationsList() {
         if (inputAttestationsBuilder_ == null) {
@@ -3878,7 +3878,7 @@ java.lang.String defaultValue) {
         }
       }
       /**
-       * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation inputAttestations = 5 [json_name = "input_attestations"];</code>
+       * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation input_attestations = 5 [json_name = "input_attestations"];</code>
        */
       public int getInputAttestationsCount() {
         if (inputAttestationsBuilder_ == null) {
@@ -3888,7 +3888,7 @@ java.lang.String defaultValue) {
         }
       }
       /**
-       * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation inputAttestations = 5 [json_name = "input_attestations"];</code>
+       * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation input_attestations = 5 [json_name = "input_attestations"];</code>
        */
       public io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.InputAttestation getInputAttestations(int index) {
         if (inputAttestationsBuilder_ == null) {
@@ -3898,7 +3898,7 @@ java.lang.String defaultValue) {
         }
       }
       /**
-       * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation inputAttestations = 5 [json_name = "input_attestations"];</code>
+       * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation input_attestations = 5 [json_name = "input_attestations"];</code>
        */
       public Builder setInputAttestations(
           int index, io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.InputAttestation value) {
@@ -3915,7 +3915,7 @@ java.lang.String defaultValue) {
         return this;
       }
       /**
-       * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation inputAttestations = 5 [json_name = "input_attestations"];</code>
+       * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation input_attestations = 5 [json_name = "input_attestations"];</code>
        */
       public Builder setInputAttestations(
           int index, io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.InputAttestation.Builder builderForValue) {
@@ -3929,7 +3929,7 @@ java.lang.String defaultValue) {
         return this;
       }
       /**
-       * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation inputAttestations = 5 [json_name = "input_attestations"];</code>
+       * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation input_attestations = 5 [json_name = "input_attestations"];</code>
        */
       public Builder addInputAttestations(io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.InputAttestation value) {
         if (inputAttestationsBuilder_ == null) {
@@ -3945,7 +3945,7 @@ java.lang.String defaultValue) {
         return this;
       }
       /**
-       * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation inputAttestations = 5 [json_name = "input_attestations"];</code>
+       * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation input_attestations = 5 [json_name = "input_attestations"];</code>
        */
       public Builder addInputAttestations(
           int index, io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.InputAttestation value) {
@@ -3962,7 +3962,7 @@ java.lang.String defaultValue) {
         return this;
       }
       /**
-       * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation inputAttestations = 5 [json_name = "input_attestations"];</code>
+       * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation input_attestations = 5 [json_name = "input_attestations"];</code>
        */
       public Builder addInputAttestations(
           io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.InputAttestation.Builder builderForValue) {
@@ -3976,7 +3976,7 @@ java.lang.String defaultValue) {
         return this;
       }
       /**
-       * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation inputAttestations = 5 [json_name = "input_attestations"];</code>
+       * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation input_attestations = 5 [json_name = "input_attestations"];</code>
        */
       public Builder addInputAttestations(
           int index, io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.InputAttestation.Builder builderForValue) {
@@ -3990,7 +3990,7 @@ java.lang.String defaultValue) {
         return this;
       }
       /**
-       * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation inputAttestations = 5 [json_name = "input_attestations"];</code>
+       * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation input_attestations = 5 [json_name = "input_attestations"];</code>
        */
       public Builder addAllInputAttestations(
           java.lang.Iterable<? extends io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.InputAttestation> values) {
@@ -4005,7 +4005,7 @@ java.lang.String defaultValue) {
         return this;
       }
       /**
-       * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation inputAttestations = 5 [json_name = "input_attestations"];</code>
+       * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation input_attestations = 5 [json_name = "input_attestations"];</code>
        */
       public Builder clearInputAttestations() {
         if (inputAttestationsBuilder_ == null) {
@@ -4018,7 +4018,7 @@ java.lang.String defaultValue) {
         return this;
       }
       /**
-       * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation inputAttestations = 5 [json_name = "input_attestations"];</code>
+       * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation input_attestations = 5 [json_name = "input_attestations"];</code>
        */
       public Builder removeInputAttestations(int index) {
         if (inputAttestationsBuilder_ == null) {
@@ -4031,14 +4031,14 @@ java.lang.String defaultValue) {
         return this;
       }
       /**
-       * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation inputAttestations = 5 [json_name = "input_attestations"];</code>
+       * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation input_attestations = 5 [json_name = "input_attestations"];</code>
        */
       public io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.InputAttestation.Builder getInputAttestationsBuilder(
           int index) {
         return getInputAttestationsFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation inputAttestations = 5 [json_name = "input_attestations"];</code>
+       * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation input_attestations = 5 [json_name = "input_attestations"];</code>
        */
       public io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.InputAttestationOrBuilder getInputAttestationsOrBuilder(
           int index) {
@@ -4048,7 +4048,7 @@ java.lang.String defaultValue) {
         }
       }
       /**
-       * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation inputAttestations = 5 [json_name = "input_attestations"];</code>
+       * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation input_attestations = 5 [json_name = "input_attestations"];</code>
        */
       public java.util.List<? extends io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.InputAttestationOrBuilder> 
            getInputAttestationsOrBuilderList() {
@@ -4059,14 +4059,14 @@ java.lang.String defaultValue) {
         }
       }
       /**
-       * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation inputAttestations = 5 [json_name = "input_attestations"];</code>
+       * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation input_attestations = 5 [json_name = "input_attestations"];</code>
        */
       public io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.InputAttestation.Builder addInputAttestationsBuilder() {
         return getInputAttestationsFieldBuilder().addBuilder(
             io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.InputAttestation.getDefaultInstance());
       }
       /**
-       * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation inputAttestations = 5 [json_name = "input_attestations"];</code>
+       * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation input_attestations = 5 [json_name = "input_attestations"];</code>
        */
       public io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.InputAttestation.Builder addInputAttestationsBuilder(
           int index) {
@@ -4074,7 +4074,7 @@ java.lang.String defaultValue) {
             index, io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.InputAttestation.getDefaultInstance());
       }
       /**
-       * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation inputAttestations = 5 [json_name = "input_attestations"];</code>
+       * <code>repeated .in_toto_attestation.predicates.vsa.v0.VerificationSummary.InputAttestation input_attestations = 5 [json_name = "input_attestations"];</code>
        */
       public java.util.List<io.github.intoto.attestation.predicates.vsa.v0.Vsa.VerificationSummary.InputAttestation.Builder> 
            getInputAttestationsBuilderList() {
@@ -4097,7 +4097,7 @@ java.lang.String defaultValue) {
 
       private java.lang.Object verificationResult_ = "";
       /**
-       * <code>string verificationResult = 6 [json_name = "verification_result"];</code>
+       * <code>string verification_result = 6 [json_name = "verification_result"];</code>
        * @return The verificationResult.
        */
       public java.lang.String getVerificationResult() {
@@ -4113,7 +4113,7 @@ java.lang.String defaultValue) {
         }
       }
       /**
-       * <code>string verificationResult = 6 [json_name = "verification_result"];</code>
+       * <code>string verification_result = 6 [json_name = "verification_result"];</code>
        * @return The bytes for verificationResult.
        */
       public com.google.protobuf.ByteString
@@ -4130,7 +4130,7 @@ java.lang.String defaultValue) {
         }
       }
       /**
-       * <code>string verificationResult = 6 [json_name = "verification_result"];</code>
+       * <code>string verification_result = 6 [json_name = "verification_result"];</code>
        * @param value The verificationResult to set.
        * @return This builder for chaining.
        */
@@ -4143,7 +4143,7 @@ java.lang.String defaultValue) {
         return this;
       }
       /**
-       * <code>string verificationResult = 6 [json_name = "verification_result"];</code>
+       * <code>string verification_result = 6 [json_name = "verification_result"];</code>
        * @return This builder for chaining.
        */
       public Builder clearVerificationResult() {
@@ -4153,7 +4153,7 @@ java.lang.String defaultValue) {
         return this;
       }
       /**
-       * <code>string verificationResult = 6 [json_name = "verification_result"];</code>
+       * <code>string verification_result = 6 [json_name = "verification_result"];</code>
        * @param value The bytes for verificationResult to set.
        * @return This builder for chaining.
        */
@@ -4169,7 +4169,7 @@ java.lang.String defaultValue) {
 
       private java.lang.Object policyLevel_ = "";
       /**
-       * <code>string policyLevel = 7 [json_name = "policy_level"];</code>
+       * <code>string policy_level = 7 [json_name = "policy_level"];</code>
        * @return The policyLevel.
        */
       public java.lang.String getPolicyLevel() {
@@ -4185,7 +4185,7 @@ java.lang.String defaultValue) {
         }
       }
       /**
-       * <code>string policyLevel = 7 [json_name = "policy_level"];</code>
+       * <code>string policy_level = 7 [json_name = "policy_level"];</code>
        * @return The bytes for policyLevel.
        */
       public com.google.protobuf.ByteString
@@ -4202,7 +4202,7 @@ java.lang.String defaultValue) {
         }
       }
       /**
-       * <code>string policyLevel = 7 [json_name = "policy_level"];</code>
+       * <code>string policy_level = 7 [json_name = "policy_level"];</code>
        * @param value The policyLevel to set.
        * @return This builder for chaining.
        */
@@ -4215,7 +4215,7 @@ java.lang.String defaultValue) {
         return this;
       }
       /**
-       * <code>string policyLevel = 7 [json_name = "policy_level"];</code>
+       * <code>string policy_level = 7 [json_name = "policy_level"];</code>
        * @return This builder for chaining.
        */
       public Builder clearPolicyLevel() {
@@ -4225,7 +4225,7 @@ java.lang.String defaultValue) {
         return this;
       }
       /**
-       * <code>string policyLevel = 7 [json_name = "policy_level"];</code>
+       * <code>string policy_level = 7 [json_name = "policy_level"];</code>
        * @param value The bytes for policyLevel to set.
        * @return This builder for chaining.
        */
@@ -4266,7 +4266,7 @@ java.lang.String defaultValue) {
         return internalGetDependencyLevels().getMap().size();
       }
       /**
-       * <code>map&lt;string, uint64&gt; dependencyLevels = 8 [json_name = "dependency_levels"];</code>
+       * <code>map&lt;string, uint64&gt; dependency_levels = 8 [json_name = "dependency_levels"];</code>
        */
       @java.lang.Override
       public boolean containsDependencyLevels(
@@ -4283,14 +4283,14 @@ java.lang.String defaultValue) {
         return getDependencyLevelsMap();
       }
       /**
-       * <code>map&lt;string, uint64&gt; dependencyLevels = 8 [json_name = "dependency_levels"];</code>
+       * <code>map&lt;string, uint64&gt; dependency_levels = 8 [json_name = "dependency_levels"];</code>
        */
       @java.lang.Override
       public java.util.Map<java.lang.String, java.lang.Long> getDependencyLevelsMap() {
         return internalGetDependencyLevels().getMap();
       }
       /**
-       * <code>map&lt;string, uint64&gt; dependencyLevels = 8 [json_name = "dependency_levels"];</code>
+       * <code>map&lt;string, uint64&gt; dependency_levels = 8 [json_name = "dependency_levels"];</code>
        */
       @java.lang.Override
       public long getDependencyLevelsOrDefault(
@@ -4302,7 +4302,7 @@ java.lang.String defaultValue) {
         return map.containsKey(key) ? map.get(key) : defaultValue;
       }
       /**
-       * <code>map&lt;string, uint64&gt; dependencyLevels = 8 [json_name = "dependency_levels"];</code>
+       * <code>map&lt;string, uint64&gt; dependency_levels = 8 [json_name = "dependency_levels"];</code>
        */
       @java.lang.Override
       public long getDependencyLevelsOrThrow(
@@ -4322,7 +4322,7 @@ java.lang.String defaultValue) {
         return this;
       }
       /**
-       * <code>map&lt;string, uint64&gt; dependencyLevels = 8 [json_name = "dependency_levels"];</code>
+       * <code>map&lt;string, uint64&gt; dependency_levels = 8 [json_name = "dependency_levels"];</code>
        */
       public Builder removeDependencyLevels(
           java.lang.String key) {
@@ -4341,7 +4341,7 @@ java.lang.String defaultValue) {
         return internalGetMutableDependencyLevels().getMutableMap();
       }
       /**
-       * <code>map&lt;string, uint64&gt; dependencyLevels = 8 [json_name = "dependency_levels"];</code>
+       * <code>map&lt;string, uint64&gt; dependency_levels = 8 [json_name = "dependency_levels"];</code>
        */
       public Builder putDependencyLevels(
           java.lang.String key,
@@ -4354,7 +4354,7 @@ java.lang.String defaultValue) {
         return this;
       }
       /**
-       * <code>map&lt;string, uint64&gt; dependencyLevels = 8 [json_name = "dependency_levels"];</code>
+       * <code>map&lt;string, uint64&gt; dependency_levels = 8 [json_name = "dependency_levels"];</code>
        */
       public Builder putAllDependencyLevels(
           java.util.Map<java.lang.String, java.lang.Long> values) {
@@ -4474,36 +4474,36 @@ java.lang.String defaultValue) {
       "\n/in_toto_attestation/predicates/vsa/v0/" +
       "vsa.proto\022%in_toto_attestation.predicate" +
       "s.vsa.v0\032\037google/protobuf/timestamp.prot" +
-      "o\"\243\010\n\023VerificationSummary\022U\n\010verifier\030\001 " +
+      "o\"\251\010\n\023VerificationSummary\022U\n\010verifier\030\001 " +
       "\001(\0132C.in_toto_attestation.predicates.vsa" +
-      ".v0.VerificationSummary.Verifier\022?\n\014time" +
-      "Verified\030\002 \001(\0132\032.google.protobuf.Timesta" +
-      "mpR\rtime_verified\022!\n\013resourceUri\030\003 \001(\tR\014" +
-      "resource_uri\022Q\n\006policy\030\004 \001(\0132A.in_toto_a" +
-      "ttestation.predicates.vsa.v0.Verificatio" +
-      "nSummary.Policy\022z\n\021inputAttestations\030\005 \003" +
-      "(\0132K.in_toto_attestation.predicates.vsa." +
-      "v0.VerificationSummary.InputAttestationR" +
-      "\022input_attestations\022/\n\022verificationResul" +
-      "t\030\006 \001(\tR\023verification_result\022!\n\013policyLe" +
-      "vel\030\007 \001(\tR\014policy_level\022}\n\020dependencyLev" +
-      "els\030\010 \003(\0132P.in_toto_attestation.predicat" +
-      "es.vsa.v0.VerificationSummary.Dependency" +
-      "LevelsEntryR\021dependency_levels\032\026\n\010Verifi" +
-      "er\022\n\n\002id\030\001 \001(\t\032\243\001\n\006Policy\022\013\n\003uri\030\001 \001(\t\022]" +
-      "\n\006digest\030\002 \003(\0132M.in_toto_attestation.pre" +
-      "dicates.vsa.v0.VerificationSummary.Polic" +
-      "y.DigestEntry\032-\n\013DigestEntry\022\013\n\003key\030\001 \001(" +
-      "\t\022\r\n\005value\030\002 \001(\t:\0028\001\032\267\001\n\020InputAttestatio" +
-      "n\022\013\n\003uri\030\001 \001(\t\022g\n\006digest\030\002 \003(\0132W.in_toto" +
+      ".v0.VerificationSummary.Verifier\022@\n\rtime" +
+      "_verified\030\002 \001(\0132\032.google.protobuf.Timest" +
+      "ampR\rtime_verified\022\"\n\014resource_uri\030\003 \001(\t" +
+      "R\014resource_uri\022Q\n\006policy\030\004 \001(\0132A.in_toto" +
       "_attestation.predicates.vsa.v0.Verificat" +
-      "ionSummary.InputAttestation.DigestEntry\032" +
-      "-\n\013DigestEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005value\030\002 \001" +
-      "(\t:\0028\001\0327\n\025DependencyLevelsEntry\022\013\n\003key\030\001" +
-      " \001(\t\022\r\n\005value\030\002 \001(\004:\0028\001Be\n.io.github.int" +
-      "oto.attestation.predicates.vsa.v0Z3githu" +
-      "b.com/in-toto/attestation/go/predicates/" +
-      "vsa/v0b\006proto3"
+      "ionSummary.Policy\022{\n\022input_attestations\030" +
+      "\005 \003(\0132K.in_toto_attestation.predicates.v" +
+      "sa.v0.VerificationSummary.InputAttestati" +
+      "onR\022input_attestations\0220\n\023verification_r" +
+      "esult\030\006 \001(\tR\023verification_result\022\"\n\014poli" +
+      "cy_level\030\007 \001(\tR\014policy_level\022~\n\021dependen" +
+      "cy_levels\030\010 \003(\0132P.in_toto_attestation.pr" +
+      "edicates.vsa.v0.VerificationSummary.Depe" +
+      "ndencyLevelsEntryR\021dependency_levels\032\026\n\010" +
+      "Verifier\022\n\n\002id\030\001 \001(\t\032\243\001\n\006Policy\022\013\n\003uri\030\001" +
+      " \001(\t\022]\n\006digest\030\002 \003(\0132M.in_toto_attestati" +
+      "on.predicates.vsa.v0.VerificationSummary" +
+      ".Policy.DigestEntry\032-\n\013DigestEntry\022\013\n\003ke" +
+      "y\030\001 \001(\t\022\r\n\005value\030\002 \001(\t:\0028\001\032\267\001\n\020InputAtte" +
+      "station\022\013\n\003uri\030\001 \001(\t\022g\n\006digest\030\002 \003(\0132W.i" +
+      "n_toto_attestation.predicates.vsa.v0.Ver" +
+      "ificationSummary.InputAttestation.Digest" +
+      "Entry\032-\n\013DigestEntry\022\013\n\003key\030\001 \001(\t\022\r\n\005val" +
+      "ue\030\002 \001(\t:\0028\001\0327\n\025DependencyLevelsEntry\022\013\n" +
+      "\003key\030\001 \001(\t\022\r\n\005value\030\002 \001(\004:\0028\001Be\n.io.gith" +
+      "ub.intoto.attestation.predicates.vsa.v0Z" +
+      "3github.com/in-toto/attestation/go/predi" +
+      "cates/vsa/v0b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
