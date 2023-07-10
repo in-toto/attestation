@@ -63,12 +63,12 @@ public final class StatementOuterClass {
         int index);
 
     /**
-     * <code>string predicateType = 3;</code>
+     * <code>string predicate_type = 3;</code>
      * @return The predicateType.
      */
     java.lang.String getPredicateType();
     /**
-     * <code>string predicateType = 3;</code>
+     * <code>string predicate_type = 3;</code>
      * @return The bytes for predicateType.
      */
     com.google.protobuf.ByteString
@@ -221,11 +221,11 @@ public final class StatementOuterClass {
       return subject_.get(index);
     }
 
-    public static final int PREDICATETYPE_FIELD_NUMBER = 3;
+    public static final int PREDICATE_TYPE_FIELD_NUMBER = 3;
     @SuppressWarnings("serial")
     private volatile java.lang.Object predicateType_ = "";
     /**
-     * <code>string predicateType = 3;</code>
+     * <code>string predicate_type = 3;</code>
      * @return The predicateType.
      */
     @java.lang.Override
@@ -242,7 +242,7 @@ public final class StatementOuterClass {
       }
     }
     /**
-     * <code>string predicateType = 3;</code>
+     * <code>string predicate_type = 3;</code>
      * @return The bytes for predicateType.
      */
     @java.lang.Override
@@ -378,7 +378,7 @@ public final class StatementOuterClass {
         hash = (37 * hash) + SUBJECT_FIELD_NUMBER;
         hash = (53 * hash) + getSubjectList().hashCode();
       }
-      hash = (37 * hash) + PREDICATETYPE_FIELD_NUMBER;
+      hash = (37 * hash) + PREDICATE_TYPE_FIELD_NUMBER;
       hash = (53 * hash) + getPredicateType().hashCode();
       if (hasPredicate()) {
         hash = (37 * hash) + PREDICATE_FIELD_NUMBER;
@@ -1084,7 +1084,7 @@ public final class StatementOuterClass {
 
       private java.lang.Object predicateType_ = "";
       /**
-       * <code>string predicateType = 3;</code>
+       * <code>string predicate_type = 3;</code>
        * @return The predicateType.
        */
       public java.lang.String getPredicateType() {
@@ -1100,7 +1100,7 @@ public final class StatementOuterClass {
         }
       }
       /**
-       * <code>string predicateType = 3;</code>
+       * <code>string predicate_type = 3;</code>
        * @return The bytes for predicateType.
        */
       public com.google.protobuf.ByteString
@@ -1117,7 +1117,7 @@ public final class StatementOuterClass {
         }
       }
       /**
-       * <code>string predicateType = 3;</code>
+       * <code>string predicate_type = 3;</code>
        * @param value The predicateType to set.
        * @return This builder for chaining.
        */
@@ -1130,7 +1130,7 @@ public final class StatementOuterClass {
         return this;
       }
       /**
-       * <code>string predicateType = 3;</code>
+       * <code>string predicate_type = 3;</code>
        * @return This builder for chaining.
        */
       public Builder clearPredicateType() {
@@ -1140,7 +1140,7 @@ public final class StatementOuterClass {
         return this;
       }
       /**
-       * <code>string predicateType = 3;</code>
+       * <code>string predicate_type = 3;</code>
        * @param value The bytes for predicateType to set.
        * @return This builder for chaining.
        */
@@ -1353,13 +1353,13 @@ public final class StatementOuterClass {
       "\n&in_toto_attestation/v1/statement.proto" +
       "\022\026in_toto_attestation.v1\032\034google/protobu" +
       "f/struct.proto\0320in_toto_attestation/v1/r" +
-      "esource_descriptor.proto\"\240\001\n\tStatement\022\023" +
+      "esource_descriptor.proto\"\241\001\n\tStatement\022\023" +
       "\n\004type\030\001 \001(\tR\005_type\022;\n\007subject\030\002 \003(\0132*.i" +
       "n_toto_attestation.v1.ResourceDescriptor" +
-      "\022\025\n\rpredicateType\030\003 \001(\t\022*\n\tpredicate\030\004 \001" +
-      "(\0132\027.google.protobuf.StructBG\n\037io.github" +
-      ".intoto.attestation.v1Z$github.com/in-to" +
-      "to/attestation/go/v1b\006proto3"
+      "\022\026\n\016predicate_type\030\003 \001(\t\022*\n\tpredicate\030\004 " +
+      "\001(\0132\027.google.protobuf.StructBG\n\037io.githu" +
+      "b.intoto.attestation.v1Z$github.com/in-t" +
+      "oto/attestation/go/v1b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
