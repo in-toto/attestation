@@ -23,5 +23,11 @@ message ResourceDescriptor {
 
   string media_type = 6;
 
-  map<string, google.protobuf.Value> annotations = 7;
+  // Per the Struct protobuf spec, this type corresponds to
+  // a JSON Object, which is truly a map<string, Value> under the hood.
+  // So, the Struct a) is still consistent with our specification for
+  // the `annotations` field, and b) has native support in some language
+  // bindings making their use easier in implementations.
+  // See: https://pkg.go.dev/google.golang.org/protobuf/types/known/structpb#Struct
+  google.protobuf.Struct annotations = 7;
 }
