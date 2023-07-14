@@ -88,6 +88,10 @@ dependency.
 
 ## Example
 
+In the first example, the crev attestation is generated for a dependency using
+its binary release. Therefore, it applies to the dependency artifact that will
+be fetched from some repository, in this case the Python Packaging Index.
+
 ```json
 {
     "_type": "https://in-toto.io/Statement/v1",
@@ -99,6 +103,40 @@ dependency.
                 "sha256": "aa12e63298425cfc4773ed03febd68a384c63b2690959dd788f8c4511ea97bbe"
             },
             "downloadLocation": "https://github.com/in-toto/in-toto/releases/download/v1.3.2/in_toto-1.3.2-py3-none-any.whl"
+        },
+    ],
+    "predicateType": "https://in-toto.io/attestation/human-review/crev/v0.1",
+    "predicate": {
+        "result": "positive",
+        "timestamp": "2023-03-16T00:09:27Z",
+        "reviewer": {
+            "idType": "github",
+            "id": "adityasaky",
+            "url": "https://github.com/adityasaky/crev-proofs"
+        },
+        "thoroughness": "high",
+        "understanding": "high",
+        "comment": "This dependency is well written and can be used safely."
+    }
+}
+```
+
+Alternatively, the attestation can be generated for the _source_ of a
+dependency. In this case, either the source must then be built locally to
+generate the binary or the binary must be accompanied by a separate in-toto link
+or SLSA Provenance attestation that shows the binary was built from the same,
+reviewed source.
+
+```json
+{
+    "_type": "https://in-toto.io/Statement/v1",
+    "subject": [
+        {
+            "name": "in-toto-v1.3.2",
+            "uri": "https://github.com/in-toto/in-toto/releases/tag/v1.3.2",
+            "digest": {
+                "gitTag": "58ffc2e38382b2a180e542c4933e7befd1e352e8"
+            }
         },
     ],
     "predicateType": "https://in-toto.io/attestation/human-review/crev/v0.1",

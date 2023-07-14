@@ -56,9 +56,10 @@ issuing the review.
     ],
     "predicateType": "http://in-toto.io/attestation/human-review/vcs/v0.1",
     "predicate": {
-        "reviewer": ["<REVIEWER>", ...],
+        "reviewers": ["<ResourceDescriptor>", ...],
         "reviewLink": "<LINK TO REVIEW>",
-        "timestamp": "<TIMESTAMP>"
+        "timestamp": "<TIMESTAMP>",
+        "annotations": {...}
     }
 }
 ```
@@ -70,14 +71,14 @@ This predicate follows the
 
 ### Fields
 
-`reviewer` _array of reviewer objects, _required_
+`reviewers` _array of ResourceDescriptor_, _required_
 
 Indicates uniquely the identity of one or more reviewers. MUST NOT be used over
 the attestation's signature to validate the source of the attestation. This
-field supports scenarios where the attestation is issued and signed by the VCS
-system. Each entry must include immutable information that is always mapped to
-the reviewer. The reviewer object is not explicitly defined as it specific to
-the VCS system.
+field enables scenarios where the attestation is issued and signed by the VCS
+review system. Each entry must include immutable information that is always
+mapped to the reviewer. The digest may be skipped in the ResourceDescriptor,
+using the name and URI fields to record the username and immutable ID.
 
 `reviewLink` _URI_, _optional_
 
@@ -87,6 +88,11 @@ be captured in the attestation.
 `timestamp` _Timestamp_, _optional_
 
 Indicates time of review creation.
+
+`annotations` _object_, _optional_
+
+Optional, opaque field to add annotations to the review. This object can be used
+to record review system specific fields.
 
 ## Example
 
@@ -102,12 +108,15 @@ Indicates time of review creation.
     }],
     "predicateType": "http://in-toto.io/attestation/human-review/vcs/v0.1",
     "predicate": {
-        "reviewer": [{
-            "userID": 589324,
-            "userName": "lukpueh"
+        "reviewers": [{
+            "name": "lukpueh",
+            "uri": "https://api.github.com/user/589324"
         }],
         "reviewLink": "https://github.com/in-toto/in-toto/pull/503#pullrequestreview-1341209941",
-        "timestamp": "2023-03-15T11:05:00Z"
+        "timestamp": "2023-03-15T11:05:00Z",
+        "annotations": {
+            "githubComment": "Thanks for your persistence, LGTM!"
+        }
     }
 }
 ```
