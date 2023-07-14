@@ -5,6 +5,7 @@ Tests for in-toto attestation ResourceDescriptor protos.
 package v1
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -13,10 +14,10 @@ import (
 	"google.golang.org/protobuf/types/known/structpb"
 )
 
-const wantSt = `{"_type":"https://in-toto.io/Statement/v1","subject":[{"name":"theSub","digest":{"alg1":"abc123"}}],"predicateType":"thePredicate","predicate":{"keyObj":{"subKey":"subVal"}}}`
-
-func createTestStatement() (*Statement, error) {
+func createTestStatement(t *testing.T) *Statement {
 	// Create a Statement
+
+	t.Helper()
 
 	sub := &ResourceDescriptor{
 		Name:   "theSub",
@@ -27,7 +28,7 @@ func createTestStatement() (*Statement, error) {
 		"keyObj": map[string]interface{}{
 			"subKey": "subVal"}})
 	if err != nil {
-		return nil, err
+		t.Fatal(err)
 	}
 
 	return &Statement{
@@ -35,19 +36,19 @@ func createTestStatement() (*Statement, error) {
 		Subject:       []*ResourceDescriptor{sub},
 		PredicateType: "thePredicate",
 		Predicate:     pred,
-	}, nil
+	}
 }
 
 func TestJsonUnmarshalStatement(t *testing.T) {
+	var wantSt = `{"_type":"https://in-toto.io/Statement/v1","subject":[{"name":"theSub","digest":{"alg1":"abc123"}}],"predicateType":"thePredicate","predicate":{"keyObj":{"subKey":"subVal"}}}`
+
 	got := &Statement{}
 	err := protojson.Unmarshal([]byte(wantSt), got)
+	assert.NoError(t, err, "error during JSON unmarshalling")
 
-	assert.NoError(t, err, "Error during JSON unmarshalling")
-
-	want, err := createTestStatement()
-
-	assert.NoError(t, err, "Error during test Statement creation")
-	assert.True(t, proto.Equal(got, want), "Protos do not match")
+	want := createTestStatement(t)
+	assert.NoError(t, err, "unexpected error during test Statement creation")
+	assert.True(t, proto.Equal(got, want), "protos do not match")
 }
 
 func TestBadStatementType(t *testing.T) {
@@ -55,58 +56,69 @@ func TestBadStatementType(t *testing.T) {
 
 	got := &Statement{}
 	err := protojson.Unmarshal([]byte(badStType), got)
-
-	assert.NoError(t, err, "Error during JSON unmarshalling")
+	assert.NoError(t, err, "error during JSON unmarshalling")
 
 	err = got.Validate()
-
-	assert.Error(t, err, "Error: created malformed Statement (bad type)")
+	assert.ErrorIs(t, err, ErrInvalidStatementType, "created malformed Statement (bad type)")
 }
 
 func TestBadStatementSubject(t *testing.T) {
-	var badStNoSub = `{"_type":"https://in-toto.io/Statement/v1","subject":[],"predicateType":"thePredicate","predicate":{"keyObj":{"subKey":"subVal"}}}`
+	tests := map[string]struct {
+		input        string
+		err          error
+		noErrMessage string
+	}{
+		"no subjects": {
+			input:        `{"_type":"https://in-toto.io/Statement/v1","subject":[],"predicateType":"thePredicate","predicate":{"keyObj":{"subKey":"subVal"}}}`,
+			err:          ErrSubjectRequired,
+			noErrMessage: "created malformed Statement (empty subject)",
+		},
+		"subject missing RD required field": {
+			input:        `{"_type":"https://in-toto.io/Statement/v1","subject":[{"downloadLocation":"https://example.com/test.zip"}],"predicateType":"thePredicate","predicate":{"keyObj":{"subKey":"subVal"}}}`,
+			err:          ErrRDRequiredField,
+			noErrMessage: "created malformed Statement (subject missing one of RD required fields, 'name', 'uri', 'digest')",
+		},
+		"subject missing Statement requirement on digest": {
+			input:        `{"_type":"https://in-toto.io/Statement/v1","subject":[{"name": "theSub", "downloadLocation":"https://example.com/test.zip"}],"predicateType":"thePredicate","predicate":{"keyObj":{"subKey":"subVal"}}}`,
+			err:          ErrDigestRequired,
+			noErrMessage: "created malformed Statement (subject missing 'digest')",
+		},
+	}
 
-	got := &Statement{}
-	err := protojson.Unmarshal([]byte(badStNoSub), got)
+	for name, test := range tests {
+		got := &Statement{}
+		err := protojson.Unmarshal([]byte(test.input), got)
+		assert.NoError(t, err, fmt.Sprintf("error during JSON unmarshalling in test '%s'", name))
 
-	assert.NoError(t, err, "Error during JSON unmarshalling")
-
-	err = got.Validate()
-
-	assert.Error(t, err, "Error: created malformed Statement (empty subject)")
-
-	var badStBadSub = `{"_type":"https://in-toto.io/Statement/v1","subject":[{"downloadLocation":"https://example.com/test.zip"}],"predicateType":"thePredicate","predicate":{"keyObj":{"subKey":"subVal"}}}`
-
-	got = &Statement{}
-	err = protojson.Unmarshal([]byte(badStBadSub), got)
-
-	assert.NoError(t, err, "Error during JSON unmarshalling")
-
-	err = got.Validate()
-
-	assert.Error(t, err, "Error: created malformed Statement (bad subject)")
+		err = got.Validate()
+		assert.ErrorIs(t, err, test.err, fmt.Sprintf("%s in test '%s'", test.noErrMessage, name))
+	}
 }
 
 func TestBadStatementPredicate(t *testing.T) {
-	var badStPredType = `{"_type":"https://in-toto.io/Statement/v1","subject":[{"name":"theSub","digest":{"alg1":"abc123"}}],"predicateType":"","predicate":{"keyObj":{"subKey":"subVal"}}}`
+	tests := map[string]struct {
+		input        string
+		err          error
+		noErrMessage string
+	}{
+		"missing predicate type": {
+			input:        `{"_type":"https://in-toto.io/Statement/v1","subject":[{"name":"theSub","digest":{"alg1":"abc123"}}],"predicateType":"","predicate":{"keyObj":{"subKey":"subVal"}}}`,
+			err:          ErrPredicateTypeRequired,
+			noErrMessage: "created malformed Statement (missing predicate type)",
+		},
+		"missing predicate": {
+			input:        `{"_type":"https://in-toto.io/Statement/v1","subject":[{"name":"theSub","digest":{"alg1":"abc123"}}],"predicateType":"thePredicate"}`,
+			err:          ErrPredicateRequired,
+			noErrMessage: "created malformed Statement (no predicate)",
+		},
+	}
 
-	got := &Statement{}
-	err := protojson.Unmarshal([]byte(badStPredType), got)
+	for name, test := range tests {
+		got := &Statement{}
+		err := protojson.Unmarshal([]byte(test.input), got)
+		assert.NoError(t, err, fmt.Sprintf("error during JSON unmarshalling in test '%s'", name))
 
-	assert.NoError(t, err, "Error during JSON unmarshalling")
-
-	err = got.Validate()
-
-	assert.Error(t, err, "Error: created malformed Statement (bad predicate type)")
-
-	var badStPred = `{"_type":"https://in-toto.io/Statement/v1","subject":[{"name":"theSub","digest":{"alg1":"abc123"}}],"predicateType":"thePredicate"}`
-
-	got = &Statement{}
-	err = protojson.Unmarshal([]byte(badStPred), got)
-
-	assert.NoError(t, err, "Error during JSON unmarshalling")
-
-	err = got.Validate()
-
-	assert.Error(t, err, "Error: created malformed Statement (no prdicate)")
+		err = got.Validate()
+		assert.ErrorIs(t, err, test.err, fmt.Sprintf("%s in test '%s'", test.noErrMessage, name))
+	}
 }
