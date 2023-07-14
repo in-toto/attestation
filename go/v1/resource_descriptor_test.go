@@ -63,6 +63,5 @@ func TestBadResourceDescriptor(t *testing.T) {
 	assert.NoError(t, err, "Error during JSON unmarshalling")
 
 	err = got.Validate()
-
-	assert.Error(t, err, "Error: created malformed ResourceDescriptor")
+	assert.ErrorIs(t, err, ErrRDRequiredField, "created malformed ResourceDescriptor")
 }
