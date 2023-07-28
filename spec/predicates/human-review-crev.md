@@ -2,7 +2,7 @@
 
 Type URI: (tentative) https://in-toto.io/attestation/human-review/crev/v0.1
 
-Version: Do we use Crev's versioning? Currently -1? What about their URI?
+Version: v0.1.0
 
 ## Purpose
 
@@ -33,12 +33,12 @@ dedicated security team can be tasked with it.
     "predicateType": "https://in-toto.io/attestation/human-review/crev/v0.1",
     "predicate": {
         "result": "positive|negative",
-        "timestamp": "<TIMESTAMP>",
         "reviewer": {
             "idType": "crev",
-            "id": "",
+            "id": "<ID>",
             "url": "<URL>"        
         },
+        "reviewTime": "<TIMESTAMP>",
         "thoroughness": "high|medium|low",
         "understanding": "high|medium|low",
         "comment": "<STRING>"
@@ -67,9 +67,10 @@ aspects, but the identity of the reviewer can also be mapped based on in-toto's
 functionary handling. `idType` is used to determine the contents of `reviewer`.
 The `url` is a reference to the reviewer's crev-proofs repository.
 
-`timestamp` _Timestamp_, _required_
+`reviewTime` _Timestamp_, _required_
 
-Indicates time of review creation.
+Indicates time of review creation. `timestamp` in the original crev
+specification.
 
 `thoroughness` _enum_, _required_
 
@@ -108,12 +109,12 @@ be fetched from some repository, in this case the Python Packaging Index.
     "predicateType": "https://in-toto.io/attestation/human-review/crev/v0.1",
     "predicate": {
         "result": "positive",
-        "timestamp": "2023-03-16T00:09:27Z",
         "reviewer": {
             "idType": "github",
             "id": "adityasaky",
             "url": "https://github.com/adityasaky/crev-proofs"
         },
+        "reviewTime": "2023-03-16T00:09:27Z",
         "thoroughness": "high",
         "understanding": "high",
         "comment": "This dependency is well written and can be used safely."
@@ -142,12 +143,12 @@ reviewed source.
     "predicateType": "https://in-toto.io/attestation/human-review/crev/v0.1",
     "predicate": {
         "result": "positive",
-        "timestamp": "2023-03-16T00:09:27Z",
         "reviewer": {
             "idType": "github",
             "id": "adityasaky",
             "url": "https://github.com/adityasaky/crev-proofs"
         },
+        "reviewTime": "2023-03-16T00:09:27Z",
         "thoroughness": "high",
         "understanding": "high",
         "comment": "This dependency is well written and can be used safely."

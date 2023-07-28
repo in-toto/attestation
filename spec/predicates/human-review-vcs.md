@@ -58,7 +58,7 @@ issuing the review.
     "predicate": {
         "reviewers": ["<ResourceDescriptor>", ...],
         "reviewLink": "<LINK TO REVIEW>",
-        "timestamp": "<TIMESTAMP>",
+        "reviewTime": "<TIMESTAMP>",
         "annotations": {...}
     }
 }
@@ -85,9 +85,12 @@ using the name and URI fields to record the username and immutable ID.
 Contains a link to the full review. Useful to point to information that cannot
 be captured in the attestation.
 
-`timestamp` _Timestamp_, _optional_
+`reviewTime` _Timestamp_, _optional_
 
-Indicates time of review creation.
+Indicates the time of _last review_ creation. If the attestation is for a single
+review, this is equivalent to when that review was created. With multiple
+reviewers, the attestation is re-created for each new review and the time
+reflects that of the latest review.
 
 `annotations` _object_, _optional_
 
@@ -113,7 +116,7 @@ to record review system specific fields.
             "uri": "https://api.github.com/user/589324"
         }],
         "reviewLink": "https://github.com/in-toto/in-toto/pull/503#pullrequestreview-1341209941",
-        "timestamp": "2023-03-15T11:05:00Z",
+        "reviewTime": "2023-03-15T11:05:00Z",
         "annotations": {
             "githubComment": "Thanks for your persistence, LGTM!"
         }
