@@ -16,7 +16,14 @@ the `in_toto_attestation.v1` and `in_toto_attestation.predicates` packages,
 respectively. Please note that our package names use the term "attestation"
 in the _singular_.
 
+## Testing
+
+See the [testing docs] for info and instructions for testing this
+implementation.
+
 ## Versioning
 
 At the moment, this library is versioned <1.0 as we work towards stabilizing
 the protobuf definitions and the available predicates.
+
+[testing docs]: ../docs/testing.md#testing-the-python-bindings
