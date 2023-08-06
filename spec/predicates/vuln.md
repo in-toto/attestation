@@ -20,14 +20,17 @@ This document describes a vulnerability attestation type to represent vulnerabil
 
 The in-toto [attestation] framework and a [Vulnerability scanner tool].
 
-## Use Cases
+## Use cases
 
 When sharing the results of a vulnerability scan using an attestation, there is certain metadata that is crucial to trust and reuse this information.
-Information about the scanner used during the scanning is relevant to trust these resuls. The state of the vulnerability database used to search for vulnerabilities defines the accuracy of the results. Other metadata information such as the timestamp when the scan finished could define the reusability of these results.
+Information about the scanner used during the scanning is relevant to trust these results. The state of the vulnerability database used to search for vulnerabilities defines the accuracy of the results. Other metadata information such as the timestamp when the scan finished could define the reusability of these results.
 
 ## Model
 
 This is a predicate type that fits within the larger [Attestation] framework.
+The following model aims to provide a well defined list of fields so that consumers know how to start exchaging their scanner results.
+
+This predicate model is inspired by [cosign vulnerability attestation](https://github.com/sigstore/cosign/blob/main/specs/COSIGN_VULN_ATTESTATION_SPEC.md).
 
 ## Schema
 
@@ -52,32 +55,57 @@ The `predicate` contains a JSON-encoded data with the following fields:
 
 **scanner.version** string (ResourceURI), optional
 
-> The version of the scanner.
+> > The version of the scanner.
 
 **scanner.db.uri** string (ResourceURI), optional
 
-> URI indicating the identity of the source of the Vulnerability DB.
+> > > URI indicating the identity of the source of the Vulnerability DB.
 
 **scanner.db.version** string, optional
 
-> The version of the Vulnerability DB.
+> > > The version of the Vulnerability DB.
 
 **scanner.db.lastUpdate string (Timestamp), required**
 
-> The timestamp of when the vulnerability DB was updated last time.
+> > > The timestamp of when the vulnerability DB was updated last time.
 
-**scanner.result** object
+**scanner.result** list
 
-> This is the most important part of this field because it'll store the scan result as a whole. So, people might want
-> to use this field to take decisions based on them by making use of Policy Engines tooling whether allow or deny these images.
+> > The result contains a list of vulnerabilities.
+> > This is the most important part of this field because it'll store the scan result as a whole. So, people might want
+> > to use this field to take decisions based on them by making use of Policy Engines tooling whether allow or deny these images.
+
+**scanner.result.[*].vulnerability** object
+
+> > > The vulnerability object defines information about each one of the vulnerabilities found by the scanner.
+
+**scanner.result.[*].vulnerability.id** string
+
+> > > > This is the identifier of the vulnerability, e.g. GHSA-r9p9-mrjm-926w, CVE-123.
+
+**scanner.result.[*].vulnerability.severity** object
+
+> > > > The severity contains a list to describe the severity of a vulnerability using one or more quantitative scoring method.
+
+**scanner.result.[*].vulnerability.severity.type** string
+
+> > > > > The type describes the quantitative method used to calculate the associated.
+
+**scanner.result.[*].vulnerability.severity.score** string
+
+> > > > > This is a string representing the severity score based on the selected method.
+
+**scanner.result.[*].vulnerability.annotations** list
+
+> > > > > This is a list of key/value pairs where scanners can add additional custom information.
 
 **metadata.scanStartedOn string (Timestamp), required**
 
-> The timestamp of when the scan started.
+> > The timestamp of when the scan started.
 
 **metadata.scanFinishedOn string (Timestamp), required**
 
-> The timestamp of when the scan completed.
+> > The timestamp of when the scan completed.
 
 ## Example
 
@@ -115,7 +143,16 @@ The `predicate` contains a JSON-encoded data with the following fields:
         "lastUpdate": ""
         // 2021-08-06T17:45:50.52Z
       },
-      "result": {}
+      "result": [
+        {
+         "id": "CVE-123",
+         "severity": [
+          { "type": "nvd", "score": "medium"},
+          { "type": "cvss_score", "score", "5.2" }
+         ]
+        },
+        {...}
+      ]
     },
     "metadata": {
       "scanStartedOn": "",
