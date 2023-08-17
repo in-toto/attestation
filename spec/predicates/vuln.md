@@ -42,25 +42,25 @@ The fields that make up this predicate type are:
 The `subject` contains whatever software artifacts are to be associated with this vulnerability report document.
 The `predicate` contains a JSON-encoded data with the following fields:
 
-**scanner** object
+**scanner, required** object
 
 > There are lots of container image scanners such as Trivy, Grype, Clair, etc.
 > This field describes which scanner is used while performing a container image scan,
 > as well as version information and which Vulnerability DB is used.
 
-**scanner.uri** string (ResourceURI), optional
+**scanner.uri, required** string (ResourceURI)
 
 > > URI indicating the identity of the source of the scanner.
 
-**scanner.version** string (ResourceURI), optional
+**scanner.version, optional** string (ResourceURI)
 
 > > The version of the scanner.
 
-**scanner.db.uri** string (ResourceURI), optional
+**scanner.db.uri, optional** string (ResourceURI)
 
 > > > URI indicating the identity of the source of the Vulnerability DB.
 
-**scanner.db.version** string, optional
+**scanner.db.version, optional** string
 
 > > > The version of the Vulnerability DB.
 
@@ -68,41 +68,41 @@ The `predicate` contains a JSON-encoded data with the following fields:
 
 > > > The timestamp of when the vulnerability DB was updated last time.
 
-**scanner.result** list
+**scanner.result, required** list
 
-> > The result contains a list of vulnerabilities.
+> > The result contains a list of vulnerabilities. Note that an empty list means the **scanner** found no vulnerabilities.
 > > This is the most important part of this field because it'll store the scan result as a whole. So, people might want
 > > to use this field to take decisions based on them by making use of Policy Engines tooling whether allow or deny these images.
 
-**scanner.result.[*].vulnerability** object
+**scanner.result.[*].vulnerability, optional** object
 
 > > > The vulnerability object defines information about each one of the vulnerabilities found by the scanner.
 
-**scanner.result.[*].vulnerability.id** string
+**scanner.result.[*].vulnerability.id, required** string
 
-> > > > This is the identifier of the vulnerability, e.g. GHSA-r9p9-mrjm-926w, CVE-123.
+> > > > This is the identifier of the vulnerability, e.g. [GHSA-fxph-q3j8-mv87](https://github.com/advisories/GHSA-fxph-q3j8-mv87) whose CVE id is [CVE-2017-5645](https://nvd.nist.gov/vuln/detail/CVE-2017-5645).
 
-**scanner.result.[*].vulnerability.severity** object
+**scanner.result.[*].vulnerability.severity, required** object
 
 > > > > The severity contains a list to describe the severity of a vulnerability using one or more quantitative scoring method.
 
-**scanner.result.[*].vulnerability.severity.type** string
+**scanner.result.[*].vulnerability.severity.method, required** string
 
-> > > > > The type describes the quantitative method used to calculate the associated.
+> > > > > The method describes the quantitative method used to calculate the associated severity score such as nvd, cvss and others.
 
-**scanner.result.[*].vulnerability.severity.score** string
+**scanner.result.[*].vulnerability.severity.score, required** string
 
 > > > > > This is a string representing the severity score based on the selected method.
 
-**scanner.result.[*].vulnerability.annotations** list
+**scanner.result.[*].vulnerability.annotations, optional** list
 
 > > > > > This is a list of key/value pairs where scanners can add additional custom information.
 
-**metadata.scanStartedOn, required** string (timestamp)
+**metadata.scanStartedOn, required** Timestamp
 
 > > The timestamp of when the scan started.
 
-**metadata.scanFinishedOn, required** string (timestamp)
+**metadata.scanFinishedOn, required** Timestamp
 
 > > The timestamp of when the scan completed.
 
@@ -110,54 +110,44 @@ The `predicate` contains a JSON-encoded data with the following fields:
 
 ```jsonc
 {
-  "_type": "https://in-toto.io/Statement/v0.1",
+  "_type": "https://in-toto.io/Statement/v1",
   "subject": [
     {
-      ...
+      "name": "foo.jar",
+      "digest": {"sha256": "fe4fe40ac7250263c5dbe1cf3138912f3f416140aa248637a60d65fe22c47da4"}
     }
   ],
   // Predicate:
-  "predicateType": "https://in-toto.io/attestation/vulns/attribute-report/v0.1",
+  "predicateType": "https://in-toto.io/attestation/vulns/v0.1",
   "predicate": {
     "invocation": {
       "parameters": [],
-      // [ "--format=json", "--skip-db-update" ]
-      "uri": "",
-      // https://github.com/developer-guy/alpine/actions/runs/1071875574
-      "event_id": "",
-      // 1071875574
-      "builder.id": ""
-      // GitHub Actions
+      "uri": "https://github.com/developer-guy/alpine/actions/runs/1071875574",
+      "event_id": "1071875574",
+      "builder.id": "GitHub Actions"
     },
     "scanner": {
-      "uri": "",
-      // pkg:github/aquasecurity/trivy@244fd47e07d1004f0aed9
-      "version": "",
-      // 0.19.2
+      "uri": "pkg:github/aquasecurity/trivy@244fd47e07d1004f0aed9",
+      "version": "0.19.2",
       "db": {
-        "uri": "",
-        // pkg:github/aquasecurity/trivy-db/commit/4c76bb580b2736d67751410fa4ab66d2b6b9b27d
-        "version": "",
-        // "v1-2021080612"
-        "lastUpdate": ""
-        // 2021-08-06T17:45:50.52Z
+        "uri": "pkg:github/aquasecurity/trivy-db/commit/4c76bb580b2736d67751410fa4ab66d2b6b9b27d",
+        "version": "v1-2021080612",
+        "lastUpdate": "2021-08-06T17:45:50.52Z"
       },
       "result": [
         {
          "id": "CVE-123",
          "severity": [
-          { "type": "nvd", "score": "medium"},
-          { "type": "cvss_score", "score", "5.2" }
+          { "method": "nvd", "score": "medium"},
+          { "method": "cvss_score", "score", "5.2" }
          ]
         },
         {...}
       ]
     },
     "metadata": {
-      "scanStartedOn": "",
-      // 2021-08-06T17:45:50.52Z
-      "scanFinishedOn": ""
-      // 2021-08-06T17:50:50.52Z
+      "scanStartedOn": "2021-08-06T17:45:50.52Z",
+      "scanFinishedOn": "2021-08-06T17:50:50.52Z"
     }
   }
 }
