@@ -1,6 +1,6 @@
 # Predicate type: Vulnerabilities
 
-Type URI: https://in-toto.io/attestation/vulns/attribute-report
+Type URI: https://in-toto.io/attestation/vulns
 
 Version: 0.1
 
@@ -8,9 +8,8 @@ Version: 0.1
 
 The definition of a vulnerability attestation type has been discussed in the past in [in-toto attestation](https://github.com/in-toto/attestation/issues/58) and [issue](https://github.com/sigstore/cosign/issues/442). However we need to identify two different purposes from these initial conversations:
 
-* The definition of a common format to represent the results of a vulnerability report.
-
-* The definition of a certain set of metadata fields that could help to consume these vulnerability attestations from the different scanning tools.
+-   The definition of a common format to represent the results of a vulnerability report.
+-   The definition of a certain set of metadata fields that could help to consume these vulnerability attestations from the different scanning tools.
 
 Obviously the first goal is quite challenging and requires a bigger community to agree upon a specific format. As a consequence, the following attestation type focuses on the definition of that common metadata which could enable the beginning of an exportable and manageable vulnerability attestation.
 
@@ -18,7 +17,7 @@ This document describes a vulnerability attestation type to represent vulnerabil
 
 ## Prerequisites
 
-The in-toto [attestation] framework and a [Vulnerability scanner tool].
+The in-toto [attestation] framework and a Vulnerability scanner tools such as [Grype](https://github.com/anchore/grype), [Trivy](https://github.com/aquasecurity/trivy) and others.
 
 ## Use cases
 
@@ -28,7 +27,7 @@ Information about the scanner used during the scanning is relevant to trust thes
 ## Model
 
 This is a predicate type that fits within the larger [Attestation] framework.
-The following model aims to provide a well defined list of fields so that consumers know how to start exchaging their scanner results.
+The following model aims to provide a well defined list of fields so that consumers know how to start exchanging their scanner results.
 
 This predicate model is inspired by [cosign vulnerability attestation](https://github.com/sigstore/cosign/blob/main/specs/COSIGN_VULN_ATTESTATION_SPEC.md).
 
@@ -43,7 +42,7 @@ The fields that make up this predicate type are:
 The `subject` contains whatever software artifacts are to be associated with this vulnerability report document.
 The `predicate` contains a JSON-encoded data with the following fields:
 
-**scanner**
+**scanner** object
 
 > There are lots of container image scanners such as Trivy, Grype, Clair, etc.
 > This field describes which scanner is used while performing a container image scan,
@@ -65,7 +64,7 @@ The `predicate` contains a JSON-encoded data with the following fields:
 
 > > > The version of the Vulnerability DB.
 
-**scanner.db.lastUpdate string (Timestamp), required**
+**scanner.db.lastUpdate, required** string (timestamp)
 
 > > > The timestamp of when the vulnerability DB was updated last time.
 
@@ -99,11 +98,11 @@ The `predicate` contains a JSON-encoded data with the following fields:
 
 > > > > > This is a list of key/value pairs where scanners can add additional custom information.
 
-**metadata.scanStartedOn string (Timestamp), required**
+**metadata.scanStartedOn, required** string (timestamp)
 
 > > The timestamp of when the scan started.
 
-**metadata.scanFinishedOn string (Timestamp), required**
+**metadata.scanFinishedOn, required** string (timestamp)
 
 > > The timestamp of when the scan completed.
 
@@ -169,5 +168,3 @@ The `predicate` contains a JSON-encoded data with the following fields:
 Not applicable for this initial version.
 
 [Attestation]: ../README.md
-
-
