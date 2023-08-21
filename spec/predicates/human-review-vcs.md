@@ -57,6 +57,7 @@ issuing the review.
     "predicateType": "http://in-toto.io/attestation/human-review/vcs/v0.1",
     "predicate": {
         "reviewers": ["<ResourceDescriptor>", ...],
+        "target": "<ResourceDescriptor>",
         "reviewLink": "<LINK TO REVIEW>",
         "reviewTime": "<TIMESTAMP>",
         "annotations": {...}
@@ -79,6 +80,12 @@ field enables scenarios where the attestation is issued and signed by the VCS
 review system. Each entry must include immutable information that is always
 mapped to the reviewer. The digest may be skipped in the ResourceDescriptor,
 using the name and URI fields to record the username and immutable ID.
+
+`target` _ResourceDescriptor_, _required_
+
+Records the target location for the proposed changeset. In Git repositories, the
+field must contain the base Git reference (i.e., the base branch) AND the
+current commit ID at the tip of that branch.
 
 `reviewLink` _URI_, _optional_
 
@@ -115,6 +122,12 @@ to record review system specific fields.
             "name": "lukpueh",
             "uri": "https://api.github.com/user/589324"
         }],
+        "target": {
+            "name": "refs/heads/develop",
+            "digest": {
+                "gitCommit": "330500b54433de4f6f9575676b67738b98ba5e54",
+            },
+        },
         "reviewLink": "https://github.com/in-toto/in-toto/pull/503#pullrequestreview-1341209941",
         "reviewTime": "2023-03-15T11:05:00Z",
         "annotations": {

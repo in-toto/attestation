@@ -12,9 +12,11 @@ option java_package = "io.github.intoto.attestation.predicates.human_review.vcs.
 message Review {
     repeated in_toto_attestation.v1.ResourceDescriptor reviewers = 1;
 
-    string review_link = 2;
+    in_toto_attestation.v1.ResourceDescriptor target = 2;
 
-    google.protobuf.Timestamp timestamp = 3;
+    string review_link = 3;
 
-    google.protobuf.Struct annotations = 4;
+    google.protobuf.Timestamp timestamp = 4;
+
+    google.protobuf.Struct annotations = 5;
 }
