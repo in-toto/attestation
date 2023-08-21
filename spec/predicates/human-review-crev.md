@@ -2,6 +2,10 @@
 
 Type URI: (tentative) https://in-toto.io/attestation/human-review/crev/v0.1
 
+Note: At the time of writing, the crev project uses a separate versioning
+scheme, with the current version being -1. In future, this predicate may adopt
+a URI associated with that project.
+
 Version: v0.1.0
 
 ## Purpose

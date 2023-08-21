@@ -18,7 +18,7 @@ message Reviewer {
 message Review {
     string result = 1;
 
-    google.protobuf.Timestamp timestamp = 2;
+    google.protobuf.Timestamp reviewTime = 2;
 
     Reviewer reviewer = 3;
 
