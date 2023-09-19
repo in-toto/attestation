@@ -2,40 +2,63 @@
 
 Version: v1.0
 
-An attestation bundle is a collection of multiple attestations in a single
+An attestation Bundle is a collection of multiple attestations in a single
 file. This allows attestations from multiple different points in the software
 supply chain (e.g. Provenance, Code Review, Test Result, vuln scan, ...) to
 be grouped together, allowing users to make decisions based on all available
 information.
 
-**NOTE**: The bundle is not authenticated as a whole. Instead each individual
-attestation is authenticated using [DSSE]. As such, an attacker might be able
-to _delete_ an attestation without being detected. Predicates that follow
-[the monotonic principle] should not have any issues with this behavior.
+**NOTE**: The Bundle is not authenticated as a whole. Instead each individual
+attestation is authenticated using signature schemes like [DSSE]. As such,
+an attacker might be able to _delete_ an attestation without being detected.
+Predicates that follow [the monotonic principle] should not have any issues
+with this behavior.
 
 ## Data structure
 
 Attestation Bundles use [JSON Lines] to store multiple attestations.
 
--   Each attestation within a bundle MAY have a different signing key,
+-   Each attestation within a Bundle MAY have a different signing key,
     `_type`, `subject`, and/or `predicateType`.
--   Each line SHOULD be an [Envelope]. Consumers MUST ignore unrecognized
-    lines.
+-   Each line within a Bundle SHOULD be an [Envelope].
+-   Each [Envelope] within a Bundle MAY use a different signature format,
+    but it MUST fit on a single JSON line.
+-   Consumers MUST ignore unrecognized lines.
 -   Consumers MUST ignore attestations with unrecognized keys, types,
     subjects, or predicates.
--   Processing of a bundle MUST NOT depend on the order of the attestations.
+-   Processing of a Bundle MUST NOT depend on the order of the attestations.
 
 ## File naming convention
 
 Bundles SHOULD use the suffix `.intoto.jsonl`.
 
-A bundle of attestations relevant for `<filename>` SHOULD be named
-`<filename>.intoto.jsonl`. Attestations in the bundle MAY have different
-subjects, but they SHOULD all be relevant to that file or its dependencies.
-For example, a package named `foo-1.2.3.tar.gz` with hash `abcd` that was
-built from git commit `1234` could have a bundle name
-`foo-1.2.3.tar.gz.intoto.jsonl` with two attestations, one with subject
-`abcd` and one with subject `1234`.
+<!-- @marcelamelara: This likely needs to be updated for ITE-10/11 -->
+
+-   A Bundle of attestations relevant for `<filename>` SHOULD be named
+    `<filename>.intoto.jsonl`.
+-   Attestations in the Bundle MAY have different subjects, but they SHOULD
+    all be relevant to that file or its dependencies.
+
+### Example
+
+A package named `foo-1.2.3.tar.gz` with hash `abcd` that was built from git
+commit `1234` could have a Bundle name `foo-1.2.3.tar.gz.intoto.jsonl` with
+two attestations, one with subject `abcd` and one with subject `1234`.
+
+## Storage convention
+
+The media type `application/vnd.in-toto.bundle` SHOULD be used to denote
+a Bundle in arbitrary storage systems.
+
+-   The encoding of the Bundle contents MAY be omitted from its media type
+    since Bundles MUST be encoded as JSON lines, and the encoding of
+    each attestation within the Bundle SHOULD be indicated at the [Envelope]
+    layer.
+-   The predicate type of individual attestations within the stored Bundle
+    SHOULD NOT be indicated in the media type for the Bundle, as this
+    information is not authenticated at the Bundle layer.
+-   To obtain predicate information that is authenticated, consumers MUST
+    download and parse each line in a Bundle separately.
 
 ## Example use case
 
@@ -62,7 +85,7 @@ places _both_ of these signed attestations in a new file named
 The CI/CD system then requests a third-party vulnerability scan on
 `fooly.apk`. The vulnerability scanner doesn't use in-toto Statements but
 instead uses their own custom `payloadType=application/vnd.novulz+cbor`,
-which they put in a DSSE envelope. This attestation indicates `fooly.apk`
+which they put in a [DSSE] envelope. This attestation indicates `fooly.apk`
 with hash `aaa...` has 0 critical vulnerabilities and 3 medium
 vulnerabilities.
 
