@@ -35,7 +35,7 @@ be used to denote an individual attestation in arbitrary storage systems.
     as faithful indicators of predicate type because this information is only
     authenticated at the [Statement] layer.
 -   To obtain predicate information that is authenticated, consumers MUST
-    parse the Envelope `payload`.
+    parse the Envelope's `payload`.
 
 ### Example
 
