@@ -49,9 +49,9 @@ issuing the review.
     "_type": "https://in-toto.io/Statement/v1",
     "subject": [
         {
-            "name": "<REPO>",
+            "name": "<REPOSITORY>",
             "digest": { "gitCommit": "<HASH>" },
-            "uri": "<LINK TO REPO>"
+            "uri": "<URI OF REPOSITORY>"
         },
     ],
     "predicateType": "http://in-toto.io/attestation/human-review/vcs/v0.1",
@@ -59,7 +59,7 @@ issuing the review.
         "reviewers": ["<ResourceDescriptor>", ...],
         "targetTip": "<ResourceDescriptor>",
         "mergeBase": "<ResourceDescriptor>",
-        "reviewLink": "<LINK TO REVIEW>",
+        "reviewLink": "<URI OF REVIEW>",
         "reviewTime": "<TIMESTAMP>",
         "annotations": {...}
     }
