@@ -24,12 +24,10 @@ our [vetting process], and may be of general interest:
 -   [SPDX]: SPDX-formatted BOM for software artifacts.
 -   [CycloneDX]: CycloneDX BOM for software artifacts.
 -   [Test Result]: A generic schema to express results of any type of tests.
--   [Human Review]: To describe findings of human reviews such as code reviews,
-    dependency audits, and more.
--   [VCS Code Review]: To describe code review approvals for review and version
-    control systems.
--   [Crev]: To describe community reviews as part of the Crev project for
-    software dependencies.
+-   [VCS Code Review]: Describes code review approvals done through version
+    control systems and platforms (e.g., GitHub or GitLab).
+-   [Crev]: Describes community reviews as part of the Crev project for software
+    dependencies.
 
 [CycloneDX]: https://cyclonedx.org/
 [Link]: link.md

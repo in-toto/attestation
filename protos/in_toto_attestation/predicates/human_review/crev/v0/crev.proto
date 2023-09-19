@@ -3,6 +3,7 @@ syntax = "proto3";
 package in_toto_attestation.predicates.human_review.crev.v0;
 
 import "google/protobuf/timestamp.proto";
+import "in_toto_attestation/v1/resource_descriptor.proto";
 
 option go_package = "github.com/in-toto/attestation/go/predicates/human_review/crev/v0";
 option java_package = "io.github.intoto.attestation.predicates.human_review.crev.v0";
@@ -16,9 +17,9 @@ message Reviewer {
 }
 
 message Review {
-    string result = 1;
+    string rating = 1;
 
-    google.protobuf.Timestamp reviewTime = 2;
+    google.protobuf.Timestamp date = 2;
 
     Reviewer reviewer = 3;
 
@@ -27,4 +28,6 @@ message Review {
     string understanding = 5;
 
     string comment = 6;
+
+    repeated in_toto_attestation.v1.ResourceDescriptor files = 7;
 }

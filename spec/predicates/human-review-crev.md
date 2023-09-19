@@ -12,21 +12,25 @@ Version: v0.1.0
 
 This attestation type is used to describe the results of human review of
 dependency source code. The format is based on the
-[crev project](https://github.com/crev-dev/crev).
+[crev project](https://github.com/crev-dev/crev), specifically the
+[package review proof](https://github.com/crev-dev/cargo-crev/blob/master/crev-lib/rc/doc/editing-package-review.md)
+defined in the [cargo-crev](https://github.com/crev-dev/cargo-crev)
+implementation.
 
 ## Use Cases
 
-As noted above, crev enables social review of popular open source software
-dependencies. A crev review includes information such as the thoroughness of
-the review, understanding of the source code, and a final rating.
+crev enables social review of popular open source software dependencies. A crev
+review includes information such as the thoroughness of the review,
+understanding of the source code, and a final rating. The ratings for these
+fields are self-identified by each individual reviewer.
 
 ## Model
 
 Most modern software have external dependencies. Dependency review is the
-process of reviewing and verifying the source code of a particular
-dependency, and can be performed by one or more of several actors in the supply
-chain. The developer importing a new dependency can perform the review or a
-dedicated security team can be tasked with it.
+process of reviewing and verifying the source code of a particular dependency,
+and can be performed by one or more actors in the supply chain. The developer
+importing a new dependency can perform the review or a dedicated security team
+can be tasked with it.
 
 ## Schema
 
@@ -36,16 +40,17 @@ dedicated security team can be tasked with it.
     "subject": [{...}],
     "predicateType": "https://in-toto.io/attestation/human-review/crev/v0.1",
     "predicate": {
-        "result": "positive|negative",
+        "rating": "strong|positive|neutral|negative|dangerous",
         "reviewer": {
             "idType": "crev",
             "id": "<ID>",
             "url": "<URL>"        
         },
-        "reviewTime": "<TIMESTAMP>",
-        "thoroughness": "high|medium|low",
-        "understanding": "high|medium|low",
-        "comment": "<STRING>"
+        "date": "<TIMESTAMP>",
+        "thoroughness": "high|medium|low|none",
+        "understanding": "high|medium|low|none",
+        "comment": "<STRING>",
+        "files": ["<ResourceDescriptor>", ...]
     }
 }
 ```
@@ -60,9 +65,10 @@ This predicate follows the
 The subject of this predicate type is a specific package and its version in some
 ecosystem.
 
-`result`, _enum_, _required_
+`rating`, _enum_, _required_
 
-Specifies if the overall rating of the dependency is `positive` or `negative`.
+Specifies the overall rating of the package. Must be one of `strong`,
+`positive`, `neutral`, `negative`, or `dangerous`.
 
 `reviewer` _object_, _required_
 
@@ -71,7 +77,7 @@ aspects, but the identity of the reviewer can also be mapped based on in-toto's
 functionary handling. `idType` is used to determine the contents of `reviewer`.
 The `url` is a reference to the reviewer's crev-proofs repository.
 
-`reviewTime` _Timestamp_, _required_
+`date` _Timestamp_, _required_
 
 Indicates time of review creation. `timestamp` in the original crev
 specification.
@@ -79,17 +85,21 @@ specification.
 `thoroughness` _enum_, _required_
 
 Describes how thorough the reviewer was. Must be set to one of `low`, `medium`,
-or `high`.
+`high`, or `none`.
 
 `understanding` _enum_, _required_
 
 Describes the reviewer's understanding of the dependency code. Must be set to
-one of `low`, `medium`, or `high`.
+one of `low`, `medium`, `high`, or `none`.
 
 `comment` _string_, _optional_
 
 Optional field with any other comments a reviewer may have about the
 dependency.
+
+`files` _array of ResourceDescriptor_, _optional_
+
+Optional field identifying the files in the package source reviewed.
 
 ## Example
 
@@ -112,13 +122,13 @@ be fetched from some repository, in this case the Python Packaging Index.
     ],
     "predicateType": "https://in-toto.io/attestation/human-review/crev/v0.1",
     "predicate": {
-        "result": "positive",
+        "rating": "positive",
         "reviewer": {
             "idType": "github",
             "id": "adityasaky",
             "url": "https://github.com/adityasaky/crev-proofs"
         },
-        "reviewTime": "2023-03-16T00:09:27Z",
+        "date": "2023-03-16T00:09:27Z",
         "thoroughness": "high",
         "understanding": "high",
         "comment": "This dependency is well written and can be used safely."
@@ -146,13 +156,13 @@ reviewed source.
     ],
     "predicateType": "https://in-toto.io/attestation/human-review/crev/v0.1",
     "predicate": {
-        "result": "positive",
+        "rating": "positive",
         "reviewer": {
             "idType": "github",
             "id": "adityasaky",
             "url": "https://github.com/adityasaky/crev-proofs"
         },
-        "reviewTime": "2023-03-16T00:09:27Z",
+        "date": "2023-03-16T00:09:27Z",
         "thoroughness": "high",
         "understanding": "high",
         "comment": "This dependency is well written and can be used safely."
