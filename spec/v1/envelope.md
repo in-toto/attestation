@@ -7,7 +7,9 @@ authentication and serialization.
 
 ## Schema
 
-The format and protocol are defined per [DSSE v1.0].
+The RECOMMENDED format and protocol for Envelopes are defined per [DSSE v1.0].
+Producers MAY use other signature methods and formats so long as they meet
+the [Bundle] data structure requirements.
 
 ## Fields
 
@@ -19,5 +21,29 @@ standard DSSE fields.
     specifying its schema.
 -   `payload` MUST be a base64-encoded JSON [Statement].
 
+## Storage convention
+
+The media type `application/vnd.in-toto.<predicate>+<sig>` SHOULD
+be used to denote an individual attestation in arbitrary storage systems.
+
+-   The `<predicate>` MUST match the [predicate specification name]
+    without the file extension. Predicate versioning is handled in the
+    [Statement] layer.
+-   The `<sig>` MUST be a succint alias that unambiguously identifies
+    the Envelope signature format.
+-   Consumers SHOULD NOT rely upon the media type for individual attestations
+    as faithful indicators of predicate type because this information is only
+    authenticated at the [Statement] layer.
+-   To obtain predicate information that is authenticated, consumers MUST
+    parse the Envelope `payload`.
+
+### Example
+
+The media type for a single DSSE-signed attestation containing an
+[SPDX predicate] SHOULD be `application/vnd.in-toto.spdx+dsse`.
+
+[Bundle]: bundle.md
 [DSSE v1.0]: https://github.com/secure-systems-lab/dsse/blob/v1.0.0/envelope.md
+[SPDX predicate]: ../predicates/spdx.md
 [Statement]: statement.md
+[predicate specification name]: ../predicates

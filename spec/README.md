@@ -24,12 +24,19 @@ The source of this diagram can be found [here](../images/envelope_relationships.
 The [validation model] provides pseudocode showing how these layers fit
 together. See the [documentation] for more background and examples.
 
+## Keywords
+
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
+"SHOULD NOT", "RECOMMENDED",  "MAY", and "OPTIONAL" in all documents under
+this specification are to be interpreted as described in [RFC 2119].
+
 [^1]: This is compatible with the [SLSA Attestation Model].
 
 [Binary Authorization]: https://cloud.google.com/binary-authorization
 [Bundle]: v1/bundle.md
 [Envelope]: v1/envelope.md
 [Predicate]: v1/predicate.md
+[RFC 2119]: https://www.rfc-editor.org/rfc/rfc2119
 [SLSA Attestation Model]: https://slsa.dev/attestation-model
 [Statement]: v1/statement.md
 [documentation]: ../docs
