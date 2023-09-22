@@ -9,7 +9,7 @@ be grouped together, allowing users to make decisions based on all available
 information.
 
 **NOTE**: The Bundle is not authenticated as a whole. Instead each individual
-attestation is authenticated using signature schemes like [DSSE]. As such,
+attestation is authenticated using signature formats like [DSSE]. As such,
 an attacker might be able to _delete_ an attestation without being detected.
 Predicates that follow [the monotonic principle] should not have any issues
 with this behavior.
@@ -31,8 +31,6 @@ Attestation Bundles use [JSON Lines] to store multiple attestations.
 ## File naming convention
 
 Bundles SHOULD use the suffix `.intoto.jsonl`.
-
-<!-- @marcelamelara: This likely needs to be updated for ITE-10/11 -->
 
 -   A Bundle of attestations relevant for `<filename>` SHOULD be named
     `<filename>.intoto.jsonl`.
