@@ -21,6 +21,17 @@ standard DSSE fields.
     specifying its schema.
 -   `payload` MUST be a base64-encoded JSON [Statement].
 
+## File naming convention
+
+Envelopes SHOULD use the suffix `.json`.
+
+-   An Envelope containing an attestation about a particular SW supply chain
+    step `<step-name>` SHOULD be named `<step-name>.json`.
+-   If multiple Envelopes are produced for the same step by different
+    [functionaries] uniquely identified by a public key, an Envelope name
+    SHOULD include the hash of the public key `<pubkey-hash>` of the signing
+    functionary: `<step-name>.<pubkey-hash>.json`.
+
 ## Storage convention
 
 The media type `application/vnd.in-toto.<predicate>+<sig>` SHOULD
@@ -46,4 +57,5 @@ The media type for a single DSSE-signed attestation containing an
 [DSSE v1.0]: https://github.com/secure-systems-lab/dsse/blob/v1.0.0/envelope.md
 [SPDX predicate]: ../predicates/spdx.md
 [Statement]: statement.md
+[functionaries]: https://github.com/in-toto/docs/blob/v1.0/in-toto-spec.md#212-functionaries
 [predicate specification name]: ../predicates
