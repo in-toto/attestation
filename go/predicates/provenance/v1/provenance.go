@@ -6,16 +6,19 @@ package v1
 import (
 	"errors"
 	"fmt"
+
+	"google.golang.org/protobuf/proto"
+	"google.golang.org/protobuf/types/known/structpb"
 )
 
 // all of the following errors apply to SLSA Build L1 and above
 var (
-	ErrBuilderRequired         = errors.New("RunDetails.Builder required")
-	ErrBuilderIdRequired       = errors.New("Builder.Id required")
-	ErrBuildDefinitionRequired = errors.New("BuildeDefinition required")
-	ErrBuildTypeRequired       = errors.New("BuildDefinition.BuildType required")
-	ErrExternalParamsRequired  = errors.New("BuildDefinition.ExternalParameters required")
-	ErrRunDetailsRequired      = errors.New("RunDetails required")
+	ErrBuilderRequired         = errors.New("runDetails.builder required")
+	ErrBuilderIdRequired       = errors.New("runDetails.builder.id required")
+	ErrBuildDefinitionRequired = errors.New("buildDefinition required")
+	ErrBuildTypeRequired       = errors.New("buildDefinition.buildType required")
+	ErrExternalParamsRequired  = errors.New("buildDefinition.externalParameters required")
+	ErrRunDetailsRequired      = errors.New("runDetails required")
 )
 
 func (m *BuildMetadata) Validate() error {
@@ -63,7 +66,8 @@ func (b *BuildDefinition) Validate() error {
 	}
 
 	// the externalParameters field is required for SLSA Build L1
-	if b.GetExternalParameters() == nil {
+	ext := b.GetExternalParameters()
+	if ext == nil || proto.Equal(ext, &structpb.Struct{}) {
 		return ErrExternalParamsRequired
 	}
 
@@ -83,7 +87,7 @@ func (b *BuildDefinition) Validate() error {
 func (r *RunDetails) Validate() error {
 	// the builder field is required for SLSA Build L1
 	builder := r.GetBuilder()
-	if builder == nil {
+	if builder == nil || proto.Equal(builder, &Builder{}) {
 		return ErrBuilderRequired
 	}
 
@@ -94,7 +98,7 @@ func (r *RunDetails) Validate() error {
 
 	// check the Metadata, if present
 	metadata := r.GetMetadata()
-	if metadata != nil {
+	if metadata != nil && !proto.Equal(metadata, &BuildMetadata{}) {
 		if err := metadata.Validate(); err != nil {
 			return fmt.Errorf("Invalid RunDetails.Metadata: %w", err)
 		}
@@ -116,7 +120,7 @@ func (r *RunDetails) Validate() error {
 func (p *Provenance) Validate() error {
 	// the buildDefinition field is required for SLSA Build L1
 	buildDef := p.GetBuildDefinition()
-	if buildDef == nil {
+	if buildDef == nil || proto.Equal(buildDef, &BuildDefinition{}) {
 		return ErrBuildDefinitionRequired
 	}
 
@@ -127,7 +131,7 @@ func (p *Provenance) Validate() error {
 
 	// the runDetails field is required for SLSA Build L1
 	runDetails := p.GetRunDetails()
-	if runDetails == nil {
+	if runDetails == nil || proto.Equal(runDetails, &RunDetails{}) {
 		return ErrRunDetailsRequired
 	}
 
