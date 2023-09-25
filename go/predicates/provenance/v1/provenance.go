@@ -18,6 +18,25 @@ var (
 	ErrRunDetailsRequired      = errors.New("RunDetails required")
 )
 
+func (m *BuildMetadata) Validate() error {
+	// check valid timestamps
+	s := m.GetStartedOn()
+	if s != nil {
+		if err := s.CheckValid(); err != nil {
+			return err
+		}
+	}
+
+	f := m.GetFinishedOn()
+	if f != nil {
+		if err := f.CheckValid(); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (b *Builder) Validate() error {
 	// the id field is required for SLSA Build L1
 	if b.GetId() == "" {
@@ -71,6 +90,14 @@ func (r *RunDetails) Validate() error {
 	// check the Builder
 	if err := builder.Validate(); err != nil {
 		return err
+	}
+
+	// check the Metadata, if present
+	metadata := r.GetMetadata()
+	if metadata != nil {
+		if err := metadata.Validate(); err != nil {
+			return fmt.Errorf("Invalid RunDetails.Metadata: %w", err)
+		}
 	}
 
 	// check that all byproducts are valid RDs
