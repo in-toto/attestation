@@ -10,20 +10,22 @@ information.
 
 **NOTE**: The Bundle is not authenticated as a whole. Instead each individual
 attestation is authenticated using signature formats like [DSSE]. As such,
-an attacker might be able to _delete_ an attestation without being detected.
-Predicates that follow [the monotonic principle] should not have any issues
-with this behavior.
+an attacker might be able to delete valid attestations, replay obsolete
+attestations, and/or inject invalid or irrelevant attestations in a Bundle
+without being detected.
+
+Our Bundle specification aims to reduce the risks of such attacks.
+In addition, predicates that follow the [monotonic principle] should not
+have any issues with delettion attacks.
 
 ## Data structure
 
 Attestation Bundles use [JSON Lines] to store multiple attestations.
 
--   Each attestation within a Bundle MAY have a different signing key,
+-   Each attestation within a Bundle MAY have different signing keys,
     `_type`, `subject`, and/or `predicateType`.
--   Each line within a Bundle SHOULD be an [Envelope].
--   Each [Envelope] within a Bundle MAY use a different signature format,
-    but it MUST fit on a single JSON line.
--   Consumers MUST ignore unrecognized lines.
+-   Each line within a Bundle SHOULD be an [Envelope]. Consumers MUST ignore
+    unrecognized lines.
 -   Consumers MUST ignore attestations with unrecognized keys, types,
     subjects, or predicates.
 -   Processing of a Bundle MUST NOT depend on the order of the attestations.
@@ -168,3 +170,4 @@ $ grep . ~/multiple.intoto.jsonl | jq
 [Envelope]: envelope.md
 [JSON Lines]: https://jsonlines.org/
 [SLSA Provenance]: https://slsa.dev/provenance
+[monotonic principle]: https://github.com/in-toto/attestation/tree/main/spec/v1#parsing-rules
