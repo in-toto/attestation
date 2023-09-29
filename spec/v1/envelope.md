@@ -7,9 +7,7 @@ authentication and serialization.
 
 ## Schema
 
-The RECOMMENDED format and protocol for Envelopes are defined per [DSSE v1.0].
-Producers MAY use other signature methods and formats so long as they meet
-the [Bundle] data structure requirements.
+The format and protocol are defined per [DSSE v1.0].
 
 ## Fields
 
@@ -23,39 +21,46 @@ standard DSSE fields.
 
 ## File naming convention
 
-Envelopes SHOULD use the suffix `.json`.
+If stored in a dedicated file by itself, and not as part of a [Bundle], an
+Envelope SHOULD use the suffix `.json`.
 
--   An Envelope containing an attestation about a particular SW supply chain
-    step `<step-name>` SHOULD be named `<step-name>.json`.
+-   For attestations intended for consumption by [in-toto-verify], an
+    Envelope containing an attestation about a particular software supply
+    chain step `<step-name>` SHOULD be named `<step-name>.json`.
+-   For other verifiers, or cases in which a step name cannot be easily
+    determined, the attestation producer and consumer MAY agree on an
+    arbitrary filename: `<env-name>.json`.
 -   If multiple Envelopes are produced for the same step by different
     [functionaries] uniquely identified by a public key, an Envelope name
-    SHOULD include the hash of the public key `<pubkey-hash>` of the signing
-    functionary: `<step-name>.<pubkey-hash>.json`.
+    SHOULD include the truncated [KEYID] of the public key `<keyid[0:8]>` of
+    the signing functionary: `<step/env-name>.<keyid[0:8]>.json`.
 
 ## Storage convention
 
-The media type `application/vnd.in-toto.<predicate>+<sig>` SHOULD
+The media type `application/vnd.in-toto.<predicate>+dsse` SHOULD
 be used to denote an individual attestation in arbitrary storage systems.
 
 -   The `<predicate>` MUST match the [predicate specification name]
     without the file extension. Predicate versioning is handled in the
     [Statement] layer.
--   The `<sig>` MUST be a succint alias that unambiguously identifies
-    the Envelope signature format.
 -   Consumers SHOULD NOT rely upon the media type for individual attestations
-    as faithful indicators of predicate type because this information is only
-    authenticated at the [Statement] layer.
+    as faithful indicators of predicate type. Consumer SHOULD only rely on the
+    `predicateType` field in the [Statement] layer.
 -   To obtain predicate information that is authenticated, consumers MUST
-    parse the Envelope's `payload`.
+    parse the Envelope's `payload`, and verify it against its `signatures`.
 
-### Example
+### Examples
 
-The media type for a single DSSE-signed attestation containing an
-[SPDX predicate] SHOULD be `application/vnd.in-toto.spdx+dsse`.
+Example media types for single DSSE-signed attestation predicates include:
+
+-   SLSA Provenance: `application/vnd.in-toto.provenance+dsse`
+-   SPDX: `application/vnd.in-toto.spdx+dsse`
+-   VSA: `application/vnd.in-toto.vsa+dsse`
 
 [Bundle]: bundle.md
 [DSSE v1.0]: https://github.com/secure-systems-lab/dsse/blob/v1.0.0/envelope.md
-[SPDX predicate]: ../predicates/spdx.md
+[KEYID]: https://github.com/in-toto/docs/blob/v1.0/in-toto-spec.md#421-key-formats
 [Statement]: statement.md
+[in-toto-verify]: https://github.com/in-toto/in-toto#verification
 [functionaries]: https://github.com/in-toto/docs/blob/v1.0/in-toto-spec.md#212-functionaries
 [predicate specification name]: ../predicates
