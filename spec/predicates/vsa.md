@@ -1,11 +1,11 @@
 # Predicate type: SLSA Verification Summary (VSA)
 
-Type URI: https://slsa.dev/verification_summary/v0.2
+Type URI: https://slsa.dev/verification_summary/v1
 
-Version: 0.2
+Version: 1.0
 
 ## Purpose
 
 Records a SLSA verification decision about an artifact.
 
-For details please see https://slsa.dev/verification_summary/v0.2.
+For more details, please see https://slsa.dev/spec/v1.0/verification_summary
