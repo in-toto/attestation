@@ -16,7 +16,7 @@ without being detected.
 
 Our Bundle specification aims to reduce the risks of such attacks.
 In addition, predicates that follow the [monotonic principle] should not
-have any issues with delettion attacks.
+have any issues with deletion attacks.
 
 ## Data structure
 
