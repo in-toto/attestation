@@ -50,10 +50,9 @@ two attestations, one with subject `abcd` and one with subject `1234`.
 The media type `application/vnd.in-toto.bundle` SHOULD be used to denote
 a Bundle in arbitrary storage systems.
 
--   The encoding of the Bundle contents MAY be omitted from its media type
-    since Bundles MUST be encoded as JSON lines, and the encoding of
-    each attestation within the Bundle SHOULD be indicated at the [Envelope]
-    layer.
+-   The media type for a Bundles does not indicate an encoding since Bundles
+    MUST be encoded as JSON lines, and the encoding of each attestation
+    within the Bundle SHOULD be indicated at the [Envelope] layer.
 -   The predicate type of individual attestations within the stored Bundle
     SHOULD NOT be indicated in the media type for the Bundle, as this
     information is not authenticated at the Bundle layer.
