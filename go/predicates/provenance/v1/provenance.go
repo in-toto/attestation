@@ -26,14 +26,14 @@ func (m *BuildMetadata) Validate() error {
 	s := m.GetStartedOn()
 	if s != nil {
 		if err := s.CheckValid(); err != nil {
-			return err
+			return fmt.Errorf("buildMetadata.startedOn error: %w", err)
 		}
 	}
 
 	f := m.GetFinishedOn()
 	if f != nil {
 		if err := f.CheckValid(); err != nil {
-			return err
+			return fmt.Errorf("buildMetadata.finishedOn error: %w", err)
 		}
 	}
 
@@ -48,11 +48,9 @@ func (b *Builder) Validate() error {
 
 	// check that all builderDependencies are valid RDs
 	builderDeps := b.GetBuilderDependencies()
-	if len(builderDeps) > 0 {
-		for i, rd := range builderDeps {
-			if err := rd.Validate(); err != nil {
-				return fmt.Errorf("Invalid Builder.BuilderDependencies[%d]: %w", i, err)
-			}
+	for i, rd := range builderDeps {
+		if err := rd.Validate(); err != nil {
+			return fmt.Errorf("Invalid Builder.BuilderDependencies[%d]: %w", i, err)
 		}
 	}
 
@@ -73,11 +71,9 @@ func (b *BuildDefinition) Validate() error {
 
 	// check that all resolvedDependencies are valid RDs
 	resolvedDeps := b.GetResolvedDependencies()
-	if len(resolvedDeps) > 0 {
-		for i, rd := range resolvedDeps {
-			if err := rd.Validate(); err != nil {
-				return fmt.Errorf("Invalid BuildDefinition.ResolvedDependencies[%d]: %w", i, err)
-			}
+	for i, rd := range resolvedDeps {
+		if err := rd.Validate(); err != nil {
+			return fmt.Errorf("Invalid BuildDefinition.ResolvedDependencies[%d]: %w", i, err)
 		}
 	}
 
@@ -93,7 +89,7 @@ func (r *RunDetails) Validate() error {
 
 	// check the Builder
 	if err := builder.Validate(); err != nil {
-		return err
+		return fmt.Errorf("runDetails.builder error: %w", err)
 	}
 
 	// check the Metadata, if present
@@ -106,11 +102,9 @@ func (r *RunDetails) Validate() error {
 
 	// check that all byproducts are valid RDs
 	byproducts := r.GetByproducts()
-	if len(byproducts) > 0 {
-		for i, rd := range byproducts {
-			if err := rd.Validate(); err != nil {
-				return fmt.Errorf("Invalid RunDetails.Byproducts[%d]: %w", i, err)
-			}
+	for i, rd := range byproducts {
+		if err := rd.Validate(); err != nil {
+			return fmt.Errorf("Invalid RunDetails.Byproducts[%d]: %w", i, err)
 		}
 	}
 
@@ -126,7 +120,7 @@ func (p *Provenance) Validate() error {
 
 	// check the BuildDefinition
 	if err := buildDef.Validate(); err != nil {
-		return err
+		return fmt.Errorf("provenance.buildDefinition error: %w", err)
 	}
 
 	// the runDetails field is required for SLSA Build L1
@@ -137,7 +131,7 @@ func (p *Provenance) Validate() error {
 
 	// check the RunDetails
 	if err := runDetails.Validate(); err != nil {
-		return err
+		return fmt.Errorf("provenance.runDetails error: %w", err)
 	}
 
 	return nil
