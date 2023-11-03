@@ -2,7 +2,7 @@
 
 Type URI: https://cyclonedx.org/bom
 
-Version: 1.4
+Version: 1.5
 
 ## Purpose
 
@@ -48,10 +48,10 @@ this CycloneDX BOM document.
   "subject": [{ ... }],
 
   // Predicate:
-  "predicateType": "https://cyclonedx.org/bom/v1.4",
+  "predicateType": "https://cyclonedx.org/docs/1.5/json/",
   "predicate": {
     "bomFormat": "CycloneDX",
-    "specVersion": "1.4",
+    "specVersion": "1.5",
     "serialNumber": "urn:uuid:3e671687-395b-41f5-a30f-a58921a69b79",
     "version": 1,
     "components": [
@@ -73,5 +73,5 @@ Not applicable for this initial version.
 [Attestation]: ../README.md
 [CycloneDX standard]: https://cyclonedx.org/specification/overview
 [CycloneDX Capabilities]: https://cyclonedx.org/capabilities/
-[CycloneDX Specification]: https://github.com/CycloneDX/specification/tree/1.4/schema
+[CycloneDX Specification]: https://github.com/CycloneDX/specification/tree/1.5/schema
 [CycloneDX BOM generation tool]: https://cyclonedx.org/tool-center

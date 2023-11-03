@@ -1,0 +1,3 @@
+[submodule "cyclonedx"]
+	path = protos/cyclonedx
+	url = https://github.com/CycloneDX/specification
