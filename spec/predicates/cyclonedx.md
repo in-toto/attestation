@@ -1,7 +1,7 @@
 # Predicate type: CycloneDX
 
-Type URI: https://cyclonedx.org/bom
-
+Type URI: https://cyclonedx.org/docs/1.5/json/
+Name: cyclonedx
 Version: 1.5
 
 ## Purpose
