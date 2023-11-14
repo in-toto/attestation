@@ -1,4 +1,4 @@
-# Predicate type: Verification Summary Attestation (VSA)
+# Predicate type: Verification Summary
 
 Type URI: https://in-toto.io/attestation/verification_summary/v1
 
@@ -8,8 +8,8 @@ Version: 1.1
 
 Verification summary attestations communicate that an artifact has been verified
 against some policy and details about that verification. Such details may
-include, but are not limited to, what SLSA level the artifact and/or its
-dependencies were verified to meet.
+include, but are not limited to, what [SLSA](https://slsa.dev) level the
+artifact and/or its dependencies were verified to meet.
 
 ## Use Cases
 
@@ -62,7 +62,7 @@ wishing to establish minimum requirements on dependencies may use
 }],
 
 // Predicate
-"predicateType": "https://slsa.dev/verification_summary/v1",
+"predicateType": "https://in-toto.io/attestation/verification_summary/v1",
 "predicate": {
   "verifier": {
     "id": "<URI>",
@@ -72,7 +72,7 @@ wishing to establish minimum requirements on dependencies may use
     }
   },
   "timeVerified": <TIMESTAMP>,
-  "resourceUri": <artifact-URI-in-request>,
+  "verifiedUri": <artifact-URI-in-request>,
   "policy": {
     "uri": "<URI>",
     "digest": { /* DigestSet */ }
@@ -91,7 +91,6 @@ wishing to establish minimum requirements on dependencies may use
     "<String>": <Int>,
     ...
   },
-  "slsaVersion": "<MAJOR>.<MINOR>",
 }
 ```
 
@@ -177,33 +176,16 @@ of the other top-level fields, such as `subject`, see [Statement]._
 `verifiedProperties` _array (_string), required_
 
 > Indicates the properties verified for the artifact (and not
-> its dependencies), or "FAILED" if policy verification failed.
->
-> If including SLSA levels, users MUST NOT include more than one level per SLSA
-> track. Note that each SLSA level implies all levels below it (e.g.
-> SLSA_BUILD_LEVEL_3 implies SLSA_BUILD_LEVEL_2 and SLSA_BUILD_LEVEL_1), so
-> there is no need to include more than one level per track.
+> its dependencies).
 
 <a id="dependencyProperties"></a>
 `dependencyProperties` _object, optional_
 
 > A count of the dependencies verified to have each property.
 >
-> Map from _string to the number of the artifact's _transitive_ dependencies
+> Map from _string_ to the number of the artifact's _transitive_ dependencies
 > that were verified at the indicated level. Absence of a given value
 >  MUST be interpreted as reporting _0_ dependencies with that value.
->
-> If including SLSA levels, users MUST count each dependency only once per SLSA
-> track, at the highest level verified. For example, if a dependency meets
-> SLSA_BUILD_LEVEL_2, you include it with the count for SLSA_BUILD_LEVEL_2 but
-> not the count for SLSA_BUILD_LEVEL_1.
-
-<a id="slsaVersion"></a>
-`slsaVersion` _string, optional_
-
-> Indicates the version of the SLSA specification that the verifier used, in the
-> form `<MAJOR>.<MINOR>`. Example: `1.0`. If unset, the default is an
-> unspecified minor version of `1.x`.
 
 ## Example
 
@@ -245,11 +227,107 @@ WARNING: This is just for demonstration purposes.
     "SLSA_BUILD_LEVEL_2": 7,
     "SLSA_BUILD_LEVEL_1": 1,
   },
-  "slsaVersion": "1.0"
 }
 ```
 
 <div id="verificationresult">
+
+## How to verify
+
+VSA consumers use VSAs to accomplish goals based on delegated trust. We call the
+process of establishing a VSA's authenticity and determining whether it meets
+the consumer's goals 'verification'. Goals differ, as do levels of confidence
+in VSA producers, so the verification procedure changes to suit its context.
+However, there are certain steps that most verification procedures have in
+common.
+
+Verification MUST include the following steps:
+
+1.  Verify the signature on the VSA envelope using the preconfigured roots of
+    trust. This step ensures that the VSA was produced by a trusted producer
+    and that it hasn't been tampered with.
+
+2.  Verify the statement's `subject` matches the digest of the artifact in
+    question. This step ensures that the VSA pertains to the intended artifact.
+
+3.  Verify that the `predicateType` is
+    `https://in-toto.io/attestation/verification_summary/v1`. This step ensures
+    that the in-toto predicate is using this version of the VSA format.
+
+4.  Verify that the `verifier` matches the public key (or equivalent) used to
+    verify the signature in step 1. This step identifies the VSA producer in
+    cases where their identity is not implicitly revealed in step 1.
+
+5.  Verify that the value for `resourceUri` in the VSA matches the expected
+    value. This step ensures that the consumer is using the VSA for the
+    producer's intended purpose.
+
+6.  Verify that the value for `verificationResult` is `PASSED`. This step
+    ensures the artifact is suitable for the consumer's purposes.
+
+7.  Verify that `verifiedLevels` contains the expected value. This step ensures
+    that the artifact is suitable for the consumer's purposes.
+
+Verification MAY additionally contain the following step:
+
+1.  (Optional) Verify additional fields required to determine whether the VSA
+    meets your goal.
+
+Verification mitigates different threats depending on the VSA's contents and the
+verification procudure.
+
+IMPORTANT: A VSA does not protect against compromise of the verifier, such as by
+a malicious insider. Instead, VSA consumers SHOULD carefully consider which
+verifiers they add to their roots of trust.
+
+### Examples
+
+1.  Suppose consumer C wants to delegate to verifier V the decision for whether
+    to accept artifact A as resource R. Consumer C verifies that:
+
+    -   The signature on the VSA envelope using V's public signing key from their
+      preconfigured root of trust.
+
+    -   `subject` is A.
+
+    -   `predicateType` is `https://in-toto.io/attestation/verification_summary/v1`.
+
+    -   `verifier.id` is V.
+
+    -   `resourceUri` is R.
+
+    -   `verificationResult` is `PASSED`.
+
+    -   `verifiedlevels` contains `SLSA_BUILD_LEVEL_UNEVALUATED`.
+
+    Note: This example is analogous to traditional code signing. The expected
+    value for `verifiedProperties` is arbitrary but prenegotiated by the
+    producer and the consumer. The consumer does not need to check additional
+    fields, as C fully delegates the decision to V.
+
+2.  Suppose consumer C wants to enforce the rule "Artifact A at resource R must
+    have a passing VSA from verifier V showing it meets SLSA Build Level 2+."
+    Consumer C verifies that:
+
+    -   The signature on the VSA envelope using V's public signing key from their
+      preconfigured root of trust.
+
+    -   `subject` is A.
+
+    -   `predicateType` is `https://in-toto.io/attestation/verification_summary/v1`.
+
+    -   `verifier.id` is V.
+
+    -   `resourceUri` is R.
+
+    -   `verificationResult` is `PASSED`.
+
+    -   `verifiedProperties` is `SLSA_BUILD_LEVEL_2` or `SLSA_BUILD_LEVEL_3`.
+
+    Note: In this example, verifying the VSA mitigates the same threats as
+    verifying the artifact's SLSA provenance. See
+    [Verifying artifacts](https://slsa.dev/spec/v1.0/verifying-artifacts) for
+    details about which threats are addressed by verifying each SLSA level.
 
 ## Change history
 
@@ -257,6 +335,7 @@ WARNING: This is just for demonstration purposes.
     -   Added optional `verifier.version` field to record verification tools.
     -   Added Verification section with examples.
     -   Made `timeVerified` optional.
+    -   Moved from SLSA specification to in-toto attestation framework.
 -   1.0:
     -   Replaced `materials` with `resolvedDependencies`.
     -   Relaxed `VerificationResult` to allow other values.
@@ -267,7 +346,7 @@ WARNING: This is just for demonstration purposes.
     -   Added optional `input_attestations` field.
 -   0.1: Initial version.
 
-[SLSA Provenance]: /provenance
+[SLSA Provenance]: https://slsa.dev/spec/v1.0/provenance
 [DigestSet]: https://github.com/in-toto/attestation/blob/7aefca35a0f74a6e0cb397a8c4a76558f54de571/spec/v1/digest_set.md
 [ResourceURI]: https://github.com/in-toto/attestation/blob/7aefca35a0f74a6e0cb397a8c4a76558f54de571/spec/v1/field_types.md#resourceuri
 [ResourceDescriptor]: https://github.com/in-toto/attestation/blob/7aefca35a0f74a6e0cb397a8c4a76558f54de571/spec/v1/resource_descriptor.md
