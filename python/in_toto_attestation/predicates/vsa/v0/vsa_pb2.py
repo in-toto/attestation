@@ -20,15 +20,14 @@ _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'in_toto_attestation.predicates.vsa.v0.vsa_pb2', _globals)
 if _descriptor._USE_C_DESCRIPTORS == False:
-
-  DESCRIPTOR._options = None
-  DESCRIPTOR._serialized_options = b'\n.io.github.intoto.attestation.predicates.vsa.v0Z3github.com/in-toto/attestation/go/predicates/vsa/v0'
-  _VERIFICATIONSUMMARY_POLICY_DIGESTENTRY._options = None
-  _VERIFICATIONSUMMARY_POLICY_DIGESTENTRY._serialized_options = b'8\001'
-  _VERIFICATIONSUMMARY_INPUTATTESTATION_DIGESTENTRY._options = None
-  _VERIFICATIONSUMMARY_INPUTATTESTATION_DIGESTENTRY._serialized_options = b'8\001'
-  _VERIFICATIONSUMMARY_DEPENDENCYLEVELSENTRY._options = None
-  _VERIFICATIONSUMMARY_DEPENDENCYLEVELSENTRY._serialized_options = b'8\001'
+  _globals['DESCRIPTOR']._options = None
+  _globals['DESCRIPTOR']._serialized_options = b'\n.io.github.intoto.attestation.predicates.vsa.v0Z3github.com/in-toto/attestation/go/predicates/vsa/v0'
+  _globals['_VERIFICATIONSUMMARY_POLICY_DIGESTENTRY']._options = None
+  _globals['_VERIFICATIONSUMMARY_POLICY_DIGESTENTRY']._serialized_options = b'8\001'
+  _globals['_VERIFICATIONSUMMARY_INPUTATTESTATION_DIGESTENTRY']._options = None
+  _globals['_VERIFICATIONSUMMARY_INPUTATTESTATION_DIGESTENTRY']._serialized_options = b'8\001'
+  _globals['_VERIFICATIONSUMMARY_DEPENDENCYLEVELSENTRY']._options = None
+  _globals['_VERIFICATIONSUMMARY_DEPENDENCYLEVELSENTRY']._serialized_options = b'8\001'
   _globals['_VERIFICATIONSUMMARY']._serialized_start=124
   _globals['_VERIFICATIONSUMMARY']._serialized_end=1189
   _globals['_VERIFICATIONSUMMARY_VERIFIER']._serialized_start=758
