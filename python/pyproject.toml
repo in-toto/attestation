@@ -8,12 +8,7 @@ description = "Python bindings for the in-toto Attestation Framework"
 readme = "README.md"
 license = "Apache-2.0"
 requires-python = "~=3.7"
-keywords = [
-    "security",
-    "software supply chain",
-    "in-toto",
-    "slsa"
-]
+keywords = ["security", "software supply chain", "in-toto", "slsa"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
@@ -40,10 +35,13 @@ dynamic = ["version"]
 Homepage = "https://in-toto.io"
 Source = "https://github.com/in-toto/attestation"
 
+[project.optional-dependencies]
+test = ["pytest", "pytest-cov", "coverage[toml]"]
+lint = ["mypy", "ruff"]
+dev = ["build", "in-toto-attestation[test,lint]"]
+
 [tool.hatch.version]
 path = "in_toto_attestation/__init__.py"
 
 [tool.hatch.build.targets.sdist]
-include = [
-    "/in_toto_attestation",
-]
+include = ["/in_toto_attestation"]
