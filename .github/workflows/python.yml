@@ -25,7 +25,7 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
       - name: test
-        run: make test INSTALL_EXTRA=test
+        run: make -C python test INSTALL_EXTRA=test
 
   lint:
     runs-on: ubuntu-latest
@@ -35,4 +35,4 @@ jobs:
         with:
           python-version: "3.x"
       - name: lint
-        run: make lint INSTALL_EXTRA=lint
+        run: make -C python lint INSTALL_EXTRA=lint
