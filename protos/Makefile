@@ -5,6 +5,7 @@ go:
 # Creates the python libs in the python/ directory.
 python:
 	protoc --python_out=../python $(shell find ./in_toto_attestation -name "*.proto")
+	make -C ../python reformat
 
 # Creates the java libs in the java/ directory.
 java:
