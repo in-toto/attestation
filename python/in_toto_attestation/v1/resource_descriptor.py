@@ -1,5 +1,7 @@
 #  Wrapper class for in-toto attestation ResourceDescriptor protos.
 
+from __future__ import annotations
+
 import json
 
 import google.protobuf.json_format as pb_json
