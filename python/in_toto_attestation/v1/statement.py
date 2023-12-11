@@ -8,14 +8,14 @@ STATEMENT_TYPE_URI = "https://in-toto.io/Statement/v1"
 
 class Statement:
     def __init__(self, subjects: list, predicate_type: str, predicate: dict) -> None:
-        self.pb = spb.Statement()
+        self.pb = spb.Statement()  # type: ignore[attr-defined]
         self.pb.type = STATEMENT_TYPE_URI
         self.pb.subject.extend(subjects)
         self.pb.predicate_type = predicate_type
         self.pb.predicate.update(predicate)
 
     @staticmethod
-    def copy_from_pb(proto: spb.Statement) -> "Statement":
+    def copy_from_pb(proto: spb.Statement) -> "Statement":  # type: ignore[name-defined]
         stmt = Statement([], "", {})
         stmt.pb.CopyFrom(proto)
         return stmt
