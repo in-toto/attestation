@@ -148,6 +148,7 @@ public final class LinkOuterClass {
               io.github.intoto.attestation.predicates.link.v0.LinkOuterClass.Link.class, io.github.intoto.attestation.predicates.link.v0.LinkOuterClass.Link.Builder.class);
     }
 
+    private int bitField0_;
     public static final int NAME_FIELD_NUMBER = 1;
     @SuppressWarnings("serial")
     private volatile java.lang.Object name_ = "";
@@ -273,7 +274,7 @@ public final class LinkOuterClass {
      */
     @java.lang.Override
     public boolean hasByproducts() {
-      return byproducts_ != null;
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>.google.protobuf.Struct byproducts = 4;</code>
@@ -299,7 +300,7 @@ public final class LinkOuterClass {
      */
     @java.lang.Override
     public boolean hasEnvironment() {
-      return environment_ != null;
+      return ((bitField0_ & 0x00000002) != 0);
     }
     /**
      * <code>.google.protobuf.Struct environment = 5;</code>
@@ -340,10 +341,10 @@ public final class LinkOuterClass {
       for (int i = 0; i < materials_.size(); i++) {
         output.writeMessage(3, materials_.get(i));
       }
-      if (byproducts_ != null) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeMessage(4, getByproducts());
       }
-      if (environment_ != null) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         output.writeMessage(5, getEnvironment());
       }
       getUnknownFields().writeTo(output);
@@ -370,11 +371,11 @@ public final class LinkOuterClass {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(3, materials_.get(i));
       }
-      if (byproducts_ != null) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(4, getByproducts());
       }
-      if (environment_ != null) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(5, getEnvironment());
       }
@@ -557,13 +558,21 @@ public final class LinkOuterClass {
 
       // Construct using io.github.intoto.attestation.predicates.link.v0.LinkOuterClass.Link.newBuilder()
       private Builder() {
-
+        maybeForceBuilderInitialization();
       }
 
       private Builder(
           com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
-
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+          getMaterialsFieldBuilder();
+          getByproductsFieldBuilder();
+          getEnvironmentFieldBuilder();
+        }
       }
       @java.lang.Override
       public Builder clear() {
@@ -642,16 +651,20 @@ public final class LinkOuterClass {
           command_.makeImmutable();
           result.command_ = command_;
         }
+        int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000008) != 0)) {
           result.byproducts_ = byproductsBuilder_ == null
               ? byproducts_
               : byproductsBuilder_.build();
+          to_bitField0_ |= 0x00000001;
         }
         if (((from_bitField0_ & 0x00000010) != 0)) {
           result.environment_ = environmentBuilder_ == null
               ? environment_
               : environmentBuilder_.build();
+          to_bitField0_ |= 0x00000002;
         }
+        result.bitField0_ |= to_bitField0_;
       }
 
       @java.lang.Override
@@ -1315,8 +1328,10 @@ public final class LinkOuterClass {
         } else {
           byproductsBuilder_.mergeFrom(value);
         }
-        bitField0_ |= 0x00000008;
-        onChanged();
+        if (byproducts_ != null) {
+          bitField0_ |= 0x00000008;
+          onChanged();
+        }
         return this;
       }
       /**
@@ -1434,8 +1449,10 @@ public final class LinkOuterClass {
         } else {
           environmentBuilder_.mergeFrom(value);
         }
-        bitField0_ |= 0x00000010;
-        onChanged();
+        if (environment_ != null) {
+          bitField0_ |= 0x00000010;
+          onChanged();
+        }
         return this;
       }
       /**

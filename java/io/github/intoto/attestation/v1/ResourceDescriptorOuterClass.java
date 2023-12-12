@@ -206,6 +206,7 @@ java.lang.String defaultValue);
               io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptor.class, io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptor.Builder.class);
     }
 
+    private int bitField0_;
     public static final int NAME_FIELD_NUMBER = 1;
     @SuppressWarnings("serial")
     private volatile java.lang.Object name_ = "";
@@ -469,7 +470,7 @@ java.lang.String defaultValue) {
      */
     @java.lang.Override
     public boolean hasAnnotations() {
-      return annotations_ != null;
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <pre>
@@ -540,7 +541,7 @@ java.lang.String defaultValue) {
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(mediaType_)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 6, mediaType_);
       }
-      if (annotations_ != null) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeMessage(7, getAnnotations());
       }
       getUnknownFields().writeTo(output);
@@ -578,7 +579,7 @@ java.lang.String defaultValue) {
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(mediaType_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, mediaType_);
       }
-      if (annotations_ != null) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(7, getAnnotations());
       }
@@ -790,13 +791,19 @@ java.lang.String defaultValue) {
 
       // Construct using io.github.intoto.attestation.v1.ResourceDescriptorOuterClass.ResourceDescriptor.newBuilder()
       private Builder() {
-
+        maybeForceBuilderInitialization();
       }
 
       private Builder(
           com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
-
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+          getAnnotationsFieldBuilder();
+        }
       }
       @java.lang.Override
       public Builder clear() {
@@ -865,11 +872,14 @@ java.lang.String defaultValue) {
         if (((from_bitField0_ & 0x00000020) != 0)) {
           result.mediaType_ = mediaType_;
         }
+        int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000040) != 0)) {
           result.annotations_ = annotationsBuilder_ == null
               ? annotations_
               : annotationsBuilder_.build();
+          to_bitField0_ |= 0x00000001;
         }
+        result.bitField0_ |= to_bitField0_;
       }
 
       @java.lang.Override
@@ -1587,8 +1597,10 @@ java.lang.String defaultValue) {
         } else {
           annotationsBuilder_.mergeFrom(value);
         }
-        bitField0_ |= 0x00000040;
-        onChanged();
+        if (annotations_ != null) {
+          bitField0_ |= 0x00000040;
+          onChanged();
+        }
         return this;
       }
       /**
