@@ -19,7 +19,7 @@ jobs:
       - name: Install protoc
         uses: arduino/setup-protoc@a8b67ba40b37d35169e222f3bb352603327985b6
         with:
-          version: '23.x'
+          version: '24.x'
       - name: Install Go
         uses: actions/setup-go@0c52d547c9bc32b1aa3301fd7a9cb496313a4491
         with:
