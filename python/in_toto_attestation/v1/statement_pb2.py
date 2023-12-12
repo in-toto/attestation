@@ -27,8 +27,12 @@ _builder.BuildTopDescriptorsAndMessages(
     DESCRIPTOR, "in_toto_attestation.v1.statement_pb2", _globals
 )
 if _descriptor._USE_C_DESCRIPTORS == False:
-  _globals['DESCRIPTOR']._options = None
-  _globals['DESCRIPTOR']._serialized_options = b'\n\037io.github.intoto.attestation.v1Z$github.com/in-toto/attestation/go/v1'
-  _globals['_STATEMENT']._serialized_start=147
-  _globals['_STATEMENT']._serialized_end=308
+    _globals["DESCRIPTOR"]._options = None
+    _globals[
+        "DESCRIPTOR"
+    ]._serialized_options = (
+        b"\n\037io.github.intoto.attestation.v1Z$github.com/in-toto/attestation/go/v1"
+    )
+    _globals["_STATEMENT"]._serialized_start = 147
+    _globals["_STATEMENT"]._serialized_end = 308
 # @@protoc_insertion_point(module_scope)

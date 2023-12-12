@@ -28,20 +28,22 @@ _builder.BuildTopDescriptorsAndMessages(
     DESCRIPTOR, "in_toto_attestation.predicates.provenance.v1.provenance_pb2", _globals
 )
 if _descriptor._USE_C_DESCRIPTORS == False:
-  _globals['DESCRIPTOR']._options = None
-  _globals['DESCRIPTOR']._serialized_options = b'\n5io.github.intoto.attestation.predicates.provenance.v1Z:github.com/in-toto/attestation/go/predicates/provenance/v1'
-  _globals['_BUILDER_VERSIONENTRY']._options = None
-  _globals['_BUILDER_VERSIONENTRY']._serialized_options = b'8\001'
-  _globals['_PROVENANCE']._serialized_start=225
-  _globals['_PROVENANCE']._serialized_end=405
-  _globals['_BUILDDEFINITION']._serialized_start=408
-  _globals['_BUILDDEFINITION']._serialized_end=628
-  _globals['_RUNDETAILS']._serialized_start=631
-  _globals['_RUNDETAILS']._serialized_end=858
-  _globals['_BUILDER']._serialized_start=861
-  _globals['_BUILDER']._serialized_end=1089
-  _globals['_BUILDER_VERSIONENTRY']._serialized_start=1043
-  _globals['_BUILDER_VERSIONENTRY']._serialized_end=1089
-  _globals['_BUILDMETADATA']._serialized_start=1092
-  _globals['_BUILDMETADATA']._serialized_end=1227
+    _globals["DESCRIPTOR"]._options = None
+    _globals[
+        "DESCRIPTOR"
+    ]._serialized_options = b"\n5io.github.intoto.attestation.predicates.provenance.v1Z:github.com/in-toto/attestation/go/predicates/provenance/v1"
+    _globals["_BUILDER_VERSIONENTRY"]._options = None
+    _globals["_BUILDER_VERSIONENTRY"]._serialized_options = b"8\001"
+    _globals["_PROVENANCE"]._serialized_start = 225
+    _globals["_PROVENANCE"]._serialized_end = 405
+    _globals["_BUILDDEFINITION"]._serialized_start = 408
+    _globals["_BUILDDEFINITION"]._serialized_end = 628
+    _globals["_RUNDETAILS"]._serialized_start = 631
+    _globals["_RUNDETAILS"]._serialized_end = 858
+    _globals["_BUILDER"]._serialized_start = 861
+    _globals["_BUILDER"]._serialized_end = 1089
+    _globals["_BUILDER_VERSIONENTRY"]._serialized_start = 1043
+    _globals["_BUILDER_VERSIONENTRY"]._serialized_end = 1089
+    _globals["_BUILDMETADATA"]._serialized_start = 1092
+    _globals["_BUILDMETADATA"]._serialized_end = 1227
 # @@protoc_insertion_point(module_scope)

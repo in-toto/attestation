@@ -27,10 +27,12 @@ _builder.BuildTopDescriptorsAndMessages(
     DESCRIPTOR, "in_toto_attestation.predicates.scai.v0.scai_pb2", _globals
 )
 if _descriptor._USE_C_DESCRIPTORS == False:
-  _globals['DESCRIPTOR']._options = None
-  _globals['DESCRIPTOR']._serialized_options = b'\n/io.github.intoto.attestation.predicates.scai.v0Z4github.com/in-toto/attestation/go/predicates/scai/v0'
-  _globals['_ATTRIBUTEASSERTION']._serialized_start=174
-  _globals['_ATTRIBUTEASSERTION']._serialized_end=380
-  _globals['_ATTRIBUTEREPORT']._serialized_start=383
-  _globals['_ATTRIBUTEREPORT']._serialized_end=542
+    _globals["DESCRIPTOR"]._options = None
+    _globals[
+        "DESCRIPTOR"
+    ]._serialized_options = b"\n/io.github.intoto.attestation.predicates.scai.v0Z4github.com/in-toto/attestation/go/predicates/scai/v0"
+    _globals["_ATTRIBUTEASSERTION"]._serialized_start = 174
+    _globals["_ATTRIBUTEASSERTION"]._serialized_end = 380
+    _globals["_ATTRIBUTEREPORT"]._serialized_start = 383
+    _globals["_ATTRIBUTEREPORT"]._serialized_end = 542
 # @@protoc_insertion_point(module_scope)
