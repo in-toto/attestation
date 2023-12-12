@@ -119,6 +119,7 @@ public final class Scai {
               io.github.intoto.attestation.predicates.scai.v0.Scai.AttributeAssertion.class, io.github.intoto.attestation.predicates.scai.v0.Scai.AttributeAssertion.Builder.class);
     }
 
+    private int bitField0_;
     public static final int ATTRIBUTE_FIELD_NUMBER = 1;
     @SuppressWarnings("serial")
     private volatile java.lang.Object attribute_ = "";
@@ -174,7 +175,7 @@ public final class Scai {
      */
     @java.lang.Override
     public boolean hasTarget() {
-      return target_ != null;
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>.in_toto_attestation.v1.ResourceDescriptor target = 2;</code>
@@ -200,7 +201,7 @@ public final class Scai {
      */
     @java.lang.Override
     public boolean hasConditions() {
-      return conditions_ != null;
+      return ((bitField0_ & 0x00000002) != 0);
     }
     /**
      * <code>.google.protobuf.Struct conditions = 3;</code>
@@ -226,7 +227,7 @@ public final class Scai {
      */
     @java.lang.Override
     public boolean hasEvidence() {
-      return evidence_ != null;
+      return ((bitField0_ & 0x00000004) != 0);
     }
     /**
      * <code>.in_toto_attestation.v1.ResourceDescriptor evidence = 4;</code>
@@ -261,13 +262,13 @@ public final class Scai {
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(attribute_)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, attribute_);
       }
-      if (target_ != null) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeMessage(2, getTarget());
       }
-      if (conditions_ != null) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         output.writeMessage(3, getConditions());
       }
-      if (evidence_ != null) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         output.writeMessage(4, getEvidence());
       }
       getUnknownFields().writeTo(output);
@@ -282,15 +283,15 @@ public final class Scai {
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(attribute_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, attribute_);
       }
-      if (target_ != null) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(2, getTarget());
       }
-      if (conditions_ != null) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(3, getConditions());
       }
-      if (evidence_ != null) {
+      if (((bitField0_ & 0x00000004) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(4, getEvidence());
       }
@@ -470,13 +471,21 @@ public final class Scai {
 
       // Construct using io.github.intoto.attestation.predicates.scai.v0.Scai.AttributeAssertion.newBuilder()
       private Builder() {
-
+        maybeForceBuilderInitialization();
       }
 
       private Builder(
           com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
-
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+          getTargetFieldBuilder();
+          getConditionsFieldBuilder();
+          getEvidenceFieldBuilder();
+        }
       }
       @java.lang.Override
       public Builder clear() {
@@ -534,21 +543,26 @@ public final class Scai {
         if (((from_bitField0_ & 0x00000001) != 0)) {
           result.attribute_ = attribute_;
         }
+        int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000002) != 0)) {
           result.target_ = targetBuilder_ == null
               ? target_
               : targetBuilder_.build();
+          to_bitField0_ |= 0x00000001;
         }
         if (((from_bitField0_ & 0x00000004) != 0)) {
           result.conditions_ = conditionsBuilder_ == null
               ? conditions_
               : conditionsBuilder_.build();
+          to_bitField0_ |= 0x00000002;
         }
         if (((from_bitField0_ & 0x00000008) != 0)) {
           result.evidence_ = evidenceBuilder_ == null
               ? evidence_
               : evidenceBuilder_.build();
+          to_bitField0_ |= 0x00000004;
         }
+        result.bitField0_ |= to_bitField0_;
       }
 
       @java.lang.Override
@@ -836,8 +850,10 @@ public final class Scai {
         } else {
           targetBuilder_.mergeFrom(value);
         }
-        bitField0_ |= 0x00000002;
-        onChanged();
+        if (target_ != null) {
+          bitField0_ |= 0x00000002;
+          onChanged();
+        }
         return this;
       }
       /**
@@ -955,8 +971,10 @@ public final class Scai {
         } else {
           conditionsBuilder_.mergeFrom(value);
         }
-        bitField0_ |= 0x00000004;
-        onChanged();
+        if (conditions_ != null) {
+          bitField0_ |= 0x00000004;
+          onChanged();
+        }
         return this;
       }
       /**
@@ -1074,8 +1092,10 @@ public final class Scai {
         } else {
           evidenceBuilder_.mergeFrom(value);
         }
-        bitField0_ |= 0x00000008;
-        onChanged();
+        if (evidence_ != null) {
+          bitField0_ |= 0x00000008;
+          onChanged();
+        }
         return this;
       }
       /**
@@ -1269,6 +1289,7 @@ public final class Scai {
               io.github.intoto.attestation.predicates.scai.v0.Scai.AttributeReport.class, io.github.intoto.attestation.predicates.scai.v0.Scai.AttributeReport.Builder.class);
     }
 
+    private int bitField0_;
     public static final int ATTRIBUTES_FIELD_NUMBER = 1;
     @SuppressWarnings("serial")
     private java.util.List<io.github.intoto.attestation.predicates.scai.v0.Scai.AttributeAssertion> attributes_;
@@ -1318,7 +1339,7 @@ public final class Scai {
      */
     @java.lang.Override
     public boolean hasProducer() {
-      return producer_ != null;
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>.in_toto_attestation.v1.ResourceDescriptor producer = 2;</code>
@@ -1353,7 +1374,7 @@ public final class Scai {
       for (int i = 0; i < attributes_.size(); i++) {
         output.writeMessage(1, attributes_.get(i));
       }
-      if (producer_ != null) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeMessage(2, getProducer());
       }
       getUnknownFields().writeTo(output);
@@ -1369,7 +1390,7 @@ public final class Scai {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(1, attributes_.get(i));
       }
-      if (producer_ != null) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(2, getProducer());
       }
@@ -1533,13 +1554,20 @@ public final class Scai {
 
       // Construct using io.github.intoto.attestation.predicates.scai.v0.Scai.AttributeReport.newBuilder()
       private Builder() {
-
+        maybeForceBuilderInitialization();
       }
 
       private Builder(
           com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
-
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+          getAttributesFieldBuilder();
+          getProducerFieldBuilder();
+        }
       }
       @java.lang.Override
       public Builder clear() {
@@ -1603,11 +1631,14 @@ public final class Scai {
 
       private void buildPartial0(io.github.intoto.attestation.predicates.scai.v0.Scai.AttributeReport result) {
         int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000002) != 0)) {
           result.producer_ = producerBuilder_ == null
               ? producer_
               : producerBuilder_.build();
+          to_bitField0_ |= 0x00000001;
         }
+        result.bitField0_ |= to_bitField0_;
       }
 
       @java.lang.Override
@@ -2052,8 +2083,10 @@ public final class Scai {
         } else {
           producerBuilder_.mergeFrom(value);
         }
-        bitField0_ |= 0x00000002;
-        onChanged();
+        if (producer_ != null) {
+          bitField0_ |= 0x00000002;
+          onChanged();
+        }
         return this;
       }
       /**

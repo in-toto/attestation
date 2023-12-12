@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package in_toto_attestation.predicates.vsa.v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/in-toto/attestation/go/predicates/vsa/v1";
+option java_package = "io.github.intoto.attestation.predicates.vsa.v1";
+
+
+// Proto representation of predicate type https://slsa.dev/verification_summary/v1
+// Validation of all fields is left to the users of this proto.
+message VerificationSummary {
+  message Verifier {
+    string id = 1;
+  }
+  Verifier verifier = 1;
+
+  google.protobuf.Timestamp time_verified = 2 [json_name = "timeVerified"];
+
+  string resource_uri = 3 [json_name = "resourceUri"];
+
+  message Policy {
+    string uri = 1;
+    map<string, string> digest = 2;
+  }
+  Policy policy = 4;
+
+  message InputAttestation {
+    string uri = 1;
+    map<string, string> digest = 2;
+  }
+  repeated InputAttestation input_attestations = 5 [json_name = "inputAttestations"];
+
+  string verification_result = 6 [json_name = "verificationResult"];
+  string verified_levels = 7 [json_name = "verifiedLevels"];
+  map<string, uint64> dependency_levels = 8 [json_name = "dependencyLevels"];
+  string slsa_version = 9 [json_name = "slsaVersion"];
+}
