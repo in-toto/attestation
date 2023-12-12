@@ -21,9 +21,8 @@ _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'in_toto_attestation.predicates.link.v0.link_pb2', _globals)
 if _descriptor._USE_C_DESCRIPTORS == False:
-
-  DESCRIPTOR._options = None
-  DESCRIPTOR._serialized_options = b'\n/io.github.intoto.attestation.predicates.link.v0Z4github.com/in-toto/attestation/go/predicates/link/v0'
+  _globals['DESCRIPTOR']._options = None
+  _globals['DESCRIPTOR']._serialized_options = b'\n/io.github.intoto.attestation.predicates.link.v0Z4github.com/in-toto/attestation/go/predicates/link/v0'
   _globals['_LINK']._serialized_start=174
   _globals['_LINK']._serialized_end=365
 # @@protoc_insertion_point(module_scope)

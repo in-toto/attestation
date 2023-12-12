@@ -88,6 +88,7 @@ public final class ProvenanceOuterClass {
               io.github.intoto.attestation.predicates.provenance.v1.ProvenanceOuterClass.Provenance.class, io.github.intoto.attestation.predicates.provenance.v1.ProvenanceOuterClass.Provenance.Builder.class);
     }
 
+    private int bitField0_;
     public static final int BUILD_DEFINITION_FIELD_NUMBER = 1;
     private io.github.intoto.attestation.predicates.provenance.v1.ProvenanceOuterClass.BuildDefinition buildDefinition_;
     /**
@@ -96,7 +97,7 @@ public final class ProvenanceOuterClass {
      */
     @java.lang.Override
     public boolean hasBuildDefinition() {
-      return buildDefinition_ != null;
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>.in_toto_attestation.predicates.provenance.v1.BuildDefinition build_definition = 1;</code>
@@ -122,7 +123,7 @@ public final class ProvenanceOuterClass {
      */
     @java.lang.Override
     public boolean hasRunDetails() {
-      return runDetails_ != null;
+      return ((bitField0_ & 0x00000002) != 0);
     }
     /**
      * <code>.in_toto_attestation.predicates.provenance.v1.RunDetails run_details = 2;</code>
@@ -154,10 +155,10 @@ public final class ProvenanceOuterClass {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (buildDefinition_ != null) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeMessage(1, getBuildDefinition());
       }
-      if (runDetails_ != null) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         output.writeMessage(2, getRunDetails());
       }
       getUnknownFields().writeTo(output);
@@ -169,11 +170,11 @@ public final class ProvenanceOuterClass {
       if (size != -1) return size;
 
       size = 0;
-      if (buildDefinition_ != null) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(1, getBuildDefinition());
       }
-      if (runDetails_ != null) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(2, getRunDetails());
       }
@@ -345,13 +346,20 @@ public final class ProvenanceOuterClass {
 
       // Construct using io.github.intoto.attestation.predicates.provenance.v1.ProvenanceOuterClass.Provenance.newBuilder()
       private Builder() {
-
+        maybeForceBuilderInitialization();
       }
 
       private Builder(
           com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
-
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+          getBuildDefinitionFieldBuilder();
+          getRunDetailsFieldBuilder();
+        }
       }
       @java.lang.Override
       public Builder clear() {
@@ -400,16 +408,20 @@ public final class ProvenanceOuterClass {
 
       private void buildPartial0(io.github.intoto.attestation.predicates.provenance.v1.ProvenanceOuterClass.Provenance result) {
         int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) != 0)) {
           result.buildDefinition_ = buildDefinitionBuilder_ == null
               ? buildDefinition_
               : buildDefinitionBuilder_.build();
+          to_bitField0_ |= 0x00000001;
         }
         if (((from_bitField0_ & 0x00000002) != 0)) {
           result.runDetails_ = runDetailsBuilder_ == null
               ? runDetails_
               : runDetailsBuilder_.build();
+          to_bitField0_ |= 0x00000002;
         }
+        result.bitField0_ |= to_bitField0_;
       }
 
       @java.lang.Override
@@ -585,8 +597,10 @@ public final class ProvenanceOuterClass {
         } else {
           buildDefinitionBuilder_.mergeFrom(value);
         }
-        bitField0_ |= 0x00000001;
-        onChanged();
+        if (buildDefinition_ != null) {
+          bitField0_ |= 0x00000001;
+          onChanged();
+        }
         return this;
       }
       /**
@@ -704,8 +718,10 @@ public final class ProvenanceOuterClass {
         } else {
           runDetailsBuilder_.mergeFrom(value);
         }
-        bitField0_ |= 0x00000002;
-        onChanged();
+        if (runDetails_ != null) {
+          bitField0_ |= 0x00000002;
+          onChanged();
+        }
         return this;
       }
       /**
@@ -927,6 +943,7 @@ public final class ProvenanceOuterClass {
               io.github.intoto.attestation.predicates.provenance.v1.ProvenanceOuterClass.BuildDefinition.class, io.github.intoto.attestation.predicates.provenance.v1.ProvenanceOuterClass.BuildDefinition.Builder.class);
     }
 
+    private int bitField0_;
     public static final int BUILD_TYPE_FIELD_NUMBER = 1;
     @SuppressWarnings("serial")
     private volatile java.lang.Object buildType_ = "";
@@ -974,7 +991,7 @@ public final class ProvenanceOuterClass {
      */
     @java.lang.Override
     public boolean hasExternalParameters() {
-      return externalParameters_ != null;
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>.google.protobuf.Struct external_parameters = 2;</code>
@@ -1000,7 +1017,7 @@ public final class ProvenanceOuterClass {
      */
     @java.lang.Override
     public boolean hasInternalParameters() {
-      return internalParameters_ != null;
+      return ((bitField0_ & 0x00000002) != 0);
     }
     /**
      * <code>.google.protobuf.Struct internal_parameters = 3;</code>
@@ -1076,10 +1093,10 @@ public final class ProvenanceOuterClass {
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(buildType_)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, buildType_);
       }
-      if (externalParameters_ != null) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeMessage(2, getExternalParameters());
       }
-      if (internalParameters_ != null) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         output.writeMessage(3, getInternalParameters());
       }
       for (int i = 0; i < resolvedDependencies_.size(); i++) {
@@ -1097,11 +1114,11 @@ public final class ProvenanceOuterClass {
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(buildType_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, buildType_);
       }
-      if (externalParameters_ != null) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(2, getExternalParameters());
       }
-      if (internalParameters_ != null) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(3, getInternalParameters());
       }
@@ -1282,13 +1299,21 @@ public final class ProvenanceOuterClass {
 
       // Construct using io.github.intoto.attestation.predicates.provenance.v1.ProvenanceOuterClass.BuildDefinition.newBuilder()
       private Builder() {
-
+        maybeForceBuilderInitialization();
       }
 
       private Builder(
           com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
-
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+          getExternalParametersFieldBuilder();
+          getInternalParametersFieldBuilder();
+          getResolvedDependenciesFieldBuilder();
+        }
       }
       @java.lang.Override
       public Builder clear() {
@@ -1361,16 +1386,20 @@ public final class ProvenanceOuterClass {
         if (((from_bitField0_ & 0x00000001) != 0)) {
           result.buildType_ = buildType_;
         }
+        int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000002) != 0)) {
           result.externalParameters_ = externalParametersBuilder_ == null
               ? externalParameters_
               : externalParametersBuilder_.build();
+          to_bitField0_ |= 0x00000001;
         }
         if (((from_bitField0_ & 0x00000004) != 0)) {
           result.internalParameters_ = internalParametersBuilder_ == null
               ? internalParameters_
               : internalParametersBuilder_.build();
+          to_bitField0_ |= 0x00000002;
         }
+        result.bitField0_ |= to_bitField0_;
       }
 
       @java.lang.Override
@@ -1667,8 +1696,10 @@ public final class ProvenanceOuterClass {
         } else {
           externalParametersBuilder_.mergeFrom(value);
         }
-        bitField0_ |= 0x00000002;
-        onChanged();
+        if (externalParameters_ != null) {
+          bitField0_ |= 0x00000002;
+          onChanged();
+        }
         return this;
       }
       /**
@@ -1786,8 +1817,10 @@ public final class ProvenanceOuterClass {
         } else {
           internalParametersBuilder_.mergeFrom(value);
         }
-        bitField0_ |= 0x00000004;
-        onChanged();
+        if (internalParameters_ != null) {
+          bitField0_ |= 0x00000004;
+          onChanged();
+        }
         return this;
       }
       /**
@@ -2236,6 +2269,7 @@ public final class ProvenanceOuterClass {
               io.github.intoto.attestation.predicates.provenance.v1.ProvenanceOuterClass.RunDetails.class, io.github.intoto.attestation.predicates.provenance.v1.ProvenanceOuterClass.RunDetails.Builder.class);
     }
 
+    private int bitField0_;
     public static final int BUILDER_FIELD_NUMBER = 1;
     private io.github.intoto.attestation.predicates.provenance.v1.ProvenanceOuterClass.Builder builder_;
     /**
@@ -2244,7 +2278,7 @@ public final class ProvenanceOuterClass {
      */
     @java.lang.Override
     public boolean hasBuilder() {
-      return builder_ != null;
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>.in_toto_attestation.predicates.provenance.v1.Builder builder = 1;</code>
@@ -2270,7 +2304,7 @@ public final class ProvenanceOuterClass {
      */
     @java.lang.Override
     public boolean hasMetadata() {
-      return metadata_ != null;
+      return ((bitField0_ & 0x00000002) != 0);
     }
     /**
      * <code>.in_toto_attestation.predicates.provenance.v1.BuildMetadata metadata = 2;</code>
@@ -2343,10 +2377,10 @@ public final class ProvenanceOuterClass {
     @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (builder_ != null) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeMessage(1, getBuilder());
       }
-      if (metadata_ != null) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         output.writeMessage(2, getMetadata());
       }
       for (int i = 0; i < byproducts_.size(); i++) {
@@ -2361,11 +2395,11 @@ public final class ProvenanceOuterClass {
       if (size != -1) return size;
 
       size = 0;
-      if (builder_ != null) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(1, getBuilder());
       }
-      if (metadata_ != null) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(2, getMetadata());
       }
@@ -2542,13 +2576,21 @@ public final class ProvenanceOuterClass {
 
       // Construct using io.github.intoto.attestation.predicates.provenance.v1.ProvenanceOuterClass.RunDetails.newBuilder()
       private Builder() {
-
+        maybeForceBuilderInitialization();
       }
 
       private Builder(
           com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
-
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+          getBuilderFieldBuilder();
+          getMetadataFieldBuilder();
+          getByproductsFieldBuilder();
+        }
       }
       @java.lang.Override
       public Builder clear() {
@@ -2617,16 +2659,20 @@ public final class ProvenanceOuterClass {
 
       private void buildPartial0(io.github.intoto.attestation.predicates.provenance.v1.ProvenanceOuterClass.RunDetails result) {
         int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) != 0)) {
           result.builder_ = builderBuilder_ == null
               ? builder_
               : builderBuilder_.build();
+          to_bitField0_ |= 0x00000001;
         }
         if (((from_bitField0_ & 0x00000002) != 0)) {
           result.metadata_ = metadataBuilder_ == null
               ? metadata_
               : metadataBuilder_.build();
+          to_bitField0_ |= 0x00000002;
         }
+        result.bitField0_ |= to_bitField0_;
       }
 
       @java.lang.Override
@@ -2841,8 +2887,10 @@ public final class ProvenanceOuterClass {
         } else {
           builderBuilder_.mergeFrom(value);
         }
-        bitField0_ |= 0x00000001;
-        onChanged();
+        if (builder_ != null) {
+          bitField0_ |= 0x00000001;
+          onChanged();
+        }
         return this;
       }
       /**
@@ -2960,8 +3008,10 @@ public final class ProvenanceOuterClass {
         } else {
           metadataBuilder_.mergeFrom(value);
         }
-        bitField0_ |= 0x00000002;
-        onChanged();
+        if (metadata_ != null) {
+          bitField0_ |= 0x00000002;
+          onChanged();
+        }
         return this;
       }
       /**
@@ -4641,6 +4691,7 @@ java.lang.String defaultValue) {
               io.github.intoto.attestation.predicates.provenance.v1.ProvenanceOuterClass.BuildMetadata.class, io.github.intoto.attestation.predicates.provenance.v1.ProvenanceOuterClass.BuildMetadata.Builder.class);
     }
 
+    private int bitField0_;
     public static final int INVOCATION_ID_FIELD_NUMBER = 1;
     @SuppressWarnings("serial")
     private volatile java.lang.Object invocationId_ = "";
@@ -4688,7 +4739,7 @@ java.lang.String defaultValue) {
      */
     @java.lang.Override
     public boolean hasStartedOn() {
-      return startedOn_ != null;
+      return ((bitField0_ & 0x00000001) != 0);
     }
     /**
      * <code>.google.protobuf.Timestamp started_on = 2;</code>
@@ -4714,7 +4765,7 @@ java.lang.String defaultValue) {
      */
     @java.lang.Override
     public boolean hasFinishedOn() {
-      return finishedOn_ != null;
+      return ((bitField0_ & 0x00000002) != 0);
     }
     /**
      * <code>.google.protobuf.Timestamp finished_on = 3;</code>
@@ -4749,10 +4800,10 @@ java.lang.String defaultValue) {
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(invocationId_)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, invocationId_);
       }
-      if (startedOn_ != null) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         output.writeMessage(2, getStartedOn());
       }
-      if (finishedOn_ != null) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         output.writeMessage(3, getFinishedOn());
       }
       getUnknownFields().writeTo(output);
@@ -4767,11 +4818,11 @@ java.lang.String defaultValue) {
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(invocationId_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, invocationId_);
       }
-      if (startedOn_ != null) {
+      if (((bitField0_ & 0x00000001) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(2, getStartedOn());
       }
-      if (finishedOn_ != null) {
+      if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(3, getFinishedOn());
       }
@@ -4942,13 +4993,20 @@ java.lang.String defaultValue) {
 
       // Construct using io.github.intoto.attestation.predicates.provenance.v1.ProvenanceOuterClass.BuildMetadata.newBuilder()
       private Builder() {
-
+        maybeForceBuilderInitialization();
       }
 
       private Builder(
           com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
-
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+          getStartedOnFieldBuilder();
+          getFinishedOnFieldBuilder();
+        }
       }
       @java.lang.Override
       public Builder clear() {
@@ -5001,16 +5059,20 @@ java.lang.String defaultValue) {
         if (((from_bitField0_ & 0x00000001) != 0)) {
           result.invocationId_ = invocationId_;
         }
+        int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000002) != 0)) {
           result.startedOn_ = startedOnBuilder_ == null
               ? startedOn_
               : startedOnBuilder_.build();
+          to_bitField0_ |= 0x00000001;
         }
         if (((from_bitField0_ & 0x00000004) != 0)) {
           result.finishedOn_ = finishedOnBuilder_ == null
               ? finishedOn_
               : finishedOnBuilder_.build();
+          to_bitField0_ |= 0x00000002;
         }
+        result.bitField0_ |= to_bitField0_;
       }
 
       @java.lang.Override
@@ -5268,8 +5330,10 @@ java.lang.String defaultValue) {
         } else {
           startedOnBuilder_.mergeFrom(value);
         }
-        bitField0_ |= 0x00000002;
-        onChanged();
+        if (startedOn_ != null) {
+          bitField0_ |= 0x00000002;
+          onChanged();
+        }
         return this;
       }
       /**
@@ -5387,8 +5451,10 @@ java.lang.String defaultValue) {
         } else {
           finishedOnBuilder_.mergeFrom(value);
         }
-        bitField0_ |= 0x00000004;
-        onChanged();
+        if (finishedOn_ != null) {
+          bitField0_ |= 0x00000004;
+          onChanged();
+        }
         return this;
       }
       /**
