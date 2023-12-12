@@ -24,12 +24,16 @@ _builder.BuildTopDescriptorsAndMessages(
     DESCRIPTOR, "in_toto_attestation.v1.resource_descriptor_pb2", _globals
 )
 if _descriptor._USE_C_DESCRIPTORS == False:
-  _globals['DESCRIPTOR']._options = None
-  _globals['DESCRIPTOR']._serialized_options = b'\n\037io.github.intoto.attestation.v1Z$github.com/in-toto/attestation/go/v1'
-  _globals['_RESOURCEDESCRIPTOR_DIGESTENTRY']._options = None
-  _globals['_RESOURCEDESCRIPTOR_DIGESTENTRY']._serialized_options = b'8\001'
-  _globals['_RESOURCEDESCRIPTOR']._serialized_start=107
-  _globals['_RESOURCEDESCRIPTOR']._serialized_end=383
-  _globals['_RESOURCEDESCRIPTOR_DIGESTENTRY']._serialized_start=338
-  _globals['_RESOURCEDESCRIPTOR_DIGESTENTRY']._serialized_end=383
+    _globals["DESCRIPTOR"]._options = None
+    _globals[
+        "DESCRIPTOR"
+    ]._serialized_options = (
+        b"\n\037io.github.intoto.attestation.v1Z$github.com/in-toto/attestation/go/v1"
+    )
+    _globals["_RESOURCEDESCRIPTOR_DIGESTENTRY"]._options = None
+    _globals["_RESOURCEDESCRIPTOR_DIGESTENTRY"]._serialized_options = b"8\001"
+    _globals["_RESOURCEDESCRIPTOR"]._serialized_start = 107
+    _globals["_RESOURCEDESCRIPTOR"]._serialized_end = 383
+    _globals["_RESOURCEDESCRIPTOR_DIGESTENTRY"]._serialized_start = 338
+    _globals["_RESOURCEDESCRIPTOR_DIGESTENTRY"]._serialized_end = 383
 # @@protoc_insertion_point(module_scope)

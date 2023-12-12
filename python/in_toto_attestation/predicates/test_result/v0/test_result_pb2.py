@@ -28,8 +28,10 @@ _builder.BuildTopDescriptorsAndMessages(
     _globals,
 )
 if _descriptor._USE_C_DESCRIPTORS == False:
-  _globals['DESCRIPTOR']._options = None
-  _globals['DESCRIPTOR']._serialized_options = b'\n6io.github.intoto.attestation.predicates.test_result.v0Z;github.com/in-toto/attestation/go/predicates/test_result/v0'
-  _globals['_TESTRESULT']._serialized_start=165
-  _globals['_TESTRESULT']._serialized_end=339
+    _globals["DESCRIPTOR"]._options = None
+    _globals[
+        "DESCRIPTOR"
+    ]._serialized_options = b"\n6io.github.intoto.attestation.predicates.test_result.v0Z;github.com/in-toto/attestation/go/predicates/test_result/v0"
+    _globals["_TESTRESULT"]._serialized_start = 165
+    _globals["_TESTRESULT"]._serialized_end = 339
 # @@protoc_insertion_point(module_scope)
