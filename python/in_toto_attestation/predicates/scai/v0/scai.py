@@ -65,9 +65,7 @@ class AttributeReport:
             except ValueError as e:
                 # return index in the attributes list in case of failure:
                 # can't assume any other fields in attribute assertion are set
-                raise ValueError(
-                    "Invalid attributes field (index: {0})".format(i)
-                ) from e
+                raise ValueError(f"Invalid attributes field (index: {i})") from e
 
         if self.pb.producer.ByteSize() > 0:
             rd = ResourceDescriptor.copy_from_pb(self.pb.producer)

@@ -3,6 +3,7 @@ Tests for in-toto attestation ResourceDescriptor protos.
 """
 
 import unittest
+
 import google.protobuf.json_format as pb_json
 
 import in_toto_attestation.v1.resource_descriptor_pb2 as rdpb

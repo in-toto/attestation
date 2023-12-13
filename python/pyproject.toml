@@ -7,7 +7,7 @@ name = "in-toto-attestation"
 description = "Python bindings for the in-toto Attestation Framework"
 readme = "README.md"
 license = "Apache-2.0"
-requires-python = "~=3.7"
+requires-python = "~=3.8"
 keywords = ["security", "software supply chain", "in-toto", "slsa"]
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -19,7 +19,6 @@ classifiers = [
     "Operating System :: POSIX :: Linux",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
@@ -46,10 +45,15 @@ path = "in_toto_attestation/__init__.py"
 [tool.hatch.build.targets.sdist]
 include = ["/in_toto_attestation"]
 
+[tool.ruff]
+select = ["E", "F", "I", "UP", "W"]
+
 [tool.ruff.lint]
 ignore = [
     # protobuf generates non-top-level imports.
     "E402",
+    # protobuf generates long lines.
+    "E501",
     # protobuf generates `cond == False`.
     "E712",
     # protobuf makes extensive use of unused imports for re-exports.
