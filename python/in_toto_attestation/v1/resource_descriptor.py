@@ -16,7 +16,7 @@ class ResourceDescriptor:
         name: str = "",
         uri: str = "",
         digest: dict | None = None,
-        content: bytes = bytes(),
+        content: bytes = b"",
         download_location: str = "",
         media_type: str = "",
         annotations: dict | None = None,
@@ -33,7 +33,7 @@ class ResourceDescriptor:
             self.pb.annotations.update(annotations)
 
     @staticmethod
-    def copy_from_pb(proto: rdpb.ResourceDescriptor) -> "ResourceDescriptor":  # type: ignore[name-defined]
+    def copy_from_pb(proto: rdpb.ResourceDescriptor) -> ResourceDescriptor:  # type: ignore[name-defined]
         rd = ResourceDescriptor()
         rd.pb.CopyFrom(proto)
         return rd
