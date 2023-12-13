@@ -1,10 +1,13 @@
 #  Wrapper class for in-toto attestation ResourceDescriptor protos.
 
+from __future__ import annotations
+
 import json
 
 import google.protobuf.json_format as pb_json
-import in_toto_attestation.v1.resource_descriptor_pb2 as rdpb
 from google.protobuf.struct_pb2 import Value
+
+import in_toto_attestation.v1.resource_descriptor_pb2 as rdpb
 
 
 class ResourceDescriptor:
@@ -12,13 +15,13 @@ class ResourceDescriptor:
         self,
         name: str = "",
         uri: str = "",
-        digest: dict = None,
+        digest: dict | None = None,
         content: bytes = bytes(),
         download_location: str = "",
         media_type: str = "",
-        annotations: dict = None,
+        annotations: dict | None = None,
     ) -> None:
-        self.pb = rdpb.ResourceDescriptor()
+        self.pb = rdpb.ResourceDescriptor()  # type: ignore[attr-defined]
         self.pb.name = name
         self.pb.uri = uri
         if digest:
@@ -30,7 +33,7 @@ class ResourceDescriptor:
             self.pb.annotations.update(annotations)
 
     @staticmethod
-    def copy_from_pb(proto: rdpb.ResourceDescriptor) -> "ResourceDescriptor":
+    def copy_from_pb(proto: rdpb.ResourceDescriptor) -> "ResourceDescriptor":  # type: ignore[name-defined]
         rd = ResourceDescriptor()
         rd.pb.CopyFrom(proto)
         return rd
