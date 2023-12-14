@@ -37,7 +37,7 @@ class Statement:
             if len(rd.pb.digest) == 0:
                 # return index in the subjects list in case of failure:
                 # can't assume any other fields in subject are set
-                raise ValueError("At least one digest required (subject {0})".format(i))
+                raise ValueError(f"At least one digest required (subject {i})")
 
         if self.pb.predicate_type == "":
             raise ValueError("Predicate type required")
