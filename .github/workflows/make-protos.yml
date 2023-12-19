@@ -19,7 +19,7 @@ jobs:
       - name: Install protoc
         uses: arduino/setup-protoc@a8b67ba40b37d35169e222f3bb352603327985b6
         with:
-          version: '23.x'
+          version: '24.x'
       - name: Install Python
         uses: actions/setup-python@0a5c61591373683505ea898e09a3ea4f39ef2b9c
         with:
