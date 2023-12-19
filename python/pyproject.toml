@@ -26,7 +26,7 @@ classifiers = [
     "Topic :: Security",
     "Topic :: Software Development",
 ]
-dependencies = ["protobuf"]
+dependencies = ["betterproto==2.0.0b6"]
 dynamic = ["version"]
 
 [project.urls]
@@ -37,7 +37,8 @@ Source = "https://github.com/in-toto/attestation"
 [project.optional-dependencies]
 test = ["pytest", "pytest-cov", "coverage[toml]"]
 lint = ["mypy", "types-protobuf", "ruff"]
-dev = ["build", "in-toto-attestation[test,lint]"]
+codegen = ["betterproto[compiler]==2.0.0b6"]
+dev = ["build", "in-toto-attestation[test,lint,codegen]"]
 
 [tool.hatch.version]
 path = "in_toto_attestation/__init__.py"

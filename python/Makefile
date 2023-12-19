@@ -22,6 +22,8 @@ BUMP_ARGS :=
 # subset of development dependencies.
 INSTALL_EXTRA := dev
 
+PROTOS = $(shell find ../protos/in_toto_attestation -name "*.proto")
+
 .PHONY: all
 all:
 	@echo "Run my targets individually!"
@@ -61,3 +63,12 @@ package: $(VENV_STAMP)
 .PHONY: edit
 edit:
 	$(EDITOR) $(ALL_PY_SRCS)
+
+.PHONY: protos
+protos: $(VENV_STAMP)
+	@# TODO: Enable `--python_betterproto_opt=pydantic_dataclasses` once
+	@# Pydantic V2 is supported: https://github.com/danielgtaylor/python-betterproto/issues/530
+	protoc \
+		-I../protos \
+		--python_betterproto_out=. \
+		$(PROTOS)
