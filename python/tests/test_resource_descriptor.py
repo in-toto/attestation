@@ -4,9 +4,6 @@ Tests for in-toto attestation ResourceDescriptor protos.
 
 import unittest
 
-import google.protobuf.json_format as pb_json
-
-import in_toto_attestation.v1.resource_descriptor_pb2 as rdpb
 from in_toto_attestation.v1.resource_descriptor import ResourceDescriptor
 
 
@@ -26,51 +23,42 @@ def create_test_desc():
 
 class TestResourceDescriptor(unittest.TestCase):
     def test_create_resource_descriptor(self):
-        test_rd = create_test_desc()
-        test_rd.validate()
+        create_test_desc()
 
     def test_json_parse_resource_descriptor(self):
         full_rd = '{"name":"theName","uri":"https://example.com","digest":{"alg":"abc123"},"content":"Ynl0ZXNjb250ZW50","downloadLocation":"https://example.com/test.zip","mediaType":"theMediaType","annotations":{"keyNum": 13,"keyStr":"val1","keyObj":{"subKey":"subVal"}}}'
-        got_pb = pb_json.Parse(full_rd, rdpb.ResourceDescriptor())
-        got = got_pb.SerializeToString(deterministic=True)
+
+        got_pb = ResourceDescriptor.from_json(full_rd)
+        got = got_pb.to_json()
 
         test_rd = create_test_desc()
-        want = test_rd.pb.SerializeToString(deterministic=True)
+        want = test_rd.to_json()
 
         self.assertEqual(got, want, "Protos do not match")
 
     def test_bad_resource_descriptor(self):
         bad_rd = '{"downloadLocation":"https://example.com/test.zip","mediaType":"theMediaType"}'
 
-        got_pb = pb_json.Parse(bad_rd, rdpb.ResourceDescriptor())
-        got = ResourceDescriptor.copy_from_pb(got_pb)
-
         with self.assertRaises(
             ValueError,
             msg="Error: created malformed ResourceDescriptor (no required fields)",
         ):
-            got.validate()
+            ResourceDescriptor.from_json(bad_rd)
 
     def test_empty_name_only(self):
         bad_rd = '{"name":"","downloadLocation":"https://example.com/test.zip","mediaType":"theMediaType"}'
-
-        got_pb = pb_json.Parse(bad_rd, rdpb.ResourceDescriptor())
-        got = ResourceDescriptor.copy_from_pb(got_pb)
 
         with self.assertRaises(
             ValueError,
             msg="Error: created malformed ResourceDescriptor (only empty required fields)",
         ):
-            got.validate()
+            ResourceDescriptor.from_json(bad_rd)
 
     def test_empty_digest(self):
         empty_digest = '{"name":"theName","digest":{},"downloadLocation":"https://example.com/test.zip","mediaType":"theMediaType"}'
 
-        got_pb = pb_json.Parse(empty_digest, rdpb.ResourceDescriptor())
-        got = ResourceDescriptor.copy_from_pb(got_pb)
-
         # this should not raise an error
-        got.validate()
+        ResourceDescriptor.from_json(empty_digest)
 
 
 if __name__ == "__main__":

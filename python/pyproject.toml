@@ -64,9 +64,6 @@ ignore = [
 ]
 
 [tool.mypy]
-# Don't bother type-checking the generated files.
-# TODO: Use `mypy-protobuf` for these: https://github.com/nipunn1313/mypy-protobuf
-exclude = ['^.+_pb2.py$']
 warn_unused_configs = true
 warn_unused_ignores = true
 show_error_codes = true

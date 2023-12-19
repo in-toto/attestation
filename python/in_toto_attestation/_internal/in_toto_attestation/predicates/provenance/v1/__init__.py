@@ -36,9 +36,9 @@ class BuildDefinition(betterproto.Message):
     internal_parameters: "betterproto_lib_google_protobuf.Struct" = (
         betterproto.message_field(3)
     )
-    resolved_dependencies: List["___v1__.ResourceDescriptor"] = (
-        betterproto.message_field(4)
-    )
+    resolved_dependencies: List[
+        "___v1__.ResourceDescriptor"
+    ] = betterproto.message_field(4)
 
 
 @dataclass(eq=False, repr=False)
@@ -54,9 +54,9 @@ class Builder(betterproto.Message):
     version: Dict[str, str] = betterproto.map_field(
         2, betterproto.TYPE_STRING, betterproto.TYPE_STRING
     )
-    builder_dependencies: List["___v1__.ResourceDescriptor"] = (
-        betterproto.message_field(3)
-    )
+    builder_dependencies: List[
+        "___v1__.ResourceDescriptor"
+    ] = betterproto.message_field(3)
 
 
 @dataclass(eq=False, repr=False)

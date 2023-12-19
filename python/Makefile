@@ -70,5 +70,6 @@ protos: $(VENV_STAMP)
 	@# Pydantic V2 is supported: https://github.com/danielgtaylor/python-betterproto/issues/530
 	protoc \
 		-I../protos \
-		--python_betterproto_out=. \
+		--python_betterproto_out=./in_toto_attestation/_internal \
 		$(PROTOS)
+	$(MAKE) reformat
