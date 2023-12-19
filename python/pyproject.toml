@@ -7,13 +7,8 @@ name = "in-toto-attestation"
 description = "Python bindings for the in-toto Attestation Framework"
 readme = "README.md"
 license = "Apache-2.0"
-requires-python = "~=3.7"
-keywords = [
-    "security",
-    "software supply chain",
-    "in-toto",
-    "slsa"
-]
+requires-python = "~=3.8"
+keywords = ["security", "software supply chain", "in-toto", "slsa"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
@@ -24,7 +19,6 @@ classifiers = [
     "Operating System :: POSIX :: Linux",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
@@ -40,10 +34,39 @@ dynamic = ["version"]
 Homepage = "https://in-toto.io"
 Source = "https://github.com/in-toto/attestation"
 
+[project.optional-dependencies]
+test = ["pytest", "pytest-cov", "coverage[toml]"]
+lint = ["mypy", "types-protobuf", "ruff"]
+dev = ["build", "in-toto-attestation[test,lint]"]
+
 [tool.hatch.version]
 path = "in_toto_attestation/__init__.py"
 
 [tool.hatch.build.targets.sdist]
-include = [
-    "/in_toto_attestation",
+include = ["/in_toto_attestation"]
+
+[tool.ruff]
+select = ["E", "F", "I", "UP", "W"]
+
+[tool.ruff.lint]
+ignore = [
+    # protobuf generates non-top-level imports.
+    "E402",
+    # protobuf generates long lines.
+    "E501",
+    # protobuf generates `cond == False`.
+    "E712",
+    # protobuf makes extensive use of unused imports for re-exports.
+    "F401",
+    # protobuf makes extensive us of `globals()`.
+    "F821",
 ]
+
+[tool.mypy]
+# Don't bother type-checking the generated files.
+# TODO: Use `mypy-protobuf` for these: https://github.com/nipunn1313/mypy-protobuf
+exclude = ['^.+_pb2.py$']
+warn_unused_configs = true
+warn_unused_ignores = true
+show_error_codes = true
+no_implicit_optional = true

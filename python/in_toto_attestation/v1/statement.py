@@ -8,14 +8,14 @@ STATEMENT_TYPE_URI = "https://in-toto.io/Statement/v1"
 
 class Statement:
     def __init__(self, subjects: list, predicate_type: str, predicate: dict) -> None:
-        self.pb = spb.Statement()
+        self.pb = spb.Statement()  # type: ignore[attr-defined]
         self.pb.type = STATEMENT_TYPE_URI
         self.pb.subject.extend(subjects)
         self.pb.predicate_type = predicate_type
         self.pb.predicate.update(predicate)
 
     @staticmethod
-    def copy_from_pb(proto: spb.Statement) -> "Statement":
+    def copy_from_pb(proto: spb.Statement) -> "Statement":  # type: ignore[name-defined]
         stmt = Statement([], "", {})
         stmt.pb.CopyFrom(proto)
         return stmt
@@ -37,7 +37,7 @@ class Statement:
             if len(rd.pb.digest) == 0:
                 # return index in the subjects list in case of failure:
                 # can't assume any other fields in subject are set
-                raise ValueError("At least one digest required (subject {0})".format(i))
+                raise ValueError(f"At least one digest required (subject {i})")
 
         if self.pb.predicate_type == "":
             raise ValueError("Predicate type required")
