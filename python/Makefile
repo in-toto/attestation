@@ -30,7 +30,7 @@ all:
 dev: $(VENV_STAMP)
 
 $(VENV_STAMP): pyproject.toml
-	python -m venv env
+	python -m venv $(VENV)
 	$(VENV_BIN)/python -m pip install --upgrade pip
 	$(VENV_BIN)/python -m pip install -e .[$(INSTALL_EXTRA)]
 
@@ -49,7 +49,7 @@ reformat: $(VENV_STAMP)
 
 .PHONY: test tests
 test tests: $(VENV_STAMP)
-	. env/bin/activate && \
+	. $(VENV_BIN)/activate && \
 		pytest --cov=$(PY_MODULE) $(T) $(TEST_ARGS) && \
 		python -m coverage report -m $(COV_ARGS)
 
@@ -61,3 +61,7 @@ package: $(VENV_STAMP)
 .PHONY: edit
 edit:
 	$(EDITOR) $(ALL_PY_SRCS)
+
+.PHONY: clean
+clean:
+	rm -r $(VENV)
