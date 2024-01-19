@@ -26,19 +26,23 @@ Perhaps surprisingly, this predicate does not depend on [SLSA Provenance], but t
 
 This predicate is for the final stages of the software supply chain, where consumers are looking for attestations that the software has not been tampered with during distribution.
 
+If a registry supports immutable releases, there MUST be one release attestation for a given `predicate.purl`.
+
+Even if the registry does not support immutable releases, the attestation subject SHOULD include all the artifacts associated with the release; otherwise it will be unclear if an artifact was later removed from a release.
+
 ## Schema
 
 ### Fields
 
-- **name, required** string
+- **`subject.name`** string
   - The filename of the artifact as it would appear on disk.
 
-- **purl, required** string (ResourceURI)
+- **`predicate.purl`, required** string (ResourceURI)
   - A purl uniquely identifying a specific release name and version from a package registry.
 
 ### Parsing Rules
 
-The purl field MUST be parsed using the [purl-spec]. It MUST include a version (which is OPTIONAL in the [purl-spec]).
+The purl field MUST be parsed using the [purl-spec]. It MUST include a purl `version` (which is OPTIONAL in the [purl-spec]). It SHOULD NOT include purl `qualifiers` or `subpath`, unless the `type` requires them to uniquely identify a release (as a counter-example `type:oci` would include `qualifiers`).
 
 ## Example
 
