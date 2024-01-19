@@ -30,6 +30,9 @@ This predicate is for the final stages of the software supply chain, where consu
 
 ### Fields
 
+- **name, required** string
+  - The filename of the artifact as it would appear on disk.
+
 - **purl, required** string (ResourceURI)
   - A purl uniquely identifying a specific release name and version from a package registry.
 
@@ -44,15 +47,15 @@ The purl field MUST be parsed using the [purl-spec]. It MUST include a version (
   "_type": "https://in-toto.io/Statement/v1",
   "subject": [
     {
-      "name": "@scope/my-package",
+      "name": "http-7.2.16.tgz
       "digest": {
-        "sha256": "deadbeef0123456789..."
+        "sha256": "4faeb1b21ad0612c1553752dffe2ec006020ef3914b0e9ff7315ca77121b79a5"
       }
     }
   ],
   "predicateType": "https://in-toto.io/attestation/release/v0.1",
   "predicate": {
-    "purl": "pkg:npm/@scope/my-package@1.2.3",
+    "purl": "pkg:npm/@angular/http@7.2.16",
   }
 }
 ```
