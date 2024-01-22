@@ -10,9 +10,11 @@ To authoritatively link from a specific release name and version string in a reg
 
 ## Use Cases
 
-When receiving a new release version, package registries can publish a release attestation covering the artifact names and hashes that make up that release. This allows consumers of that release version to ensure the artifacts they are consuming have not been tampered with.
+When receiving a new release version, package registries can publish a release attestation covering the artifact names and hashes that make up that release. This allows consumers of that release version to ensure the artifacts they are consuming have not been modified, no matter how many network links or intermediate caches were used to acquire the artifact.
 
 If these release attestations are optionally published to a transparency log, package authors (or other interested parties) can monitor when a new version of a package is released.
+
+The release attestation provides integrity for the release artifacts, but it does not provide availability as it does not require the registry to serve an attested release artifact.
 
 These use cases are not hypothetical; both of them are the case today for npm's [build provenance feature], which includes a [publish attestation]. Note that while npm calls this a publish attestation, calling it a release attestation better reflects that it's coming from the package registry. Publishing often refers to an author sending content to the registry, as in [PyPI's trusted publishers feature].
 
@@ -26,9 +28,11 @@ Perhaps surprisingly, this predicate does not depend on [SLSA Provenance], but t
 
 This predicate is for the final stages of the software supply chain, where consumers are looking for attestations that the software has not been tampered with during distribution.
 
-If a registry supports immutable releases, there MUST be one release attestation for a given `predicate.purl`.
+If a previously attested release is later determined to be untrustworthy, a registry MAY stop serving the artifacts associated with that release.
 
-Even if the registry does not support immutable releases, the attestation subject SHOULD include all the artifacts associated with the release; otherwise it will be unclear if an artifact was later removed from a release.
+If a registry supports immutable releases, there SHOULD be one release attestation for a given `predicate.purl`.
+
+Even if the registry does not support immutable releases, the attestation subject SHOULD include all the artifacts associated with the release at that time; otherwise it will be unclear if an artifact was later removed from a release. For example, if a release version has an initial release attestation with artifact A, and then later has a release attestation with only artifact B, that SHOULD be interpreted as the release version now only containing artifact B.
 
 ## Schema
 
@@ -39,6 +43,9 @@ Even if the registry does not support immutable releases, the attestation subjec
 
 - **`predicate.purl`, required** string (ResourceURI)
   - A purl uniquely identifying a specific release name and version from a package registry.
+
+- **`predicate.releaseId`** string
+  - Stable identifier for a release; this should remain unchanged between release versions (e.g. it's associated with urllib3, not urllib3 v2.1.0). This will allow users to confirm that a release has moved to a new name, and prevent confusion if the old name is re-used. This could be an automatically incrementing database key or a randomly generated UUID.
 
 ### Parsing Rules
 
@@ -60,6 +67,7 @@ The purl field MUST be parsed using the [purl-spec]. It MUST include a purl `ver
   "predicateType": "https://in-toto.io/attestation/release/v0.1",
   "predicate": {
     "purl": "pkg:npm/@angular/http@7.2.16",
+    "releaseId": 1234567890
   }
 }
 ```
