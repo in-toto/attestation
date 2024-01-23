@@ -64,7 +64,7 @@ B.
 
 ## Schema
 
-```json
+```jsonc
 {
   // Standard attestation fields:
   "_type": "https://in-toto.io/Statement/v1",
