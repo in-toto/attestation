@@ -171,6 +171,7 @@ For example, here is an existing npm publish attestation:
       "digest": {
         "sha512": "d5b09211..."
       }
+    }
   ],
   "predicateType":
     "https://github.com/npm/attestation/tree/main/specs/publish/v0.1",
@@ -195,6 +196,7 @@ And this is what it would look like as a release attestation:
       "digest": {
         "sha512": "d5b09211..."
       }
+    }
   ],
   "predicateType": "https://in-toto.io/attestation/release/v0.1",
   "predicate": {
