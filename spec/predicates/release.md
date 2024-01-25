@@ -156,8 +156,53 @@ attestation SHOULD have a subject per artifact:
 ## Changelog and Migrations
 
 As this is the initial version, no changes or migrations to previous versions.
-This proposal is a subset of the information in the existing npm
-[publish attestation], so npm could easily migrate to this specification.
+The required predicates in this specification are a subset of the information
+in the existing npm [publish attestation], so npm could easily migrate to this
+specification.
+
+For example, here is an existing npm publish attestation:
+
+```json
+{
+  "_type": "https://in-toto.io/Statement/v0.1",
+  "subject": [
+    {
+      "name": "pkg:npm/semver@7.5.4",
+      "digest": {
+        "sha512": "d5b09211..."
+      }
+  ],
+  "predicateType":
+    "https://github.com/npm/attestation/tree/main/specs/publish/v0.1",
+  "predicate": {
+    "name": "semver",
+    "version": "7.5.4",
+    "registry": "https://registry.npmjs.org"
+  }
+}
+```
+
+And this is what it would look like as a release attestation:
+
+```jsonc
+{
+  "_type": "https://in-toto.io/Statement/v0.1",
+  "subject": [
+    {
+      // The subject.name value is from the publish attestation subject.name:
+      // take the purl name and version to construct "<name>-<version>.tgz"
+      "name": "semver-7.5.4.tgz",
+      "digest": {
+        "sha512": "d5b09211..."
+      }
+  ],
+  "predicateType": "https://in-toto.io/attestation/release/v0.1",
+  "predicate": {
+    // The predicate.purl value is from the publish attestation subject.name
+    "purl": "pkg:npm/semver@7.5.4"
+  }
+}
+```
 
 [build provenance feature]:
 https://github.blog/2023-04-19-introducing-npm-package-provenance/
