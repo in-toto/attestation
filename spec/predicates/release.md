@@ -2,7 +2,7 @@
 
 Type URI: https://in-toto.io/attestation/release
 
-Version 1
+Version 0.1
 
 ## Purpose
 
@@ -71,7 +71,7 @@ B.
   "subject": [{ ... }],
 
   // Predicate:
-  "predicateType": "https://in-toto.io/attestation/release/v1",
+  "predicateType": "https://in-toto.io/attestation/release/v0.1",
   "predicate": {
     "purl": <ResourceURI>,
     "releaseId": "..."
@@ -81,19 +81,22 @@ B.
 
 ### Fields
 
-- **`subject.name`** string
-  - The filename of the artifact as it would appear on disk.
+**`subject.name`** string
 
-- **`predicate.purl`, required** string ([ResourceURI])
-  - A purl uniquely identifying a specific release name and version from a
-    package registry.
+The filename of the artifact as it would appear on disk.
 
-- **`predicate.releaseId`** string
-  - Stable identifier for a release; this should remain unchanged between
-    release versions (e.g. it's associated with urllib3, not urllib3 v2.1.0).
-    This will allow users to confirm that a release has moved to a new name,
-    and prevent confusion if the old name is re-used. This could be an
-    automatically incrementing database key or a randomly generated UUID.
+**`predicate.purl`, required** string ([ResourceURI])
+
+A purl uniquely identifying a specific release name and version from a package
+registry.
+
+**`predicate.releaseId`** string
+
+Stable identifier for a release; this should remain unchanged between release
+versions (e.g. it's associated with urllib3, not urllib3 v2.1.0). This will
+allow users to confirm that a release has moved to a new name, and prevent
+confusion if the old name is re-used. This could be an automatically
+incrementing database key or a randomly generated UUID.
 
 ### Parsing Rules
 
@@ -115,7 +118,7 @@ a release (as a counter-example `type:oci` would include `qualifiers`).
       }
     }
   ],
-  "predicateType": "https://in-toto.io/attestation/release/v1",
+  "predicateType": "https://in-toto.io/attestation/release/v0.1",
   "predicate": {
     "purl": "pkg:npm/@angular/http@7.2.16",
     "releaseId": 1234567890
@@ -143,7 +146,7 @@ attestation SHOULD have a subject per artifact:
       }
     }
   ],
-  "predicateType": "https://in-toto.io/attestation/release/v1",
+  "predicateType": "https://in-toto.io/attestation/release/v0.1",
   "predicate": {
     "purl": "pkg:pypi/urllib3@2.1.0"
   }
