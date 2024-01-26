@@ -156,7 +156,7 @@ attestation SHOULD have a subject per artifact:
 ## Changelog and Migrations
 
 As this is the initial version, no changes or migrations to previous versions.
-The required predicates in this specification are a subset of the information
+The required fields in this specification are a subset of the information
 in the existing npm [publish attestation], so npm could easily migrate to this
 specification.
 
@@ -164,7 +164,7 @@ For example, here is an existing npm publish attestation:
 
 ```json
 {
-  "_type": "https://in-toto.io/Statement/v0.1",
+  "_type": "https://in-toto.io/Statement/v1",
   "subject": [
     {
       "name": "pkg:npm/semver@7.5.4",
@@ -187,7 +187,7 @@ And this is what it would look like as a release attestation:
 
 ```jsonc
 {
-  "_type": "https://in-toto.io/Statement/v0.1",
+  "_type": "https://in-toto.io/Statement/v1",
   "subject": [
     {
       // The subject.name value is from the publish attestation subject.name:
