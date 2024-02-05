@@ -154,7 +154,7 @@ attestation SHOULD have a subject per artifact:
 }
 ```
 
-Here's what a release with a container images looks like:
+Here's what a release with a container image looks like:
 
 ```json
 {
