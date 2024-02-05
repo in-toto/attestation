@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Install protoc
-        uses: arduino/setup-protoc@a8b67ba40b37d35169e222f3bb352603327985b6
+        uses: arduino/setup-protoc@c65c819552d16ad3c9b72d9dfd5ba5237b9c906b
         with:
           version: '24.x'
       - name: Install Python
