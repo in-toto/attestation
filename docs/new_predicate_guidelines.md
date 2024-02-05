@@ -52,14 +52,25 @@ specification for you.
 Our vetting process is simple.
 
 1.  Open a PR following [ITE-9] formatting guidelines.
+    -   Add the new predicate to the list of [existing predicates].
+    -   To generate Go/Python/Java language bindings for the new predicate,
+        include a [protobuf definition].
 2.  The in-toto Attestation Framework maintainers will review the PR at the
     next maintainers meeting.
 3.  If accepted, the new predicate type will be included in our directory.
+4.  Finally, if the new [predicateType] URI is defined under the
+    https://in-toto.io/attestation namespace, submit a PR to add the following
+    line to the [URL redirects list] for the in-toto.io domain:
+
+`attestation/<predicate name>/<version> https://github.com/in-toto/attestation/tree/main/spec/predicates/<predicate name>.md`
 
 [ITE-9]: https://github.com/in-toto/ITE/tree/master/ITE/9#document-format
 [Predicates]: ../spec/v1/predicate.md
 [RFC 3339]: https://tools.ietf.org/html/rfc3339
+[URL redirects list]: https://github.com/in-toto/in-toto.io/blob/master/public/_redirects
 [field types]: ../spec/v1/field_types.md
-[existing predicates]: ../spec/predicates
+[existing predicates]: ../spec/predicates/README.md
 [parsing rules]: ../spec/v1/README.md#parsing-rules
+[predicateType]: ../spec/v1/predicate.md#fields
+[protobuf definition]: ../protos/README.md
 [vetting process]: #vetting-process
