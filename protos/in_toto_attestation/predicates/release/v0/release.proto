@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package in_toto_attestation.predicates.release.v0;
+
+option go_package = "github.com/in-toto/attestation/go/predicates/release/v0";
+option java_package = "io.github.intoto.attestation.predicates.release.v0";
+
+message Release {
+  string purl = 1;
+  optional string release_id = 2;
+}

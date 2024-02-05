@@ -24,11 +24,13 @@ our [vetting process], and may be of general interest:
 -   [SPDX]: SPDX-formatted BOM for software artifacts.
 -   [CycloneDX]: CycloneDX BOM for software artifacts.
 -   [Vulnerability]: Defines the metadata to share the results of vulnerability scanning on software artifacts.
+-   [Release]: Details an artifact that is part of a given release version.
 -   [Test Result]: A generic schema to express results of any type of tests.
 
 [CycloneDX]: https://cyclonedx.org/
 [Link]: link.md
 [New Predicate Guidelines]: ../../docs/new_predicate_guidelines.md
+[Release]: release.md
 [Runtime Traces]: runtime-trace.md
 [SCAI Report]: scai.md
 [Vulnerability]: vuln.md
