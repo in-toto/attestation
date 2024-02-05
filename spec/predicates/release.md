@@ -96,7 +96,8 @@ Stable identifier for a release; this should remain unchanged between release
 versions (e.g. it's associated with urllib3, not urllib3 v2.1.0). This will
 allow users to confirm that a release has moved to a new name, and prevent
 confusion if the old name is re-used. This could be an automatically
-incrementing database key or a randomly generated UUID.
+incrementing database key, or a UUID that is initially randomly generated and
+then durably associated with the release name.
 
 ### Parsing Rules
 
@@ -105,7 +106,7 @@ The purl field MUST be parsed using the [purl-spec]. It MUST include a purl
 `qualifiers` or `subpath`, unless the `type` requires them to uniquely identify
 a release (as a counter-example `type:oci` would include `qualifiers`).
 
-## Example
+## Examples
 
 ```json
 {
@@ -149,6 +150,26 @@ attestation SHOULD have a subject per artifact:
   "predicateType": "https://in-toto.io/attestation/release/v0.1",
   "predicate": {
     "purl": "pkg:pypi/urllib3@2.1.0"
+  }
+}
+```
+
+Here's what a release with a container images looks like:
+
+```json
+{
+  "_type": "https://in-toto.io/Statement/v1",
+  "subject": [
+    {
+      "name": "registry.example.com/my-project/my-image",
+      "digest": {
+        "sha256": "fedcba09..."
+      }
+    }
+  ],
+  "predicateType": "https://in-toto.io/attestation/release/v0.1",
+  "predicate": {
+    "purl": "pkg:oci/my-image@sha256%3Afedcba09?repository_url=registry.example.com/my-project/my-image&tag=v1.2.3"
   }
 }
 ```
