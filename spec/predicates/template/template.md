@@ -21,8 +21,8 @@ this predicate and how the current predicate types (if any) do not solve this.
 
 New predicate types may be very specific to a particular technology or
 specification, which must be detailed in the prerequisites section. The in-toto
-Attestation Framework is likely a necessary prerequisite for all predicate
-types, but it SHOULD be explicitly mentioned to err on the side of caution.
+Attestation Framework may be a necessary prerequisite for all predicate types,
+if so it SHOULD be explicitly mentioned to err on the side of caution.
 
 ## Model
 
