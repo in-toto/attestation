@@ -49,9 +49,10 @@ specification for you.
 
 ## Vetting process
 
-Our vetting process is simple.
+Our vetting process is simple, and is based on the process specified in [ITE-9].
 
-1.  Open a PR following [ITE-9] formatting guidelines.
+1.  Open a PR following the formatting guidelines specified in the
+    [predicate template].
     -   Add the new predicate to the list of [existing predicates].
     -   To generate Go/Python/Java language bindings for the new predicate,
         include a [protobuf definition].
@@ -74,3 +75,4 @@ Our vetting process is simple.
 [predicateType]: ../spec/v1/predicate.md#fields
 [protobuf definition]: ../protos/README.md
 [vetting process]: #vetting-process
+[predicate template]: /spec/predicates/template/template.md
