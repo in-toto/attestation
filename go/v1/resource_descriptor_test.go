@@ -17,6 +17,8 @@ const wantFullRd = `{"name":"theName","uri":"https://example.com","digest":{"alg
 
 const badRd = `{"downloadLocation":"https://example.com/test.zip","mediaType":"theMediaType"}`
 
+const badRdDigest = `{"digest":{"alg1":"badDigest"},"downloadLocation":"https://example.com/test.zip","mediaType":"theMediaType"}`
+
 func createTestResourceDescriptor() (*ResourceDescriptor, error) {
 	// Create a ResourceDescriptor
 	a, err := structpb.NewStruct(map[string]interface{}{
@@ -64,4 +66,14 @@ func TestBadResourceDescriptor(t *testing.T) {
 
 	err = got.Validate()
 	assert.ErrorIs(t, err, ErrRDRequiredField, "created malformed ResourceDescriptor")
+}
+
+func TestBadResourceDescriptorDigest(t *testing.T) {
+	got := &ResourceDescriptor{}
+	err := protojson.Unmarshal([]byte(badRdDigest), got)
+
+	assert.NoError(t, err, "Error during JSON unmarshalling")
+
+	err = got.Validate()
+	assert.ErrorIs(t, err, ErrInvalidDigestEncoding, "created ResourceDescriptor with invalid digest encoding")
 }
