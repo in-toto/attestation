@@ -1,16 +1,16 @@
 # DigestSet field type specification
 
-Version: v1.0
+Version: v1.1
 
-Set of one or more cryptographic digests for a single software artifact or
+Set of one or more immutable digests for a single software artifact or
 metadata object.
 
 ## Schema
 
 ```json
 {
-  "<ALGORITHM_1>": "<HEX/BASE64 VALUE>",
-  "<ALGORITHM_2>": "<HEX/BASE64 VALUE>",
+  "<ALGORITHM_1>": "<VALUE>",
+  "<ALGORITHM_2>": "<VALUE>",
   ... 
 }
 ```
@@ -22,6 +22,9 @@ a string encoding of the digest using that algorithm. The named standard
 algorithms below use lowercase hex encoding. Usually there is just a
 single key/value pair, but multiple entries MAY be used for algorithm
 agility.
+
+Users SHOULD use a _cryptographic_ digest, but MAY use another identifier 
+if the underlying implementation ensures immutability via other means.
 
 ### Supported algorithms
 
