@@ -23,7 +23,7 @@ algorithms below use lowercase hex encoding. Usually there is just a
 single key/value pair, but multiple entries MAY be used for algorithm
 agility.
 
-Users SHOULD use a _cryptographic_ digest, but MAY use another identifier 
+Users SHOULD use a _cryptographic_ digest, but MAY use another identifier
 if the underlying implementation ensures immutability via other means.
 
 ### Supported algorithms
