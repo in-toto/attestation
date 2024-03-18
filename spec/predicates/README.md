@@ -26,6 +26,10 @@ our [vetting process], and may be of general interest:
 -   [Vulnerability]: Defines the metadata to share the results of vulnerability scanning on software artifacts.
 -   [Release]: Details an artifact that is part of a given release version.
 -   [Test Result]: A generic schema to express results of any type of tests.
+-   [VCS Code Review]: Describes code review approvals done through version
+    control systems and platforms (e.g., GitHub or GitLab).
+-   [Crev]: Describes community reviews as part of the Crev project for software
+    dependencies.
 
 [CycloneDX]: https://cyclonedx.org/
 [Link]: link.md
@@ -40,3 +44,5 @@ our [vetting process], and may be of general interest:
 [Test Result]: test-result.md
 [in-toto 0.9]: https://github.com/in-toto/docs/blob/master/in-toto-spec.md#44-file-formats-namekeyid-prefixlink
 [vetting process]: ../../docs/new_predicate_guidelines.md#vetting-process
+[VCS Code Review]: human-review-vcs.md
+[Crev]: human-review-crev.md
