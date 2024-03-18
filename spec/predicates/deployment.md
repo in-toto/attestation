@@ -30,7 +30,7 @@ one of the principles used internally at Google; it is also a feature provided b
 
 The decision to allow or deny a deployment request may happen in "real-time", i.e. the control plane
 may query an online authorization service at the time of the deployment. Such an authorization service
-requires low-latency / high-availability SLOs to avoid deployment outage. This is exarcebated in systems
+requires low-latency / high-availability SLOs to avoid deployment outage. This is exacerbated in systems
 like Kubernetes where admission webhooks run for every pod deployed. Thus it is often desirable
 to "shift-left" and perform an authorization evaluation ahead of time _before_ a deployment request
 reaches the control plane. The deployment attestation _is_ the proof of authorization that the control plane may
