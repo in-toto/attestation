@@ -122,7 +122,7 @@ for troubleshooting and logging.
 Verification of a deployment attestation is typically performed by an admission controller prior to deploying an artifact / container.
 The verification configuration MUST be done out-of-band and contain the following pieces of information:
 
-1. Required: The "trusted roots". A trusted root defines an entity that is trusted to generate attestations. A trusted root MUST be configured with at least the following pieces of information:
+1. Required: The "trusted roots". A trusted root defines an entity that is trusted to generate attestations. A trusted root MUST be configured with the following pieces of information:
     - Required: The unique identity of the attestation generator. The identity may be a cryptographic public key, an identity in an x509 certificate, etc.
     - Required: Which scope types the attestation generator is authoritative for.
 2. Optional: Required scopes, which is a set of mandatory scope types that MUST be non-empty for verification to pass. Images MUST have attestation(s) over each scope type in the set in order to be admitted. Required scopes are necessary in an attestation, but not sufficient; other scopes present in the attestation MUST match the current environment in order for it to be considered valid.
@@ -134,9 +134,9 @@ Verification happens in two phases:
 
 1. Attestation authenticity verification. It takes as input an artifact, an attestation, an attestation signature and the trusted roots. If verification passes, it outputs the attestation's intoto statement. If verification fails, the attestation is considered invalid and MUST be rejected. Using the trusted roots, this phase verifies:
     - The attestation signature.
-    - Only the authoritative scopes are present in the attestation. If a scope type is non-empty and the generator is _not_ authoritative for the scope type, verification MUST fail. If a scope type is unrecognized or not supported by the verifier, verification MUST fail.
+    - The authoritative scopes present in the attestation. If a scope type is non-empty and the generator is _not_ authoritative for the scope type, verification MUST fail. If a scope type is unrecognized or not supported by the verifier, verification MUST fail.
     - Required scopes are present in the attestation.
-2. Scope match verification. It takes as input the intoto payload from the previous phase. For scope types that identify a resource explicitly (see [Schema](#schema)), the verifier matches each scope value against its corresponding environment value where the artifact is to be deployed
+2. Scope match verification. It takes as input the intoto statement from the previous phase. For scope types that identify a resource explicitly (see [Schema](#schema)), the verifier matches each scope value against its corresponding environment value where the artifact is to be deployed
 (e.g., a service account, a pod ID). For scope types that identify a resource implicitly via an authorization URI (see [Schema](#schema)), the verifier matches the value against the URI in the configuration (See [Configuration](#configuration)). Non-empty fields add constraints to the protection scope and are _always_ interpreted as a logical "AND". The verifier MUST compare each scope value to its expected value using an equality comparison. If the values are all equal, verification passes. Otherwise, it MUST fail. Unset scopes (either a scope type with an empty value or a non-present scope) are interpreted as "any value" and are ignored.
 
 ### Supported Scopes
@@ -200,7 +200,7 @@ attestation's "spiffe.io/id" == environment's "Spiffe ID" AND
 
 #### Custom scopes
 
-One can define their own scopes. To avoid scope type name collisions, the scope type name MUST b a unique URI, such as:
+One can define their own scopes. To avoid scope type name collisions, the scope type name MUST be a unique URI, such as:
 
 ```shell
 my.myproject.com/resource/v1   string: resource for environment my.myproject.com
