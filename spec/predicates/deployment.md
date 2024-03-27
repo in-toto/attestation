@@ -10,34 +10,13 @@ To authoritatively express which environment an artifact is allowed to be deploy
 
 ## Use Cases
 
-When deploying an artifact (e.g., a container), we want to restrict which environment
-the artifact is allowed to be deployed / run. The environment has access
-to resources we want to protect, such as a service account, a Spiffe ID, a Kubernetes pod ID, etc.
-The deployment attestation authoritatively binds an artifact to a deployment environment
-where an artifact is allowed to be deployed.
+WA delpoyment policy expresses which environment an artifact is allowed to be deployed to. Binding an artifact to its expected deployment environment is one of the principles used internally at Google; it is also a feature provided by [Google Cloud Binauthz](https://cloud.google.com/binary-authorization/). A deployment environment may be a cloud machine where we deploy containers, a developer workstation where we deploy packages (pip, npm, etc.) or even an Android device where we deploy applications. 
 
-The ability to bind an artifact to an environment is paramount to reduce the blast radius
-if vulnerabilties are exploited or environments are compromised. Attackers who gain access
-to an environment will pivot based on the privileges of this environment, so it is imperative to
-follow the privilege of least principle and restrict _which_ code is allowed to run in _which_ environment.
-For example, we would not want to deploy a container with remote shell capabilities on a pod that processes
-user credentials, even if this container is integrity protected at the highest SLSA level.
-Conceptually, this is similar to how we think about sandboxing and least-privilege principle on
-operating systems. The same concepts apply to different types of environments, including cloud environments.
+When deploying an artifact (e.g., a container, a smartphone app), we want to restrict which environment the artifact is allowed to be deployed / run. The environment has access to resources we want to protect, such as a cloud service account, a Spiffe ID, a Kubernetes pod ID, an SEAndroid context, etc. The deployment attestation authoritatively binds an artifact to a deployment environment where an artifact is allowed to be deployed.
 
-These use cases are not hypothetical. Binding an artifact to its expected deployment environment is
-one of the principles used internally at Google; it is also a feature provided by [Google Cloud Binauthz](https://cloud.google.com/binary-authorization/).
+The ability to bind an artifact to an environment is paramount to reduce the blast radius if vulnerabilties are exploited or environments are compromised. Attackers who gain access to an environment will pivot based on the privileges of this environment, so it is imperative to follow the privilege of least principle and restrict which code is allowed to run in which environment. For example, we would not want to deploy a container with remote shell capabilities on a pod that processes user credentials, even if this container is integrity protected at the highest SLSA level. Conceptually, this is similar to how we think about sandboxing and least-privilege principle on operating systems. The same concepts apply to different types of environments, including cloud environments.
 
-The decision to allow or deny a deployment request may happen in "real-time", i.e. the control plane
-may query an online authorization service at the time of the deployment. Such an authorization service
-requires low-latency / high-availability SLOs to avoid deployment outage. This is exacerbated in systems
-like Kubernetes where admission webhooks run for every pod deployed. Thus it is often desirable
-to "shift-left" and perform an authorization evaluation ahead of time _before_ a deployment request
-reaches the control plane. The deployment attestation _is_ the proof of authorization that the control plane may
-use to make its final decision, instead of querying an online service itself. 
-Verification of the deployment attestation is simple, fast and may be performed entirely offline.
-Overall, this shift-left strategy provides the following advantages: less likely to cause production issues,
-better debugging UX for devs, less auditing and production noise for SREs and security teams.
+The decision to allow or deny a deployment request may happen in "real-time", i.e. the control plane may query an online authorization service at the time of the deployment. Such an authorization service requires low-latency / high-availability SLOs to avoid deployment outage. This is exacerbated in systems like Kubernetes where admission webhooks run for every pod deployed. Thus it is often desirable to "shift-left" and perform an authorization evaluation ahead of time before a deployment request reaches the control plane. The deployment attestation is the proof of authorization that the control plane may use to make its final decision, instead of querying an online service itself. Verification of the deployment attestation is simple, fast and may be performed entirely offline. Overall, this shift-left strategy provides the following advantages: less likely to cause production issues, better debugging UX for devs, less auditing and production noise for SREs and security teams.
 
 ## Prerequisites
 
