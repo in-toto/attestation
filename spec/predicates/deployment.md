@@ -12,7 +12,7 @@ To authoritatively express which environment an artifact is allowed to be deploy
 
 WA delpoyment policy expresses which environment an artifact is allowed to be deployed to. Binding an artifact to its expected deployment environment is one of the principles used internally at Google; it is also a feature provided by [Google Cloud Binauthz](https://cloud.google.com/binary-authorization/). A deployment environment may be a cloud machine where we deploy containers, a developer workstation where we deploy packages (pip, npm, etc.) or even an Android device where we deploy applications. 
 
-When deploying an artifact (e.g., a container, a smartphone app), we want to restrict which environment the artifact is allowed to be deployed / run. The environment has access to resources we want to protect, such as a cloud service account, a Spiffe ID, a Kubernetes pod ID, an SEAndroid context, a developer's workstation identity, etc. The deployment attestation authoritatively binds an artifact to a deployment environment where an artifact is allowed to be deployed.
+When deploying an artifact (e.g., a container, a smartphone app), we want to restrict which environment the artifact is allowed to be deployed / run. The environment has access to resources we want to protect, such as a cloud service account, a Spiffe ID, a Kubernetes pod ID, an SEAndroid context, a developer's workstation identity, etc. The deployment attestation authoritatively binds an artifact to a (set of) deployment environments where an artifact is allowed to be deployed.
 
 The ability to bind an artifact to an environment is paramount to reduce the blast radius if vulnerabilties are exploited or environments are compromised. Attackers who gain access to an environment will pivot based on the privileges of this environment, so it is imperative to follow the privilege of least principle and restrict which code is allowed to run in which environment. For example, we would not want to deploy a container with remote shell capabilities on a pod that processes user credentials, even if this container is integrity protected at the highest SLSA level. Conceptually, this is similar to how we think about sandboxing and least-privilege principle on operating systems. The same concepts apply to different types of environments, including cloud environments.
 
@@ -27,6 +27,8 @@ This predicate depends on the [in-toto Attestation Framework](https://github.com
 
 This predicate is for the deployment stage of the software supply chain, where
 consumers want to bind an artifact to a deployment environment.
+An authorization service is called and generates a deployment attestation. The generated attestation can be embedded in the deployment request to deploy the artifact. 
+The authorization service may be called explicitly in CI, or it may be called by the tooling without user involvement. Examples of tooling where this functionality could be implemented include [kubectl](https://kubernetes.io/docs/reference/kubectl/), [gcloud CLI](https://cloud.google.com/sdk/gcloud), [aws CLI](https://aws.amazon.com/cli/) or GitOps solutions like [ArgoCD](https://argo-cd.readthedocs.io/en/stable/). 
 
 ## Schema
 
