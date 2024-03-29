@@ -27,8 +27,8 @@ This predicate depends on the [in-toto Attestation Framework](https://github.com
 
 This predicate is for the deployment stage of the software supply chain, where
 consumers want to bind an artifact to a deployment environment.
-An authorization service is called and generates a deployment attestation. The generated attestation can be embedded in the deployment request to deploy the artifact. 
-The authorization service may be called explicitly in CI, or it may be called by the tooling without user involvement. Examples of tooling where this functionality could be implemented include [kubectl](https://kubernetes.io/docs/reference/kubectl/), [gcloud CLI](https://cloud.google.com/sdk/gcloud), [aws CLI](https://aws.amazon.com/cli/) or GitOps solutions like [ArgoCD](https://argo-cd.readthedocs.io/en/stable/). 
+An authorization service is called and generates a deployment attestation. The generated attestation can be embedded in the deployment request to deploy the artifact.
+The authorization service may be called explicitly in CI, or it may be called by the tooling without user involvement. Examples of tooling where this functionality could be implemented include [kubectl](https://kubernetes.io/docs/reference/kubectl/), [gcloud CLI](https://cloud.google.com/sdk/gcloud), [aws CLI](https://aws.amazon.com/cli/) or GitOps solutions like [ArgoCD](https://argo-cd.readthedocs.io/en/stable/).
 
 ## Schema
 
@@ -398,7 +398,7 @@ verification failed.
 
 **Verification result**:
 - The attestation authentication verification succeeds, because the trusted root
-  is authoritative for scope type "kubernetes.io/pod/namespace/v1" and "binaryauthorization.googleapis.com/policy_uri". The only required scope type is "binaryauthorization.googleapis.com/policy_uri" and is present in the attestation.
+  is authoritative for scope types "kubernetes.io/pod/namespace/v1" and "binaryauthorization.googleapis.com/policy_uri".The only required scope type is "binaryauthorization.googleapis.com/policy_uri" and is present in the attestation.
 - The scope match verification succeeds, because the namespace matches the environment and
 the "binaryauthorization.googleapis.com/policy_uri" value matches the configuration value "projects/foo/platforms/gke/policies/bar".
 
