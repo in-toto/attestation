@@ -35,11 +35,12 @@ func (d *ResourceDescriptor) Validate() error {
 	if len(d.GetDigest()) > 0 {
 		for alg, digest := range d.GetDigest() {
 
-			// check encoding and length for supported algorithms
+			// Per https://github.com/in-toto/attestation/blob/main/spec/v1/digest_set.md
+			// check encoding and length for supported algorithms;
+			// use of custom, unsupported algorithms is allowed and does not not generate validation errors.
 			supported, size := isSupportedAlgorithm(alg)
 			if supported {
 				// the in-toto spec expects a hex-encoded string in DigestSets for supported algorithms
-				// https://github.com/in-toto/attestation/blob/main/spec/v1/digest_set.md
 				hashBytes, err := hex.DecodeString(digest)
 
 				if err != nil {

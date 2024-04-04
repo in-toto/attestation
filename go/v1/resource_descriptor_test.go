@@ -15,6 +15,8 @@ import (
 
 const wantFullRd = `{"name":"theName","uri":"https://example.com","digest":{"alg1":"abc123"},"content":"Ynl0ZXNjb250ZW50","downloadLocation":"https://example.com/test.zip","mediaType":"theMediaType","annotations":{"a1":{"keyNum": 13,"keyStr":"value1"},"a2":{"keyObj":{"subKey":"subVal"}}}}`
 
+const supportedRdDigest = `{"digest":{"sha256":"a1234567b1234567c1234567d1234567e1234567f1234567a1234567b1234567","custom":"myCustomEnvoding","sha1":"a1234567b1234567c1234567d1234567e1234567"}}`
+
 const badRd = `{"downloadLocation":"https://example.com/test.zip","mediaType":"theMediaType"}`
 
 const badRdDigestEncoding = `{"digest":{"sha256":"badDigest"},"downloadLocation":"https://example.com/test.zip","mediaType":"theMediaType"}`
@@ -58,6 +60,16 @@ func TestJsonUnmarshalResourceDescriptor(t *testing.T) {
 
 	assert.NoError(t, err, "Error during test RD creation")
 	assert.True(t, proto.Equal(got, want), "Protos do not match")
+}
+
+func TestSupportedResourceDescriptorDigest(t *testing.T) {
+	got := &ResourceDescriptor{}
+	err := protojson.Unmarshal([]byte(supportedRdDigest), got)
+
+	assert.NoError(t, err, "Error during JSON unmarshalling")
+
+	err = got.Validate()
+	assert.NoError(t, err, "Error during validation of valid supported RD digests")
 }
 
 func TestBadResourceDescriptor(t *testing.T) {
