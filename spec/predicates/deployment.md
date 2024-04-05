@@ -10,7 +10,7 @@ To authoritatively say that an artifact has been approved to be deployed in spec
 
 Deployment attestations (DAs) and VSAs may seem similar at first glance but they have important differences. VSAs express that an artifact has been approved by some party and what properties that artifact has, while placing no constraints on the artifacts use. DAs, on the other hand, make no statement about what properties the artifact has, but allow the issuer to place constraints on where that artifact is used.
 
-## Use Cases
+## Motivation
 
 When deploying an artifact (e.g., a container, a smartphone app), we would like to restrict which environment the artifact is allowed to be deployed / run. The environment has access to resources we want to protect, such as a cloud service account, a Spiffe ID, a Kubernetes pod ID, an SEAndroid context, a developer's workstation identity, etc. The deployment attestation authoritatively binds an artifact to a (set of) deployment environments where an artifact is allowed to be deployed.
 
