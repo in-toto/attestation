@@ -63,4 +63,4 @@ Example media types for single DSSE-signed attestation predicates include:
 [Statement]: statement.md
 [in-toto-verify]: https://github.com/in-toto/in-toto#verification
 [functionaries]: https://github.com/in-toto/docs/blob/v1.0/in-toto-spec.md#212-functionaries
-[predicate specification name]: ../predicates
+[predicate specification filename]: ../predicates
