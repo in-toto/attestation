@@ -6,13 +6,13 @@ Version 1.0
 
 ## Purpose
 
-To authoritatively express which environment an artifact is allowed to be deployed to.
+To authoritatively say that an artifact has been approved to be deployed in specific environments. 'Deployed in specific environments' may include a) running a workload on a Kubernetes cluster, b) installing a package on a workstation, c) installing an app on a smartphone. This attestation expresses both that the artifact has been 'approved' by the issuing party as well as additional conditions (scopes) that the issuing party places on which environments the artifact may be deployed to. It assumes that the issuing party and the parties managing the deployment environments are part of the same trust domain. E.g. the issuing party assumes the environments will adhere to the conditions placed on deployment of the artifact. The exact mechanism of how the environments will enforce these constraints is out-of-scope.
+
+Deployment attestations (DAs) and VSAs may seem similar at first glance but they have important differences. VSAs express that an artifact has been approved by some party and what properties that artifact has, while placing no constraints on the artifacts use. DAs, on the other hand, make no statement about what properties the artifact has, but allow the issuer to place constraints on where that artifact is used.
 
 ## Use Cases
 
-A deployment policy expresses which environment an artifact is allowed to be deployed to. Binding an artifact to its expected deployment environment is one of the principles used internally at Google; it is also a feature provided by [Google Cloud Binauthz](https://cloud.google.com/binary-authorization/). A deployment environment may be a cloud machine where we deploy containers, a developer workstation where we deploy packages (pip, npm, etc.) or even an Android device where we deploy applications. 
-
-When deploying an artifact (e.g., a container, a smartphone app), we want to restrict which environment the artifact is allowed to be deployed / run. The environment has access to resources we want to protect, such as a cloud service account, a Spiffe ID, a Kubernetes pod ID, an SEAndroid context, a developer's workstation identity, etc. The deployment attestation authoritatively binds an artifact to a (set of) deployment environments where an artifact is allowed to be deployed.
+When deploying an artifact (e.g., a container, a smartphone app), we would like to restrict which environment the artifact is allowed to be deployed / run. The environment has access to resources we want to protect, such as a cloud service account, a Spiffe ID, a Kubernetes pod ID, an SEAndroid context, a developer's workstation identity, etc. The deployment attestation authoritatively binds an artifact to a (set of) deployment environments where an artifact is allowed to be deployed.
 
 The ability to bind an artifact to an environment is paramount to reduce the blast radius if vulnerabilties are exploited or environments are compromised. Attackers who gain access to an environment will pivot based on the privileges of this environment, so it is imperative to follow the privilege of least principle and restrict which code is allowed to run in which environment. For example, we would not want to deploy a container with remote shell capabilities on a pod that processes user credentials, even if this container is integrity protected at the highest SLSA level. Conceptually, this is similar to how we think about sandboxing and least-privilege principle on operating systems. The same concepts apply to different types of environments, including cloud environments.
 
@@ -21,7 +21,7 @@ In situations where an online verification is technically possible, there are st
 
 ## Prerequisites
 
-This predicate depends on the [in-toto Attestation Framework](https://github.com/laurentsimon/attestation/blob/feat/deploy-att/spec/README.md).
+This predicate depends on the [in-toto Attestation Framework](/spec#readme).
 
 ## Model
 
