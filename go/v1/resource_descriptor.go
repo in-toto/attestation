@@ -46,12 +46,12 @@ func (d *ResourceDescriptor) Validate() error {
 				hashBytes, err := hex.DecodeString(digest)
 
 				if err != nil {
-					return fmt.Errorf("%w: %s", ErrInvalidDigestEncoding, alg)
+					return fmt.Errorf("%w (%s: %s)", ErrInvalidDigestEncoding, alg, digest)
 				}
 
 				// check the length of the digest
 				if len(hashBytes) != size {
-					return fmt.Errorf("%w: %s (got %d bytes, want %d bytes", ErrIncorrectDigestLength, alg, len(hashBytes), size)
+					return fmt.Errorf("%w: got %d bytes, want %d bytes (%s: %s)", ErrIncorrectDigestLength, len(hashBytes), size, alg, digest)
 				}
 			}
 		}
