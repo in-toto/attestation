@@ -89,7 +89,7 @@ func TestBadResourceDescriptorDigestEncoding(t *testing.T) {
 	assert.NoError(t, err, "Error during JSON unmarshalling")
 
 	err = got.Validate()
-	assert.ErrorIs(t, err, ErrInvalidDigestEncoding, "created ResourceDescriptor with invalid digest encoding")
+	assert.ErrorIs(t, err, ErrInvalidDigestEncoding, "did not get expected error when validating ResourceDescriptor with invalid digest encoding")
 }
 
 func TestBadResourceDescriptorDigestLength(t *testing.T) {
@@ -99,5 +99,5 @@ func TestBadResourceDescriptorDigestLength(t *testing.T) {
 	assert.NoError(t, err, "Error during JSON unmarshalling")
 
 	err = got.Validate()
-	assert.ErrorIs(t, err, ErrIncorrectDigestLength, "created ResourceDescriptor with incorrect digest length")
+	assert.ErrorIs(t, err, ErrIncorrectDigestLength, "did not get expected error when validating ResourceDescriptor with incorrect digest length")
 }
