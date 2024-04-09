@@ -40,7 +40,7 @@ Envelope SHOULD use the suffix `.json`.
 The media type `application/vnd.in-toto.<predicate>+dsse` SHOULD
 be used to denote an individual attestation in arbitrary storage systems.
 
--   The `<predicate>` MUST match the [predicate specification name]
+-   The `<predicate>` MUST match the [predicate specification filename]
     without the file extension. Predicate versioning is handled in the
     [Statement] layer.
 -   Consumers SHOULD NOT rely upon the media type for individual attestations
@@ -63,4 +63,4 @@ Example media types for single DSSE-signed attestation predicates include:
 [Statement]: statement.md
 [in-toto-verify]: https://github.com/in-toto/in-toto#verification
 [functionaries]: https://github.com/in-toto/docs/blob/v1.0/in-toto-spec.md#212-functionaries
-[predicate specification name]: ../predicates
+[predicate specification filename]: ../predicates
