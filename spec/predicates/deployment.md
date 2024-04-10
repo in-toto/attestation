@@ -2,7 +2,7 @@
 
 Type URI: https://in-toto.io/attestation/deployment
 
-Version 1.0
+Version 0.1
 
 ## Purpose
 
