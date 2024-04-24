@@ -195,6 +195,7 @@ flexibility for the user's various use cases.
     object format. The best documentation we have found are the linked
     Stack Overflow articles. If you can find a better, more official
     reference, please open an issue.
+
 [Git Objects]: https://git-scm.com/book/en/v2/Git-Internals-Git-Objects
 [directory Hash1]: https://cs.opensource.google/go/x/mod/+/refs/tags/v0.5.0:sumdb/dirhash/hash.go
 [so-commit]: https://stackoverflow.com/a/37438460
