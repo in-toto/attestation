@@ -2,8 +2,8 @@
 
 Version: v1.1
 
-Set of one or more immutable digests for a single software artifact or
-metadata object.
+Set of one or more immutable digests for a single software artifact or metadata
+object.
 
 ## Schema
 
@@ -11,20 +11,19 @@ metadata object.
 {
   "<ALGORITHM_1>": "<VALUE>",
   "<ALGORITHM_2>": "<VALUE>",
-  ... 
+  ...
 }
 ```
 
 ## Fields
 
-A DigestSet is represented as a _JSON object_ mapping algorithm name to
-a string encoding of the digest using that algorithm. The named standard
-algorithms below use lowercase hex encoding. Usually there is just a
-single key/value pair, but multiple entries MAY be used for algorithm
-agility.
+A DigestSet is represented as a *JSON object* mapping algorithm name to a string
+encoding of the digest using that algorithm. The named standard algorithms below
+use lowercase hex encoding. Usually there is just a single key/value pair, but
+multiple entries MAY be used for algorithm agility.
 
-Users SHOULD use a _cryptographic_ digest, but MAY use another identifier
-if the underlying implementation ensures immutability via other means.
+Users SHOULD use a *cryptographic* digest, but MAY use another identifier if the
+underlying implementation ensures immutability via other means.
 
 ### Supported algorithms
 
@@ -36,11 +35,11 @@ for cases when the method of serialization is obvious or well known.
 
 #### `dirHash`
 
-The [directory Hash1][] function, omitting the "h1:" prefix
-and output in lowercase hexadecimal instead of base64. This algorithm was
-designed for go modules but can be used to digest the _contents_ of an
-arbitrary archive or file tree. Equivalent to extracting the archive to an
-empty directory and running the following command in that directory:
+The [directory Hash1][] function, omitting the "h1:" prefix and output in
+lowercase hexadecimal instead of base64. This algorithm was designed for go
+modules but can be used to digest the *contents* of an arbitrary archive or file
+tree. Equivalent to extracting the archive to an empty directory and running the
+following command in that directory:
 
 ```bash
 find . -type f | cut -c3- | LC_ALL=C sort | xargs -r sha256sum | sha256sum | cut -f1 -d' '
@@ -48,13 +47,14 @@ find . -type f | cut -c3- | LC_ALL=C sort | xargs -r sha256sum | sha256sum | cut
 
 For example, the module dirhash
 `h1:Khu2En+0gcYPZ2kuIihfswbzxv/mIHXgzPZ018Oty48=` would be encoded as
-`{"dirHash1": "2a1bb6127fb481c60f67692e22285fb306f3c6ffe62075e0ccf674d7c3adcb8f"}`.
+`{"dirHash1":
+"2a1bb6127fb481c60f67692e22285fb306f3c6ffe62075e0ccf674d7c3adcb8f"}`.
 
 <details>
 <summary>Detailed example</summary>
 
-The go module `github.com/marklodato/go-hello-world@v0.0.1` has module
-dirhash `h1:Khu2En+0gcYPZ2kuIihfswbzxv/mIHXgzPZ018Oty48=`:
+The go module `github.com/marklodato/go-hello-world@v0.0.1` has module dirhash
+`h1:Khu2En+0gcYPZ2kuIihfswbzxv/mIHXgzPZ018Oty48=`:
 
 ```bash
 $ curl https://sum.golang.org/lookup/github.com/marklodato/go-hello-world@v0.0.1
@@ -63,8 +63,8 @@ github.com/marklodato/go-hello-world v0.0.1 h1:Khu2En+0gcYPZ2kuIihfswbzxv/mIHXgz
 ...
 ```
 
-To compute the dirhash by hand, first fetch the module archive and extract
-it to an empty directory:
+To compute the dirhash by hand, first fetch the module archive and extract it to
+an empty directory:
 
 ```bash
 curl -O https://proxy.golang.org/github.com/marklodato/go-hello-world/@v/v0.0.1.zip
@@ -73,8 +73,8 @@ cd tmp
 unzip ../v0.0.1.zip
 ```
 
-We can see all of the files in the directory using the first part of the
-command above:
+We can see all of the files in the directory using the first part of the command
+above:
 
 ```bash
 $ find . -type f | cut -c3- | LC_ALL=C sort | xargs -r sha256sum
@@ -114,9 +114,9 @@ This hash is computed over `<type> SP <size> NUL <content>`, where:
 -   `NUL` is the ASCII NUL character, 0x00
 -   `<content>` is git representation of the object:
     -   For `commit`, the raw commit object ([more info][so-commit][^git-docs])
-    -   For `tree`,  the raw tree object, which is a series of
-        `<unix-octal-mode> <name> NUL <binary-digest>` entries, sorted by
-        `<name>` in the C locale ([more info][so-tree][^git-docs])
+    -   For `tree`, the raw tree object, which is a series of `<unix-octal-mode>
+        <name> NUL <binary-digest>` entries, sorted by `<name>` in the C locale
+        ([more info][so-tree][^git-docs])
     -   For `blob`, the raw file contents
     -   For `tag`, the raw tag object
 
@@ -133,19 +133,50 @@ $ printf 'Hello' | git hash-object -t blob --stdin
 
 ### Guidelines
 
-It is RECOMMENDED to use at least `sha256` for compatibility between
-producers and consumers, unless a different hash algorithm is more
-conventional (e.g. `gitCommit` for git).
+It is RECOMMENDED to use at least `sha256` for compatibility between producers
+and consumers, unless a different hash algorithm is more conventional (e.g.
+`gitCommit` for git).
 
-Consumers MUST only accept algorithms that they consider secure and MUST
-ignore unrecognized or unaccepted algorithms. For example, most
-applications SHOULD NOT accept "md5" because it lacks collision resistance.
+Consumers MUST only accept algorithms that they consider secure and MUST ignore
+unrecognized or unaccepted algorithms. For example, most applications SHOULD NOT
+accept "md5" because it lacks collision resistance.
 
-Two DigestSets SHOULD be considered matching if ANY acceptable field
-matches.
+Two DigestSets SHOULD be considered matching if ANY acceptable field matches.
 
 New algorithms MUST document how the value is encoded, e.g. URL-safe base64,
 lowercase hex, etc...
+
+### Use cases for non-cryptographic, immutable, digests
+
+Sometimes users have a need to refer to something by some other immutable
+identifier. Either because the content can't be hashed traditionally, because
+it's impractical to hash traditionally, or because they interact with the
+content through an interface that doesn't expose them to the entirety of the
+content.
+
+In these situations users may wish to use other identifiers in a DigestSet.
+Those users should be careful to understand the trust that they're placing in
+the identifier to be sure that it meets their needs.
+
+One concrete example of where a non-cryptographic hash can be useful is when
+referring to Virtual Machine images. Often these images are very large
+(impractical to run a cryptographic hash over) and users often interact with
+them via APIs that the platform provides that don't involve the user having
+complete custody of the content. Platforms like AWS and GCP provide 'ids' for
+users to use when referring to these images. A user may say something like
+"create an instance with image 123". In that case the user doesn't actually have
+the bits that correspond to 'image 123' so they cannot digest it themselves. And
+by the time the image has started it can be difficult, if not impossible, to
+digest the original content that was used to boot the instance.
+
+These IDs can often be treated as immutable and may be perfectly suited to users
+threat profiles. Allowing DigestSets to use these types of identifiers allows
+providers to make statements about the content of these VM images using the
+identifiers their users have ready access to.
+
+In addition, using an ID like this does not preclude including a cryptographic
+hash in the DigestSet as well. If possible including both may provide the most
+flexibility for the user's various use cases.
 
 ## Examples
 
@@ -155,15 +186,15 @@ lowercase hex, etc...
 
 <!-- Add a horizontal rule to separate footnotes -->
 
----
+--------------------------------------------------------------------------------
 
 [^git-docs]: At the time of writing (2023-03), git has no official documentation
     of the internal object format used for hashing. The [Git Objects]
-    chapter of the Git Book is the closest thing to official documentation, but
-    it lacks many details, such as the raw tree object format. The best
-    documentation we have found are the linked Stack Overflow articles. If you
-    can find a better, more official reference, please open an issue.
-
+    chapter of the Git Book is the closest thing to official
+    documentation, but it lacks many details, such as the raw tree
+    object format. The best documentation we have found are the linked
+    Stack Overflow articles. If you can find a better, more official
+    reference, please open an issue.
 [Git Objects]: https://git-scm.com/book/en/v2/Git-Internals-Git-Objects
 [directory Hash1]: https://cs.opensource.google/go/x/mod/+/refs/tags/v0.5.0:sumdb/dirhash/hash.go
 [so-commit]: https://stackoverflow.com/a/37438460
