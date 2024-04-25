@@ -147,6 +147,38 @@ matches.
 New algorithms MUST document how the value is encoded, e.g. URL-safe base64,
 lowercase hex, etc...
 
+### Use cases for non-cryptographic, immutable, digests
+
+Sometimes users have a need to refer to something by some other immutable
+identifier. Either because the content can't be hashed traditionally, because
+it's impractical to hash traditionally, or because they interact with the
+content through an interface that doesn't expose them to the entirety of the
+content.
+
+In these situations users may wish to use other identifiers in a DigestSet.
+Those users should be careful to understand the trust that they're placing in
+the identifier to be sure that it meets their needs.
+
+One concrete example of where a non-cryptographic hash can be useful is when
+referring to Virtual Machine images. Often these images are very large
+(impractical to run a cryptographic hash over) and users often interact with
+them via APIs that the platform provides that don't involve the user having
+complete custody of the content. Platforms like AWS and GCP provide 'ids' for
+users to use when referring to these images. A user may say something like
+"create an instance with image 123". In that case the user doesn't actually have
+the bits that correspond to 'image 123' so they cannot digest it themselves. And
+by the time the image has started it can be difficult, if not impossible, to
+digest the original content that was used to boot the instance.
+
+These IDs can often be treated as immutable and may be perfectly suited to users
+threat profiles. Allowing DigestSets to use these types of identifiers allows
+providers to make statements about the content of these VM images using the
+identifiers their users have ready access to.
+
+In addition, using an ID like this does not preclude including a cryptographic
+hash in the DigestSet as well. If possible including both may provide the most
+flexibility for the user's various use cases.
+
 ## Examples
 
 -   `{"sha256": "abcd", "sha512": "1234"}` matches `{"sha256": "abcd"}`
