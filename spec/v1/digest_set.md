@@ -26,7 +26,7 @@ agility.
 Each entry in a DigestSet MUST be an immutable reference to an artifact. It is
 STRONGLY RECOMMENDED to use a commonly accepted, cryptographically secure digest
 algorithm to achieve this immutability. See [Use cases for non-cryptographic,
-immutable, digests][use-cases-for-non-cryptographic-immutable-digests] for
+immutable, digests](#use-cases-for-non-cryptographic-immutable-digests) for
 further guidance.
 
 Users SHOULD use a _cryptographic_ digest, but MAY use another identifier
