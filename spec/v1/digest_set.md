@@ -2,8 +2,8 @@
 
 Version: v1.1
 
-Set of one or more immutable digests for a single software artifact or
-metadata object.
+Set of one or more cryptographic digests, or other immutable references,
+for a single software artifact or metadata object.
 
 ## Schema
 
@@ -22,6 +22,12 @@ a string encoding of the digest using that algorithm. The named standard
 algorithms below use lowercase hex encoding. Usually there is just a
 single key/value pair, but multiple entries MAY be used for algorithm
 agility.
+
+Each entry in a DigestSet MUST be an immutable reference to an artifact. It is
+STRONGLY RECOMMENDED to use a commonly accepted, cryptographically secure digest
+algorithm to achieve this immutability. See [Use cases for non-cryptographic,
+immutable, digests][use-cases-for-non-cryptographic-immutable-digests] for
+further guidance.
 
 Users SHOULD use a _cryptographic_ digest, but MAY use another identifier
 if the underlying implementation ensures immutability via other means.
@@ -149,15 +155,15 @@ lowercase hex, etc...
 
 ### Use cases for non-cryptographic, immutable, digests
 
-Sometimes users have a need to refer to something by some other immutable
-identifier. Either because the content can't be hashed traditionally, because
-it's impractical to hash traditionally, or because they interact with the
-content through an interface that doesn't expose them to the entirety of the
-content.
+While cryptographic digests are the strongly recommended immutable identifier,
+users might have need to refer to an artifact by some other means. For example,
+it might be technically infeasible to compute a digest over the content, or
+because the user might interact with the content through an interface that
+doesn't expose them to the entirety of the content.
 
-In these situations users may wish to use other identifiers in a DigestSet.
-Those users should be careful to understand the trust that they're placing in
-the identifier to be sure that it meets their needs.
+In these situations, users MAY use a non-cryptographic identifier in a DigestSet
+so long as the risk of the object being mutated is acceptable for the
+application.
 
 One concrete example of where a non-cryptographic hash can be useful is when
 referring to Virtual Machine images. Often these images are very large
