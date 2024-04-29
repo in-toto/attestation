@@ -70,6 +70,7 @@ Additional [parsing rules] apply.
 ## Change History
 
 ### v1.1
+
 Clarified that subjects are assumed to be immutable.
 
 ### v1.0
