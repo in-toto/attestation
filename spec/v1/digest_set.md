@@ -29,9 +29,6 @@ algorithm to achieve this immutability. See [Use cases for non-cryptographic,
 immutable, digests](#use-cases-for-non-cryptographic-immutable-digests) for
 further guidance.
 
-Users SHOULD use a _cryptographic_ digest, but MAY use another identifier
-if the underlying implementation ensures immutability via other means.
-
 ### Supported algorithms
 
 #### `sha256`, `sha224`, `sha384`, `sha512`, `sha512_224`, `sha512_256`, `sha3_224`, `sha3_256`, `sha3_384`, `sha3_512`, `shake128`, `shake256`, `blake2b`, `blake2s`, `ripemd160`, `sm3`, `gost`, `sha1`, `md5`
@@ -158,8 +155,8 @@ lowercase hex, etc...
 While cryptographic digests are the strongly recommended immutable identifier,
 users might have need to refer to an artifact by some other means. For example,
 it might be technically infeasible to compute a digest over the content, or
-because the user might interact with the content through an interface that
-doesn't expose them to the entirety of the content.
+the user might interact with the content through an interface that doesn't
+expose them to the entirety of the content.
 
 In these situations, users MAY use a non-cryptographic identifier in a DigestSet
 so long as the risk of the object being mutated is acceptable for the
@@ -190,6 +187,18 @@ flexibility for the user's various use cases.
 -   `{"sha256": "abcd", "sha512": "1234"}` matches `{"sha256": "abcd"}`
 -   `{"sha256": "abcd"}` does not match `{"sha256": "fedb", "sha512": "abcd"}`
 -   `{"somecoolhash": "abcd"}` uses a non-predefined algorithm
+
+## Change History
+
+### v1.1
+
+Clarified that it is acceptable to use a non-cryptographic digest (though
+cryptographic digests are still preferred).
+
+### v1.0
+
+Initial
+
 
 <!-- Add a horizontal rule to separate footnotes -->
 

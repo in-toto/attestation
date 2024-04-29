@@ -38,7 +38,7 @@ Additional [parsing rules] apply.
 > Set of software artifacts that the attestation applies to. Each element
 > represents a single software artifact. Each element MUST have `digest` set.
 >
-> Subjects are assumed to me _immutable_, i.e. the artifacts identified by the
+> Subjects are assumed to be _immutable_, i.e. the artifacts identified by the
 > subject SHOULD NOT change.
 >
 > The `name` field may be used as an identifier to distinguish this artifact
@@ -66,6 +66,15 @@ Additional [parsing rules] apply.
 > Additional parameters of the [Predicate]. Unset is treated the same as
 > set-but-empty. MAY be omitted if `predicateType` fully describes the
 > predicate.
+
+## Change History
+
+### v1.1
+Clarified that subjects are assumed to be immutable.
+
+### v1.0
+
+Initial
 
 [ResourceDescriptor]: resource_descriptor.md
 [JSON]: https://www.json.org/json-en.html
