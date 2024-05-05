@@ -1,7 +1,5 @@
 # DigestSet field type specification
 
-Version: v1.1
-
 Set of one or more cryptographic digests, or other immutable references,
 for a single software artifact or metadata object.
 
@@ -187,17 +185,6 @@ flexibility for the user's various use cases.
 -   `{"sha256": "abcd", "sha512": "1234"}` matches `{"sha256": "abcd"}`
 -   `{"sha256": "abcd"}` does not match `{"sha256": "fedb", "sha512": "abcd"}`
 -   `{"somecoolhash": "abcd"}` uses a non-predefined algorithm
-
-## Change History
-
-### v1.1
-
-Clarified that it is acceptable to use a non-cryptographic digest (though
-cryptographic digests are still preferred).
-
-### v1.0
-
-Initial
 
 <!-- Add a horizontal rule to separate footnotes -->
 

@@ -1,7 +1,5 @@
 # Statement layer specification
 
-Version: v1.1
-
 The Statement is the middle layer of the attestation, binding it to a
 particular subject and unambiguously identifying the types of the
 [Predicate].
@@ -66,16 +64,6 @@ Additional [parsing rules] apply.
 > Additional parameters of the [Predicate]. Unset is treated the same as
 > set-but-empty. MAY be omitted if `predicateType` fully describes the
 > predicate.
-
-## Change History
-
-### v1.1
-
-Clarified that subjects are assumed to be immutable.
-
-### v1.0
-
-Initial
 
 [ResourceDescriptor]: resource_descriptor.md
 [JSON]: https://www.json.org/json-en.html
