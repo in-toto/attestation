@@ -1,7 +1,5 @@
 # Predicate layer specification
 
-Version: v1.0
-
 The Predicate is the innermost layer of the attestation, containing arbitrary
 metadata about the [Statement]'s `subject`.
 
