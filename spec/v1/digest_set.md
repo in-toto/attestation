@@ -1,16 +1,14 @@
 # DigestSet field type specification
 
-Version: v1.0
-
-Set of one or more cryptographic digests for a single software artifact or
-metadata object.
+Set of one or more cryptographic digests, or other immutable references,
+for a single software artifact or metadata object.
 
 ## Schema
 
 ```json
 {
-  "<ALGORITHM_1>": "<HEX/BASE64 VALUE>",
-  "<ALGORITHM_2>": "<HEX/BASE64 VALUE>",
+  "<ALGORITHM_1>": "<VALUE>",
+  "<ALGORITHM_2>": "<VALUE>",
   ... 
 }
 ```
@@ -22,6 +20,12 @@ a string encoding of the digest using that algorithm. The named standard
 algorithms below use lowercase hex encoding. Usually there is just a
 single key/value pair, but multiple entries MAY be used for algorithm
 agility.
+
+Each entry in a DigestSet MUST be an immutable reference to an artifact. It is
+STRONGLY RECOMMENDED to use a commonly accepted, cryptographically secure digest
+algorithm to achieve this immutability. See [Use cases for non-cryptographic,
+immutable, digests](#use-cases-for-non-cryptographic-immutable-digests) for
+further guidance.
 
 ### Supported algorithms
 
@@ -143,6 +147,38 @@ matches.
 
 New algorithms MUST document how the value is encoded, e.g. URL-safe base64,
 lowercase hex, etc...
+
+### Use cases for non-cryptographic, immutable, digests
+
+While cryptographic digests are the strongly recommended immutable identifier,
+users might have need to refer to an artifact by some other means. For example,
+it might be technically infeasible to compute a digest over the content, or
+the user might interact with the content through an interface that doesn't
+expose them to the entirety of the content.
+
+In these situations, users MAY use a non-cryptographic identifier in a DigestSet
+so long as the risk of the object being mutated is acceptable for the
+application.
+
+One concrete example of where a non-cryptographic hash can be useful is when
+referring to Virtual Machine images. Often these images are very large
+(impractical to run a cryptographic hash over) and users often interact with
+them via APIs that the platform provides that don't involve the user having
+complete custody of the content. Platforms like AWS and GCP provide 'ids' for
+users to use when referring to these images. A user may say something like
+"create an instance with image 123". In that case the user doesn't actually have
+the bits that correspond to 'image 123' so they cannot digest it themselves. And
+by the time the image has started it can be difficult, if not impossible, to
+digest the original content that was used to boot the instance.
+
+These IDs can often be treated as immutable and may be perfectly suited to users
+threat profiles. Allowing DigestSets to use these types of identifiers allows
+providers to make statements about the content of these VM images using the
+identifiers their users have ready access to.
+
+In addition, using an ID like this does not preclude including a cryptographic
+hash in the DigestSet as well. If possible including both may provide the most
+flexibility for the user's various use cases.
 
 ## Examples
 

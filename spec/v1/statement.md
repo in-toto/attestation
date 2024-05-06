@@ -1,7 +1,5 @@
 # Statement layer specification
 
-Version: v1.0
-
 The Statement is the middle layer of the attestation, binding it to a
 particular subject and unambiguously identifying the types of the
 [Predicate].
@@ -37,6 +35,9 @@ Additional [parsing rules] apply.
 
 > Set of software artifacts that the attestation applies to. Each element
 > represents a single software artifact. Each element MUST have `digest` set.
+>
+> Subjects are assumed to be _immutable_, i.e. the artifacts identified by the
+> subject SHOULD NOT change.
 >
 > The `name` field may be used as an identifier to distinguish this artifact
 > from others within the `subject`. Similarly, other ResourceDescriptor fields

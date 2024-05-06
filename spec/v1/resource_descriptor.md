@@ -1,7 +1,5 @@
 # ResourceDescriptor field type specification
 
-Version: v1.0
-
 A size-efficient description of any software artifact or resource (mutable
 or immutable).
 
