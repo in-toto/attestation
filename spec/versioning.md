@@ -1,9 +1,16 @@
 # Versioning Rules
 
+Predicate specifications are versioned independently from the Attestation
+Framework specification in order to allow for predicates to evolve as needed
+without depending on the evolution of the Statement layer, for example.
+
+The following rules apply to both Statement and predicate specification
+versioning.
+
 ## Objective
 
-This document explains how version changes and extension fields are handled. For
-a summary, see [parsing rules](v1/README.md#parsing-rules) in the README.
+This document explains how version changes and extension fields are handled.
+For a summary, see [parsing rules](v1/README.md#parsing-rules) in the README.
 
 ## Versioning rules
 
