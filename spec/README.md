@@ -24,6 +24,16 @@ The source of this diagram can be found [here](../images/envelope_relationships.
 The [validation model] provides pseudocode showing how these layers fit
 together. See the [documentation] for more background and examples.
 
+## Tagged Releases
+
+The latest [tagged release] version matches the [SemVer](https://semver.org)
+MAJ.MIN version of the Attestation Framework spec.
+
+Backwards-compatible semantic updates to the spec (except predicates) are
+indicated through new tagged minor version releases.
+We use new tagged patch version releases to indicate updates to predicate
+specifications and/or backwards-compatible changes to the language bindings.
+
 ## Keywords
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
@@ -41,5 +51,6 @@ this specification are to be interpreted as described in [RFC 2119].
 [Statement]: v1/statement.md
 [documentation]: ../docs
 [in-toto-verify]: https://github.com/in-toto/in-toto#verification
+[tagged release]: https://github.com/in-toto/attestation/releases
 [v1.1]: v1/README.md
 [validation model]: ../docs/validation.md
