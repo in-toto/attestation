@@ -35,11 +35,13 @@ We use new tagged PATCH version releases to indicate updates to predicate
 specifications and/or backwards-compatible changes to the language bindings.
 
 ### Examples
+
 -   Attestation Framework tagged release v1.0.2 (PATCH version) incorporates
     refinements to the predicate specification process, a new predicate type,
     and a small patch to the Golang language bindings. None of these changes
     affects the semantics of the core spec. The `_type` of a `Statement` is
     still `https://in-toto.io/Statement/v1`.
+
 -   Tagged release v1.1.0 (MINOR version) generalizes the semantics of the
     `DigestSet` field type to support any type of immutable identifier.
     This change is backwards comptabile because cryptographic digests are
@@ -47,6 +49,7 @@ specifications and/or backwards-compatible changes to the language bindings.
     only support cryptographic `DigestSet` still meet the modified semantics.
     The `_type` of a `Statement` is still `https://in-toto.io/Statement/v1`
     but a new entry in the `v1` CHANGELOG is added.
+
 -   Tagged release v2.0.0 (MAJOR version) changes the meaning of the
     `predicateType` field. A new `v2` directory is added to `/spec` and the
     `_type` of a `Statement` becomes `https://in-toto.io/Statement/v2`.
