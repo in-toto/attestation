@@ -49,6 +49,10 @@ The in-toto Attestation Framework is part of the [in-toto] project under the
 
 Use `@in-toto/attestation-maintainers` to tag the maintainers on GitHub.
 
+## Insights and Activities
+
+Stay up-to-date with the latest activities and discussions in the in-toto Attestation Framework by exploring the [maintainers' notes](https://hackmd.io/fRKbxm6MT3GEz-_oSQtmYA).
+
 ## Disclaimer
 
 The in-toto Attestation Framework is still under development. We are in the
