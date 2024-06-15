@@ -87,7 +87,7 @@ tested.
 ### Parsing Rules
 
 This predicate follows the
-[in-toto Attestation Framework's parsing rules](../v1.0/README.md#parsing-rules).
+[in-toto Attestation Framework's parsing rules](../v1/README.md#parsing-rules).
 
 ### Fields
 
