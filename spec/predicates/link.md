@@ -136,6 +136,6 @@ def convert(statement):
 <!-- TODO: Fix link-->
 
 [in-toto specification]: https://github.com/in-toto/docs/blob/master/in-toto-spec.md
-[ResourceDescriptor]: ../v1.0/resource_descriptor.md
+[ResourceDescriptor]: ../v1/resource_descriptor.md
 [Provenance]: provenance.md
 [ITE-4]: https://github.com/in-toto/ITE/blob/master/ITE/4/README.adoc
