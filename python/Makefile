@@ -1,5 +1,5 @@
 SHELL := /bin/bash
-
+PYTHON := python
 PY_MODULE := in_toto_attestation
 
 ALL_PY_SRCS := $(shell find $(PY_MODULE) tests -name '*.py')
@@ -30,7 +30,7 @@ all:
 dev: $(VENV_STAMP)
 
 $(VENV_STAMP): pyproject.toml
-	python -m venv $(VENV)
+	$(PYTHON) -m venv $(VENV)
 	$(VENV_BIN)/python -m pip install --upgrade pip
 	$(VENV_BIN)/python -m pip install -e .[$(INSTALL_EXTRA)]
 
@@ -38,25 +38,25 @@ $(VENV_STAMP): pyproject.toml
 lint: $(VENV_STAMP)
 	. $(VENV_BIN)/activate && \
 		ruff format --check $(ALL_PY_SRCS) && \
-		ruff $(ALL_PY_SRCS) && \
+		ruff check $(ALL_PY_SRCS) && \
 		mypy $(PY_MODULE)
 
 .PHONY: reformat
 reformat: $(VENV_STAMP)
 	. $(VENV_BIN)/activate && \
 		ruff format $(ALL_PY_SRCS) && \
-		ruff --fix $(ALL_PY_SRCS)
+		ruff check --fix $(ALL_PY_SRCS)
 
 .PHONY: test tests
 test tests: $(VENV_STAMP)
 	. $(VENV_BIN)/activate && \
 		pytest --cov=$(PY_MODULE) $(T) $(TEST_ARGS) && \
-		python -m coverage report -m $(COV_ARGS)
+		$(PYTHON) -m coverage report -m $(COV_ARGS)
 
 .PHONY: package
 package: $(VENV_STAMP)
 	. $(VENV_BIN)/activate && \
-		python -m build
+		$(PYTHON) -m build
 
 .PHONY: edit
 edit:
