@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package in_toto_attestation.predicates.vuln.v1;
+
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/in-toto/attestation/go/predicates/vuln/v1";
+option java_package = "io.github.intoto.attestation.predicates.vuln.v1";
+
+// Validation of all fields is left to the users of this proto.
+message Vuln {
+  Scanner scanner = 1;
+  ScanMetadata scan_metadata = 2;
+}
+
+message Scanner {
+  string uri = 1;
+  string version = 2;
+  VulnDatabase database = 3;
+  Result result = 4;
+}
+
+message VulnDatabase {
+  optional string uri = 1;
+  optional string version = 2;
+  google.protobuf.Timestamp last_update = 3;
+}
+
+message Result {
+ repeated Vulnerability vulnerabilities = 3;
+}
+
+message Vulnerability {
+  string id = 1;
+  Severity severity = 2;
+
+  message Severity {
+    string method = 1;
+    string score = 2;
+  }
+
+  google.protobuf.Struct annotations = 3;
+}
+
+message ScanMetadata {
+  google.protobuf.Timestamp scan_started_on = 1;
+  google.protobuf.Timestamp scan_finished_on = 2;
+}
+
