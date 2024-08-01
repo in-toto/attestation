@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package in_toto_attestation.predicates.reference.v0;
+
+import "in_toto_attestation/v1/resource_descriptor.proto";
+
+option go_package = "github.com/in-toto/attestation/go/predicates/reference/v0";
+option java_package = "io.github.intoto.attestation.predicates.reference.v0";
+
+message Reference {
+    message Attester {
+        string id = 1;
+    }
+
+    Attester attester = 1;
+
+    repeated in_toto_attestation.v1.ResourceDescriptor references = 2;
+}
