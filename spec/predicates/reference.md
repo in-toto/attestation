@@ -20,8 +20,11 @@ for vulnerability management, compliance, analysis, or any other purpose.
 Another use case is to provide evidence for a policy such as "deny unless a
 reference to an SBOM is provided".
 
-There is encodability overlap with some other predicates, mainly SCAI, but
-the use case is distinct.
+There is encodability overlap with the SCAI predicate, but it is not the best
+fit because it doesn't support standardizing an attribute (which would be
+desired here), the use case is distinct, and it is a larger prequisite.
+A more opinionated predicate will increase usability and encourage adoption.
+
 
 ## Prerequisites
 The
@@ -71,8 +74,9 @@ An identifier for the system that provides the document.
 
 `references` array of [ResourceDescriptor](../v1/field_types.md#resource_descriptor) objects, *required*
 
-The referred documents. The `mediaType` and `downloadLocation` of each SHOULD
-be provided.
+The referred documents. The `downloadLocation` and `mediaType` MUST be provided
+for each. If the file type is unknown, `application/octet-stream` SHOULD be
+used.
 
 ## Examples
 ### Reference to an SBOM for an image
