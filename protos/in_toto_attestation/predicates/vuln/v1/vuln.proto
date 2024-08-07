@@ -33,14 +33,14 @@ message Result {
 
 message Vulnerability {
   string id = 1;
-  Severity severity = 2;
+  repeated Severity severity = 2;
 
   message Severity {
     string method = 1;
     string score = 2;
   }
 
-  google.protobuf.Struct annotations = 3;
+  repeated google.protobuf.Struct annotations = 3;
 }
 
 message ScanMetadata {
