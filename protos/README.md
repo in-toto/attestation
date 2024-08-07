@@ -20,6 +20,8 @@ predicates have protobuf definitions:
     artifact.
 -   [SCAI]: Evidence-based assertions about software artifact and supply
     chain attributes.
+-   [VULN]: Describes how to store the results of scanners when detecting vulnerabilities in a software artifact.
+    chain attributes.
 -   [Test Result]: Expresses the result of a test run in the software supply
     chain.
 
@@ -50,6 +52,7 @@ testing the supported language bindings.
 [SCAI]: in_toto_attestation/predicates/scai/
 [SLSA Provenance]: in_toto_attestation/predicates/provenance/
 [SLSA Verification Summary]: in_toto_attestation/predicates/vsa/
+[VULN]: in_toto_attestation/predicates/vuln/
 [in-toto Link]: in_toto_attestation/predicates/link/
 [Test Result]: in_toto_attestation/predicates/test_result/
 [documentation]: ../docs/protos.md
