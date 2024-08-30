@@ -6,6 +6,9 @@ package v0
 
 import "fmt"
 
+const PredicateTypeUri = "https://in-toto.io/attestation/scai/"
+const PredicateVersion = "v0.3"
+
 func (a *AttributeAssertion) Validate() error {
 	// at least the attribute field is required
 	if a.GetAttribute() == "" {
