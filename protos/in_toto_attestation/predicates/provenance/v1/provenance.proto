@@ -1,4 +1,4 @@
-// Keep in sync with schema at https://github.com/slsa-framework/slsa/blob/main/docs/provenance/schema/v1/provenance.proto
+// Keep in sync with schema at https://github.com/slsa-framework/slsa/blob/main/docs/spec/v1.0/schema/provenance.proto
 syntax = "proto3";
 
 package in_toto_attestation.predicates.provenance.v1;
