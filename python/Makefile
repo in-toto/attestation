@@ -37,7 +37,7 @@ $(VENV_STAMP): pyproject.toml
 .PHONY: lint
 lint: $(VENV_STAMP)
 	. $(VENV_BIN)/activate && \
-		ruff format --check $(ALL_PY_SRCS) && \
+		ruff format --diff $(ALL_PY_SRCS) && \
 		ruff check $(ALL_PY_SRCS) && \
 		mypy $(PY_MODULE)
 

@@ -6,6 +6,7 @@ from in_toto_attestation.v1.resource_descriptor import ResourceDescriptor
 SCAI_PREDICATE_TYPE = "https://in-toto.io/attestation/scai/"
 SCAI_PREDICATE_VERSION = "v0.3"
 
+
 class AttributeAssertion:
     def __init__(self, attribute, target=None, conditions=None, evidence=None) -> None:
         self.pb = scaipb.AttributeAssertion()  # type: ignore[attr-defined]
