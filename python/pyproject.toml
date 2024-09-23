@@ -45,10 +45,8 @@ path = "in_toto_attestation/__init__.py"
 [tool.hatch.build.targets.sdist]
 include = ["/in_toto_attestation"]
 
-[tool.ruff]
-select = ["E", "F", "I", "UP", "W"]
-
 [tool.ruff.lint]
+select = ["E", "F", "I", "UP", "W"]
 ignore = [
     # protobuf generates non-top-level imports.
     "E402",
