@@ -3,8 +3,8 @@
 import in_toto_attestation.predicates.scai.v0.scai_pb2 as scaipb
 from in_toto_attestation.v1.resource_descriptor import ResourceDescriptor
 
-SCAI_PREDICATE_TYPE = "https://in-toto.io/attestation/scai/attribute-report/"
-SCAI_PREDICATE_VERSION = "v0.2"
+SCAI_PREDICATE_TYPE = "https://in-toto.io/attestation/scai/"
+SCAI_PREDICATE_VERSION = "v0.3"
 
 
 class AttributeAssertion:
