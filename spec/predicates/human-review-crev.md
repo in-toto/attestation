@@ -1,0 +1,171 @@
+# Predicate type: Dependency Reviews (crev)
+
+Type URI: (tentative) https://in-toto.io/attestation/human-review/crev/v0.1
+
+Note: At the time of writing, the crev project uses a separate versioning
+scheme, with the current version being -1. In future, this predicate may adopt
+a URI associated with that project.
+
+Version: v0.1.0
+
+## Purpose
+
+This attestation type is used to describe the results of human review of
+dependency source code. The format is based on the
+[crev project](https://github.com/crev-dev/crev), specifically the
+[package review proof](https://github.com/crev-dev/cargo-crev/blob/master/crev-lib/rc/doc/editing-package-review.md)
+defined in the [cargo-crev](https://github.com/crev-dev/cargo-crev)
+implementation.
+
+## Use Cases
+
+crev enables social review of popular open source software dependencies. A crev
+review includes information such as the thoroughness of the review,
+understanding of the source code, and a final rating. The ratings for these
+fields are self-identified by each individual reviewer.
+
+## Model
+
+Most modern software have external dependencies. Dependency review is the
+process of reviewing and verifying the source code of a particular dependency,
+and can be performed by one or more actors in the supply chain. The developer
+importing a new dependency can perform the review or a dedicated security team
+can be tasked with it.
+
+## Schema
+
+```json
+{
+    "_type": "https://in-toto.io/Statement/v1",
+    "subject": [{...}],
+    "predicateType": "https://in-toto.io/attestation/human-review/crev/v0.1",
+    "predicate": {
+        "rating": "strong|positive|neutral|negative|dangerous",
+        "reviewer": {
+            "idType": "crev",
+            "id": "<ID>",
+            "url": "<URL>"        
+        },
+        "date": "<TIMESTAMP>",
+        "thoroughness": "high|medium|low|none",
+        "understanding": "high|medium|low|none",
+        "comment": "<STRING>",
+        "files": ["<ResourceDescriptor>", ...]
+    }
+}
+```
+
+### Parsing Rules
+
+This predicate follows the
+[in-toto Attestation Framework's parsing rules](../v1/README.md#parsing-rules).
+
+### Fields
+
+The subject of this predicate type is a specific package and its version in some
+ecosystem.
+
+`rating`, _enum_, _required_
+
+Specifies the overall rating of the package. Must be one of `strong`,
+`positive`, `neutral`, `negative`, or `dangerous`.
+
+`reviewer` _object_, _required_
+
+Identifies the reviewer. This has some meaning for crev's trust proliferation
+aspects, but the identity of the reviewer can also be mapped based on in-toto's
+functionary handling. `idType` is used to determine the contents of `reviewer`.
+The `url` is a reference to the reviewer's crev-proofs repository.
+
+`date` _Timestamp_, _required_
+
+Indicates time of review creation. `timestamp` in the original crev
+specification.
+
+`thoroughness` _enum_, _required_
+
+Describes how thorough the reviewer was. Must be set to one of `low`, `medium`,
+`high`, or `none`.
+
+`understanding` _enum_, _required_
+
+Describes the reviewer's understanding of the dependency code. Must be set to
+one of `low`, `medium`, `high`, or `none`.
+
+`comment` _string_, _optional_
+
+Optional field with any other comments a reviewer may have about the
+dependency.
+
+`files` _array of ResourceDescriptor_, _optional_
+
+Optional field identifying the files in the package source reviewed.
+
+## Example
+
+In the first example, the crev attestation is generated for a dependency using
+its binary release. Therefore, it applies to the dependency artifact that will
+be fetched from some repository, in this case the Python Packaging Index.
+
+```json
+{
+    "_type": "https://in-toto.io/Statement/v1",
+    "subject": [
+        {
+            "name": "in-toto",
+            "uri": "purl+pkg:pypi/in-toto@1.3.2",
+            "digest": {
+                "sha256": "aa12e63298425cfc4773ed03febd68a384c63b2690959dd788f8c4511ea97bbe"
+            },
+            "downloadLocation": "https://github.com/in-toto/in-toto/releases/download/v1.3.2/in_toto-1.3.2-py3-none-any.whl"
+        },
+    ],
+    "predicateType": "https://in-toto.io/attestation/human-review/crev/v0.1",
+    "predicate": {
+        "rating": "positive",
+        "reviewer": {
+            "idType": "github",
+            "id": "adityasaky",
+            "url": "https://github.com/adityasaky/crev-proofs"
+        },
+        "date": "2023-03-16T00:09:27Z",
+        "thoroughness": "high",
+        "understanding": "high",
+        "comment": "This dependency is well written and can be used safely."
+    }
+}
+```
+
+Alternatively, the attestation can be generated for the _source_ of a
+dependency. In this case, either the source must then be built locally to
+generate the binary or the binary must be accompanied by a separate in-toto link
+or SLSA Provenance attestation that shows the binary was built from the same,
+reviewed source.
+
+```json
+{
+    "_type": "https://in-toto.io/Statement/v1",
+    "subject": [
+        {
+            "name": "in-toto-v1.3.2",
+            "uri": "https://github.com/in-toto/in-toto/releases/tag/v1.3.2",
+            "digest": {
+                "gitTag": "58ffc2e38382b2a180e542c4933e7befd1e352e8"
+            }
+        },
+    ],
+    "predicateType": "https://in-toto.io/attestation/human-review/crev/v0.1",
+    "predicate": {
+        "rating": "positive",
+        "reviewer": {
+            "idType": "github",
+            "id": "adityasaky",
+            "url": "https://github.com/adityasaky/crev-proofs"
+        },
+        "date": "2023-03-16T00:09:27Z",
+        "thoroughness": "high",
+        "understanding": "high",
+        "comment": "This dependency is well written and can be used safely."
+    }
+}
+```
