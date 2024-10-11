@@ -64,41 +64,39 @@ The `predicate` contains a JSON-encoded data with the following fields:
 
 > > > The version of the Vulnerability DB.
 
-**scanner.db.lastUpdate, required** string (timestamp)
+**scanner.db.lastUpdate, optional** string (timestamp)
 
 > > > The timestamp of when the vulnerability DB was updated last time.
 
-**scanner.result, required** list
+**scanner.result, required** object list
 
 > > The result contains a list of vulnerabilities. Note that an empty list means the **scanner** found no vulnerabilities.
 > > This is the most important part of this field because it'll store the scan result as a whole. So, people might want
 > > to use this field to take decisions based on them by making use of Policy Engines tooling whether allow or deny these images.
+> > Each object defines information about each one of the vulnerabilities found by the scanner.
 
-**scanner.result.[*].vulnerability, optional** object
 
-> > > The vulnerability object defines information about each one of the vulnerabilities found by the scanner.
+**scanner.result.[*].id, required** string
 
-**scanner.result.[*].vulnerability.id, required** string
+> > > This is the identifier of the vulnerability, e.g. [GHSA-fxph-q3j8-mv87](https://github.com/advisories/GHSA-fxph-q3j8-mv87) whose CVE id is [CVE-2017-5645](https://nvd.nist.gov/vuln/detail/CVE-2017-5645).
 
-> > > > This is the identifier of the vulnerability, e.g. [GHSA-fxph-q3j8-mv87](https://github.com/advisories/GHSA-fxph-q3j8-mv87) whose CVE id is [CVE-2017-5645](https://nvd.nist.gov/vuln/detail/CVE-2017-5645).
+**scanner.result.[*].severity, required** object list
 
-**scanner.result.[*].vulnerability.severity, required** object
+> > > The severity contains a list to describe the severity of a vulnerability using one or more quantitative scoring method.
 
-> > > > The severity contains a list to describe the severity of a vulnerability using one or more quantitative scoring method.
+**scanner.result.[*].severity.[*].method, required** string
 
-**scanner.result.[*].vulnerability.severity.method, required** string
+> > > > The method describes the quantitative method used to calculate the associated severity score such as nvd, cvss and others.
 
-> > > > > The method describes the quantitative method used to calculate the associated severity score such as nvd, cvss and others.
+**scanner.result.[*].severity.[*].score, required** string
 
-**scanner.result.[*].vulnerability.severity.score, required** string
+> > > > This is a string representing the severity score based on the selected method.
 
-> > > > > This is a string representing the severity score based on the selected method.
+**scanner.result.[*].annotations, optional** object list
 
-**scanner.result.[*].vulnerability.annotations, optional** list
+> > > This is a list of key/value pairs where scanners can add additional custom information.
 
-> > > > > This is a list of key/value pairs where scanners can add additional custom information.
-
-**metadata.scanStartedOn, required** Timestamp
+**metadata.scanStartedOn, optional** Timestamp
 
 > > The timestamp of when the scan started.
 
@@ -120,12 +118,6 @@ The `predicate` contains a JSON-encoded data with the following fields:
   // Predicate:
   "predicateType": "https://in-toto.io/attestation/vulns/v0.1",
   "predicate": {
-    "invocation": {
-      "parameters": [],
-      "uri": "https://github.com/developer-guy/alpine/actions/runs/1071875574",
-      "event_id": "1071875574",
-      "builder.id": "GitHub Actions"
-    },
     "scanner": {
       "uri": "pkg:github/aquasecurity/trivy@244fd47e07d1004f0aed9",
       "version": "0.19.2",
@@ -156,5 +148,18 @@ The `predicate` contains a JSON-encoded data with the following fields:
 ## Changelog and Migrations
 
 Not applicable for this initial version.
+
+2024-10-11:
+- List types updated to disambiguate list types.
+- Remove invocation from example (which is not in the spec).
+- Removed the additional "vulnerability" object indirection
+  from the spec since it is the only field within it (as reflected in
+  the example).
+- Severity changed to a list to contain multiple scores (as reflected in
+  the example).
+- ScanStartedOn changed from required to optional as it may not always be
+  available.
+- scanner.db.lastUpdate changed from required to optional since this information
+  may not always be available when a DB uri/version is known.
 
 [Attestation]: ../README.md
