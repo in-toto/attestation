@@ -25,13 +25,14 @@ fit because it doesn't support standardizing an attribute (which would be
 desired here), the use case is distinct, and it is a larger prequisite.
 A more opinionated predicate will increase usability and encourage adoption.
 
-
 ## Prerequisites
+
 The
 [in-toto Attestation Framework](https://github.com/in-toto/attestation/blob/main/spec/README.md)
 and an SBOM specification such as [SPDX](https://spdx.dev/).
 
 ## Model
+
 This predicate is intended to be generated and consumed throughout the software
 supply chain. In addition, it is intended to be used in the analysis of it as a
 whole.
@@ -56,6 +57,7 @@ whole.
 ```
 
 ### Parsing Rules
+
 This predicate follows the
 [in-toto Attestation Framework's parsing rules](../v1/README.md#parsing-rules).
 
@@ -68,6 +70,7 @@ being independently associated with each subject. See the
 [example](#reference-to-an-sbom-for-multiple-artifacts) with two subjects.
 
 ### Fields
+
 `attester.id`: string ([TypeUri](../v1/field_types.md#typeuri)), *required*
 
 An identifier for the system that provides the document.
@@ -79,7 +82,9 @@ for each. If the file type is unknown, `application/octet-stream` SHOULD be
 used.
 
 ## Examples
+
 ### Reference to an SBOM for an image
+
 ```json
 {
   "_type": "https://in-toto.io/Statement/v1",
@@ -104,11 +109,14 @@ used.
   }
 }
 ```
+
 ### Reference to an SBOM for multiple artifacts
+
 In this example, a single SBOM was generated for a set of build outputs by
 scanning the source file system. Per the [parsing rules](#parsing-rules), this
 attestation SHOULD be interpreted to mean that the SBOM was generated for both
 subjects -- it will list dependencies of both foo and bar.
+
 ```json
 {
   "_type": "https://in-toto.io/Statement/v1",
