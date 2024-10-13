@@ -1,12 +1,12 @@
 syntax = "proto3";
 
-package in_toto_attestation.predicates.vuln.v01;
+package in_toto_attestation.predicates.vulns.v01;
 
 import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
 
-option go_package = "github.com/in-toto/attestation/go/predicates/vuln/v1";
-option java_package = "io.github.intoto.attestation.predicates.vuln.v1";
+option go_package = "github.com/in-toto/attestation/go/predicates/vulns/v1";
+option java_package = "io.github.intoto.attestation.predicates.vulns.v1";
 
 // Validation of all fields is left to the users of this proto.
 message Vuln {

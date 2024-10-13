@@ -94,7 +94,7 @@ The `predicate` contains a JSON-encoded data with the following fields:
 
 > > > > > This is a string representing the severity score based on the selected method.
 
-**scanner.result.[*].vulnerability.annotations, optional** list
+**scanner.result.[*].vulnerability.annotations, optional** list, map <string, value>
 
 > > > > > This is a list of key/value pairs where scanners can add additional custom information.
 
