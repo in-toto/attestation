@@ -34,7 +34,7 @@ our [vetting process], and may be of general interest:
 [Release]: release.md
 [Runtime Traces]: runtime-trace.md
 [SCAI Report]: scai.md
-[Vulnerability]: vuln.md
+[Vulnerability]: vulns.md
 [SLSA Provenance]: https://slsa.dev/provenance
 [SLSA Verification Summary]: vsa.md
 [SPDX]: spdx.md

@@ -68,33 +68,29 @@ The `predicate` contains a JSON-encoded data with the following fields:
 
 > > > The timestamp of when the vulnerability DB was updated last time.
 
-**scanner.result, required** list
+**scanner.result, required** object list
 
 > > The result contains a list of vulnerabilities. Note that an empty list means the **scanner** found no vulnerabilities.
 > > This is the most important part of this field because it'll store the scan result as a whole. So, people might want
 > > to use this field to take decisions based on them by making use of Policy Engines tooling whether allow or deny these images.
 
-**scanner.result.[*].vulnerability, optional** object
-
-> > > The vulnerability object defines information about each one of the vulnerabilities found by the scanner.
-
-**scanner.result.[*].vulnerability.id, required** string
+**scanner.result.[*].id, required** string
 
 > > > > This is the identifier of the vulnerability, e.g. [GHSA-fxph-q3j8-mv87](https://github.com/advisories/GHSA-fxph-q3j8-mv87) whose CVE id is [CVE-2017-5645](https://nvd.nist.gov/vuln/detail/CVE-2017-5645).
 
-**scanner.result.[*].vulnerability.severity, required** object
+**scanner.result.[*].severity, required** object
 
 > > > > The severity contains a list to describe the severity of a vulnerability using one or more quantitative scoring method.
 
-**scanner.result.[*].vulnerability.severity.method, required** string
+**scanner.result.[*].severity.method, required** string
 
 > > > > > The method describes the quantitative method used to calculate the associated severity score such as nvd, cvss and others.
 
-**scanner.result.[*].vulnerability.severity.score, required** string
+**scanner.result.[*].severity.score, required** string
 
 > > > > > This is a string representing the severity score based on the selected method.
 
-**scanner.result.[*].vulnerability.annotations, optional** list, map <string, value>
+**scanner.result.[*].annotations, optional** list, map <string, value>
 
 > > > > > This is a list of key/value pairs where scanners can add additional custom information.
 
