@@ -23,7 +23,7 @@ our [vetting process], and may be of general interest:
     artifact.
 -   [SPDX]: SPDX-formatted BOM for software artifacts.
 -   [CycloneDX]: CycloneDX BOM for software artifacts.
--   [Vulnerability]: Defines the metadata to share the results of vulnerability scanning on software artifacts.
+-   [VULNS]: Defines the metadata to share the results of vulnerability scanning on software artifacts.
 -   [Release]: Details an artifact that is part of a given release version.
 -   [Test Result]: A generic schema to express results of any type of tests.
 -   [Reference]: References documents that are relevant to some resource.
@@ -34,7 +34,7 @@ our [vetting process], and may be of general interest:
 [Release]: release.md
 [Runtime Traces]: runtime-trace.md
 [SCAI Report]: scai.md
-[Vulnerability]: vulns.md
+[VULNS]: vulns.md
 [SLSA Provenance]: https://slsa.dev/provenance
 [SLSA Verification Summary]: vsa.md
 [SPDX]: spdx.md
