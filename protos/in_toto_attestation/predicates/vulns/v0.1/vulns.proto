@@ -9,7 +9,7 @@ option go_package = "github.com/in-toto/attestation/go/predicates/vulns/v1";
 option java_package = "io.github.intoto.attestation.predicates.vulns.v1";
 
 // Validation of all fields is left to the users of this proto.
-message Vuln {
+message Vulns {
   Scanner scanner = 1;
   ScanMetadata scan_metadata = 2;
 }
