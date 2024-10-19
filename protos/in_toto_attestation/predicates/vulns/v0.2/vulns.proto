@@ -1,12 +1,12 @@
 syntax = "proto3";
 
-package in_toto_attestation.predicates.vulns.v01;
+package in_toto_attestation.predicates.vulns.v02;
 
 import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
 
-option go_package = "github.com/in-toto/attestation/go/predicates/vulns/v01";
-option java_package = "io.github.intoto.attestation.predicates.vulns.v01";
+option go_package = "github.com/in-toto/attestation/go/predicates/vulns/v02";
+option java_package = "io.github.intoto.attestation.predicates.vulns.v02";
 
 // Validation of all fields is left to the users of this proto.
 message Vulns {
@@ -18,7 +18,7 @@ message Scanner {
   string uri = 1;
   optional string version = 2;
   VulnDatabase database = 3;
-  Result result = 4;
+  repeated Result result = 4;
 }
 
 message VulnDatabase {
@@ -28,10 +28,6 @@ message VulnDatabase {
 }
 
 message Result {
-  repeated Vulnerability vulnerabilities = 3;
-}
-
-message Vulnerability {
   string id = 1;
   repeated Severity severity = 2;
 
