@@ -1,4 +1,4 @@
-name: Lint
+name: Last
 on: [workflow_dispatch, pull_request]
 permissions: read-all
 jobs:
