@@ -1,8 +1,8 @@
 # Specification for in-toto attestation layers
 
-Version: v1.1
+Version: v0.1
 
-Index:
+Index: 99.9
 
 -   [Envelope]: Handles authentication and serialization.
 -   [Statement]: Binds the attestation to a particular subject and
