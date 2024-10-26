@@ -1,8 +1,8 @@
-name: Last
+name: Lint
 on: [workflow_dispatch, pull_request]
 permissions: read-all
 jobs:
-  lint:
+  lint: [{}]
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
