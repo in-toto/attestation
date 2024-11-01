@@ -1,6 +1,8 @@
 module github.com/in-toto/attestation
 
-go 1.20
+go 1.21
+
+toolchain go1.21.0
 
 require (
 	github.com/stretchr/testify v1.9.0
