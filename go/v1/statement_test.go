@@ -91,8 +91,6 @@ func TestBadStatementType(t *testing.T) {
 	assert.ErrorIs(t, err, ErrInvalidStatementType, "created malformed Statement (bad type)")
 }
 
-
-
 func TestBadStatementSubject(t *testing.T) {
 	tests := map[string]struct {
 		input        string
@@ -153,4 +151,3 @@ func TestBadStatementPredicate(t *testing.T) {
 		assert.ErrorIs(t, err, test.err, fmt.Sprintf("%s in test '%s'", test.noErrMessage, name))
 	}
 }
-
