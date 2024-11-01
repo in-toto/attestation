@@ -4,7 +4,11 @@ Wrapper APIs for in-toto attestation Statement layer protos.
 
 package v1
 
-import "errors"
+import (
+	"errors"
+
+	"google.golang.org/protobuf/encoding/protojson"
+)
 
 const StatementTypeUri = "https://in-toto.io/Statement/v1"
 
@@ -47,4 +51,12 @@ func (s *Statement) Validate() error {
 	}
 
 	return nil
+}
+
+func (s *Statement) MarshalJSON() ([]byte, error) {
+	return protojson.Marshal(s)
+}
+
+func (s *Statement) UnmarshalJSON(data []byte) error {
+	return protojson.Unmarshal(data, s)
 }
