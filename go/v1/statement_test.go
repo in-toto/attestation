@@ -62,6 +62,14 @@ func TestJsonUnmarshalStatement(t *testing.T) {
 	assert.True(t, proto.Equal(got, want), "protos do not match")
 }
 
+func TestProtoNamesJsonUnmarshalStatementError(t *testing.T) {
+	// Note the use of proto field names in the JSON (e.g. "type" instead of "_type")
+	var wantSt = `{"type":"https://in-toto.io/Statement/v1","subject":[{"name":"theSub","digest":{"alg1":"abc123"}}],"predicate_type":"thePredicate","predicate":{"keyObj":{"subKey":"subVal"}}}`
+	got := &Statement{}
+	err := json.Unmarshal([]byte(wantSt), got)
+	assert.Error(t, err, "error is not thrown when proto field names are used in JSON")
+}
+
 func TestProtojsonMarshalStatement(t *testing.T) {
 	var wantSt = `{"_type":"https://in-toto.io/Statement/v1","subject":[{"name":"theSub","digest":{"alg1":"abc123"}}],"predicateType":"thePredicate","predicate":{"keyObj":{"subKey":"subVal"}}}`
 	want := createTestStatement(t)
