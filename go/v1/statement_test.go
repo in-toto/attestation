@@ -5,6 +5,7 @@ Tests for in-toto attestation ResourceDescriptor protos.
 package v1
 
 import (
+	"encoding/json"
 	"fmt"
 	"testing"
 
@@ -39,7 +40,7 @@ func createTestStatement(t *testing.T) *Statement {
 	}
 }
 
-func TestJsonUnmarshalStatement(t *testing.T) {
+func TestProtojsonUnmarshalStatement(t *testing.T) {
 	var wantSt = `{"_type":"https://in-toto.io/Statement/v1","subject":[{"name":"theSub","digest":{"alg1":"abc123"}}],"predicateType":"thePredicate","predicate":{"keyObj":{"subKey":"subVal"}}}`
 
 	got := &Statement{}
@@ -47,8 +48,44 @@ func TestJsonUnmarshalStatement(t *testing.T) {
 	assert.NoError(t, err, "error during JSON unmarshalling")
 
 	want := createTestStatement(t)
-	assert.NoError(t, err, "unexpected error during test Statement creation")
 	assert.True(t, proto.Equal(got, want), "protos do not match")
+}
+
+func TestJsonUnmarshalStatement(t *testing.T) {
+	var wantSt = `{"_type":"https://in-toto.io/Statement/v1","subject":[{"name":"theSub","digest":{"alg1":"abc123"}}],"predicateType":"thePredicate","predicate":{"keyObj":{"subKey":"subVal"}}}`
+
+	got := &Statement{}
+	err := json.Unmarshal([]byte(wantSt), got)
+	assert.NoError(t, err, "error during JSON unmarshalling")
+
+	want := createTestStatement(t)
+	assert.True(t, proto.Equal(got, want), "protos do not match")
+}
+
+func TestProtoNamesJsonUnmarshalStatementError(t *testing.T) {
+	// Note the use of proto field names in the JSON (e.g. "type" instead of "_type")
+	var wantSt = `{"type":"https://in-toto.io/Statement/v1","subject":[{"name":"theSub","digest":{"alg1":"abc123"}}],"predicate_type":"thePredicate","predicate":{"keyObj":{"subKey":"subVal"}}}`
+	got := &Statement{}
+	err := json.Unmarshal([]byte(wantSt), got)
+	assert.Error(t, err, "error is not thrown when proto field names are used in JSON")
+}
+
+func TestProtojsonMarshalStatement(t *testing.T) {
+	var wantSt = `{"_type":"https://in-toto.io/Statement/v1","subject":[{"name":"theSub","digest":{"alg1":"abc123"}}],"predicateType":"thePredicate","predicate":{"keyObj":{"subKey":"subVal"}}}`
+	want := createTestStatement(t)
+
+	gotSt, err := protojson.Marshal(want)
+	assert.NoError(t, err, "error during JSON marshalling")
+	assert.JSONEq(t, wantSt, string(gotSt), "JSON objects do not match")
+}
+
+func TestJsonMarshalStatement(t *testing.T) {
+	var wantSt = `{"_type":"https://in-toto.io/Statement/v1","subject":[{"name":"theSub","digest":{"alg1":"abc123"}}],"predicateType":"thePredicate","predicate":{"keyObj":{"subKey":"subVal"}}}`
+	want := createTestStatement(t)
+
+	gotSt, err := json.Marshal(want)
+	assert.NoError(t, err, "error during JSON marshalling")
+	assert.JSONEq(t, wantSt, string(gotSt), "JSON objects do not match")
 }
 
 func TestBadStatementType(t *testing.T) {
