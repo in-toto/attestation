@@ -3,7 +3,7 @@ module github.com/in-toto/attestation
 go 1.20
 
 require (
-	github.com/stretchr/testify v1.9.0
+	github.com/stretchr/testify v1.10.0
 	google.golang.org/protobuf v1.36.2
 )
 
