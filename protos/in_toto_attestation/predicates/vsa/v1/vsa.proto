@@ -33,7 +33,7 @@ message VerificationSummary {
   repeated InputAttestation input_attestations = 5 [json_name = "inputAttestations"];
 
   string verification_result = 6 [json_name = "verificationResult"];
-  string verified_levels = 7 [json_name = "verifiedLevels"];
+  repeated string verified_levels = 7 [json_name = "verifiedLevels"];
   map<string, uint64> dependency_levels = 8 [json_name = "dependencyLevels"];
   string slsa_version = 9 [json_name = "slsaVersion"];
 }
