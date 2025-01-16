@@ -112,16 +112,29 @@ public final class Vsa {
         getVerificationResultBytes();
 
     /**
-     * <code>string verified_levels = 7 [json_name = "verifiedLevels"];</code>
-     * @return The verifiedLevels.
+     * <code>repeated string verified_levels = 7 [json_name = "verifiedLevels"];</code>
+     * @return A list containing the verifiedLevels.
      */
-    java.lang.String getVerifiedLevels();
+    java.util.List<java.lang.String>
+        getVerifiedLevelsList();
     /**
-     * <code>string verified_levels = 7 [json_name = "verifiedLevels"];</code>
-     * @return The bytes for verifiedLevels.
+     * <code>repeated string verified_levels = 7 [json_name = "verifiedLevels"];</code>
+     * @return The count of verifiedLevels.
+     */
+    int getVerifiedLevelsCount();
+    /**
+     * <code>repeated string verified_levels = 7 [json_name = "verifiedLevels"];</code>
+     * @param index The index of the element to return.
+     * @return The verifiedLevels at the given index.
+     */
+    java.lang.String getVerifiedLevels(int index);
+    /**
+     * <code>repeated string verified_levels = 7 [json_name = "verifiedLevels"];</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the verifiedLevels at the given index.
      */
     com.google.protobuf.ByteString
-        getVerifiedLevelsBytes();
+        getVerifiedLevelsBytes(int index);
 
     /**
      * <code>map&lt;string, uint64&gt; dependency_levels = 8 [json_name = "dependencyLevels"];</code>
@@ -188,7 +201,8 @@ public final class Vsa {
       resourceUri_ = "";
       inputAttestations_ = java.util.Collections.emptyList();
       verificationResult_ = "";
-      verifiedLevels_ = "";
+      verifiedLevels_ =
+          com.google.protobuf.LazyStringArrayList.emptyList();
       slsaVersion_ = "";
     }
 
@@ -2706,41 +2720,39 @@ java.lang.String defaultValue) {
 
     public static final int VERIFIED_LEVELS_FIELD_NUMBER = 7;
     @SuppressWarnings("serial")
-    private volatile java.lang.Object verifiedLevels_ = "";
+    private com.google.protobuf.LazyStringArrayList verifiedLevels_ =
+        com.google.protobuf.LazyStringArrayList.emptyList();
     /**
-     * <code>string verified_levels = 7 [json_name = "verifiedLevels"];</code>
-     * @return The verifiedLevels.
+     * <code>repeated string verified_levels = 7 [json_name = "verifiedLevels"];</code>
+     * @return A list containing the verifiedLevels.
      */
-    @java.lang.Override
-    public java.lang.String getVerifiedLevels() {
-      java.lang.Object ref = verifiedLevels_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        verifiedLevels_ = s;
-        return s;
-      }
+    public com.google.protobuf.ProtocolStringList
+        getVerifiedLevelsList() {
+      return verifiedLevels_;
     }
     /**
-     * <code>string verified_levels = 7 [json_name = "verifiedLevels"];</code>
-     * @return The bytes for verifiedLevels.
+     * <code>repeated string verified_levels = 7 [json_name = "verifiedLevels"];</code>
+     * @return The count of verifiedLevels.
      */
-    @java.lang.Override
+    public int getVerifiedLevelsCount() {
+      return verifiedLevels_.size();
+    }
+    /**
+     * <code>repeated string verified_levels = 7 [json_name = "verifiedLevels"];</code>
+     * @param index The index of the element to return.
+     * @return The verifiedLevels at the given index.
+     */
+    public java.lang.String getVerifiedLevels(int index) {
+      return verifiedLevels_.get(index);
+    }
+    /**
+     * <code>repeated string verified_levels = 7 [json_name = "verifiedLevels"];</code>
+     * @param index The index of the value to return.
+     * @return The bytes of the verifiedLevels at the given index.
+     */
     public com.google.protobuf.ByteString
-        getVerifiedLevelsBytes() {
-      java.lang.Object ref = verifiedLevels_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        verifiedLevels_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+        getVerifiedLevelsBytes(int index) {
+      return verifiedLevels_.getByteString(index);
     }
 
     public static final int DEPENDENCY_LEVELS_FIELD_NUMBER = 8;
@@ -2891,8 +2903,8 @@ java.lang.String defaultValue) {
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(verificationResult_)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 6, verificationResult_);
       }
-      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(verifiedLevels_)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 7, verifiedLevels_);
+      for (int i = 0; i < verifiedLevels_.size(); i++) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 7, verifiedLevels_.getRaw(i));
       }
       com.google.protobuf.GeneratedMessageV3
         .serializeStringMapTo(
@@ -2934,8 +2946,13 @@ java.lang.String defaultValue) {
       if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(verificationResult_)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, verificationResult_);
       }
-      if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(verifiedLevels_)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(7, verifiedLevels_);
+      {
+        int dataSize = 0;
+        for (int i = 0; i < verifiedLevels_.size(); i++) {
+          dataSize += computeStringSizeNoTag(verifiedLevels_.getRaw(i));
+        }
+        size += dataSize;
+        size += 1 * getVerifiedLevelsList().size();
       }
       for (java.util.Map.Entry<java.lang.String, java.lang.Long> entry
            : internalGetDependencyLevels().getMap().entrySet()) {
@@ -2986,8 +3003,8 @@ java.lang.String defaultValue) {
           .equals(other.getInputAttestationsList())) return false;
       if (!getVerificationResult()
           .equals(other.getVerificationResult())) return false;
-      if (!getVerifiedLevels()
-          .equals(other.getVerifiedLevels())) return false;
+      if (!getVerifiedLevelsList()
+          .equals(other.getVerifiedLevelsList())) return false;
       if (!internalGetDependencyLevels().equals(
           other.internalGetDependencyLevels())) return false;
       if (!getSlsaVersion()
@@ -3023,8 +3040,10 @@ java.lang.String defaultValue) {
       }
       hash = (37 * hash) + VERIFICATION_RESULT_FIELD_NUMBER;
       hash = (53 * hash) + getVerificationResult().hashCode();
-      hash = (37 * hash) + VERIFIED_LEVELS_FIELD_NUMBER;
-      hash = (53 * hash) + getVerifiedLevels().hashCode();
+      if (getVerifiedLevelsCount() > 0) {
+        hash = (37 * hash) + VERIFIED_LEVELS_FIELD_NUMBER;
+        hash = (53 * hash) + getVerifiedLevelsList().hashCode();
+      }
       if (!internalGetDependencyLevels().getMap().isEmpty()) {
         hash = (37 * hash) + DEPENDENCY_LEVELS_FIELD_NUMBER;
         hash = (53 * hash) + internalGetDependencyLevels().hashCode();
@@ -3222,7 +3241,8 @@ java.lang.String defaultValue) {
         }
         bitField0_ = (bitField0_ & ~0x00000010);
         verificationResult_ = "";
-        verifiedLevels_ = "";
+        verifiedLevels_ =
+            com.google.protobuf.LazyStringArrayList.emptyList();
         internalGetMutableDependencyLevels().clear();
         slsaVersion_ = "";
         return this;
@@ -3297,6 +3317,7 @@ java.lang.String defaultValue) {
           result.verificationResult_ = verificationResult_;
         }
         if (((from_bitField0_ & 0x00000040) != 0)) {
+          verifiedLevels_.makeImmutable();
           result.verifiedLevels_ = verifiedLevels_;
         }
         if (((from_bitField0_ & 0x00000080) != 0)) {
@@ -3398,9 +3419,14 @@ java.lang.String defaultValue) {
           bitField0_ |= 0x00000020;
           onChanged();
         }
-        if (!other.getVerifiedLevels().isEmpty()) {
-          verifiedLevels_ = other.verifiedLevels_;
-          bitField0_ |= 0x00000040;
+        if (!other.verifiedLevels_.isEmpty()) {
+          if (verifiedLevels_.isEmpty()) {
+            verifiedLevels_ = other.verifiedLevels_;
+            bitField0_ |= 0x00000040;
+          } else {
+            ensureVerifiedLevelsIsMutable();
+            verifiedLevels_.addAll(other.verifiedLevels_);
+          }
           onChanged();
         }
         internalGetMutableDependencyLevels().mergeFrom(
@@ -3482,8 +3508,9 @@ java.lang.String defaultValue) {
                 break;
               } // case 50
               case 58: {
-                verifiedLevels_ = input.readStringRequireUtf8();
-                bitField0_ |= 0x00000040;
+                java.lang.String s = input.readStringRequireUtf8();
+                ensureVerifiedLevelsIsMutable();
+                verifiedLevels_.add(s);
                 break;
               } // case 58
               case 66: {
@@ -4264,73 +4291,112 @@ java.lang.String defaultValue) {
         return this;
       }
 
-      private java.lang.Object verifiedLevels_ = "";
-      /**
-       * <code>string verified_levels = 7 [json_name = "verifiedLevels"];</code>
-       * @return The verifiedLevels.
-       */
-      public java.lang.String getVerifiedLevels() {
-        java.lang.Object ref = verifiedLevels_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          verifiedLevels_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
+      private com.google.protobuf.LazyStringArrayList verifiedLevels_ =
+          com.google.protobuf.LazyStringArrayList.emptyList();
+      private void ensureVerifiedLevelsIsMutable() {
+        if (!verifiedLevels_.isModifiable()) {
+          verifiedLevels_ = new com.google.protobuf.LazyStringArrayList(verifiedLevels_);
         }
+        bitField0_ |= 0x00000040;
       }
       /**
-       * <code>string verified_levels = 7 [json_name = "verifiedLevels"];</code>
-       * @return The bytes for verifiedLevels.
+       * <code>repeated string verified_levels = 7 [json_name = "verifiedLevels"];</code>
+       * @return A list containing the verifiedLevels.
+       */
+      public com.google.protobuf.ProtocolStringList
+          getVerifiedLevelsList() {
+        verifiedLevels_.makeImmutable();
+        return verifiedLevels_;
+      }
+      /**
+       * <code>repeated string verified_levels = 7 [json_name = "verifiedLevels"];</code>
+       * @return The count of verifiedLevels.
+       */
+      public int getVerifiedLevelsCount() {
+        return verifiedLevels_.size();
+      }
+      /**
+       * <code>repeated string verified_levels = 7 [json_name = "verifiedLevels"];</code>
+       * @param index The index of the element to return.
+       * @return The verifiedLevels at the given index.
+       */
+      public java.lang.String getVerifiedLevels(int index) {
+        return verifiedLevels_.get(index);
+      }
+      /**
+       * <code>repeated string verified_levels = 7 [json_name = "verifiedLevels"];</code>
+       * @param index The index of the value to return.
+       * @return The bytes of the verifiedLevels at the given index.
        */
       public com.google.protobuf.ByteString
-          getVerifiedLevelsBytes() {
-        java.lang.Object ref = verifiedLevels_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          verifiedLevels_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
+          getVerifiedLevelsBytes(int index) {
+        return verifiedLevels_.getByteString(index);
       }
       /**
-       * <code>string verified_levels = 7 [json_name = "verifiedLevels"];</code>
+       * <code>repeated string verified_levels = 7 [json_name = "verifiedLevels"];</code>
+       * @param index The index to set the value at.
        * @param value The verifiedLevels to set.
        * @return This builder for chaining.
        */
       public Builder setVerifiedLevels(
-          java.lang.String value) {
+          int index, java.lang.String value) {
         if (value == null) { throw new NullPointerException(); }
-        verifiedLevels_ = value;
+        ensureVerifiedLevelsIsMutable();
+        verifiedLevels_.set(index, value);
         bitField0_ |= 0x00000040;
         onChanged();
         return this;
       }
       /**
-       * <code>string verified_levels = 7 [json_name = "verifiedLevels"];</code>
+       * <code>repeated string verified_levels = 7 [json_name = "verifiedLevels"];</code>
+       * @param value The verifiedLevels to add.
        * @return This builder for chaining.
        */
-      public Builder clearVerifiedLevels() {
-        verifiedLevels_ = getDefaultInstance().getVerifiedLevels();
-        bitField0_ = (bitField0_ & ~0x00000040);
+      public Builder addVerifiedLevels(
+          java.lang.String value) {
+        if (value == null) { throw new NullPointerException(); }
+        ensureVerifiedLevelsIsMutable();
+        verifiedLevels_.add(value);
+        bitField0_ |= 0x00000040;
         onChanged();
         return this;
       }
       /**
-       * <code>string verified_levels = 7 [json_name = "verifiedLevels"];</code>
-       * @param value The bytes for verifiedLevels to set.
+       * <code>repeated string verified_levels = 7 [json_name = "verifiedLevels"];</code>
+       * @param values The verifiedLevels to add.
        * @return This builder for chaining.
        */
-      public Builder setVerifiedLevelsBytes(
+      public Builder addAllVerifiedLevels(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureVerifiedLevelsIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, verifiedLevels_);
+        bitField0_ |= 0x00000040;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string verified_levels = 7 [json_name = "verifiedLevels"];</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearVerifiedLevels() {
+        verifiedLevels_ =
+          com.google.protobuf.LazyStringArrayList.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000040);;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string verified_levels = 7 [json_name = "verifiedLevels"];</code>
+       * @param value The bytes of the verifiedLevels to add.
+       * @return This builder for chaining.
+       */
+      public Builder addVerifiedLevelsBytes(
           com.google.protobuf.ByteString value) {
         if (value == null) { throw new NullPointerException(); }
         checkByteStringIsUtf8(value);
-        verifiedLevels_ = value;
+        ensureVerifiedLevelsIsMutable();
+        verifiedLevels_.add(value);
         bitField0_ |= 0x00000040;
         onChanged();
         return this;
@@ -4655,7 +4721,7 @@ java.lang.String defaultValue) {
       ".v1.VerificationSummary.InputAttestation" +
       "R\021inputAttestations\022/\n\023verification_resu" +
       "lt\030\006 \001(\tR\022verificationResult\022\'\n\017verified" +
-      "_levels\030\007 \001(\tR\016verifiedLevels\022}\n\021depende" +
+      "_levels\030\007 \003(\tR\016verifiedLevels\022}\n\021depende" +
       "ncy_levels\030\010 \003(\0132P.in_toto_attestation.p" +
       "redicates.vsa.v1.VerificationSummary.Dep" +
       "endencyLevelsEntryR\020dependencyLevels\022!\n\014" +
