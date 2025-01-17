@@ -20,7 +20,7 @@ specification:
 
 -   The [Sigstore Bundle], while [supporting DSSE], is not currently [ITE-5]
     compliant because it requires a _single signature_ in the envelope.[^1]
--   The [COSE\_Sign] structure is [ITE-5] compliant, whereas the `COSE\_Sign1`
+-   The [COSE_Sign] structure is [ITE-5] compliant, whereas the `COSE_Sign1`
     format that supports only one signer is NOT compliant.
 
 ## Fields
@@ -83,7 +83,7 @@ Example media types for single DSSE-signed attestation predicates include:
 [^1]: There is an [ongoing discussion](https://github.com/sigstore/sig-clients/issues/9) about supporting [DSSE Signature Extensions](https://github.com/secure-systems-lab/dsse/blob/devel/envelope.md#signature-extensions-experimental) to extend the current features of Sigstore Bundles.
 
 [Bundle]: bundle.md
-[COSE\_Sign]: https://datatracker.ietf.org/doc/html/rfc8152#section-4.1
+[COSE_Sign]: https://datatracker.ietf.org/doc/html/rfc8152#section-4.1
 [DSSE v1.0]: https://github.com/secure-systems-lab/dsse/blob/v1.0.2/envelope.md
 [ITE-5]: https://github.com/in-toto/ITE/tree/master/ITE/5#specification
 [KEYID]: https://github.com/in-toto/docs/blob/v1.0/in-toto-spec.md#421-key-formats
