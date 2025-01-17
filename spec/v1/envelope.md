@@ -32,6 +32,7 @@ for an Envelope:
 -   A `keyid` (or equivalent) SHOULD be included for each signing key used.
 -   `payload` (or equivalent) SHOULD be included and contain the attestation
     data that was signed.
+-   `payloadType` (or equivalent) SHOULD be signed along with the `payload`.
 
 In addition, the Envelope spec has the following specific requirements for the
 standard [DSSE][DSSE v1.0] fields.
