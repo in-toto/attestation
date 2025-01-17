@@ -1,18 +1,40 @@
 # Envelope layer specification
 
-Version: [DSSE v1.0]
-
-The Envelope is the outermost layer of the attestation, handling
-authentication and serialization.
+The Envelope is the outermost layer of the attestation, handling  serialization
+and authentication (via digital signatures).
 
 ## Schema
 
-The format and protocol are defined per [DSSE v1.0].
+The RECOMMENDED format and protocol for Envelopes are defined per [DSSE v1.0].
+Producers MAY use other signature methods and formats that meet the [ITE-5]
+specification:
+
+-   MUST support the inclusion of multiple signatures in a single envelope
+-   SHOULD include an authenticated payload type
+-   SHOULD avoid depending on canonicalization for security
+-   SHOULD support a hint indicating what signing key was used, i.e., a KEYID
+-   SHOULD NOT require the verifier to parse the payload before verifying
+-   SHOULD NOT require the inclusion of signing key algorithms in the signature
+
+### Alternative Envelope schemas
+
+-   The [Sigstore Bundle], while [supporting DSSE], is not currently [ITE-5]
+    compliant because it requires a _single signature_ in the envelope.[^1]
+-   The [COSE\_Sign] structure is [ITE-5] compliant, whereas the `COSE\_Sign1`
+    format that supports only one signer is NOT compliant.
 
 ## Fields
 
-The in-toto Attestation Framework has the following requirements for the
-standard DSSE fields.
+The in-toto Attestation Framework has the following general field requirements
+for an Envelope:
+
+-   `signature` (or equivalent) is REQUIRED and MUST be defined as an array.
+-   A `keyid` (or equivalent) SHOULD be included for each signing key used.
+-   `payload` (or equivalent) SHOULD be included and contain the attestation
+    data that was signed.
+
+In addition, the Envelope spec has the following specific requirements for the
+standard [DSSE][DSSE v1.0] fields.
 
 -   `payloadType` MUST be set to `application/vnd.in-toto+json`, which
     indicates that the Envelope contains a JSON object with a `_type` field
@@ -57,10 +79,16 @@ Example media types for single DSSE-signed attestation predicates include:
 -   SPDX: `application/vnd.in-toto.spdx+dsse`
 -   VSA: `application/vnd.in-toto.vsa+dsse`
 
+[^1]: There is an [ongoing discussion](https://github.com/sigstore/sig-clients/issues/9) about supporting [DSSE Signature Extensions](https://github.com/secure-systems-lab/dsse/blob/devel/envelope.md#signature-extensions-experimental) to extend the current features of Sigstore Bundles.
+
 [Bundle]: bundle.md
-[DSSE v1.0]: https://github.com/secure-systems-lab/dsse/blob/v1.0.0/envelope.md
+[COSE\_Sign]: https://datatracker.ietf.org/doc/html/rfc8152#section-4.1
+[DSSE v1.0]: https://github.com/secure-systems-lab/dsse/blob/v1.0.2/envelope.md
+[ITE-5]: https://github.com/in-toto/ITE/tree/master/ITE/5#specification
 [KEYID]: https://github.com/in-toto/docs/blob/v1.0/in-toto-spec.md#421-key-formats
+[Sigstore Bundle]: https://docs.sigstore.dev/about/bundle/
 [Statement]: statement.md
 [in-toto-verify]: https://github.com/in-toto/in-toto#verification
 [functionaries]: https://github.com/in-toto/docs/blob/v1.0/in-toto-spec.md#212-functionaries
 [predicate specification filename]: ../predicates
+[supporting DSSE]: https://docs.sigstore.dev/about/bundle/#dsse
