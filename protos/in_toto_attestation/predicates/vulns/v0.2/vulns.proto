@@ -11,13 +11,13 @@ option java_package = "io.github.intoto.attestation.predicates.vulns.v02";
 // Validation of all fields is left to the users of this proto.
 message Vulns {
   Scanner scanner = 1;
-  ScanMetadata scan_metadata = 2;
+  ScanMetadata metadata = 2;
 }
 
 message Scanner {
   string uri = 1;
   optional string version = 2;
-  VulnDatabase database = 3;
+  VulnDatabase db = 3;
   repeated Result result = 4;
 }
 
