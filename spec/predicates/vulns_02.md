@@ -135,7 +135,7 @@ The `predicate` contains a JSON-encoded data with the following fields:
          "id": "CVE-123",
          "severity": [
           { "method": "nvd", "score": "medium"},
-          { "method": "cvss_score", "score", "5.2" }
+          { "method": "cvss_score", "score": "5.2" }
          ]
         },
         {...}
