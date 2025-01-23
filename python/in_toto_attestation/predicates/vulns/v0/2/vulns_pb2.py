@@ -16,7 +16,7 @@ from google.protobuf import struct_pb2 as google_dot_protobuf_dot_struct__pb2
 from google.protobuf import timestamp_pb2 as google_dot_protobuf_dot_timestamp__pb2
 
 DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(
-    b'\n5in_toto_attestation/predicates/vulns/v0.2/vulns.proto\x12(in_toto_attestation.predicates.vulns.v02\x1a\x1cgoogle/protobuf/struct.proto\x1a\x1fgoogle/protobuf/timestamp.proto"\x9a\x01\n\x05Vulns\x12\x42\n\x07scanner\x18\x01 \x01(\x0b\x32\x31.in_toto_attestation.predicates.vulns.v02.Scanner\x12M\n\rscan_metadata\x18\x02 \x01(\x0b\x32\x36.in_toto_attestation.predicates.vulns.v02.ScanMetadata"\xc4\x01\n\x07Scanner\x12\x0b\n\x03uri\x18\x01 \x01(\t\x12\x14\n\x07version\x18\x02 \x01(\tH\x00\x88\x01\x01\x12H\n\x08\x64\x61tabase\x18\x03 \x01(\x0b\x32\x36.in_toto_attestation.predicates.vulns.v02.VulnDatabase\x12@\n\x06result\x18\x04 \x03(\x0b\x32\x30.in_toto_attestation.predicates.vulns.v02.ResultB\n\n\x08_version"{\n\x0cVulnDatabase\x12\x10\n\x03uri\x18\x01 \x01(\tH\x00\x88\x01\x01\x12\x14\n\x07version\x18\x02 \x01(\tH\x01\x88\x01\x01\x12/\n\x0blast_update\x18\x03 \x01(\x0b\x32\x1a.google.protobuf.TimestampB\x06\n\x04_uriB\n\n\x08_version"\xba\x01\n\x06Result\x12\n\n\x02id\x18\x01 \x01(\t\x12K\n\x08severity\x18\x02 \x03(\x0b\x32\x39.in_toto_attestation.predicates.vulns.v02.Result.Severity\x12,\n\x0b\x61nnotations\x18\x03 \x03(\x0b\x32\x17.google.protobuf.Struct\x1a)\n\x08Severity\x12\x0e\n\x06method\x18\x01 \x01(\t\x12\r\n\x05score\x18\x02 \x01(\t"y\n\x0cScanMetadata\x12\x33\n\x0fscan_started_on\x18\x01 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12\x34\n\x10scan_finished_on\x18\x02 \x01(\x0b\x32\x1a.google.protobuf.TimestampBk\n1io.github.intoto.attestation.predicates.vulns.v02Z6github.com/in-toto/attestation/go/predicates/vulns/v02b\x06proto3'
+    b'\n5in_toto_attestation/predicates/vulns/v0.2/vulns.proto\x12(in_toto_attestation.predicates.vulns.v02\x1a\x1cgoogle/protobuf/struct.proto\x1a\x1fgoogle/protobuf/timestamp.proto"\x95\x01\n\x05Vulns\x12\x42\n\x07scanner\x18\x01 \x01(\x0b\x32\x31.in_toto_attestation.predicates.vulns.v02.Scanner\x12H\n\x08metadata\x18\x02 \x01(\x0b\x32\x36.in_toto_attestation.predicates.vulns.v02.ScanMetadata"\xbe\x01\n\x07Scanner\x12\x0b\n\x03uri\x18\x01 \x01(\t\x12\x14\n\x07version\x18\x02 \x01(\tH\x00\x88\x01\x01\x12\x42\n\x02\x64\x62\x18\x03 \x01(\x0b\x32\x36.in_toto_attestation.predicates.vulns.v02.VulnDatabase\x12@\n\x06result\x18\x04 \x03(\x0b\x32\x30.in_toto_attestation.predicates.vulns.v02.ResultB\n\n\x08_version"{\n\x0cVulnDatabase\x12\x10\n\x03uri\x18\x01 \x01(\tH\x00\x88\x01\x01\x12\x14\n\x07version\x18\x02 \x01(\tH\x01\x88\x01\x01\x12/\n\x0blast_update\x18\x03 \x01(\x0b\x32\x1a.google.protobuf.TimestampB\x06\n\x04_uriB\n\n\x08_version"\xba\x01\n\x06Result\x12\n\n\x02id\x18\x01 \x01(\t\x12K\n\x08severity\x18\x02 \x03(\x0b\x32\x39.in_toto_attestation.predicates.vulns.v02.Result.Severity\x12,\n\x0b\x61nnotations\x18\x03 \x03(\x0b\x32\x17.google.protobuf.Struct\x1a)\n\x08Severity\x12\x0e\n\x06method\x18\x01 \x01(\t\x12\r\n\x05score\x18\x02 \x01(\t"y\n\x0cScanMetadata\x12\x33\n\x0fscan_started_on\x18\x01 \x01(\x0b\x32\x1a.google.protobuf.Timestamp\x12\x34\n\x10scan_finished_on\x18\x02 \x01(\x0b\x32\x1a.google.protobuf.TimestampBk\n1io.github.intoto.attestation.predicates.vulns.v02Z6github.com/in-toto/attestation/go/predicates/vulns/v02b\x06proto3'
 )
 
 _globals = globals()
@@ -30,15 +30,15 @@ if _descriptor._USE_C_DESCRIPTORS == False:
         "DESCRIPTOR"
     ]._serialized_options = b"\n1io.github.intoto.attestation.predicates.vulns.v02Z6github.com/in-toto/attestation/go/predicates/vulns/v02"
     _globals["_VULNS"]._serialized_start = 163
-    _globals["_VULNS"]._serialized_end = 317
-    _globals["_SCANNER"]._serialized_start = 320
-    _globals["_SCANNER"]._serialized_end = 516
-    _globals["_VULNDATABASE"]._serialized_start = 518
-    _globals["_VULNDATABASE"]._serialized_end = 641
-    _globals["_RESULT"]._serialized_start = 644
-    _globals["_RESULT"]._serialized_end = 830
-    _globals["_RESULT_SEVERITY"]._serialized_start = 789
-    _globals["_RESULT_SEVERITY"]._serialized_end = 830
-    _globals["_SCANMETADATA"]._serialized_start = 832
-    _globals["_SCANMETADATA"]._serialized_end = 953
+    _globals["_VULNS"]._serialized_end = 312
+    _globals["_SCANNER"]._serialized_start = 315
+    _globals["_SCANNER"]._serialized_end = 505
+    _globals["_VULNDATABASE"]._serialized_start = 507
+    _globals["_VULNDATABASE"]._serialized_end = 630
+    _globals["_RESULT"]._serialized_start = 633
+    _globals["_RESULT"]._serialized_end = 819
+    _globals["_RESULT_SEVERITY"]._serialized_start = 778
+    _globals["_RESULT_SEVERITY"]._serialized_end = 819
+    _globals["_SCANMETADATA"]._serialized_start = 821
+    _globals["_SCANMETADATA"]._serialized_end = 942
 # @@protoc_insertion_point(module_scope)

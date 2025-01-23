@@ -34,19 +34,19 @@ public final class VulnsOuterClass {
     io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.ScannerOrBuilder getScannerOrBuilder();
 
     /**
-     * <code>.in_toto_attestation.predicates.vulns.v02.ScanMetadata scan_metadata = 2;</code>
-     * @return Whether the scanMetadata field is set.
+     * <code>.in_toto_attestation.predicates.vulns.v02.ScanMetadata metadata = 2;</code>
+     * @return Whether the metadata field is set.
      */
-    boolean hasScanMetadata();
+    boolean hasMetadata();
     /**
-     * <code>.in_toto_attestation.predicates.vulns.v02.ScanMetadata scan_metadata = 2;</code>
-     * @return The scanMetadata.
+     * <code>.in_toto_attestation.predicates.vulns.v02.ScanMetadata metadata = 2;</code>
+     * @return The metadata.
      */
-    io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.ScanMetadata getScanMetadata();
+    io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.ScanMetadata getMetadata();
     /**
-     * <code>.in_toto_attestation.predicates.vulns.v02.ScanMetadata scan_metadata = 2;</code>
+     * <code>.in_toto_attestation.predicates.vulns.v02.ScanMetadata metadata = 2;</code>
      */
-    io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.ScanMetadataOrBuilder getScanMetadataOrBuilder();
+    io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.ScanMetadataOrBuilder getMetadataOrBuilder();
   }
   /**
    * <pre>
@@ -114,30 +114,30 @@ public final class VulnsOuterClass {
       return scanner_ == null ? io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.Scanner.getDefaultInstance() : scanner_;
     }
 
-    public static final int SCAN_METADATA_FIELD_NUMBER = 2;
-    private io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.ScanMetadata scanMetadata_;
+    public static final int METADATA_FIELD_NUMBER = 2;
+    private io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.ScanMetadata metadata_;
     /**
-     * <code>.in_toto_attestation.predicates.vulns.v02.ScanMetadata scan_metadata = 2;</code>
-     * @return Whether the scanMetadata field is set.
+     * <code>.in_toto_attestation.predicates.vulns.v02.ScanMetadata metadata = 2;</code>
+     * @return Whether the metadata field is set.
      */
     @java.lang.Override
-    public boolean hasScanMetadata() {
+    public boolean hasMetadata() {
       return ((bitField0_ & 0x00000002) != 0);
     }
     /**
-     * <code>.in_toto_attestation.predicates.vulns.v02.ScanMetadata scan_metadata = 2;</code>
-     * @return The scanMetadata.
+     * <code>.in_toto_attestation.predicates.vulns.v02.ScanMetadata metadata = 2;</code>
+     * @return The metadata.
      */
     @java.lang.Override
-    public io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.ScanMetadata getScanMetadata() {
-      return scanMetadata_ == null ? io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.ScanMetadata.getDefaultInstance() : scanMetadata_;
+    public io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.ScanMetadata getMetadata() {
+      return metadata_ == null ? io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.ScanMetadata.getDefaultInstance() : metadata_;
     }
     /**
-     * <code>.in_toto_attestation.predicates.vulns.v02.ScanMetadata scan_metadata = 2;</code>
+     * <code>.in_toto_attestation.predicates.vulns.v02.ScanMetadata metadata = 2;</code>
      */
     @java.lang.Override
-    public io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.ScanMetadataOrBuilder getScanMetadataOrBuilder() {
-      return scanMetadata_ == null ? io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.ScanMetadata.getDefaultInstance() : scanMetadata_;
+    public io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.ScanMetadataOrBuilder getMetadataOrBuilder() {
+      return metadata_ == null ? io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.ScanMetadata.getDefaultInstance() : metadata_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -158,7 +158,7 @@ public final class VulnsOuterClass {
         output.writeMessage(1, getScanner());
       }
       if (((bitField0_ & 0x00000002) != 0)) {
-        output.writeMessage(2, getScanMetadata());
+        output.writeMessage(2, getMetadata());
       }
       getUnknownFields().writeTo(output);
     }
@@ -175,7 +175,7 @@ public final class VulnsOuterClass {
       }
       if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, getScanMetadata());
+          .computeMessageSize(2, getMetadata());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -197,10 +197,10 @@ public final class VulnsOuterClass {
         if (!getScanner()
             .equals(other.getScanner())) return false;
       }
-      if (hasScanMetadata() != other.hasScanMetadata()) return false;
-      if (hasScanMetadata()) {
-        if (!getScanMetadata()
-            .equals(other.getScanMetadata())) return false;
+      if (hasMetadata() != other.hasMetadata()) return false;
+      if (hasMetadata()) {
+        if (!getMetadata()
+            .equals(other.getMetadata())) return false;
       }
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
@@ -217,9 +217,9 @@ public final class VulnsOuterClass {
         hash = (37 * hash) + SCANNER_FIELD_NUMBER;
         hash = (53 * hash) + getScanner().hashCode();
       }
-      if (hasScanMetadata()) {
-        hash = (37 * hash) + SCAN_METADATA_FIELD_NUMBER;
-        hash = (53 * hash) + getScanMetadata().hashCode();
+      if (hasMetadata()) {
+        hash = (37 * hash) + METADATA_FIELD_NUMBER;
+        hash = (53 * hash) + getMetadata().hashCode();
       }
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
@@ -356,7 +356,7 @@ public final class VulnsOuterClass {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
           getScannerFieldBuilder();
-          getScanMetadataFieldBuilder();
+          getMetadataFieldBuilder();
         }
       }
       @java.lang.Override
@@ -368,10 +368,10 @@ public final class VulnsOuterClass {
           scannerBuilder_.dispose();
           scannerBuilder_ = null;
         }
-        scanMetadata_ = null;
-        if (scanMetadataBuilder_ != null) {
-          scanMetadataBuilder_.dispose();
-          scanMetadataBuilder_ = null;
+        metadata_ = null;
+        if (metadataBuilder_ != null) {
+          metadataBuilder_.dispose();
+          metadataBuilder_ = null;
         }
         return this;
       }
@@ -414,9 +414,9 @@ public final class VulnsOuterClass {
           to_bitField0_ |= 0x00000001;
         }
         if (((from_bitField0_ & 0x00000002) != 0)) {
-          result.scanMetadata_ = scanMetadataBuilder_ == null
-              ? scanMetadata_
-              : scanMetadataBuilder_.build();
+          result.metadata_ = metadataBuilder_ == null
+              ? metadata_
+              : metadataBuilder_.build();
           to_bitField0_ |= 0x00000002;
         }
         result.bitField0_ |= to_bitField0_;
@@ -469,8 +469,8 @@ public final class VulnsOuterClass {
         if (other.hasScanner()) {
           mergeScanner(other.getScanner());
         }
-        if (other.hasScanMetadata()) {
-          mergeScanMetadata(other.getScanMetadata());
+        if (other.hasMetadata()) {
+          mergeMetadata(other.getMetadata());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         onChanged();
@@ -507,7 +507,7 @@ public final class VulnsOuterClass {
               } // case 10
               case 18: {
                 input.readMessage(
-                    getScanMetadataFieldBuilder().getBuilder(),
+                    getMetadataFieldBuilder().getBuilder(),
                     extensionRegistry);
                 bitField0_ |= 0x00000002;
                 break;
@@ -650,125 +650,125 @@ public final class VulnsOuterClass {
         return scannerBuilder_;
       }
 
-      private io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.ScanMetadata scanMetadata_;
+      private io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.ScanMetadata metadata_;
       private com.google.protobuf.SingleFieldBuilderV3<
-          io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.ScanMetadata, io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.ScanMetadata.Builder, io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.ScanMetadataOrBuilder> scanMetadataBuilder_;
+          io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.ScanMetadata, io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.ScanMetadata.Builder, io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.ScanMetadataOrBuilder> metadataBuilder_;
       /**
-       * <code>.in_toto_attestation.predicates.vulns.v02.ScanMetadata scan_metadata = 2;</code>
-       * @return Whether the scanMetadata field is set.
+       * <code>.in_toto_attestation.predicates.vulns.v02.ScanMetadata metadata = 2;</code>
+       * @return Whether the metadata field is set.
        */
-      public boolean hasScanMetadata() {
+      public boolean hasMetadata() {
         return ((bitField0_ & 0x00000002) != 0);
       }
       /**
-       * <code>.in_toto_attestation.predicates.vulns.v02.ScanMetadata scan_metadata = 2;</code>
-       * @return The scanMetadata.
+       * <code>.in_toto_attestation.predicates.vulns.v02.ScanMetadata metadata = 2;</code>
+       * @return The metadata.
        */
-      public io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.ScanMetadata getScanMetadata() {
-        if (scanMetadataBuilder_ == null) {
-          return scanMetadata_ == null ? io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.ScanMetadata.getDefaultInstance() : scanMetadata_;
+      public io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.ScanMetadata getMetadata() {
+        if (metadataBuilder_ == null) {
+          return metadata_ == null ? io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.ScanMetadata.getDefaultInstance() : metadata_;
         } else {
-          return scanMetadataBuilder_.getMessage();
+          return metadataBuilder_.getMessage();
         }
       }
       /**
-       * <code>.in_toto_attestation.predicates.vulns.v02.ScanMetadata scan_metadata = 2;</code>
+       * <code>.in_toto_attestation.predicates.vulns.v02.ScanMetadata metadata = 2;</code>
        */
-      public Builder setScanMetadata(io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.ScanMetadata value) {
-        if (scanMetadataBuilder_ == null) {
+      public Builder setMetadata(io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.ScanMetadata value) {
+        if (metadataBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          scanMetadata_ = value;
+          metadata_ = value;
         } else {
-          scanMetadataBuilder_.setMessage(value);
+          metadataBuilder_.setMessage(value);
         }
         bitField0_ |= 0x00000002;
         onChanged();
         return this;
       }
       /**
-       * <code>.in_toto_attestation.predicates.vulns.v02.ScanMetadata scan_metadata = 2;</code>
+       * <code>.in_toto_attestation.predicates.vulns.v02.ScanMetadata metadata = 2;</code>
        */
-      public Builder setScanMetadata(
+      public Builder setMetadata(
           io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.ScanMetadata.Builder builderForValue) {
-        if (scanMetadataBuilder_ == null) {
-          scanMetadata_ = builderForValue.build();
+        if (metadataBuilder_ == null) {
+          metadata_ = builderForValue.build();
         } else {
-          scanMetadataBuilder_.setMessage(builderForValue.build());
+          metadataBuilder_.setMessage(builderForValue.build());
         }
         bitField0_ |= 0x00000002;
         onChanged();
         return this;
       }
       /**
-       * <code>.in_toto_attestation.predicates.vulns.v02.ScanMetadata scan_metadata = 2;</code>
+       * <code>.in_toto_attestation.predicates.vulns.v02.ScanMetadata metadata = 2;</code>
        */
-      public Builder mergeScanMetadata(io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.ScanMetadata value) {
-        if (scanMetadataBuilder_ == null) {
+      public Builder mergeMetadata(io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.ScanMetadata value) {
+        if (metadataBuilder_ == null) {
           if (((bitField0_ & 0x00000002) != 0) &&
-            scanMetadata_ != null &&
-            scanMetadata_ != io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.ScanMetadata.getDefaultInstance()) {
-            getScanMetadataBuilder().mergeFrom(value);
+            metadata_ != null &&
+            metadata_ != io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.ScanMetadata.getDefaultInstance()) {
+            getMetadataBuilder().mergeFrom(value);
           } else {
-            scanMetadata_ = value;
+            metadata_ = value;
           }
         } else {
-          scanMetadataBuilder_.mergeFrom(value);
+          metadataBuilder_.mergeFrom(value);
         }
-        if (scanMetadata_ != null) {
+        if (metadata_ != null) {
           bitField0_ |= 0x00000002;
           onChanged();
         }
         return this;
       }
       /**
-       * <code>.in_toto_attestation.predicates.vulns.v02.ScanMetadata scan_metadata = 2;</code>
+       * <code>.in_toto_attestation.predicates.vulns.v02.ScanMetadata metadata = 2;</code>
        */
-      public Builder clearScanMetadata() {
+      public Builder clearMetadata() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        scanMetadata_ = null;
-        if (scanMetadataBuilder_ != null) {
-          scanMetadataBuilder_.dispose();
-          scanMetadataBuilder_ = null;
+        metadata_ = null;
+        if (metadataBuilder_ != null) {
+          metadataBuilder_.dispose();
+          metadataBuilder_ = null;
         }
         onChanged();
         return this;
       }
       /**
-       * <code>.in_toto_attestation.predicates.vulns.v02.ScanMetadata scan_metadata = 2;</code>
+       * <code>.in_toto_attestation.predicates.vulns.v02.ScanMetadata metadata = 2;</code>
        */
-      public io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.ScanMetadata.Builder getScanMetadataBuilder() {
+      public io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.ScanMetadata.Builder getMetadataBuilder() {
         bitField0_ |= 0x00000002;
         onChanged();
-        return getScanMetadataFieldBuilder().getBuilder();
+        return getMetadataFieldBuilder().getBuilder();
       }
       /**
-       * <code>.in_toto_attestation.predicates.vulns.v02.ScanMetadata scan_metadata = 2;</code>
+       * <code>.in_toto_attestation.predicates.vulns.v02.ScanMetadata metadata = 2;</code>
        */
-      public io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.ScanMetadataOrBuilder getScanMetadataOrBuilder() {
-        if (scanMetadataBuilder_ != null) {
-          return scanMetadataBuilder_.getMessageOrBuilder();
+      public io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.ScanMetadataOrBuilder getMetadataOrBuilder() {
+        if (metadataBuilder_ != null) {
+          return metadataBuilder_.getMessageOrBuilder();
         } else {
-          return scanMetadata_ == null ?
-              io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.ScanMetadata.getDefaultInstance() : scanMetadata_;
+          return metadata_ == null ?
+              io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.ScanMetadata.getDefaultInstance() : metadata_;
         }
       }
       /**
-       * <code>.in_toto_attestation.predicates.vulns.v02.ScanMetadata scan_metadata = 2;</code>
+       * <code>.in_toto_attestation.predicates.vulns.v02.ScanMetadata metadata = 2;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.ScanMetadata, io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.ScanMetadata.Builder, io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.ScanMetadataOrBuilder> 
-          getScanMetadataFieldBuilder() {
-        if (scanMetadataBuilder_ == null) {
-          scanMetadataBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+          getMetadataFieldBuilder() {
+        if (metadataBuilder_ == null) {
+          metadataBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
               io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.ScanMetadata, io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.ScanMetadata.Builder, io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.ScanMetadataOrBuilder>(
-                  getScanMetadata(),
+                  getMetadata(),
                   getParentForChildren(),
                   isClean());
-          scanMetadata_ = null;
+          metadata_ = null;
         }
-        return scanMetadataBuilder_;
+        return metadataBuilder_;
       }
       @java.lang.Override
       public final Builder setUnknownFields(
@@ -868,19 +868,19 @@ public final class VulnsOuterClass {
         getVersionBytes();
 
     /**
-     * <code>.in_toto_attestation.predicates.vulns.v02.VulnDatabase database = 3;</code>
-     * @return Whether the database field is set.
+     * <code>.in_toto_attestation.predicates.vulns.v02.VulnDatabase db = 3;</code>
+     * @return Whether the db field is set.
      */
-    boolean hasDatabase();
+    boolean hasDb();
     /**
-     * <code>.in_toto_attestation.predicates.vulns.v02.VulnDatabase database = 3;</code>
-     * @return The database.
+     * <code>.in_toto_attestation.predicates.vulns.v02.VulnDatabase db = 3;</code>
+     * @return The db.
      */
-    io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.VulnDatabase getDatabase();
+    io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.VulnDatabase getDb();
     /**
-     * <code>.in_toto_attestation.predicates.vulns.v02.VulnDatabase database = 3;</code>
+     * <code>.in_toto_attestation.predicates.vulns.v02.VulnDatabase db = 3;</code>
      */
-    io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.VulnDatabaseOrBuilder getDatabaseOrBuilder();
+    io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.VulnDatabaseOrBuilder getDbOrBuilder();
 
     /**
      * <code>repeated .in_toto_attestation.predicates.vulns.v02.Result result = 4;</code>
@@ -1031,30 +1031,30 @@ public final class VulnsOuterClass {
       }
     }
 
-    public static final int DATABASE_FIELD_NUMBER = 3;
-    private io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.VulnDatabase database_;
+    public static final int DB_FIELD_NUMBER = 3;
+    private io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.VulnDatabase db_;
     /**
-     * <code>.in_toto_attestation.predicates.vulns.v02.VulnDatabase database = 3;</code>
-     * @return Whether the database field is set.
+     * <code>.in_toto_attestation.predicates.vulns.v02.VulnDatabase db = 3;</code>
+     * @return Whether the db field is set.
      */
     @java.lang.Override
-    public boolean hasDatabase() {
+    public boolean hasDb() {
       return ((bitField0_ & 0x00000002) != 0);
     }
     /**
-     * <code>.in_toto_attestation.predicates.vulns.v02.VulnDatabase database = 3;</code>
-     * @return The database.
+     * <code>.in_toto_attestation.predicates.vulns.v02.VulnDatabase db = 3;</code>
+     * @return The db.
      */
     @java.lang.Override
-    public io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.VulnDatabase getDatabase() {
-      return database_ == null ? io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.VulnDatabase.getDefaultInstance() : database_;
+    public io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.VulnDatabase getDb() {
+      return db_ == null ? io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.VulnDatabase.getDefaultInstance() : db_;
     }
     /**
-     * <code>.in_toto_attestation.predicates.vulns.v02.VulnDatabase database = 3;</code>
+     * <code>.in_toto_attestation.predicates.vulns.v02.VulnDatabase db = 3;</code>
      */
     @java.lang.Override
-    public io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.VulnDatabaseOrBuilder getDatabaseOrBuilder() {
-      return database_ == null ? io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.VulnDatabase.getDefaultInstance() : database_;
+    public io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.VulnDatabaseOrBuilder getDbOrBuilder() {
+      return db_ == null ? io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.VulnDatabase.getDefaultInstance() : db_;
     }
 
     public static final int RESULT_FIELD_NUMBER = 4;
@@ -1119,7 +1119,7 @@ public final class VulnsOuterClass {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, version_);
       }
       if (((bitField0_ & 0x00000002) != 0)) {
-        output.writeMessage(3, getDatabase());
+        output.writeMessage(3, getDb());
       }
       for (int i = 0; i < result_.size(); i++) {
         output.writeMessage(4, result_.get(i));
@@ -1141,7 +1141,7 @@ public final class VulnsOuterClass {
       }
       if (((bitField0_ & 0x00000002) != 0)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, getDatabase());
+          .computeMessageSize(3, getDb());
       }
       for (int i = 0; i < result_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
@@ -1169,10 +1169,10 @@ public final class VulnsOuterClass {
         if (!getVersion()
             .equals(other.getVersion())) return false;
       }
-      if (hasDatabase() != other.hasDatabase()) return false;
-      if (hasDatabase()) {
-        if (!getDatabase()
-            .equals(other.getDatabase())) return false;
+      if (hasDb() != other.hasDb()) return false;
+      if (hasDb()) {
+        if (!getDb()
+            .equals(other.getDb())) return false;
       }
       if (!getResultList()
           .equals(other.getResultList())) return false;
@@ -1193,9 +1193,9 @@ public final class VulnsOuterClass {
         hash = (37 * hash) + VERSION_FIELD_NUMBER;
         hash = (53 * hash) + getVersion().hashCode();
       }
-      if (hasDatabase()) {
-        hash = (37 * hash) + DATABASE_FIELD_NUMBER;
-        hash = (53 * hash) + getDatabase().hashCode();
+      if (hasDb()) {
+        hash = (37 * hash) + DB_FIELD_NUMBER;
+        hash = (53 * hash) + getDb().hashCode();
       }
       if (getResultCount() > 0) {
         hash = (37 * hash) + RESULT_FIELD_NUMBER;
@@ -1331,7 +1331,7 @@ public final class VulnsOuterClass {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
-          getDatabaseFieldBuilder();
+          getDbFieldBuilder();
           getResultFieldBuilder();
         }
       }
@@ -1341,10 +1341,10 @@ public final class VulnsOuterClass {
         bitField0_ = 0;
         uri_ = "";
         version_ = "";
-        database_ = null;
-        if (databaseBuilder_ != null) {
-          databaseBuilder_.dispose();
-          databaseBuilder_ = null;
+        db_ = null;
+        if (dbBuilder_ != null) {
+          dbBuilder_.dispose();
+          dbBuilder_ = null;
         }
         if (resultBuilder_ == null) {
           result_ = java.util.Collections.emptyList();
@@ -1408,9 +1408,9 @@ public final class VulnsOuterClass {
           to_bitField0_ |= 0x00000001;
         }
         if (((from_bitField0_ & 0x00000004) != 0)) {
-          result.database_ = databaseBuilder_ == null
-              ? database_
-              : databaseBuilder_.build();
+          result.db_ = dbBuilder_ == null
+              ? db_
+              : dbBuilder_.build();
           to_bitField0_ |= 0x00000002;
         }
         result.bitField0_ |= to_bitField0_;
@@ -1470,8 +1470,8 @@ public final class VulnsOuterClass {
           bitField0_ |= 0x00000002;
           onChanged();
         }
-        if (other.hasDatabase()) {
-          mergeDatabase(other.getDatabase());
+        if (other.hasDb()) {
+          mergeDb(other.getDb());
         }
         if (resultBuilder_ == null) {
           if (!other.result_.isEmpty()) {
@@ -1537,7 +1537,7 @@ public final class VulnsOuterClass {
               } // case 18
               case 26: {
                 input.readMessage(
-                    getDatabaseFieldBuilder().getBuilder(),
+                    getDbFieldBuilder().getBuilder(),
                     extensionRegistry);
                 bitField0_ |= 0x00000004;
                 break;
@@ -1723,125 +1723,125 @@ public final class VulnsOuterClass {
         return this;
       }
 
-      private io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.VulnDatabase database_;
+      private io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.VulnDatabase db_;
       private com.google.protobuf.SingleFieldBuilderV3<
-          io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.VulnDatabase, io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.VulnDatabase.Builder, io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.VulnDatabaseOrBuilder> databaseBuilder_;
+          io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.VulnDatabase, io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.VulnDatabase.Builder, io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.VulnDatabaseOrBuilder> dbBuilder_;
       /**
-       * <code>.in_toto_attestation.predicates.vulns.v02.VulnDatabase database = 3;</code>
-       * @return Whether the database field is set.
+       * <code>.in_toto_attestation.predicates.vulns.v02.VulnDatabase db = 3;</code>
+       * @return Whether the db field is set.
        */
-      public boolean hasDatabase() {
+      public boolean hasDb() {
         return ((bitField0_ & 0x00000004) != 0);
       }
       /**
-       * <code>.in_toto_attestation.predicates.vulns.v02.VulnDatabase database = 3;</code>
-       * @return The database.
+       * <code>.in_toto_attestation.predicates.vulns.v02.VulnDatabase db = 3;</code>
+       * @return The db.
        */
-      public io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.VulnDatabase getDatabase() {
-        if (databaseBuilder_ == null) {
-          return database_ == null ? io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.VulnDatabase.getDefaultInstance() : database_;
+      public io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.VulnDatabase getDb() {
+        if (dbBuilder_ == null) {
+          return db_ == null ? io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.VulnDatabase.getDefaultInstance() : db_;
         } else {
-          return databaseBuilder_.getMessage();
+          return dbBuilder_.getMessage();
         }
       }
       /**
-       * <code>.in_toto_attestation.predicates.vulns.v02.VulnDatabase database = 3;</code>
+       * <code>.in_toto_attestation.predicates.vulns.v02.VulnDatabase db = 3;</code>
        */
-      public Builder setDatabase(io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.VulnDatabase value) {
-        if (databaseBuilder_ == null) {
+      public Builder setDb(io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.VulnDatabase value) {
+        if (dbBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          database_ = value;
+          db_ = value;
         } else {
-          databaseBuilder_.setMessage(value);
+          dbBuilder_.setMessage(value);
         }
         bitField0_ |= 0x00000004;
         onChanged();
         return this;
       }
       /**
-       * <code>.in_toto_attestation.predicates.vulns.v02.VulnDatabase database = 3;</code>
+       * <code>.in_toto_attestation.predicates.vulns.v02.VulnDatabase db = 3;</code>
        */
-      public Builder setDatabase(
+      public Builder setDb(
           io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.VulnDatabase.Builder builderForValue) {
-        if (databaseBuilder_ == null) {
-          database_ = builderForValue.build();
+        if (dbBuilder_ == null) {
+          db_ = builderForValue.build();
         } else {
-          databaseBuilder_.setMessage(builderForValue.build());
+          dbBuilder_.setMessage(builderForValue.build());
         }
         bitField0_ |= 0x00000004;
         onChanged();
         return this;
       }
       /**
-       * <code>.in_toto_attestation.predicates.vulns.v02.VulnDatabase database = 3;</code>
+       * <code>.in_toto_attestation.predicates.vulns.v02.VulnDatabase db = 3;</code>
        */
-      public Builder mergeDatabase(io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.VulnDatabase value) {
-        if (databaseBuilder_ == null) {
+      public Builder mergeDb(io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.VulnDatabase value) {
+        if (dbBuilder_ == null) {
           if (((bitField0_ & 0x00000004) != 0) &&
-            database_ != null &&
-            database_ != io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.VulnDatabase.getDefaultInstance()) {
-            getDatabaseBuilder().mergeFrom(value);
+            db_ != null &&
+            db_ != io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.VulnDatabase.getDefaultInstance()) {
+            getDbBuilder().mergeFrom(value);
           } else {
-            database_ = value;
+            db_ = value;
           }
         } else {
-          databaseBuilder_.mergeFrom(value);
+          dbBuilder_.mergeFrom(value);
         }
-        if (database_ != null) {
+        if (db_ != null) {
           bitField0_ |= 0x00000004;
           onChanged();
         }
         return this;
       }
       /**
-       * <code>.in_toto_attestation.predicates.vulns.v02.VulnDatabase database = 3;</code>
+       * <code>.in_toto_attestation.predicates.vulns.v02.VulnDatabase db = 3;</code>
        */
-      public Builder clearDatabase() {
+      public Builder clearDb() {
         bitField0_ = (bitField0_ & ~0x00000004);
-        database_ = null;
-        if (databaseBuilder_ != null) {
-          databaseBuilder_.dispose();
-          databaseBuilder_ = null;
+        db_ = null;
+        if (dbBuilder_ != null) {
+          dbBuilder_.dispose();
+          dbBuilder_ = null;
         }
         onChanged();
         return this;
       }
       /**
-       * <code>.in_toto_attestation.predicates.vulns.v02.VulnDatabase database = 3;</code>
+       * <code>.in_toto_attestation.predicates.vulns.v02.VulnDatabase db = 3;</code>
        */
-      public io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.VulnDatabase.Builder getDatabaseBuilder() {
+      public io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.VulnDatabase.Builder getDbBuilder() {
         bitField0_ |= 0x00000004;
         onChanged();
-        return getDatabaseFieldBuilder().getBuilder();
+        return getDbFieldBuilder().getBuilder();
       }
       /**
-       * <code>.in_toto_attestation.predicates.vulns.v02.VulnDatabase database = 3;</code>
+       * <code>.in_toto_attestation.predicates.vulns.v02.VulnDatabase db = 3;</code>
        */
-      public io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.VulnDatabaseOrBuilder getDatabaseOrBuilder() {
-        if (databaseBuilder_ != null) {
-          return databaseBuilder_.getMessageOrBuilder();
+      public io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.VulnDatabaseOrBuilder getDbOrBuilder() {
+        if (dbBuilder_ != null) {
+          return dbBuilder_.getMessageOrBuilder();
         } else {
-          return database_ == null ?
-              io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.VulnDatabase.getDefaultInstance() : database_;
+          return db_ == null ?
+              io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.VulnDatabase.getDefaultInstance() : db_;
         }
       }
       /**
-       * <code>.in_toto_attestation.predicates.vulns.v02.VulnDatabase database = 3;</code>
+       * <code>.in_toto_attestation.predicates.vulns.v02.VulnDatabase db = 3;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.VulnDatabase, io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.VulnDatabase.Builder, io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.VulnDatabaseOrBuilder> 
-          getDatabaseFieldBuilder() {
-        if (databaseBuilder_ == null) {
-          databaseBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+          getDbFieldBuilder() {
+        if (dbBuilder_ == null) {
+          dbBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
               io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.VulnDatabase, io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.VulnDatabase.Builder, io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.VulnDatabaseOrBuilder>(
-                  getDatabase(),
+                  getDb(),
                   getParentForChildren(),
                   isClean());
-          database_ = null;
+          db_ = null;
         }
-        return databaseBuilder_;
+        return dbBuilder_;
       }
 
       private java.util.List<io.github.intoto.attestation.predicates.vulns.v02.VulnsOuterClass.Result> result_ =
@@ -5966,29 +5966,29 @@ public final class VulnsOuterClass {
       "0.2/vulns.proto\022(in_toto_attestation.pre" +
       "dicates.vulns.v02\032\034google/protobuf/struc" +
       "t.proto\032\037google/protobuf/timestamp.proto" +
-      "\"\232\001\n\005Vulns\022B\n\007scanner\030\001 \001(\01321.in_toto_at" +
-      "testation.predicates.vulns.v02.Scanner\022M" +
-      "\n\rscan_metadata\030\002 \001(\01326.in_toto_attestat" +
-      "ion.predicates.vulns.v02.ScanMetadata\"\304\001" +
-      "\n\007Scanner\022\013\n\003uri\030\001 \001(\t\022\024\n\007version\030\002 \001(\tH" +
-      "\000\210\001\001\022H\n\010database\030\003 \001(\01326.in_toto_attesta" +
-      "tion.predicates.vulns.v02.VulnDatabase\022@" +
-      "\n\006result\030\004 \003(\01320.in_toto_attestation.pre" +
-      "dicates.vulns.v02.ResultB\n\n\010_version\"{\n\014" +
-      "VulnDatabase\022\020\n\003uri\030\001 \001(\tH\000\210\001\001\022\024\n\007versio" +
-      "n\030\002 \001(\tH\001\210\001\001\022/\n\013last_update\030\003 \001(\0132\032.goog" +
-      "le.protobuf.TimestampB\006\n\004_uriB\n\n\010_versio" +
-      "n\"\272\001\n\006Result\022\n\n\002id\030\001 \001(\t\022K\n\010severity\030\002 \003" +
-      "(\01329.in_toto_attestation.predicates.vuln" +
-      "s.v02.Result.Severity\022,\n\013annotations\030\003 \003" +
-      "(\0132\027.google.protobuf.Struct\032)\n\010Severity\022" +
-      "\016\n\006method\030\001 \001(\t\022\r\n\005score\030\002 \001(\t\"y\n\014ScanMe" +
-      "tadata\0223\n\017scan_started_on\030\001 \001(\0132\032.google" +
-      ".protobuf.Timestamp\0224\n\020scan_finished_on\030" +
-      "\002 \001(\0132\032.google.protobuf.TimestampBk\n1io." +
-      "github.intoto.attestation.predicates.vul" +
-      "ns.v02Z6github.com/in-toto/attestation/g" +
-      "o/predicates/vulns/v02b\006proto3"
+      "\"\225\001\n\005Vulns\022B\n\007scanner\030\001 \001(\01321.in_toto_at" +
+      "testation.predicates.vulns.v02.Scanner\022H" +
+      "\n\010metadata\030\002 \001(\01326.in_toto_attestation.p" +
+      "redicates.vulns.v02.ScanMetadata\"\276\001\n\007Sca" +
+      "nner\022\013\n\003uri\030\001 \001(\t\022\024\n\007version\030\002 \001(\tH\000\210\001\001\022" +
+      "B\n\002db\030\003 \001(\01326.in_toto_attestation.predic" +
+      "ates.vulns.v02.VulnDatabase\022@\n\006result\030\004 " +
+      "\003(\01320.in_toto_attestation.predicates.vul" +
+      "ns.v02.ResultB\n\n\010_version\"{\n\014VulnDatabas" +
+      "e\022\020\n\003uri\030\001 \001(\tH\000\210\001\001\022\024\n\007version\030\002 \001(\tH\001\210\001" +
+      "\001\022/\n\013last_update\030\003 \001(\0132\032.google.protobuf" +
+      ".TimestampB\006\n\004_uriB\n\n\010_version\"\272\001\n\006Resul" +
+      "t\022\n\n\002id\030\001 \001(\t\022K\n\010severity\030\002 \003(\01329.in_tot" +
+      "o_attestation.predicates.vulns.v02.Resul" +
+      "t.Severity\022,\n\013annotations\030\003 \003(\0132\027.google" +
+      ".protobuf.Struct\032)\n\010Severity\022\016\n\006method\030\001" +
+      " \001(\t\022\r\n\005score\030\002 \001(\t\"y\n\014ScanMetadata\0223\n\017s" +
+      "can_started_on\030\001 \001(\0132\032.google.protobuf.T" +
+      "imestamp\0224\n\020scan_finished_on\030\002 \001(\0132\032.goo" +
+      "gle.protobuf.TimestampBk\n1io.github.into" +
+      "to.attestation.predicates.vulns.v02Z6git" +
+      "hub.com/in-toto/attestation/go/predicate" +
+      "s/vulns/v02b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -6001,13 +6001,13 @@ public final class VulnsOuterClass {
     internal_static_in_toto_attestation_predicates_vulns_v02_Vulns_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_in_toto_attestation_predicates_vulns_v02_Vulns_descriptor,
-        new java.lang.String[] { "Scanner", "ScanMetadata", });
+        new java.lang.String[] { "Scanner", "Metadata", });
     internal_static_in_toto_attestation_predicates_vulns_v02_Scanner_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_in_toto_attestation_predicates_vulns_v02_Scanner_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_in_toto_attestation_predicates_vulns_v02_Scanner_descriptor,
-        new java.lang.String[] { "Uri", "Version", "Database", "Result", "Version", });
+        new java.lang.String[] { "Uri", "Version", "Db", "Result", "Version", });
     internal_static_in_toto_attestation_predicates_vulns_v02_VulnDatabase_descriptor =
       getDescriptor().getMessageTypes().get(2);
     internal_static_in_toto_attestation_predicates_vulns_v02_VulnDatabase_fieldAccessorTable = new
