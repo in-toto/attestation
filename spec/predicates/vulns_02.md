@@ -116,12 +116,6 @@ The `predicate` contains a JSON-encoded data with the following fields:
   // Predicate:
   "predicateType": "https://in-toto.io/attestation/vulns/v0.2",
   "predicate": {
-    "invocation": {
-      "parameters": [],
-      "uri": "https://github.com/developer-guy/alpine/actions/runs/1071875574",
-      "event_id": "1071875574",
-      "builder.id": "GitHub Actions"
-    },
     "scanner": {
       "uri": "pkg:github/aquasecurity/trivy@244fd47e07d1004f0aed9",
       "version": "0.19.2",
