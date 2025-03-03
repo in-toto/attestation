@@ -40,7 +40,7 @@ jobs:
         # This step opens a PR if make protos resulted in a difference from
         # what's currently in the main branch. It has no permissions to write to
         # the repository, maintainers are required to approve and merge the PRs.
-        uses: peter-evans/create-pull-request@67ccf781d68cd99b580ae25a5c18a1cc84ffff1f
+        uses: peter-evans/create-pull-request@dd2324fc52d5d43c699a5636bcf19fceaa70c284
         with:
           commit-message: Regenerate attestation libraries
           title: Regenerate attestation libraries
