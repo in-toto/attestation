@@ -1,0 +1,49 @@
+// Keep in sync with schema at https://slsa.dev/provenance/v0.1
+syntax = "proto3";
+
+package in_toto_attestation.predicates.provenance.v01;
+
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/in-toto/attestation/go/predicates/provenance/v01";
+option java_package = "io.github.intoto.attestation.predicates.provenance.v01";
+
+// Proto representation of predicate type https://slsa.dev/provenance/v0.1
+message Provenance {
+  Builder builder = 1;
+  Recipe recipe = 2;
+  Metadata metadata = 3;
+  repeated Material materials = 4;
+}
+
+message Builder {
+  string id = 1;
+}
+
+message Recipe {
+  string type = 1;
+  int32 defined_in_material = 2;
+  string entry_point = 3;
+  google.protobuf.Struct arguments = 4;
+  google.protobuf.Struct environment = 5;
+}
+
+message Metadata {
+  string build_invocation_id = 1;
+  google.protobuf.Timestamp build_started_on = 2;
+  google.protobuf.Timestamp build_finished_on = 3;
+  Completeness completeness = 4;
+  bool reproducible = 5;
+}
+
+message Completeness {
+  bool arguments = 1;
+  bool environment = 2;
+  bool materials = 3;
+}
+
+message Material {
+  string uri = 1;
+  map<string, string> digest = 2;
+}
