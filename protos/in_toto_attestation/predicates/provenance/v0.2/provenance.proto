@@ -1,13 +1,13 @@
 // Keep in sync with schema at https://slsa.dev/provenance/v0.2
 syntax = "proto3";
 
-package in_toto_attestation.predicates.provenance.v0;
+package in_toto_attestation.predicates.provenance.v02;
 
 import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
 
-option go_package = "github.com/in-toto/attestation/go/predicates/provenance/v0";
-option java_package = "io.github.intoto.attestation.predicates.provenance.v0";
+option go_package = "github.com/in-toto/attestation/go/predicates/provenance/v02";
+option java_package = "io.github.intoto.attestation.predicates.provenance.v02";
 
 // Proto representation of predicate type https://slsa.dev/provenance/v0.2
 // Validation of all fields is left to the users of this proto.
