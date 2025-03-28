@@ -2,7 +2,7 @@
 
 Type URI: https://in-toto.io/attestation/scai
 
-Version: 0.3
+Version: 0.4
 
 Author: Marcela Melara ([@marcelamelara](https://github.com/marcelamelara))
 
@@ -91,25 +91,35 @@ As such, we envision SCAI metadata being explictly bound to, or included
 within, other metadata objects; we recommend an in-toto [attestation Bundle]
 for this purpose.
 
-## Schema
+## Data description
 
 The core metadata in SCAI is the Attribute Assertion. A collection of
 Attribute Assertions for a specific supply chain step or operation are issued
 together in a SCAI Attribute Report predicate.
 
-```jsonc
-{
-    "predicateType": "https://in-toto.io/attestation/scai/v0.3",
-    "predicate": {
-        "attributes": [{
-            "attribute": "<ATTRIBUTE>",
-            "target": { [ResourceDescriptor] }, // optional
-            "conditions": { /* object */ }, // optional
-            "evidence": { [ResourceDescriptor] } // optional
-        }],
-        "producer": { [ResourceDescriptor] } // optional
+The following CDDL depends on definitions from the base v1.2 in-toto specification.
+
+```cddl
+scai-predicate = (
+  predicateType-label => "https://in-toto.io/attestation/scai/v0.3",
+  predicate-label => {
+      attributes-label: [ * scai-attribute-map ],
+      ? producer-label => ResourceDescriptor
     }
+)
+scai-attributes-label = JC<"attributes", 0>
+scai-producer-label   = JC<"producer",   1>
+
+scai-attribute-map = {
+  attribute-label => text,
+  ? target-label => ResourceDescriptor,
+  ? conditions-label => object,
+  ? evidence-label => ResourceDescriptor
 }
+scai-attribute-label  = JC<"attribute",  0>
+scai-target-label     = JC<"target",     1>
+scai-conditions-label = JC<"conditions", 2>
+scai-evidence-label   = JC<"evidence",   3>
 ```
 
 This predicate has been adapted from the [SCAI specification] for greater
@@ -196,7 +206,7 @@ The following parsing rules apply in addition:
         "name": "my-app",
         "digest": { "sha256": "78ab6a8..." }
     }],
-        
+
     "predicateType": "https://in-toto.io/attestation/scai/v0.3",
     "predicate": {
         "attributes": [{
@@ -225,7 +235,7 @@ The following parsing rules apply in addition:
         "name": "gcc9.3.0",
         "digest": { "sha256": "78ab6a8..." }
     }],
-        
+
     "predicateType": "https://in-toto.io/attestation/scai/v0.3",
     "predicate": {
         "attributes": [{
@@ -255,7 +265,7 @@ The following parsing rules apply in addition:
         "name": "my-app",
         "digest": { "sha256": "78ab6a8..." }
     }],
-        
+
     "predicateType": "https://in-toto.io/attestation/scai/v0.3",
     "predicate": {
         "attributes": [{
@@ -289,7 +299,7 @@ The following parsing rules apply in addition:
         "name": "my-app",
         "digest": { "sha256": "78ab6a8..." }
     }],
-        
+
     "predicateType": "https://in-toto.io/attestation/scai/v0.3",
     "predicate": {
         "attributes": [{
@@ -322,7 +332,7 @@ The following parsing rules apply in addition:
         "name": "my-sgx-builder",
         "digest": { "sha256": "78ab6a8..." }
     }],
-        
+
     "predicateType": "https://in-toto.io/attestation/scai/v0.3"
     "predicate": {
         "attributes": [{
@@ -353,7 +363,7 @@ The following parsing rules apply in addition:
         "name": "app-evidence-collection",
         "digest": { "sha256": "88888888..." }
     }],
-        
+
     "predicateType": "https://in-toto.io/attestation/scai/v0.3",
     "predicate": {
         "attributes": [{
@@ -386,6 +396,10 @@ The following parsing rules apply in addition:
 ```
 
 ## Changelog and Migrations
+
+### New in v0.4
+
+-   Data description updated to use CDDL and provide more concise representation in CBOR.
 
 ### New in v0.3
 

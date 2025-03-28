@@ -26,10 +26,22 @@ The in-toto [attestation] framework and a [SPDX generation tool].
 
 This is a predicate type that fits within the larger [Attestation] framework.
 
-## Schema
+## Data definition
 
 The schema of this predicate type is documented in the
-[SPDX Specification].
+[SPDX Specification] for application/spdx+json.
+
+As of 2024, SPDX does not have an official spdx+cbor content type for CBOR encoding.
+To embed a JSON SDX into the predicate, use the [`TN()` transformation] of application/json for wrapping the JSON encoding.
+
+```cddl
+spdx-predicate = (
+  predicateType-label => "https://spdx.dev/Document/v2.3",
+  predicate-label => JC<spdx-map, spdx-json-tunnel>
+)
+spdx-map = object
+spdx-json-tunnel = { &(json-embedding: -4478722) => 1668546867(bytes) }
+```
 
 ### Parsing Rules
 
