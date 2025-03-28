@@ -1,6 +1,7 @@
 module github.com/in-toto/attestation
 
-go 1.20
+go 1.22
+
 toolchain go1.24.1
 
 require (
