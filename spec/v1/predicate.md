@@ -3,19 +3,23 @@
 The Predicate is the innermost layer of the attestation, containing arbitrary
 metadata about the [Statement]'s `subject`.
 
-## Schema
+## Data description
 
-```jsonc
-"predicateType": "<URI>",
-"predicate": {
-    // arbitrary object
-}
+```cddl
+predicate-group = (
+  predicateType-label => uri-type,
+  ? predicate-label => object
+)
+
+predicateType-label = JC<"predicateType", 2>
+predicate-label     = JC<"predicate",     3>
+object = JC<{ * text => any }, { * any => any }>
 ```
 
 ## Fields
 
 A predicate has a required `predicateType` ([TypeURI]) identifying what the
-predicate means, plus an optional `predicate` [JSON] object containing
+predicate means, plus an optional `predicate` [JSON] object or CBOR map containing
 additional, type-dependent parameters.
 
 Users are expected to choose an [existing predicate type] that

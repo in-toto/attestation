@@ -62,21 +62,21 @@ with artifact A, and then later has a release attestation with only artifact B,
 that SHOULD be interpreted as the release version now only containing artifact
 B.
 
-## Schema
+## Data definition
+
+The predicate grammar is provided in CDDL.
+Undefined directives are imported from the base v1.2 specification.
 
 ```jsonc
-{
-  // Standard attestation fields:
-  "_type": "https://in-toto.io/Statement/v1",
-  "subject": [{ ... }],
-
-  // Predicate:
-  "predicateType": "https://in-toto.io/attestation/release/v0.1",
-  "predicate": {
-    "purl": <ResourceURI>,
-    "releaseId": "..."
+release-predicate = (
+  predicateType-label => "https://in-toto.io/attestation/release/v0.1",
+  predicate-label: {
+    release-purl-label: uri-type,
+    release-releaseId-label => text
   }
-}
+)
+release-purl-label      = JC<"purl",      0>
+release-releaseId-label = JC<"releaseId", 1>
 ```
 
 ### Fields

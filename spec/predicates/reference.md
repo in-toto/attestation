@@ -37,23 +37,27 @@ This predicate is intended to be generated and consumed throughout the software
 supply chain. In addition, it is intended to be used in the analysis of it as a
 whole.
 
-## Schema
+## Data definition
 
-```jsonc
-{
-  // Standard attestation fields:
-  "_type": "https://in-toto.io/Statement/v1",
-  "subject": [{ ... }],
+The predicate grammar is provided in CDDL.
+Undefined directives are imported from the base v1.2 specification.
 
-  // Predicate:
-  "predicateType": "https://in-toto.io/attestation/reference/v0.1",
-  "predicate": {
-    "attester": {
-      "id": "<TypeUri>"
-    },
-    "references": ["<ResourceDescriptor>", ...]
-  }
+```cddl
+reference-predicate = (
+  predicateType-label => "https://in-toto.io/attestation/reference/v0.1",
+  predicate-label => reference-predicate-map
+)
+reference-predicate-map = {
+  reference-attester-label => reference-attester-map
+  reference-references-label => [ * ResourceDescriptor ]
 }
+reference-attester-label   = JC<"attester",   0>
+reference-references-label = JC<"references", 1>
+
+reference-attester-map = {
+  reference-attester-id-label => uri-type
+}
+reference-attester-id-label = JC<"id", 0>
 ```
 
 ### Parsing Rules
@@ -152,4 +156,4 @@ subjects -- it will list dependencies of both foo and bar.
 
 ## Changelog and Migrations
 
-None yet.
+Updated to include CDDL description.
