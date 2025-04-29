@@ -3,22 +3,45 @@
 A size-efficient description of any software artifact or resource (mutable
 or immutable).
 
-## Schema
+## Data description
 
-```json
-{
-  "name": "<NAME>",
-  "uri": "<RESOURCE URI>",
-  "digest": { "<ALGORITHM>": "<HEX VALUE>", ... },
-  "content": "<BASE64 VALUE>", // converted from bytes for JSON 
-  "downloadLocation": "<RESOURCE URI>",
-  "mediaType": "<MIME TYPE>",
-  "annotations": {
-    "<FIELD_1>": /* value */,
-    "<FIELD_2>": /* value */,
-    ...
-  }
+```cddl
+ResourceDescriptor = {
+  ? name-label => text,
+  at-least-one-of-uri-digest-content,
+  ? download-location-label => uri-type,
+  ? media-type-label => media-type,
+  ? annotations-label => annotations-map
 }
+
+at-least-one-of-uri-digest-content = (
+  uri-label => uri-type,
+  ? digest-label => DigestSet,
+  ? content-label => content
+) // (
+  ? uri-label => uri-type,
+  digest-label => DigestSet,
+  ? content-label => content
+) // (
+  ? uri-label => uri-type,
+  ? digest-label => DigestSet,
+  content-label => content
+)
+
+content = JC<text, bytes>
+
+name-label              = JC<"name",              0>
+uri-label               = JC<"uri",               1>
+digest-label            = JC<"digest",            2>
+content-label           = JC<"content",           3>
+download-location-label = JC<"download-location", 4>
+media-type-label        = JC<"mediaType",         5>
+annotations-label       = JC<"annotations",       6>
+
+media-type = text
+
+annotations-map = { * annotation-type => any }
+annotation-label = JC<text, text / int>
 ```
 
 ## Fields
@@ -95,6 +118,11 @@ specified here.
 > The producer and consumer SHOULD agree on the semantics, and acceptable
 > fields and values in the `annotations` map. Producers SHOULD follow the
 > same naming conventions for annotation fields as for [extension fields].
+>
+> In CBOR, the map key MAY be an integer for a more concise representation.
+> Negative integers may be used for enumerations agreed upon between producer
+> and consumer. Non-negative integers are reserved for in-toto specifications
+> to standardize.
 
 ## Semantics
 
@@ -137,9 +165,9 @@ Pointer to a git repo (with annotations):
 ```
 
 Pointer to another in-toto attestation:
-  
+
 ```jsonc
- { 
+ {
    "name": "gcc_9.3.0-1ubuntu2_amd64.intoto.json",
    "digest": { "sha256": "abcdabcde..." },
    "downloadLocation": "http://example.com/rebuilderd-instance/gcc_9.3.0-1ubuntu2_amd64.intoto.json",
@@ -148,7 +176,7 @@ Pointer to another in-toto attestation:
 ```
 
 Pointer to build service:
-
+o
 ```jsonc
 {
   "uri": "https://cloudbuild.googleapis.com/GoogleHostedWorker@v1"
