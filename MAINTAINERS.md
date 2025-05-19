@@ -10,4 +10,4 @@
 
 ## Emeritus
 
-*  [@joshuagl](https://github.com/joshuagl)
+-   [@joshuagl](https://github.com/joshuagl)
