@@ -30,17 +30,19 @@ for an Envelope:
 
 -   `signature` (or equivalent) is REQUIRED and MUST be defined as an array.
 -   A `keyid` (or equivalent) SHOULD be included for each signing key used.
--   `payload` (or equivalent) SHOULD be included and contain the attestation
-    data that was signed.
--   `payloadType` (or equivalent) SHOULD be signed along with the `payload`.
+-   `payload` (or equivalent) SHOULD be included and contain the in-toto
+    [Statement] that was signed.
+-   `payloadType` (or equivalent) MUST be signed along with the `payload`.
+    It MUST take the form `application/vnd.in-toto+<encoding>` to indicate
+    an in-toto [Statement] payload and its serialized `<encoding>` format.
 
 In addition, the Envelope spec has the following specific requirements for the
 standard [DSSE][DSSE v1.0] fields.
 
+-   `payload` MUST be a base64-encoded JSON [Statement].
 -   `payloadType` MUST be set to `application/vnd.in-toto+json`, which
     indicates that the Envelope contains a JSON object with a `_type` field
     specifying its schema.
--   `payload` MUST be a base64-encoded JSON [Statement].
 
 ## File naming convention
 
