@@ -1,1 +1,3 @@
 // @generated
+
+pub mod scai;
