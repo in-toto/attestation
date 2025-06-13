@@ -23,7 +23,6 @@ fn gen_interm_mod_rs(path: &Path, mods: Vec<String>) -> io::Result<()> {
     }
     
     let mod_path = path.join("mod.rs");
-    println!("{:?}", mod_path);
     let mut f = fs::File::create(mod_path)?;
     f.write_all(b"// @generated\n")?;
 
@@ -33,6 +32,29 @@ fn gen_interm_mod_rs(path: &Path, mods: Vec<String>) -> io::Result<()> {
         f.write_fmt(format_args!("pub mod {};\n", m))?;
     }
 
+    Ok(())
+}
+
+fn replace_resource_desc_imports(path: &Path) -> io::Result<()> {
+    let re = Regex::new(r"(?<super>super::)(?<rd>resource_descriptor)").unwrap();
+
+    let gen_code = fs::read_to_string(path)?;
+
+    // only replace if the module uses resource descriptors
+    if re.is_match(&gen_code) {
+	let mut f = fs::File::create(path)?;
+
+	for line in gen_code.lines() {
+	    let replaced = re.replace(line, r"${rd}").into_owned();
+	    f.write_fmt(format_args!("{}\n", replaced))?;
+	    
+	    if line.starts_with("const _PROTOBUF_VERSION_CHECK") {
+		// want to add a single correct import for the resource descriptor module
+		f.write_all(b"\nuse crate::v1::resource_descriptor;\n")?;
+	    }
+	}
+    }
+    
     Ok(())
 }
 
@@ -47,7 +69,7 @@ fn generate_predicate_protos(dir: &Path) -> io::Result<()> {
 	// need to convert vX.Y directories into Rust package syntax
 	let re = Regex::new(r"(?<pred>\D+)/v(?<major>\d+)\.(?<minor>\d+)").unwrap();
 	let proto_dir_str = dir.to_str().unwrap();
-	// replaced will either be a borrowed reference to out_dir if it already
+	// replaced will either be a borrowed reference to proto_dir_str if it already
 	// matched, or a new string if the regex was replaced
 	let replaced = re.replace(proto_dir_str, r"${pred}/v${major}_${minor}").into_owned();
 	let rust_path = Path::new("src/").join(replaced);
@@ -75,6 +97,10 @@ fn generate_predicate_protos(dir: &Path) -> io::Result<()> {
 		    .capture_stderr()
 		    .run()
 		    .expect("Protobuf codegen failed for {path}");
+
+		let gen_mod = path.file_stem().unwrap();
+		let gen_file = gen_mod.to_str().unwrap().to_owned() + ".rs";
+		replace_resource_desc_imports(&Path::new(&rust_path).join(gen_file))?;
             }
         }
 	gen_interm_mod_rs(&rust_path, mods)?;

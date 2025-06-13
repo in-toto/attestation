@@ -24,6 +24,8 @@
 /// of protobuf runtime.
 const _PROTOBUF_VERSION_CHECK: () = ::protobuf::VERSION_3_7_2;
 
+use crate::v1::resource_descriptor;
+
 // @@protoc_insertion_point(message:in_toto_attestation.predicates.test_result.v0.TestResult)
 #[derive(PartialEq,Clone,Default,Debug)]
 pub struct TestResult {
@@ -31,7 +33,7 @@ pub struct TestResult {
     // @@protoc_insertion_point(field:in_toto_attestation.predicates.test_result.v0.TestResult.result)
     pub result: ::std::string::String,
     // @@protoc_insertion_point(field:in_toto_attestation.predicates.test_result.v0.TestResult.configuration)
-    pub configuration: ::std::vec::Vec<super::resource_descriptor::ResourceDescriptor>,
+    pub configuration: ::std::vec::Vec<resource_descriptor::ResourceDescriptor>,
     // @@protoc_insertion_point(field:in_toto_attestation.predicates.test_result.v0.TestResult.url)
     pub url: ::std::string::String,
     // @@protoc_insertion_point(field:in_toto_attestation.predicates.test_result.v0.TestResult.passed_tests)
@@ -265,7 +267,7 @@ pub fn file_descriptor() -> &'static ::protobuf::reflect::FileDescriptor {
     file_descriptor.get(|| {
         let generated_file_descriptor = generated_file_descriptor_lazy.get(|| {
             let mut deps = ::std::vec::Vec::with_capacity(1);
-            deps.push(super::resource_descriptor::file_descriptor().clone());
+            deps.push(resource_descriptor::file_descriptor().clone());
             let mut messages = ::std::vec::Vec::with_capacity(1);
             messages.push(TestResult::generated_message_descriptor_data());
             let mut enums = ::std::vec::Vec::with_capacity(0);

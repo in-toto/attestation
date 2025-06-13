@@ -24,6 +24,8 @@
 /// of protobuf runtime.
 const _PROTOBUF_VERSION_CHECK: () = ::protobuf::VERSION_3_7_2;
 
+use crate::v1::resource_descriptor;
+
 // @@protoc_insertion_point(message:in_toto_attestation.predicates.scai.v0.AttributeAssertion)
 #[derive(PartialEq,Clone,Default,Debug)]
 pub struct AttributeAssertion {
@@ -31,11 +33,11 @@ pub struct AttributeAssertion {
     // @@protoc_insertion_point(field:in_toto_attestation.predicates.scai.v0.AttributeAssertion.attribute)
     pub attribute: ::std::string::String,
     // @@protoc_insertion_point(field:in_toto_attestation.predicates.scai.v0.AttributeAssertion.target)
-    pub target: ::protobuf::MessageField<super::resource_descriptor::ResourceDescriptor>,
+    pub target: ::protobuf::MessageField<resource_descriptor::ResourceDescriptor>,
     // @@protoc_insertion_point(field:in_toto_attestation.predicates.scai.v0.AttributeAssertion.conditions)
     pub conditions: ::protobuf::MessageField<::protobuf::well_known_types::struct_::Struct>,
     // @@protoc_insertion_point(field:in_toto_attestation.predicates.scai.v0.AttributeAssertion.evidence)
-    pub evidence: ::protobuf::MessageField<super::resource_descriptor::ResourceDescriptor>,
+    pub evidence: ::protobuf::MessageField<resource_descriptor::ResourceDescriptor>,
     // special fields
     // @@protoc_insertion_point(special_field:in_toto_attestation.predicates.scai.v0.AttributeAssertion.special_fields)
     pub special_fields: ::protobuf::SpecialFields,
@@ -60,7 +62,7 @@ impl AttributeAssertion {
             |m: &AttributeAssertion| { &m.attribute },
             |m: &mut AttributeAssertion| { &mut m.attribute },
         ));
-        fields.push(::protobuf::reflect::rt::v2::make_message_field_accessor::<_, super::resource_descriptor::ResourceDescriptor>(
+        fields.push(::protobuf::reflect::rt::v2::make_message_field_accessor::<_, resource_descriptor::ResourceDescriptor>(
             "target",
             |m: &AttributeAssertion| { &m.target },
             |m: &mut AttributeAssertion| { &mut m.target },
@@ -70,7 +72,7 @@ impl AttributeAssertion {
             |m: &AttributeAssertion| { &m.conditions },
             |m: &mut AttributeAssertion| { &mut m.conditions },
         ));
-        fields.push(::protobuf::reflect::rt::v2::make_message_field_accessor::<_, super::resource_descriptor::ResourceDescriptor>(
+        fields.push(::protobuf::reflect::rt::v2::make_message_field_accessor::<_, resource_descriptor::ResourceDescriptor>(
             "evidence",
             |m: &AttributeAssertion| { &m.evidence },
             |m: &mut AttributeAssertion| { &mut m.evidence },
@@ -210,7 +212,7 @@ pub struct AttributeReport {
     // @@protoc_insertion_point(field:in_toto_attestation.predicates.scai.v0.AttributeReport.attributes)
     pub attributes: ::std::vec::Vec<AttributeAssertion>,
     // @@protoc_insertion_point(field:in_toto_attestation.predicates.scai.v0.AttributeReport.producer)
-    pub producer: ::protobuf::MessageField<super::resource_descriptor::ResourceDescriptor>,
+    pub producer: ::protobuf::MessageField<resource_descriptor::ResourceDescriptor>,
     // special fields
     // @@protoc_insertion_point(special_field:in_toto_attestation.predicates.scai.v0.AttributeReport.special_fields)
     pub special_fields: ::protobuf::SpecialFields,
@@ -235,7 +237,7 @@ impl AttributeReport {
             |m: &AttributeReport| { &m.attributes },
             |m: &mut AttributeReport| { &mut m.attributes },
         ));
-        fields.push(::protobuf::reflect::rt::v2::make_message_field_accessor::<_, super::resource_descriptor::ResourceDescriptor>(
+        fields.push(::protobuf::reflect::rt::v2::make_message_field_accessor::<_, resource_descriptor::ResourceDescriptor>(
             "producer",
             |m: &AttributeReport| { &m.producer },
             |m: &mut AttributeReport| { &mut m.producer },
@@ -377,7 +379,7 @@ pub fn file_descriptor() -> &'static ::protobuf::reflect::FileDescriptor {
         let generated_file_descriptor = generated_file_descriptor_lazy.get(|| {
             let mut deps = ::std::vec::Vec::with_capacity(2);
             deps.push(::protobuf::well_known_types::struct_::file_descriptor().clone());
-            deps.push(super::resource_descriptor::file_descriptor().clone());
+            deps.push(resource_descriptor::file_descriptor().clone());
             let mut messages = ::std::vec::Vec::with_capacity(2);
             messages.push(AttributeAssertion::generated_message_descriptor_data());
             messages.push(AttributeReport::generated_message_descriptor_data());

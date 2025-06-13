@@ -24,6 +24,8 @@
 /// of protobuf runtime.
 const _PROTOBUF_VERSION_CHECK: () = ::protobuf::VERSION_3_7_2;
 
+use crate::v1::resource_descriptor;
+
 // @@protoc_insertion_point(message:in_toto_attestation.predicates.provenance.v1.Provenance)
 #[derive(PartialEq,Clone,Default,Debug)]
 pub struct Provenance {
@@ -177,7 +179,7 @@ pub struct BuildDefinition {
     // @@protoc_insertion_point(field:in_toto_attestation.predicates.provenance.v1.BuildDefinition.internal_parameters)
     pub internal_parameters: ::protobuf::MessageField<::protobuf::well_known_types::struct_::Struct>,
     // @@protoc_insertion_point(field:in_toto_attestation.predicates.provenance.v1.BuildDefinition.resolved_dependencies)
-    pub resolved_dependencies: ::std::vec::Vec<super::resource_descriptor::ResourceDescriptor>,
+    pub resolved_dependencies: ::std::vec::Vec<resource_descriptor::ResourceDescriptor>,
     // special fields
     // @@protoc_insertion_point(special_field:in_toto_attestation.predicates.provenance.v1.BuildDefinition.special_fields)
     pub special_fields: ::protobuf::SpecialFields,
@@ -354,7 +356,7 @@ pub struct RunDetails {
     // @@protoc_insertion_point(field:in_toto_attestation.predicates.provenance.v1.RunDetails.metadata)
     pub metadata: ::protobuf::MessageField<BuildMetadata>,
     // @@protoc_insertion_point(field:in_toto_attestation.predicates.provenance.v1.RunDetails.byproducts)
-    pub byproducts: ::std::vec::Vec<super::resource_descriptor::ResourceDescriptor>,
+    pub byproducts: ::std::vec::Vec<resource_descriptor::ResourceDescriptor>,
     // special fields
     // @@protoc_insertion_point(special_field:in_toto_attestation.predicates.provenance.v1.RunDetails.special_fields)
     pub special_fields: ::protobuf::SpecialFields,
@@ -515,7 +517,7 @@ pub struct Builder {
     // @@protoc_insertion_point(field:in_toto_attestation.predicates.provenance.v1.Builder.version)
     pub version: ::std::collections::HashMap<::std::string::String, ::std::string::String>,
     // @@protoc_insertion_point(field:in_toto_attestation.predicates.provenance.v1.Builder.builder_dependencies)
-    pub builder_dependencies: ::std::vec::Vec<super::resource_descriptor::ResourceDescriptor>,
+    pub builder_dependencies: ::std::vec::Vec<resource_descriptor::ResourceDescriptor>,
     // special fields
     // @@protoc_insertion_point(special_field:in_toto_attestation.predicates.provenance.v1.Builder.special_fields)
     pub special_fields: ::protobuf::SpecialFields,
@@ -889,7 +891,7 @@ pub fn file_descriptor() -> &'static ::protobuf::reflect::FileDescriptor {
     file_descriptor.get(|| {
         let generated_file_descriptor = generated_file_descriptor_lazy.get(|| {
             let mut deps = ::std::vec::Vec::with_capacity(3);
-            deps.push(super::resource_descriptor::file_descriptor().clone());
+            deps.push(resource_descriptor::file_descriptor().clone());
             deps.push(::protobuf::well_known_types::struct_::file_descriptor().clone());
             deps.push(::protobuf::well_known_types::timestamp::file_descriptor().clone());
             let mut messages = ::std::vec::Vec::with_capacity(5);
