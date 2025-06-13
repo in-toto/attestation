@@ -24,6 +24,8 @@
 /// of protobuf runtime.
 const _PROTOBUF_VERSION_CHECK: () = ::protobuf::VERSION_3_7_2;
 
+use crate::v1::resource_descriptor;
+
 // @@protoc_insertion_point(message:in_toto_attestation.predicates.link.v0.Link)
 #[derive(PartialEq,Clone,Default,Debug)]
 pub struct Link {
@@ -33,7 +35,7 @@ pub struct Link {
     // @@protoc_insertion_point(field:in_toto_attestation.predicates.link.v0.Link.command)
     pub command: ::std::vec::Vec<::std::string::String>,
     // @@protoc_insertion_point(field:in_toto_attestation.predicates.link.v0.Link.materials)
-    pub materials: ::std::vec::Vec<super::resource_descriptor::ResourceDescriptor>,
+    pub materials: ::std::vec::Vec<resource_descriptor::ResourceDescriptor>,
     // @@protoc_insertion_point(field:in_toto_attestation.predicates.link.v0.Link.byproducts)
     pub byproducts: ::protobuf::MessageField<::protobuf::well_known_types::struct_::Struct>,
     // @@protoc_insertion_point(field:in_toto_attestation.predicates.link.v0.Link.environment)
@@ -249,7 +251,7 @@ pub fn file_descriptor() -> &'static ::protobuf::reflect::FileDescriptor {
     file_descriptor.get(|| {
         let generated_file_descriptor = generated_file_descriptor_lazy.get(|| {
             let mut deps = ::std::vec::Vec::with_capacity(2);
-            deps.push(super::resource_descriptor::file_descriptor().clone());
+            deps.push(resource_descriptor::file_descriptor().clone());
             deps.push(::protobuf::well_known_types::struct_::file_descriptor().clone());
             let mut messages = ::std::vec::Vec::with_capacity(1);
             messages.push(Link::generated_message_descriptor_data());

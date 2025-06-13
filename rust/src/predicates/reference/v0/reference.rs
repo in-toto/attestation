@@ -24,6 +24,8 @@
 /// of protobuf runtime.
 const _PROTOBUF_VERSION_CHECK: () = ::protobuf::VERSION_3_7_2;
 
+use crate::v1::resource_descriptor;
+
 // @@protoc_insertion_point(message:in_toto_attestation.predicates.reference.v0.Reference)
 #[derive(PartialEq,Clone,Default,Debug)]
 pub struct Reference {
@@ -31,7 +33,7 @@ pub struct Reference {
     // @@protoc_insertion_point(field:in_toto_attestation.predicates.reference.v0.Reference.attester)
     pub attester: ::protobuf::MessageField<reference::Attester>,
     // @@protoc_insertion_point(field:in_toto_attestation.predicates.reference.v0.Reference.references)
-    pub references: ::std::vec::Vec<super::resource_descriptor::ResourceDescriptor>,
+    pub references: ::std::vec::Vec<resource_descriptor::ResourceDescriptor>,
     // special fields
     // @@protoc_insertion_point(special_field:in_toto_attestation.predicates.reference.v0.Reference.special_fields)
     pub special_fields: ::protobuf::SpecialFields,
@@ -318,7 +320,7 @@ pub fn file_descriptor() -> &'static ::protobuf::reflect::FileDescriptor {
     file_descriptor.get(|| {
         let generated_file_descriptor = generated_file_descriptor_lazy.get(|| {
             let mut deps = ::std::vec::Vec::with_capacity(1);
-            deps.push(super::resource_descriptor::file_descriptor().clone());
+            deps.push(resource_descriptor::file_descriptor().clone());
             let mut messages = ::std::vec::Vec::with_capacity(2);
             messages.push(Reference::generated_message_descriptor_data());
             messages.push(reference::Attester::generated_message_descriptor_data());
