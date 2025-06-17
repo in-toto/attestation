@@ -32,24 +32,27 @@ fields.
 For every step described in the layout of the software supply chain, one (or
 more, depending on the threshold) signed link attestations must be presented.
 
-## Schema
+## Data definition
 
-```jsonc
-{
-  // Standard attestation fields:
-  "_type": "https://in-toto.io/Statement/v1",
-  "subject": [{ ... }],
+The link predicate grammar is specified in CDDL below, with some definitions from the base v1.2 in-toto specification.
 
-  // Predicate:
-  "predicateType": "https://in-toto.io/attestation/link/v0.3",
-  "predicate": {
-    "name": "...",
-    "command": [ ... ],
-    "materials": [<ResourceDescriptor>, ...],
-    "byproducts": { ... },
-    "environment": { ... }
-  }
+```cddl
+link-predicate = (
+  predicateType-label => "https://in-toto.io/attestation/link/v0.3",
+  predicate-label: link-predicate-map
+)
+link-predicate-map = {
+  link-predicate-name-label => text,
+  ? link-predicate-command-label => [ * text ],
+  ? link-predicate-materials-label => [ * ResourceDescriptor ],
+  ? link-predicate-byproducts-label => object,
+  ? link-predicate-environment-label => object
 }
+link-predicate-name-label        = JC<"name",        0>
+link-predicate-command-label     = JC<"command",     1>
+link-predicate-materials-label   = JC<"materials",   2>
+link-predicate-byproducts-label  = JC<"byproducts",  3>
+link-predicate-environment-label = JC<"environment", 4>
 ```
 
 ### Fields
@@ -126,6 +129,7 @@ def convert(statement):
 
 ## Version History
 
+-   0.3 revision: Added CDDL data description to account for CBOR representation.
 -   0.3: Updated `materials` to use a list of `ResourceDescriptor` objects.
     Reverted `command` to a list of strings to match the original link
     specification. Supports use of `ResourceDescriptor` for attestation

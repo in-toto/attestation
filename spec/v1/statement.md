@@ -4,22 +4,29 @@ The Statement is the middle layer of the attestation, binding it to a
 particular subject and unambiguously identifying the types of the
 [Predicate].
 
-## Schema
+## Data description
 
-```jsonc
+The following CDDL describes both the JSON and CBOR encoding of an in-toto Statement.
+
+```cddl
+statement =
 {
-  "_type": "https://in-toto.io/Statement/v1",
-  "subject": [
-    {
-      "name": "<NAME>",
-      "digest": {"<ALGORITHM>": "<HEX_VALUE>"}
-    },
-    ...
-  ],
-  "predicateType": "<URI>",
-  "predicate": { ... }
+  _type-label => "https://in-toto.io/Statement/v1",
+  subject-label => [ + ResourceDescriptor ],
+  predicate-group
 }
+
+JC<J,C> = J .feature "json" / C .feature "cbor"
+
+_type-label         = JC<"_type",         0>
+subject-label       = JC<"subject",       1>
+
+uri-type        = JC<uri-text, uri-type-choice>
+uri-type-choice = uri-text / uri
+uri-text        = text
 ```
+
+The format of the `uri-type` SHOULD be a valid URI according to [RFC3986].
 
 ## Fields
 
@@ -55,15 +62,9 @@ Additional [parsing rules] apply.
 > content type. If this matters to you, please comment on
 > [GitHub Issue #28](https://github.com/in-toto/attestation/issues/28)
 
-`predicateType` _string ([TypeURI]), required_
+`predicate-group`
 
-> URI identifying the type of the [Predicate].
-
-`predicate` _object, optional_
-
-> Additional parameters of the [Predicate]. Unset is treated the same as
-> set-but-empty. MAY be omitted if `predicateType` fully describes the
-> predicate.
+See [Predicate].
 
 [ResourceDescriptor]: resource_descriptor.md
 [JSON]: https://www.json.org/json-en.html
@@ -71,3 +72,4 @@ Additional [parsing rules] apply.
 [SLSA Provenance]: https://slsa.dev/provenance
 [TypeURI]: field_types.md#TypeURI
 [parsing rules]: README.md#parsing-rules
+[RFC3986]: https://datatracker.ietf.org/doc/html/rfc3986
