@@ -2,7 +2,7 @@
 
 Type URI: https://in-toto.io/attestation/vulns
 
-Version: 0.2
+Version: 0.2 (revised)
 
 ## Purpose
 
@@ -31,16 +31,79 @@ The following model aims to provide a well defined list of fields so that consum
 
 This predicate model is inspired by [cosign vulnerability attestation](https://github.com/sigstore/cosign/blob/main/specs/COSIGN_VULN_ATTESTATION_SPEC.md).
 
-## Schema
+## Data description
 
-The schema of this predicate type is documented below.
+The predicate grammar is provided in CDDL.
+Undefined directives are imported from the base v1.2 specification.
+The [Fields](#fields) section provides more semantic restriction on basic values.
+
+```cddl
+vulns-v02-predicate = (
+  predicateType-label => "https://in-toto.io/attestation/vulns/v0.2",
+  predicate-label => vulns-v03-predicate-map
+)
+vulns-v03-predicate-map = {
+  vulns-scanner-label => vulns-scanner-map,
+  vulns-metadata-label => vulns-metadata-map
+}
+vulns-scanner-label  = JC<"scanner",  0>
+vulns-metadata-label = JC<"metadata", 1>
+
+vulns-scanner-map = {
+  vulns-scanner-uri-label => uri-type,
+  ? vulns-scanner-version-label => vulns-version-type,
+  vulns-scanner-db-label => vulns-scanner-db-map,
+  vulns-scannel-result-label => [ * vulns-scanner-result-map ]
+}
+vulns-scanner-uri-label     = JC<"uri",     0>
+vulns-scanner-version-label = JC<"version", 1>
+vulns-scanner-db-label      = JC<"db",      2>
+vulns-scanner-result-label  = JC<"result",  3>
+
+vulns-version-type = JC<text, text / vulns-version-map>
+vulns-version-map = {
+  &(version: 0) => text,
+  ? &(version-scheme: 1) => $version-scheme
+}
+
+vulns-scanner-db-map = {
+  ? vulns-scanner-db-uri-label => uri-type,
+  ? vulns-scanner-db-version-label => vulns-version-type,
+  vulns-scanner-db-lastUpdate-label => Timestamp
+}
+vulns-scanner-db-uri-label        = JC<"uri",        0>
+vulns-scanner-db-version-label    = JC<"version",    1>
+vulns-scanner-db-lastUpdate-label = JC<"lastUpdate", 2>
+
+vulns-scanner-result-map = {
+  vulns-scanner-result-id-label => text,
+  vulns-scanner-result-severity-label => [ * vulns-scanner-result-severity-map ]
+  ? vulns-scanner-result-annotations-label => [ * annotations-map ]
+}
+vulns-scanner-result-id-label          = JC<"id",          0>
+vulns-scanner-result-severity-label    = JC<"severity",    1>
+vulns-scanner-result-annotations-label = JC<"annotations", 2>
+vulns-scanner-result-severity-map = {
+  vulns-scanner-result-severity-method-label => text,
+  vulns-scanner-result-severity-score-label => text
+}
+vulns-scanner-result-severity-method-label = JC<"method", 0>
+vulns-scanner-result-severity-score-label  = JC<"score",  1>
+
+vulns-metadata-map = {
+  vulns-metadata-scanStartedOn-label => Timestamp,
+  vulns-metadata-scanFinishedOn-label => Timestamp
+}
+vulns-metadata-scanStartedOn-label  = JC<"scanStartedOn",  0>
+vulns-metadata-scanFinishedOn-label = JC<"scanFinishedOn", 1>
+```
 
 ### Fields
 
 The fields that make up this predicate type are:
 
 The `subject` contains whatever software artifacts are to be associated with this vulnerability report document.
-The `predicate` contains a JSON-encoded data with the following fields:
+The `predicate` contains data with the following fields:
 
 **scanner, required** object
 
@@ -60,9 +123,11 @@ The `predicate` contains a JSON-encoded data with the following fields:
 
 > > > URI indicating the identity of the source of the Vulnerability DB.
 
-**scanner.db.version, optional** string
+**scanner.db.version, optional** string, or (CBOR) version-map
 
 > > > The version of the Vulnerability DB.
+> > > The version-map is from CoRIM as a text version and optional version scheme identifier from the CoSWID specification [RFC9393].
+
 
 **scanner.db.lastUpdate, required** string (timestamp)
 
@@ -145,6 +210,10 @@ The `predicate` contains a JSON-encoded data with the following fields:
 
 ## Changelog and Migrations
 
-Not applicable for this initial version.
+### Changes since v0.2
+
+Data description has been updated to use CDDL and allow for more concise representation with CBOR.
+Given no new changes have been made to the JSON or predicate meaning, the predicateType is unchanged.
 
 [Attestation]: ../README.md
+[RFC9393]: https://datatracker.ietf.org/doc/rfc9393/

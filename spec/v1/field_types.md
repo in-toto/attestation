@@ -55,8 +55,15 @@ A point in time.
 
 **Format:**
 
+```cddl
+Timestamp = JC<text, text / tdate>
+```
+
 A timestamp is represented as a _string_ and MUST be in [RFC 3339][] format
 in the UTC timezone ("Z").
+
+In CBOR, a timestamp SHOULD be use the 0 tag to indicate the formatting, see [Section 3.4.1 of RFC8949].
+Note that tag 0 further refines RFC3339 to have a required `"T"` between date and time, following [Section 3.3 of RFC4287].
 
 **Example:**
 
@@ -71,3 +78,5 @@ in the UTC timezone ("Z").
 [SPDX Download Location]: https://spdx.github.io/spdx-spec/v2.3/package-information/#77-package-download-location-field
 [Timestamp]: #timestamp
 [TypeURI]: #typeuri
+[Section 3.4.1 of RFC8949]: https://www.rfc-editor.org/rfc/rfc8949.html#name-standard-date-time-string
+[Section 3.3 of RFC4287]: https://www.rfc-editor.org/rfc/rfc4287#section-3.3

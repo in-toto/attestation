@@ -3,22 +3,52 @@
 Set of one or more cryptographic digests, or other immutable references,
 for a single software artifact or metadata object.
 
-## Schema
+## Data description
 
-```json
-{
-  "<ALGORITHM_1>": "<VALUE>",
-  "<ALGORITHM_2>": "<VALUE>",
-  ... 
-}
+```cddl
+DigestSet = nonempty<{
+  * standard-alg-id => enc-bytes,
+  * nonstandard-alg-id ^=> JC<text, bytes>
+}>
+
+standard-alg-id /= JC<"sha256", "sha256" / 1>
+standard-alg-id /= "sha224"
+standard-alg-id /= JC<"sha384", "sha384" / 7>
+standard-alg-id /= JC<"sha512", "sha512" / 8>
+standard-alg-id /= "sha512_256"
+standard-alg-id /= JC<"sha3_224", "sha3_224" / 9>
+standard-alg-id /= JC<"sha3_256", "sha3_256" / 10>
+standard-alg-id /= JC<"sha3_384", "sha3_384" / 11>
+standard-alg-id /= JC<"sha3_512", "sha3_512" / 12>
+standard-alg-id /= "shake128"
+standard-alg-id /= "shake256"
+standard-alg-id /= "blake2b"
+standard-alg-id /= "blake2s"
+standard-alg-id /= "ripemd160"
+standard-alg-id /= "sm3"
+standard-alg-id /= "gost"
+standard-alg-id /= "sha1"
+standard-alg-id /= "md5"
+standard-alg-id /= "dirHash"
+standard-alg-id /= "gitCommit"
+standard-alg-id /= "gitTree"
+standard-alg-id /= "gitBlob"
+standard-alg-id /= "gitTag"
+nonstandard-alg-id = text
+
+alg-id    = JC<text,   text / int>
+enc-bytes = JC<hexstr, bytes>
+hexstr = text .regexp "([0-9a-fA-F]{2})+"
+
+nonempty<M> = (M) .and ({ + any => any })
 ```
 
 ## Fields
 
-A DigestSet is represented as a _JSON object_ mapping algorithm name to
-a string encoding of the digest using that algorithm. The named standard
-algorithms below use lowercase hex encoding. Usually there is just a
-single key/value pair, but multiple entries MAY be used for algorithm
+A DigestSet is represented as either a _JSON object_ or _CBOR map_ mapping
+algorithm name to a string encoding of the digest using that algorithm. The
+named standard algorithms below use lowercase hex encoding. Usually there is
+just a single key/value pair, but multiple entries MAY be used for algorithm
 agility.
 
 Each entry in a DigestSet MUST be an immutable reference to an artifact. It is
@@ -34,6 +64,9 @@ further guidance.
 Standard cryptographic hash algorithms using [the NIST names][] (converting to
 lowercase and replacing `-` with `_`) as keys and lowercase hex-encoded values,
 for cases when the method of serialization is obvious or well known.
+
+In CBOR, the algorithm MAY be specified with an integer, as assigned by [IANA.named-information].
+Note the IANA registry does not have numeric assignments for all the above supported algorithms.
 
 #### `dirHash`
 
@@ -202,3 +235,4 @@ flexibility for the user's various use cases.
 [so-commit]: https://stackoverflow.com/a/37438460
 [so-tree]: https://stackoverflow.com/a/35902553
 [the NIST names]: https://csrc.nist.gov/projects/hash-functions
+[IANA.named-information]: https://www.iana.org/assignments/named-information/named-information.xhtml
