@@ -25,10 +25,10 @@ jobs:
           version: '24.x'
       - name: Format
         run: |
-          cargo fmt --check
-      - name: Format
+          cd rust && cargo fmt --check
+      - name: Lint
         run: |
-          cargo clippy -- -Dwarnings
+          cd rust && cargo clippy -- -Dwarnings
       - name: Run tests
         run: |
-          cargo test
+          cd rust && cargo test
