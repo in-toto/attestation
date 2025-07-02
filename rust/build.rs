@@ -21,7 +21,7 @@ fn generate_v1_protos() {
 // inspired by https://github.com/stepancheg/rust-protobuf/blob/7131fb244fb1246d2835f5ad7426e607ee7c4a1f/protobuf-codegen/src/gen/mod_rs.rs
 fn gen_interm_mod_rs(path: &Path, mods: Vec<String>) -> io::Result<()> {
     // skip if we have no mods
-    if mods.len() == 0 {
+    if mods.is_empty() {
         return Ok(());
     }
 
@@ -88,13 +88,13 @@ fn generate_predicate_protos(dir: &Path) -> io::Result<()> {
                     .replace(submod_dir_str, r"${pred}/v${major}_${minor}")
                     .into_owned();
                 let mod_name = Path::new(&r).file_name().unwrap();
-                match mod_name.to_str() {
-                    Some(m) => mods.push(m.to_string()),
-                    None => (),
-                }
+
+		if let Some(m) = mod_name.to_str() {
+		    mods.push(m.to_string());
+		}
 
                 let child_dir = path.strip_prefix(prefix).unwrap();
-                generate_predicate_protos(&child_dir)?;
+                generate_predicate_protos(child_dir)?;
             } else {
                 fs::create_dir_all(&rust_path)?;
                 Codegen::new()

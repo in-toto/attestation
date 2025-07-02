@@ -25,7 +25,10 @@ jobs:
           version: '24.x'
       - name: Format
         run: |
-	  cargo fmt --check
+          cargo fmt --check
+      - name: Format
+        run: |
+          cargo clippy -- -Dwarnings
       - name: Run tests
         run: |
           cargo test
