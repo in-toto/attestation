@@ -89,9 +89,9 @@ fn generate_predicate_protos(dir: &Path) -> io::Result<()> {
                     .into_owned();
                 let mod_name = Path::new(&r).file_name().unwrap();
 
-		if let Some(m) = mod_name.to_str() {
-		    mods.push(m.to_string());
-		}
+                if let Some(m) = mod_name.to_str() {
+                    mods.push(m.to_string());
+                }
 
                 let child_dir = path.strip_prefix(prefix).unwrap();
                 generate_predicate_protos(child_dir)?;
