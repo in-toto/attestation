@@ -32,7 +32,7 @@ fn gen_interm_mod_rs(path: &Path, mods: Vec<String>) -> io::Result<()> {
     let mut sorted: Vec<String> = mods.into_iter().collect();
     sorted.sort();
     for m in sorted {
-        f.write_fmt(format_args!("pub mod {};\n", m))?;
+        f.write_fmt(format_args!("pub mod {m};\n"))?;
     }
 
     Ok(())
@@ -49,7 +49,7 @@ fn replace_resource_desc_imports(path: &Path) -> io::Result<()> {
 
         for line in gen_code.lines() {
             let replaced = re.replace(line, r"${rd}").into_owned();
-            f.write_fmt(format_args!("{}\n", replaced))?;
+            f.write_fmt(format_args!("{replaced}\n"))?;
 
             if line.starts_with("const _PROTOBUF_VERSION_CHECK") {
                 // want to add a single correct import for the resource descriptor module
