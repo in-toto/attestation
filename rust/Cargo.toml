@@ -8,8 +8,10 @@ authors = ["in-toto Contributors"]
 repository = "https://github.com/in-toto/attestation"
 
 [dependencies]
+hex = "0.4.3"
 protobuf = "3.7.2"
 protobuf-json-mapping = "3.7.2"
+thiserror = "2.0.12"
 
 [build-dependencies]
 protobuf-codegen = "3.7.2"
