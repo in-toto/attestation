@@ -6,6 +6,10 @@ use std::io::Write;
 use std::path::Path;
 
 fn generate_v1_protos() {
+    if !fs::exists("src/v1").unwrap() {
+        fs::create_dir("src/v1").unwrap();
+    }
+
     Codegen::new()
         .out_dir("src/v1")
         .include("../protos")
