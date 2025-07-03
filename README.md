@@ -27,7 +27,7 @@ We also provide a set of [attestation predicates], which are metadata
 formats vetted by our maintainers to cover a number of common use cases.
 
 For tooling integration, we provide [protobuf definitions] of the spec.
-We currently only provide language bindings for Go and Python.
+We currently provide language bindings for Go, Python, Rust and Java.
 
 ## Is your use case not covered by existing predicate types?
 
