@@ -147,11 +147,8 @@ impl MetadataValidator for Statement {
             ));
         }
 
-        if self.predicate.is_none() {
-            return Err(Error::FieldValidationError(
-                "predicate object required".to_string(),
-            ));
-        }
+        // an unset predicate field is considered set-but-empty
+        // see: https://github.com/in-toto/attestation/blob/main/spec/v1/statement.md#fields
 
         Ok(true)
     }
@@ -163,14 +160,24 @@ mod tests {
     use protobuf::MessageField;
     use std::collections::HashMap;
 
-    #[test]
-    fn test_create_simple_statement() {
-        let digest_m = HashMap::from([("alg".to_string(), "01dfab13".to_string())]);
+    fn create_test_resource_desc() -> v1::resource_descriptor::ResourceDescriptor {
+        let digest = HashMap::from([("alg".to_string(), "01dfab13".to_string())]);
+
+        let mut rd = v1::resource_descriptor::ResourceDescriptor::new();
+        rd.name = "hello-world.c".to_string();
+        rd.uri = "https://example.com".to_string();
+        rd.digest = digest;
+        rd.content = "bytecontent".as_bytes().to_vec();
+        rd.download_location = "https://example.com/test.zip".to_string();
+        rd.media_type = "theMediaType".to_string();
+
+        rd
+    }
+
+    fn create_test_statement() -> v1::statement::Statement {
         let digest_s = HashMap::from([("alg".to_string(), "de4db33f".to_string())]);
 
-        let mut materials = v1::resource_descriptor::ResourceDescriptor::new();
-        materials.name = "hello-world.c".to_string();
-        materials.digest = digest_m;
+        let materials = create_test_resource_desc();
 
         let mut subject = v1::resource_descriptor::ResourceDescriptor::new();
         subject.name = "hello-world".to_string();
@@ -187,7 +194,177 @@ mod tests {
         let predicate_struct = to_struct(&link).unwrap();
         statement.predicate = MessageField::some(predicate_struct);
 
+        statement
+    }
+
+    #[test]
+    fn test_create_resource_descriptor() {
+        let rd = create_test_resource_desc();
+
+        assert!(rd.validate_fields().expect("This RD should be valid."));
+
+        let rd_json = print_to_string(&rd).unwrap();
+        println!("JSON RD: {}", rd_json.as_str());
+    }
+
+    #[test]
+    fn test_supported_resource_descriptor_digest() {
+        let digest = HashMap::from([
+            (
+                "sha256".to_string(),
+                "a1234567b1234567c1234567d1234567e1234567f1234567a1234567b1234567".to_string(),
+            ),
+            ("alg".to_string(), "01dfab13".to_string()),
+            (
+                "gitCommit".to_string(),
+                "a1234567b1234567c1234567d1234567e1234567".to_string(),
+            ),
+        ]);
+
+        let mut rd = create_test_resource_desc();
+        rd.digest = digest;
+
+        assert!(rd.validate_fields().expect("This RD should be valid."));
+    }
+
+    #[test]
+    fn test_bad_resource_descriptor() -> Result<()> {
+        let mut bad_rd = v1::resource_descriptor::ResourceDescriptor::new();
+        bad_rd.content = "bytecontent".as_bytes().to_vec();
+        bad_rd.download_location = "https://example.com/test.zip".to_string();
+        bad_rd.media_type = "theMediaType".to_string();
+
+        match bad_rd.validate_fields() {
+            Ok(true) => Err(Error::FieldValidationError(
+                "RD with missing required fields should throw an error".to_string(),
+            )),
+            _ => Ok(()),
+        }
+    }
+
+    #[test]
+    fn test_bad_resource_descriptor_digest_encoding() -> Result<()> {
+        let bad_digest = HashMap::from([("sha256".to_string(), "bad_digest".to_string())]);
+
+        let mut bad_rd = create_test_resource_desc();
+        bad_rd.digest = bad_digest;
+
+        match bad_rd.validate_fields() {
+            Ok(true) => Err(Error::FieldValidationError(
+                "Bad RD digest encoding should throw an error".to_string(),
+            )),
+            _ => Ok(()),
+        }
+    }
+
+    #[test]
+    fn test_bad_resource_descriptor_digest_length() -> Result<()> {
+        let bad_digest =
+            HashMap::from([("sha256".to_string(), "a1234567b1234567c123".to_string())]);
+
+        let mut bad_rd = create_test_resource_desc();
+        bad_rd.digest = bad_digest;
+
+        match bad_rd.validate_fields() {
+            Ok(true) => Err(Error::FieldValidationError(
+                "Bad RD digest length should throw an error".to_string(),
+            )),
+            _ => Ok(()),
+        }
+    }
+
+    #[test]
+    fn test_create_statement() {
+        let statement = create_test_statement();
+
+        assert!(
+            statement
+                .validate_fields()
+                .expect("This Statement should be valid.")
+        );
+
         let statement_json = print_to_string(&statement).unwrap();
         println!("JSON statement: {}", statement_json.as_str());
+    }
+
+    #[test]
+    fn test_statement_empty_predicate() {
+        let mut statement = create_test_statement();
+        statement.predicate = MessageField::some(Struct::new());
+
+        assert!(
+            statement
+                .validate_fields()
+                .expect("A Statement with an empty predicate should be valid.")
+        );
+    }
+
+    #[test]
+    fn test_statement_unset_predicate() {
+        let mut statement = create_test_statement();
+        statement.predicate = MessageField::none();
+
+        assert!(
+            statement
+                .validate_fields()
+                .expect("A Statement with no predicate object should be valid.")
+        );
+    }
+
+    #[test]
+    fn test_bad_statement_type() -> Result<()> {
+        let mut bad_statement = create_test_statement();
+        bad_statement.type_ = "https://example.com/in-toto".to_string();
+
+        match bad_statement.validate_fields() {
+            Ok(true) => Err(Error::FieldValidationError(
+                "Statement with unexpected type should throw an error".to_string(),
+            )),
+            _ => Ok(()),
+        }
+    }
+
+    #[test]
+    fn test_bad_statement_no_subject() -> Result<()> {
+        let mut bad_statement = create_test_statement();
+        bad_statement.subject = Vec::new();
+
+        match bad_statement.validate_fields() {
+            Ok(true) => Err(Error::FieldValidationError(
+                "Statement without subject should throw an error".to_string(),
+            )),
+            _ => Ok(()),
+        }
+    }
+
+    #[test]
+    fn test_bad_statement_no_subject_digest() -> Result<()> {
+        let mut bad_rd = v1::resource_descriptor::ResourceDescriptor::new();
+        bad_rd.name = "badSubjectRd".to_string();
+        bad_rd.download_location = "https://example.com/test.zip".to_string();
+        bad_rd.media_type = "theMediaType".to_string();
+
+        let mut bad_statement = create_test_statement();
+        bad_statement.subject = [bad_rd].to_vec();
+
+        match bad_statement.validate_fields() {
+            Ok(true) => Err(Error::FieldValidationError(
+                "Statement without subject digest should throw an error".to_string(),
+            )),
+            _ => Ok(()),
+        }
+    }
+
+    #[test]
+    fn test_bad_statement_predicate_type() -> Result<()> {
+        let mut bad_statement = create_test_statement();
+        bad_statement.predicate_type = "".to_string();
+
+        match bad_statement.validate_fields() {
+            Ok(true) => Err(Error::FieldValidationError(
+                "Statement without predicate type should throw an error".to_string(),
+            )),
+            _ => Ok(()),
+        }
     }
 }
