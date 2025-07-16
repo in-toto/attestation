@@ -68,7 +68,7 @@ Our vetting process is simple, and is based on the process specified in [ITE-9].
 [ITE-9]: https://github.com/in-toto/ITE/tree/master/ITE/9#document-format
 [Predicates]: ../spec/v1/predicate.md
 [RFC 3339]: https://tools.ietf.org/html/rfc3339
-[URL redirects list]: https://github.com/in-toto/in-toto.io/blob/master/public/_redirects
+[URL redirects list]: https://github.com/in-toto/in-toto.io/blob/main/layouts/index.redirects
 [field types]: ../spec/v1/field_types.md
 [existing predicates]: ../spec/predicates/README.md
 [parsing rules]: ../spec/v1/README.md#parsing-rules
