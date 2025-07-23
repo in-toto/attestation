@@ -11,4 +11,8 @@ python:
 java:
 	protoc --java_out=../java $(shell find ./in_toto_attestation -name "*.proto")
 
-.PHONY: go python java
+# Creates the Rust libs in the rust/ directory.
+rust:
+	cd rust && cargo build
+
+.PHONY: go python java rust

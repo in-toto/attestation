@@ -47,5 +47,37 @@ modules in the `tests/python/` directory tree.
 At a minimum, we suggest testing JSON marshalling and unmarshalling
 of the Python language bindings.
 
+## Testing the Rust bindings
+
+The Rust package `rust/` provides a few tests for the statement and predicate
+layers.
+
+Note: Support for Rust is still very early, so consider these bindings to not
+be stable or well-tested.
+
+### Pre-requisites
+
+Install a Rust toolchain (1.85 or later)
+(see https://www.rust-lang.org/tools/install)
+
+```bash
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+```
+
+Then, install required libraries
+
+```bash
+sudo apt install libssl-dev protobuf-compiler
+```
+
+### Running the Rust tests
+
+To run all tests (including doctests):
+
+```bash
+cd rust
+cargo test
+```
+
 [Go testing package]: https://pkg.go.dev/testing
 [Python unittest package]: https://docs.python.org/3/library/unittest.html
