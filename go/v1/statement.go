@@ -4,9 +4,13 @@ Wrapper APIs for in-toto attestation Statement layer protos.
 
 package v1
 
-import "errors"
+import (
+	"errors"
+	"strings"
+)
 
-const StatementTypeUri = "https://in-toto.io/Statement/v1"
+const StatementTypeUriPrefix = "https://in-toto.io/Statement/"
+const StatementTypeUri = StatementTypeUriPrefix + "v1"
 
 var (
 	ErrInvalidStatementType  = errors.New("wrong statement type")
@@ -17,7 +21,7 @@ var (
 )
 
 func (s *Statement) Validate() error {
-	if s.GetType() != StatementTypeUri {
+	if !strings.HasPrefix(s.GetType(), StatementTypeUriPrefix) {
 		return ErrInvalidStatementType
 	}
 

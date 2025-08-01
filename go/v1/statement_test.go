@@ -52,7 +52,7 @@ func TestJsonUnmarshalStatement(t *testing.T) {
 }
 
 func TestBadStatementType(t *testing.T) {
-	var badStType = `{"_type":"https://in-toto.io/Statement/v0","subject":[{"name":"theSub","digest":{"alg1":"abc123"}}],"predicateType":"thePredicate","predicate":{"keyObj":{"subKey":"subVal"}}}`
+	var badStType = `{"_type":"https://not-in-toto.io/Statement/v0","subject":[{"name":"theSub","digest":{"alg1":"abc123"}}],"predicateType":"thePredicate","predicate":{"keyObj":{"subKey":"subVal"}}}`
 
 	got := &Statement{}
 	err := protojson.Unmarshal([]byte(badStType), got)
