@@ -1,3 +1,4 @@
+use protobuf::well_known_types::struct_::Struct;
 /// # in-toto Attestation Framework Rust Bindings
 ///
 /// Bindings for generating unsigned in-toto attestations
@@ -10,8 +11,7 @@
 /// use in_toto_attestation::v1::statement::Statement;
 /// use in_toto_attestation::v1::resource_descriptor::ResourceDescriptor;
 /// use in_toto_attestation::predicates::link::v0::link::Link;
-/// use in_toto_attestation::to_struct;
-/// use protobuf::MessageField;
+/// use in_toto_attestation::{generate_statement, to_struct};
 /// use protobuf::well_known_types::struct_::Struct;
 /// use protobuf_json_mapping::print_to_string;
 /// use std::collections::HashMap;
@@ -31,18 +31,14 @@
 /// link.name = "hello world".to_string();
 /// link.materials = [materials].to_vec();
 ///
-/// let mut statement = Statement::new();
-/// statement.type_ = "https://in-toto.io/Statement/v1".to_string();
-/// statement.subject = [subject].to_vec();
-/// statement.predicate_type = "https://in-toto.io/attestation/link/v0.3".to_string();
-/// let predicate_struct = to_struct(&link).unwrap();
-/// statement.predicate = MessageField::some(predicate_struct);
+/// let link_struct = to_struct(&link).unwrap();
+///
+/// let statement = generate_statement(&[subject], "https://in-toto.io/attestation/link/v0.3", &link_struct).unwrap();
 ///
 /// let statement_json = print_to_string(&statement).unwrap();
 /// println!("JSON statement: {}", statement_json.as_str());
 /// ```
-use protobuf::MessageDyn;
-use protobuf::well_known_types::struct_::Struct;
+use protobuf::{MessageDyn, MessageField};
 use protobuf_json_mapping::{parse_from_str, print_to_string};
 
 pub mod error;
@@ -70,6 +66,22 @@ pub fn to_struct(proto_msg: &dyn MessageDyn) -> Result<Struct> {
         parse_from_str::<Struct>(&msg_json).map_err(|e| Error::ParseError(e.to_string()))?;
 
     Ok(msg_struct)
+}
+
+/// Utility function to generate an in-toto Statement
+pub fn generate_statement(
+    subject: &[ResourceDescriptor],
+    predicate_type: &str,
+    predicate: &Struct,
+) -> Result<Statement> {
+    let mut statement = Statement::new();
+    statement.type_ = STATEMENT_TYPE_URI_V1.to_string();
+    statement.subject = subject.to_vec();
+    statement.predicate_type = predicate_type.to_string();
+
+    statement.predicate = MessageField::some(predicate.clone());
+
+    Ok(statement)
 }
 
 impl MetadataValidator for ResourceDescriptor {
@@ -187,12 +199,14 @@ mod tests {
         link.name = "hello world".to_string();
         link.materials = [materials].to_vec();
 
-        let mut statement = v1::statement::Statement::new();
-        statement.type_ = "https://in-toto.io/Statement/v1".to_string();
-        statement.subject = [subject].to_vec();
-        statement.predicate_type = "https://in-toto.io/attestation/link/v0.3".to_string();
-        let predicate_struct = to_struct(&link).unwrap();
-        statement.predicate = MessageField::some(predicate_struct);
+        let link_struct = to_struct(&link).unwrap();
+
+        let statement = generate_statement(
+            &[subject],
+            "https://in-toto.io/attestation/link/v0.3",
+            &link_struct,
+        )
+        .unwrap();
 
         statement
     }
