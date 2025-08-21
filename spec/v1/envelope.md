@@ -1,6 +1,6 @@
 # Envelope layer specification
 
-The Envelope is the outermost layer of the attestation, handling  serialization
+The Envelope is the outermost layer of the attestation, handling serialization
 and authentication (via digital signatures).
 
 ## Schema
@@ -28,7 +28,7 @@ specification:
 The in-toto Attestation Framework has the following general field requirements
 for an Envelope:
 
--   `signature` (or equivalent) is REQUIRED and MUST be defined as an array.
+-   `signatures` (or equivalent) is REQUIRED and MUST be defined as an array.
 -   A `keyid` (or equivalent) SHOULD be included for each signing key used.
 -   `payload` (or equivalent) SHOULD be included and contain the in-toto
     [Statement] that was signed.
