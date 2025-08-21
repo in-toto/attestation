@@ -11,7 +11,7 @@ use protobuf::well_known_types::struct_::Struct;
 /// use in_toto_attestation::v1::statement::Statement;
 /// use in_toto_attestation::v1::resource_descriptor::ResourceDescriptor;
 /// use in_toto_attestation::predicates::link::v0::link::Link;
-/// use in_toto_attestation::{generate_statement, to_struct};
+/// use in_toto_attestation::{generate_statement_v1, to_struct};
 /// use protobuf::well_known_types::struct_::Struct;
 /// use protobuf_json_mapping::print_to_string;
 /// use std::collections::HashMap;
@@ -33,7 +33,7 @@ use protobuf::well_known_types::struct_::Struct;
 ///
 /// let link_struct = to_struct(&link).unwrap();
 ///
-/// let statement = generate_statement(&[subject], "https://in-toto.io/attestation/link/v0.3", &link_struct).unwrap();
+/// let statement = generate_statement_v1(&[subject], "https://in-toto.io/attestation/link/v0.3", &link_struct).unwrap();
 ///
 /// let statement_json = print_to_string(&statement).unwrap();
 /// println!("JSON statement: {}", statement_json.as_str());
@@ -69,7 +69,7 @@ pub fn to_struct(proto_msg: &dyn MessageDyn) -> Result<Struct> {
 }
 
 /// Utility function to generate an in-toto Statement
-pub fn generate_statement(
+pub fn generate_statement_v1(
     subject: &[ResourceDescriptor],
     predicate_type: &str,
     predicate: &Struct,
@@ -201,7 +201,7 @@ mod tests {
 
         let link_struct = to_struct(&link).unwrap();
 
-        let statement = generate_statement(
+        let statement = generate_statement_v1(
             &[subject],
             "https://in-toto.io/attestation/link/v0.3",
             &link_struct,
