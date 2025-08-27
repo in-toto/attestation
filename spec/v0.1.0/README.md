@@ -173,6 +173,7 @@ new one if no existing one satisfies. Predicate types are not registered.
 The following popular predicate types may be of general interest:
 
 -   [SLSA Provenance]: To describe the origins of a software artifact.
+<!-- markdownlint-disable-next-line MD059 -->
 -   [Link]: For migration from [in-toto 0.9].
 -   [SPDX]: A Software Package Data Exchange document.
 
