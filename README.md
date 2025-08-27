@@ -27,7 +27,8 @@ We also provide a set of [attestation predicates], which are metadata
 formats vetted by our maintainers to cover a number of common use cases.
 
 For tooling integration, we provide [protobuf definitions] of the spec.
-We currently only provide language bindings for Go and Python.
+We currently provide language bindings for Go, Python, Rust and Java,
+with Go being the most mature, and Rust being the most recent addition.
 
 ## Is your use case not covered by existing predicate types?
 
@@ -51,7 +52,8 @@ Use `@in-toto/attestation-maintainers` to tag the maintainers on GitHub.
 
 ## Insights and Activities
 
-Stay up-to-date with the latest activities and discussions in the in-toto Attestation Framework by exploring the [maintainers' notes](https://hackmd.io/fRKbxm6MT3GEz-_oSQtmYA).
+Stay up-to-date with the latest activities and join discussions about the in-toto
+Attestation Framework through our Slack channel [#in-toto-attestations](https://cloud-native.slack.com/archives/C06HBJUEJBT).
 
 ## Disclaimer
 
