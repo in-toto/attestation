@@ -52,7 +52,7 @@ func TestJsonUnmarshalStatement(t *testing.T) {
 }
 
 func TestBadStatementType(t *testing.T) {
-	var badStType = `{"_type":"https://in-toto.io/Statement/v0","subject":[{"name":"theSub","digest":{"alg1":"abc123"}}],"predicateType":"thePredicate","predicate":{"keyObj":{"subKey":"subVal"}}}`
+	var badStType = `{"_type":"https://not-in-toto.io/Statement/v1","subject":[{"name":"theSub","digest":{"alg1":"abc123"}}],"predicateType":"thePredicate","predicate":{"keyObj":{"subKey":"subVal"}}}`
 
 	got := &Statement{}
 	err := protojson.Unmarshal([]byte(badStType), got)
@@ -60,6 +60,42 @@ func TestBadStatementType(t *testing.T) {
 
 	err = got.Validate()
 	assert.ErrorIs(t, err, ErrInvalidStatementType, "created malformed Statement (bad type)")
+}
+
+func TestStatementTypeVersions(t *testing.T) {
+	var tests = []struct {
+		version string
+		err     error
+	}{
+		{
+			version: "1",
+			err:     nil,
+		},
+		{
+			version: "0.1",
+			err:     nil,
+		},
+		{
+			version: "2",
+			err:     ErrInvalidStatementType,
+		},
+		{
+			version: "0.2",
+			err:     ErrInvalidStatementType,
+		},
+	}
+
+	stStringTemplate := `{"_type":"https://in-toto.io/Statement/v%s","subject":[{"name":"theSub","digest":{"alg1":"abc123"}}],"predicateType":"thePredicate","predicate":{"keyObj":{"subKey":"subVal"}}}`
+
+	for _, tt := range tests {
+		stString := fmt.Sprintf(stStringTemplate, tt.version)
+		got := &Statement{}
+		err := protojson.Unmarshal([]byte(stString), got)
+		assert.NoError(t, err, "error during JSON unmarshalling")
+
+		err = got.Validate()
+		assert.Equal(t, tt.err, err)
+	}
 }
 
 func TestBadStatementSubject(t *testing.T) {
