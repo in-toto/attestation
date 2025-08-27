@@ -14,6 +14,7 @@ our [vetting process], and may be of general interest:
 
 -   [SLSA Provenance]: Describes how an artifact or set of artifacts was
     produced.
+<!-- markdownlint-disable-next-line MD059 -->
 -   [Link]: For migration from [in-toto 0.9].
 -   [SCAI Report]: Evidence-based assertions about software artifact and
     supply chain attributes or behavior.
