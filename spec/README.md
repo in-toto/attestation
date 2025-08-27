@@ -19,7 +19,7 @@ The following diagram visualises the relationships between the envelope, stateme
 
 <img src="../images/envelope_relationships.png" alt="Relationships between the envelope, statement and predicate layers" width="600">
 
-The source of this diagram can be found [here](../images/envelope_relationships.excalidraw).
+For future edits, we provide the [source](../images/envelope_relationships.excalidraw) of this diagram.
 
 The [validation model] provides pseudocode showing how these layers fit
 together. See the [documentation] for more background and examples.
