@@ -5,6 +5,7 @@ use std::io;
 use std::io::Write;
 use std::path::Path;
 
+#[cfg(release)]
 fn generate_v1_protos() {
     if !fs::exists("src/v1").unwrap() {
         fs::create_dir("src/v1").unwrap();
@@ -23,6 +24,7 @@ fn generate_v1_protos() {
 }
 
 // inspired by https://github.com/stepancheg/rust-protobuf/blob/7131fb244fb1246d2835f5ad7426e607ee7c4a1f/protobuf-codegen/src/gen/mod_rs.rs
+#[cfg(release)]
 fn gen_interm_mod_rs(path: &Path, mods: Vec<String>) -> io::Result<()> {
     // skip if we have no mods
     if mods.is_empty() {
@@ -42,6 +44,7 @@ fn gen_interm_mod_rs(path: &Path, mods: Vec<String>) -> io::Result<()> {
     Ok(())
 }
 
+#[cfg(release)]
 fn replace_resource_desc_imports(path: &Path) -> io::Result<()> {
     let re = Regex::new(r"(?<super>super::)(?<rd>resource_descriptor)").unwrap();
 
@@ -66,6 +69,7 @@ fn replace_resource_desc_imports(path: &Path) -> io::Result<()> {
 }
 
 // this function recurses through the predicates directory
+#[cfg(release)]
 fn generate_predicate_protos(dir: &Path) -> io::Result<()> {
     let prefix = Path::new("../protos/in_toto_attestation/");
     let input_path = prefix.join(dir);
@@ -120,6 +124,8 @@ fn generate_predicate_protos(dir: &Path) -> io::Result<()> {
 }
 
 fn main() {
+    #[cfg(release)]
     generate_v1_protos();
+    #[cfg(release)]
     generate_predicate_protos(Path::new("predicates")).unwrap();
 }
