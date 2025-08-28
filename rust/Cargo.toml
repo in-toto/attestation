@@ -5,7 +5,8 @@ version = "0.1.0"
 edition = "2024"
 license = "Apache-2.0"
 authors = ["in-toto Contributors"]
-repository = "https://github.com/in-toto/attestation"
+repository = "https://github.com/in-toto/attestation/rust"
+readme = "README.md"
 
 [dependencies]
 hex = "0.4.3"
