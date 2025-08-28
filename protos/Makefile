@@ -13,6 +13,6 @@ java:
 
 # Creates the Rust libs in the rust/ directory.
 rust:
-	cd ../rust && cargo build
+	cd ../rust && cargo build --release
 
 .PHONY: go python java rust
