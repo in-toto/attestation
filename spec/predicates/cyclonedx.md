@@ -20,10 +20,22 @@ The in-toto [attestation] framework and a [CycloneDX BOM generation tool].
 
 This is a predicate type that fits within the larger [Attestation] framework.
 
-## Schema
+## Data definition
 
 The schema of this predicate type is documented in the
-[CycloneDX Specification].
+[CycloneDX Specification] for vnd.cyclonedx+json.
+
+As of 2024, CycloneDX does not have an official vnd.cyclonedx+cbor content type for CBOR encoding.
+To embed a JSON CycloneDX into the predicate, use the [`TN()` transformation] of application/json for wrapping the JSON encoding.
+
+```cddl
+cyclonedx-predicate = (
+  predicateType-label => "https://cyclonedx.org/bom/v1.4",
+  predicate-label => JC<cyclonedx-map, cyclonedx-json-tunnel>
+)
+cyclonedx-map = object
+cyclonedx-json-tunnel = { &(json-embedding: -4478722) => 1668546867(bytes) }
+```
 
 ### Parsing Rules
 
@@ -75,3 +87,4 @@ Not applicable for this initial version.
 [CycloneDX Capabilities]: https://cyclonedx.org/capabilities/
 [CycloneDX Specification]: https://github.com/CycloneDX/specification/tree/1.4/schema
 [CycloneDX BOM generation tool]: https://cyclonedx.org/tool-center
+[`TN()` transformation]: https://www.rfc-editor.org/rfc/rfc9277.html#ct-tags

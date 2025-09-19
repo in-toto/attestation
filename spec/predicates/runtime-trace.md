@@ -43,39 +43,57 @@ contains information that when put together uniquely identifies the exact
 instance of the job being observed. The `monitorLog` field contains the actual
 runtime trace information.
 
-## Schema
+## Data definition
 
 ```json
-{
-    "_type": "https://in-toto.io/Statement/v1",
-    "subject": [{ ... }],
-    "predicateType": "https://in-toto.io/attestation/runtime-trace/v0.1",
-    "predicate": {
-        "monitor": {
-            "type": "<TypeURI>",
-            "configSource": "<ResourceDescriptor>",
-            "tracePolicy": { /* object */ }
-        },
-        "monitoredProcess": {
-            "hostID": "<URI>",
-            "type": "<URI>",
-            "event": "<STRING>"
-        },
-        "monitorLog": {
-            "process": [
-                { /* object */ }
-            ],
-            "network": [
-                { /* object */ }
-            ],
-            "fileAccess": ["<ResourceDescriptor>", ...]
-        },
-        "metadata": {
-            "buildStartedOn": "<TIMESTAMP>",
-            "buildFinishedOn": "<TIMESTAMP>"
-        }
-    }
+rt-trace-predicate = (
+    predicateType-label => "https://in-toto.io/attestation/runtime-trace/v0.1",
+    predicate-label => rt-trace-predicate-map
+)
+rt-trace-predicate-map = {
+        rt-trace-monitor-label => rt-trace-monitor-map,
+        rt-trace-monitoredProcess-label => rt-trace-monitoredProcess-map,
+        rt-trace-monitorLog-label => rt-trace-monitorLog-map,
+        ? rt-trace-metadata-label => rt-trace-metadata-map
 }
+rt-trace-monitor-label          = JC<"monitor",          0>
+rt-trace-monitoredProcess-label = JC<"monitoredProcess", 1>
+rt-trace-monitorLog-label       = JC<"monitorLog",       2>
+rt-trace-metadata-label         = JC<"metadata",         3>
+
+rt-trace-monitor-map = {
+  rt-trace-monitor-type-label => uri-type,
+  ? rt-trace-monitor-configSource-label => ResourceDescriptor,
+  ? rt-trace-monitor-tracePolicy-label => object
+}
+rt-trace-monitor-type-label         = JC<"type",         0>
+rt-trace-monitor-configSource-label = JC<"configSource", 1>
+rt-trace-monitor-tracePolicy-label  = JC<"tracePolicy",  2>
+
+rt-trace-monitoredProcess-map {
+  rt-trace-monitoredProcess-hostID-label => uri-type,
+  rt-trace-monitoredProcess-type-label => uri-type,
+  rt-trace-monitoredProcess-event-label => text
+}
+rt-trace-monitoredProcess-hostID-label = JC<"hostID", 0>
+rt-trace-monitoredProcess-type-label   = JC<"type",   1>
+rt-trace-monitoredProcess-event-label  = JC<"event",  2>
+
+rt-trace-monitorLog-map = nonempty<{
+  ? rt-trace-monitorLog-process-label => [ * object ],
+  ? rt-trace-monitorLog-network-label => [ * object ],
+  ? rt-trace-monitorLog-fileAccess-label => [ * ResourceDescriptor ]
+}>
+rt-trace-monitorLog-process-label    = JC<"process",    0>
+rt-trace-monitorLog-network-label    = JC<"network",    1>
+rt-trace-monitorLog-fileAccess-label = JC<"fileAccess", 2>
+
+rt-trace-metadata-map = {
+  ? rt-trace-buildStartedOn-label => Timestamp,
+  ? rt-trace-buildFinishedOn-label => Timestamp
+}
+rt-trace-buildStartedOn-label  = JC<"buildStartedOn",  0>
+rt-trace-buildFinishedOn-label = JC<"buildFinishedOn", 1>
 ```
 
 ### Parsing Rules

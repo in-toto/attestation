@@ -66,22 +66,37 @@ names of tests that passed with no errors or warnings, passed with warnings, and
 failed with errors respectively. The expected `subject` are the source artifacts
 tested.
 
-## Schema
+## Data definition
+
+The predicate grammar is provided in CDDL.
+Undefined directives are imported from the base v1.2 specification.
 
 ```json
-{
-    "_type": "https://in-toto.io/Statement/v1",
-    "subject": [{...}],
-    "predicateType": "https://in-toto.io/attestation/test-result/v0.1",
-    "predicate": {
-        "result": "PASSED|WARNED|FAILED",
-        "configuration": ["<ResourceDescriptor>", ...],
-        "url": "<URL>",
-        "passedTests": ["<TEST_NAME>", ...],
-        "warnedTests": ["<TEST_NAME>", ...],
-        "failedTests": ["<TEST_NAME>", ...]
-    }
+test-result-predicate = (
+  predicateType-label => "https://in-toto.io/attestation/test-result/v0.1",
+  predicate-label => test-result-predicate-map
+)
+test-result-predicate-map = {
+  test-result-result-label => test-result-result-values,
+  test-result-configuration-label => [ * ResourceDescriptor ],
+  ? test-result-url-label => uri-type,
+  ? test-result-passedTests-label => [ * text ],
+  ? test-result-warnedTests-label => [ * text ],
+  ? test-result-failedTests-label => [ * text ]
 }
+test-result-result-label = JC<"result", 0>
+test-result-configuration-label = JC<"configuration", 1>
+test-result-url-label           = JC<"url",           2>
+test-result-passedTests-label   = JC<"passedTests",   3>
+test-result-warnedTests-label   = JC<"warnedTests",   4>
+test-result-failedTests-label   = JC<"failedTests",   5>
+
+test-result-result-values /= test-result-passed
+test-result-result-values /= test-result-warned
+test-result-result-values /= test-result-failed
+test-result-passed = JC<"PASSED", 0>
+test-result-warned = JC<"WARNED", 1>
+test-result-failed = JC<"FAILED", 2>
 ```
 
 ### Parsing Rules
