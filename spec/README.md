@@ -1,6 +1,6 @@
 # in-toto Attestation Framework Spec
 
-Latest version: [v1.1]
+Latest version: [v1.2]
 
 An **in-toto attestation** is authenticated metadata about one or more
 software artifacts[^1]. The intended consumers are automated policy engines,
@@ -72,5 +72,5 @@ this specification are to be interpreted as described in [RFC 2119].
 [documentation]: ../docs
 [in-toto-verify]: https://github.com/in-toto/in-toto#verification
 [tagged release]: https://github.com/in-toto/attestation/releases
-[v1.1]: v1/README.md
+[v1.2]: v1/README.md
 [validation model]: ../docs/validation.md
