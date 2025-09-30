@@ -48,12 +48,12 @@ two attestations, one with subject `abcd` and one with subject `1234`.
 The media type `application/vnd.in-toto.bundle` SHOULD be used to denote
 a Bundle in arbitrary storage systems.
 
--   The media type for a Bundles does not indicate an encoding since Bundles
+-   The media type for a Bundle does not indicate an encoding since Bundles
     MUST be encoded as JSON lines, and the encoding of each attestation
     within the Bundle SHOULD be indicated at the [Envelope] layer.
 -   The predicate type of individual attestations within the stored Bundle
-    SHOULD NOT be indicated in the media type for the Bundle, as this
-    information is not authenticated at the Bundle layer.
+    SHOULD NOT be indicated in the media type for the Bundle, as a bundle may
+    contain attestations with different predicate types.
 -   To obtain predicate information that is authenticated, consumers MUST
     download and parse each line in a Bundle separately.
 
@@ -73,7 +73,7 @@ places _both_ of these signed attestations in a new file named
 `fooly.apk.intoto.jsonl`.
 
 ```jsonl
-{ "payloadType": "application/vnd.in-toto+json", "payload": "a...", "signatures": [w...] }
+{ "payloadType": "application/vnd.in-toto.provenance+json", "payload": "a...", "signatures": [w...] }
 { "payloadType": "application/vnd.in-toto+json", "payload": "b...", "signatures": [w...] }
 ```
 
@@ -89,7 +89,7 @@ vulnerabilities.
 The TestResult is then appended to the contents of `fooly.apk.intoto.jsonl`
 
 ```jsonl
-{ "payloadType": "application/vnd.in-toto+json", "payload": "a...", "signatures": [w...] }
+{ "payloadType": "application/vnd.in-toto.provenance+json", "payload": "a...", "signatures": [w...] }
 { "payloadType": "application/vnd.in-toto+json", "payload": "b...", "signatures": [w...] }
 { "payloadType": "application/vnd.novulz+cbor", "payload": "c...", "signatures": [x...] }
 ```
@@ -102,10 +102,10 @@ with hash `aaa...` using an in-toto Statement with
 and appending that to the contents of `fooly.apk.intoto.jsonl`.
 
 ```jsonl
-{ "payloadType": "application/vnd.in-toto+json", "payload": "a...", "signatures": [w...] }
+{ "payloadType": "application/vnd.in-toto.provenance+json", "payload": "a...", "signatures": [w...] }
 { "payloadType": "application/vnd.in-toto+json", "payload": "b...", "signatures": [w...] }
 { "payloadType": "application/vnd.novulz+cbor", "payload": "c...", "signatures": [x...] }
-{ "payloadType": "application/vnd.in-toto+json", "payload": "d...", "signatures": [y...] }
+{ "payloadType": "application/vnd.in-toto.spdx+json", "payload": "d...", "signatures": [y...] }
 ```
 
 ### Deployment
