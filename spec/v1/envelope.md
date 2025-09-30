@@ -14,9 +14,19 @@ The format and protocol are defined per [DSSE v1.0].
 The in-toto Attestation Framework has the following requirements for the
 standard DSSE fields.
 
--   `payloadType` MUST be set to `application/vnd.in-toto+json`, which
-    indicates that the Envelope contains a JSON object with a `_type` field
-    specifying its schema.
+-   `payloadType` MUST be set to `application/vnd.in-toto.<predicate>+json` or to
+    `application/vnd.in-toto+json`. This indicates that the Envelope contains
+    a JSON object with a `_type` field specifying its schema. If the
+    predicate-specific media type is used, the following requirements apply:
+    -   `<predicate>` MUST match the [predicate specification filename] without
+        the file extension.
+    -   Consumers SHOULD NOT rely upon the media type for individual attestations
+        as faithful indicators of predicate type. Consumer SHOULD only rely on the
+        `predicateType` field in the [Statement] layer.
+    -   To obtain predicate information that is authenticated, consumers MUST
+        parse the Envelope's `payload`, and verify it against its `signatures`.
+    -   The predicate version is not specified in the media type; it is handled
+        in the [Statement] layer.
 -   `payload` MUST be a base64-encoded JSON [Statement].
 
 ## File naming convention
