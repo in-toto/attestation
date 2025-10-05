@@ -28,8 +28,11 @@ specification:
 The in-toto Attestation Framework has the following general field requirements
 for an Envelope:
 
--   `signature` (or equivalent) is REQUIRED and MUST be defined as an array.
--   A `keyid` (or equivalent) SHOULD be included for each signing key used.
+-   `signature` (or equivalent) is REQUIRED and MUST be defined as an array of
+    digital signatures. The encoding of the signature bytes is determined by the
+    envelope schema.
+-   A `keyid` (or equivalent) SHOULD be included for each signing key used. The
+    envelope schema MAY nest this field within the signature array.
 -   `payload` (or equivalent) SHOULD be included and contain the in-toto
     [Statement] that was signed.
 -   `payloadType` (or equivalent) MUST be signed along with the `payload`.
