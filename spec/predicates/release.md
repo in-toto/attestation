@@ -2,7 +2,7 @@
 
 Type URI: https://in-toto.io/attestation/release
 
-Version 0.1
+Version 0.2
 
 ## Purpose
 
@@ -74,7 +74,7 @@ B.
   "predicateType": "https://in-toto.io/attestation/release/v0.1",
   "predicate": {
     "purl": <ResourceURI>,
-    "releaseId": "..."
+    "packageId": "..."
   }
 }
 ```
@@ -90,14 +90,14 @@ The filename of the artifact as it would appear on disk.
 A purl uniquely identifying a specific release name and version from a package
 registry.
 
-**`predicate.releaseId`** string
+**`predicate.packageId`** string
 
-Stable identifier for a release; this should remain unchanged between release
+Stable identifier for a package; this should remain unchanged between release
 versions (e.g. it's associated with urllib3, not urllib3 v2.1.0). This will
 allow users to confirm that a release has moved to a new name, and prevent
 confusion if the old name is re-used. This could be an automatically
 incrementing database key, or a UUID that is initially randomly generated and
-then durably associated with the release name.
+then durably associated with a named package.
 
 ### Parsing Rules
 
@@ -122,7 +122,7 @@ a release (as a counter-example `type:oci` would include `qualifiers`).
   "predicateType": "https://in-toto.io/attestation/release/v0.1",
   "predicate": {
     "purl": "pkg:npm/@angular/http@7.2.16",
-    "releaseId": 1234567890
+    "packageId": "1234567890"
   }
 }
 ```
@@ -175,6 +175,12 @@ Here's what a release with a container image looks like:
 ```
 
 ## Changelog and Migrations
+
+### v0.2
+
+* Renamed the `releaseId` predicate field to `packageId` to clarify intended use.
+
+### v0.1
 
 As this is the initial version, no changes or migrations to previous versions.
 The required fields in this specification are a subset of the information
