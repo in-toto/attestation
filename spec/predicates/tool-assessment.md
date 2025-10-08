@@ -165,7 +165,7 @@ Profile: {
 
 >> Extraneous data associated with the tool assessment.
 
-## Example
+## Examples
 
 ### Semgrep
 
