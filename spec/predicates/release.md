@@ -178,7 +178,7 @@ Here's what a release with a container image looks like:
 
 ### v0.2
 
-* Renamed the `releaseId` predicate field to `packageId` to clarify intended use.
+-   Renamed the `releaseId` predicate field to `packageId` to clarify intended use.
 
 ### v0.1
 
