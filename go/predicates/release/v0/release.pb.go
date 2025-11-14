@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.10
 // 	protoc        v4.24.4
-// source: in_toto_attestation/predicates/release/v0/release.proto
+// source: in_toto_attestation/predicates/release/v0.1/release.proto
 
 package v0
 
@@ -31,7 +31,7 @@ type Release struct {
 
 func (x *Release) Reset() {
 	*x = Release{}
-	mi := &file_in_toto_attestation_predicates_release_v0_release_proto_msgTypes[0]
+	mi := &file_in_toto_attestation_predicates_release_v0_1_release_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -43,7 +43,7 @@ func (x *Release) String() string {
 func (*Release) ProtoMessage() {}
 
 func (x *Release) ProtoReflect() protoreflect.Message {
-	mi := &file_in_toto_attestation_predicates_release_v0_release_proto_msgTypes[0]
+	mi := &file_in_toto_attestation_predicates_release_v0_1_release_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -56,7 +56,7 @@ func (x *Release) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Release.ProtoReflect.Descriptor instead.
 func (*Release) Descriptor() ([]byte, []int) {
-	return file_in_toto_attestation_predicates_release_v0_release_proto_rawDescGZIP(), []int{0}
+	return file_in_toto_attestation_predicates_release_v0_1_release_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *Release) GetPurl() string {
@@ -73,11 +73,11 @@ func (x *Release) GetReleaseId() string {
 	return ""
 }
 
-var File_in_toto_attestation_predicates_release_v0_release_proto protoreflect.FileDescriptor
+var File_in_toto_attestation_predicates_release_v0_1_release_proto protoreflect.FileDescriptor
 
-const file_in_toto_attestation_predicates_release_v0_release_proto_rawDesc = "" +
+const file_in_toto_attestation_predicates_release_v0_1_release_proto_rawDesc = "" +
 	"\n" +
-	"7in_toto_attestation/predicates/release/v0/release.proto\x12)in_toto_attestation.predicates.release.v0\"P\n" +
+	"9in_toto_attestation/predicates/release/v0.1/release.proto\x12)in_toto_attestation.predicates.release.v0\"P\n" +
 	"\aRelease\x12\x12\n" +
 	"\x04purl\x18\x01 \x01(\tR\x04purl\x12\"\n" +
 	"\n" +
@@ -86,22 +86,22 @@ const file_in_toto_attestation_predicates_release_v0_release_proto_rawDesc = "" 
 	"2io.github.intoto.attestation.predicates.release.v0Z7github.com/in-toto/attestation/go/predicates/release/v0b\x06proto3"
 
 var (
-	file_in_toto_attestation_predicates_release_v0_release_proto_rawDescOnce sync.Once
-	file_in_toto_attestation_predicates_release_v0_release_proto_rawDescData []byte
+	file_in_toto_attestation_predicates_release_v0_1_release_proto_rawDescOnce sync.Once
+	file_in_toto_attestation_predicates_release_v0_1_release_proto_rawDescData []byte
 )
 
-func file_in_toto_attestation_predicates_release_v0_release_proto_rawDescGZIP() []byte {
-	file_in_toto_attestation_predicates_release_v0_release_proto_rawDescOnce.Do(func() {
-		file_in_toto_attestation_predicates_release_v0_release_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_in_toto_attestation_predicates_release_v0_release_proto_rawDesc), len(file_in_toto_attestation_predicates_release_v0_release_proto_rawDesc)))
+func file_in_toto_attestation_predicates_release_v0_1_release_proto_rawDescGZIP() []byte {
+	file_in_toto_attestation_predicates_release_v0_1_release_proto_rawDescOnce.Do(func() {
+		file_in_toto_attestation_predicates_release_v0_1_release_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_in_toto_attestation_predicates_release_v0_1_release_proto_rawDesc), len(file_in_toto_attestation_predicates_release_v0_1_release_proto_rawDesc)))
 	})
-	return file_in_toto_attestation_predicates_release_v0_release_proto_rawDescData
+	return file_in_toto_attestation_predicates_release_v0_1_release_proto_rawDescData
 }
 
-var file_in_toto_attestation_predicates_release_v0_release_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
-var file_in_toto_attestation_predicates_release_v0_release_proto_goTypes = []any{
+var file_in_toto_attestation_predicates_release_v0_1_release_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_in_toto_attestation_predicates_release_v0_1_release_proto_goTypes = []any{
 	(*Release)(nil), // 0: in_toto_attestation.predicates.release.v0.Release
 }
-var file_in_toto_attestation_predicates_release_v0_release_proto_depIdxs = []int32{
+var file_in_toto_attestation_predicates_release_v0_1_release_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
 	0, // [0:0] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
@@ -109,27 +109,27 @@ var file_in_toto_attestation_predicates_release_v0_release_proto_depIdxs = []int
 	0, // [0:0] is the sub-list for field type_name
 }
 
-func init() { file_in_toto_attestation_predicates_release_v0_release_proto_init() }
-func file_in_toto_attestation_predicates_release_v0_release_proto_init() {
-	if File_in_toto_attestation_predicates_release_v0_release_proto != nil {
+func init() { file_in_toto_attestation_predicates_release_v0_1_release_proto_init() }
+func file_in_toto_attestation_predicates_release_v0_1_release_proto_init() {
+	if File_in_toto_attestation_predicates_release_v0_1_release_proto != nil {
 		return
 	}
-	file_in_toto_attestation_predicates_release_v0_release_proto_msgTypes[0].OneofWrappers = []any{}
+	file_in_toto_attestation_predicates_release_v0_1_release_proto_msgTypes[0].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_in_toto_attestation_predicates_release_v0_release_proto_rawDesc), len(file_in_toto_attestation_predicates_release_v0_release_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_in_toto_attestation_predicates_release_v0_1_release_proto_rawDesc), len(file_in_toto_attestation_predicates_release_v0_1_release_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_in_toto_attestation_predicates_release_v0_release_proto_goTypes,
-		DependencyIndexes: file_in_toto_attestation_predicates_release_v0_release_proto_depIdxs,
-		MessageInfos:      file_in_toto_attestation_predicates_release_v0_release_proto_msgTypes,
+		GoTypes:           file_in_toto_attestation_predicates_release_v0_1_release_proto_goTypes,
+		DependencyIndexes: file_in_toto_attestation_predicates_release_v0_1_release_proto_depIdxs,
+		MessageInfos:      file_in_toto_attestation_predicates_release_v0_1_release_proto_msgTypes,
 	}.Build()
-	File_in_toto_attestation_predicates_release_v0_release_proto = out.File
-	file_in_toto_attestation_predicates_release_v0_release_proto_goTypes = nil
-	file_in_toto_attestation_predicates_release_v0_release_proto_depIdxs = nil
+	File_in_toto_attestation_predicates_release_v0_1_release_proto = out.File
+	file_in_toto_attestation_predicates_release_v0_1_release_proto_goTypes = nil
+	file_in_toto_attestation_predicates_release_v0_1_release_proto_depIdxs = nil
 }
