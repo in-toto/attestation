@@ -28,9 +28,30 @@ DevSecOps pipelines where continuous integration is adopted as a standard of
 assessment for a piece of software to be deployed and operated.
 Tool assessment attestations enable security control assessors to audit compliance to policy in an immutable format.
 
+**Example: Security Control Assessor of an IT System**
+
+The assessor posts requirements that code must be ran through some type of SAST mechanism.
+The assessor requires that the tool comes from this list of approved tools: X, Y, or Z SAST.
+They also want to know what MEDIUM and above findings there are.
+Lastly, they want to know what files were not included in the scan. 
+`.gitignore` may be an acceptable ignored file from the scan but `main.c` might raise some flags.
+All of these requirements can be attested for.
+
+**Example: Base Containers as a Service**
+
+Customers may desire to use base containers as the final layer of their dockerized application.
+Tool assessment attestations allow the producer of the base containers to demonstrate proper security and auditability
+through many tools such as STIG tools, SBOMs, and anti-virus.
+
+**Example: Application Containers as a Service**
+
+Customers may desire out of the box solutions, such as an `NGINX` container to host services deployed directly on systems.
+Tool assessment attestations allow the developers of applications to provide users with relevant information that ensures compliance with best security practices.
+
 ### Policy as Code Enabling via Attachment to Build Artifacts
 
 Tool assessment attestations bundled with container build provenance can enable policy-as-code enforcement of containers or software on IT systems.
+For example [Kyverno](https://kyverno.io/docs/policy-types/image-validating-policy/#attestations) can enable complex policy logic to validate images.
 
 ## Prerequisites
 
@@ -54,7 +75,7 @@ This also defines the `Profile` object type.
   // Predicate:
   "predicateType": "https://in-toto.io/attestation/tool-assessment/v1",
   "predicate": { 
-      "tool": {
+    "profile": "<PROFILE_NAME_OR_DESCRIPTION>",
           "name": "<NAME>",
           "type": "<TOOL_DESCRIPTION>",
           "uri": "<URI>",
