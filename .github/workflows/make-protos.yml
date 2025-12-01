@@ -25,7 +25,7 @@ jobs:
         with:
           python-version: '3.x'
       - name: Install Go
-        uses: actions/setup-go@44694675825211faa026b3c33043df3e48a5fa00
+        uses: actions/setup-go@4dc6199c7b1a012772edbd06daecab0f50c9053c
         with:
           go-version: 1.23.x
       - name: setup env
@@ -40,7 +40,7 @@ jobs:
         # This step opens a PR if make protos resulted in a difference from
         # what's currently in the main branch. It has no permissions to write to
         # the repository, maintainers are required to approve and merge the PRs.
-        uses: peter-evans/create-pull-request@271a8d0340265f705b14b6d32b9829c1cb33d45e
+        uses: peter-evans/create-pull-request@84ae59a2cdc2258d6fa0732dd66352dddae2a412
         with:
           commit-message: Regenerate attestation libraries
           title: Regenerate attestation libraries
