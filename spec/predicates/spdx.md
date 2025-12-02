@@ -2,21 +2,18 @@
 
 Type URI: https://spdx.dev/Document
 
-Version: 2.3
-
-TODO: Ask SPDX project to choose a URI and to review this spec. Ideally the URI
-would resolve to this file. Also, decide whether we want the version number to
-reflect the spdxVersion (e.g. 2.2) or have them be independent (no version
-number in URI).
+Version: 2.3, 3.0
 
 ## Purpose
 
-A Software Bill of Materials type following the
-[SPDX Specification].
+A Bill of Materials type following the [SPDX Specification].
 
-This allows to represent an "exportable" or "published" software artifact. It
+Version 2.3 can represent an "exportable" or "published" software artifact. It
 can also be used as an entry point for other types of in-toto attestation when
 performing policy decisions.
+
+Version 3.0 can represent software artifacts, software supply chains, AI models
+and more. For a complete list, see the [SPDX 3.0 Scope].
 
 ## Prerequisites
 
@@ -42,10 +39,10 @@ The fields that make up this predicate type are documented in the
 [SPDX specification].
 
 The `predicate` contains a JSON-encoded SPDX document.
-The `subject` contains whatever software artifacts are to be associated with
-this SPDX document.
+The `subject` contains whatever artifacts are to be associated with this SPDX
+document.
 
-## Example
+## Example (Version 2.3)
 
 ```jsonc
 {
@@ -63,6 +60,25 @@ this SPDX document.
 }
 ```
 
+## Example (Version 3.0)
+
+```jsonc
+{
+  // Standard attestation fields:
+  "_type": "https://in-toto.io/Statement/v0.1",
+  "subject": [{ ... }],
+
+  // Predicate:
+  "predicateType": "https://spdx.dev/Document/v3.0",
+  "predicate": {
+    "@context": "https://spdx.org/rdf/3.0/spdx-context.jsonld",
+    "@graph": [
+        ...
+    ]
+  }
+}
+```
+
 ## Changelog and Migrations
 
 ### Version 2.3
@@ -70,5 +86,6 @@ this SPDX document.
 -   Added version to predicateType
 
 [Attestation]: ../README.md
-[SPDX specification]: https://spdx.github.io/spdx-spec/v2.3
+[SPDX 3.0 scope]: https://spdx.github.io/spdx-spec/v3.0/scope/
+[SPDX specification]: https://spdx.dev/use/specifications/
 [SPDX generation tool]: https://spdx.dev/resources/tools/
