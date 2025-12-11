@@ -133,7 +133,7 @@ This predicate follows the
 This example demonstrates how time-bounded properties can be expressed through
 naming conventions. The property `VERIFIER_VULN_SCANNED_1` represents a contract
 between the attestation creator (the policy engine) and consumers: it indicates
-that a vulnerability scan was performed within 1 day of the attestation's 
+that a vulnerability scan was performed within 1 day of the attestation's
 `timeCreated` timestamp.
 
 Consumers verify this by checking that the attestation's `timeCreated` is
