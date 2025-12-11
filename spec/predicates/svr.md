@@ -93,9 +93,10 @@ This predicate follows the
 
 **`properties`, required** array of string
 
-> Indicates the properties verified for the artifact. These SHOULD be scoped
-> according to the framework being verified or the verifier's policy rules. For
-> example, this could be a policy engine prefix like `AMPEL_` or `CONFORMA_`.
+> Indicates the passing properties verified for the artifact. These SHOULD be
+> scoped according to the framework being verified or the verifier's policy
+> rules. For example, this could be a policy engine prefix like `AMPEL_` or
+> `CONFORMA_`.
 
 ## Examples
 
