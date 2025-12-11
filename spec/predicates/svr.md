@@ -11,8 +11,9 @@ Authors: Tom Hennen (@TomHennen), Andrew McNamara (@arewm)
 A Simple Verification Result (SVR) communicates that an artifact has been
 evaluated against one or more policies, and records the properties that were
 verified, at the point-in-time of the evaluation. This enables consumers to
-trust a concise summary of verification results, without requiring access to
-all underlying attestations or policies.
+establish trust in a concise summary of verification results coming from a
+trusted verifier, without requiring access to all underlying attestations or
+policies.
 
 ## Use Cases
 
@@ -75,11 +76,11 @@ This predicate follows the
 
 **`verifier.id`, required** string (TypeURI)
 
-> URI indicating the verifier's identity. Verifiers are encouraged to version
-> their identifiers when their verification logic changes materially (e.g.,
-> different properties are verified, different validation rules are applied).
-> This allows consumers to distinguish between verifier versions and make trust
-> decisions accordingly.
+> URI indicating the verifier's identity. It is RECOMMENDED to version the
+> identifiers when their verification logic changes materially (e.g., different
+> properties are verified, different validation rules are applied). This allows
+> consumers to distinguish between verifier versions and make trust decisions
+> accordingly.
 >
 > Note: Verifiers that use configurable policies MAY include additional fields
 > (following the [in-toto extension field conventions]) to communicate policy
@@ -93,7 +94,8 @@ This predicate follows the
 **`properties`, required** array of string
 
 > Indicates the properties verified for the artifact. These SHOULD be scoped
-> according to the framework being verified or the verifier's policy rules.
+> according to the framework being verified or the verifier's policy rules. For
+> example, this could be a policy engine prefix like `AMPEL_` or `CONFORMA_`.
 
 ## Examples
 
@@ -128,9 +130,10 @@ This predicate follows the
 ### Time-Bounded Properties Example
 
 This example demonstrates how time-bounded properties can be expressed through
-naming conventions. The property `VULN_SCANNED_1` represents a contract between
-the attestation creator and consumers: it indicates that a vulnerability scan
-was performed within 1 day of the attestation's `timeCreated` timestamp.
+naming conventions. The property `VERIFIER_VULN_SCANNED_1` represents a contract
+between the attestation creator (the policy engine) and consumers: it indicates
+that a vulnerability scan was performed within 1 day of the attestation's 
+`timeCreated` timestamp.
 
 Consumers verify this by checking that the attestation's `timeCreated` is
 within their acceptable time window (e.g., no more than 1 day old). This
@@ -153,17 +156,17 @@ without adding explicit expiration fields to the predicate.
     },
     "timeCreated": "2024-03-15T10:30:00Z",
     "properties": [
-      "VULN_SCANNED_1",
-      "NO_CRITICAL_VULNERABILITIES",
-      "NO_HIGH_VULNERABILITIES"
+      "VERIFIER_VULN_SCANNED_1",
+      "VERIFIER_NO_CRITICAL_VULNERABILITIES",
+      "VERIFIER_NO_HIGH_VULNERABILITIES"
     ]
   }
 }
 ```
 
-In this example, `VULN_SCANNED_1` means the scan was performed within 1 day. A
-consumer checking this attestation on 2024-03-15 would accept it, but would
-reject it on 2024-03-17 (more than 1 day later).
+In this example, `VERIFIER_VULN_SCANNED_1` means the scan was performed within
+one day. A consumer checking this attestation on 2024-03-15 would accept it,
+but would reject it on 2024-03-17 (more than 1 day later).
 
 ### Optional Policy Information Example
 
@@ -195,7 +198,7 @@ information; others can safely ignore it per the in-toto parsing rules.
     "timeCreated": "2024-03-15T14:22:00Z",
     "properties": [
       "SLSA_BUILD_LEVEL_3",
-      "DEPLOYMENT_APPROVED"
+      "EXAMPLE_DEPLOYMENT_APPROVED"
     ]
   }
 }
