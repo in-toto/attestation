@@ -1,7 +1,7 @@
 # Maintainers
 
-| Name                                 | GitHub          |
-|--------------------------------------|-----------------|
+| Name                                     | GitHub          |
+|------------------------------------------|-----------------|
 | Adolfo Garcia Veytia (Carabiner Systems) | [@puerco](https://github.com/puerco) |
 | Marcela Melara (Intel)                   | [@marcelamelara](https://github.com/marcelamelara) |
 | Mikhail Swift (TestifySec)               | [@mikhailswift](https://github.com/mikhailswift) |
