@@ -1,4 +1,4 @@
-# Predicate type: Simple Verification
+# Predicate type: Simple Verification Result
 
 Type URI: https://in-toto.io/attestation/svr/v0.1
 
@@ -31,7 +31,9 @@ policies.
 
 This predicate depends on the [in-toto Attestation Framework]. Familiarity with
 the concept of attestation statements and the use of URIs for identifying
-verifiers and resources is assumed.
+verifiers and resources is assumed. Any verifier producing a SVR attestation
+will need to clearly provide its policy engine logic and verifier identities
+to consumers.
 
 ## Model
 
@@ -41,7 +43,7 @@ verified properties (`properties`). Multiple SVRs can be created for the same
 subject, and a single SVR can reference multiple subjects in the attestation
 statement. The SVR does not include information for reproducing the
 verification result. Instead, verifiers MAY generate additional provenance
-attestations for the simple verification attestation as needed.
+attestations for the simple verification result as needed.
 
 ## Schema
 
