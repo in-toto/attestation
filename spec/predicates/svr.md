@@ -210,6 +210,8 @@ information; others can safely ignore it per the in-toto parsing rules.
 The `policy` field is an extension on the verifier object that consumers
 familiar with this verifier can use to identify exactly which policy was
 applied, enabling reproducibility or auditing of the verification decision.
+A resource descriptor is recommended when the policy is a file or
+document defined outside of the attestation itself.
 
 ## Changelog and Migrations
 
