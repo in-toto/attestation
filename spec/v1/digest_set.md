@@ -145,8 +145,8 @@ applications SHOULD NOT accept "md5" because it lacks collision resistance.
 Two DigestSets SHOULD be considered matching if ANY acceptable field
 matches.
 
-New algorithms MUST document how the value is encoded, e.g. URL-safe base64,
-lowercase hex, etc...
+**New algorithms MUST document how the value is encoded, e.g. URL-safe base64,
+lowercase hex, etc.**
 
 ### Use cases for non-cryptographic, immutable, digests
 
@@ -180,11 +180,15 @@ In addition, using an ID like this does not preclude including a cryptographic
 hash in the DigestSet as well. If possible including both may provide the most
 flexibility for the user's various use cases.
 
+Per the specification [guidelines](#guidelines), the value encoding for
+non-cryptographic digests is identifier-specific.
+
 ## Examples
 
 -   `{"sha256": "abcd", "sha512": "1234"}` matches `{"sha256": "abcd"}`
 -   `{"sha256": "abcd"}` does not match `{"sha256": "fedb", "sha512": "abcd"}`
 -   `{"somecoolhash": "abcd"}` uses a non-predefined algorithm
+-   `{"arn": "arn:aws:ec2:region:123:image/ami-123abcd"}` for a non-cryptographic VM image digest using an Amazon Resource Name (ARN)
 
 <!-- Add a horizontal rule to separate footnotes -->
 
