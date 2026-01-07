@@ -1,5 +1,6 @@
 # Predicate type: SPDX
 
+Type URI: https://spdx.dev/Document
 Type URI: https://spdx.dev/Document/v2.3
 
 Version: 2.3
