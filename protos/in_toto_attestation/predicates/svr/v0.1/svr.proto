@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package in_toto_attestation.predicates.svr.v0_1;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/any.proto";
+
+option go_package = "github.com/in-toto/attestation/go/predicates/svr/v01";
+option java_package = "io.github.intoto.attestation.predicates.svr.v01";
+
+// Proto representation of predicate type https://in-toto.io/attestation/svr/v0.1
+message SimpleVerificationResult {
+  message Verifier {
+    string id = 1;
+    optional google.protobuf.Any policy = 2;
+  }
+
+  // Verifier describes the verification engine (policy engine). The verifier
+  // provides meaning to the data recorded in the policy field.
+  Verifier verifier = 1;
+  
+  // Creation timestamp, reflecting when the verification took place.
+  google.protobuf.Timestamp time_created = 2 [json_name = "timeCreated"];
+
+  // List of labels representing the verified properties. These strings are
+  // application-specific.
+  repeated string properties = 3;
+}
