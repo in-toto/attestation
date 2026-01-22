@@ -1,17 +1,13 @@
 # Predicate type: SPDX
 
 Type URI: https://spdx.dev/Document
+Type URI: https://spdx.dev/Document/v2.3
 
 Version: 2.3
 
-TODO: Ask SPDX project to choose a URI and to review this spec. Ideally the URI
-would resolve to this file. Also, decide whether we want the version number to
-reflect the spdxVersion (e.g. 2.2) or have them be independent (no version
-number in URI).
-
 ## Purpose
 
-A Software Bill of Materials type following the
+A Software Bill of Materials type following version 2 of the
 [SPDX Specification].
 
 This allows to represent an "exportable" or "published" software artifact. It
