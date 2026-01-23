@@ -6,7 +6,7 @@ Version: v0.1.0
 
 ## Purpose
 
-**The tool assessment attestation references the results and metadata associated with tools used to assess software before or after its creation.** It's primary purpose is to provide an immutable attestation of tool assessment of a software so that it can be bundled with its provenance. This enables to mapping of build provenances to assessments on a per build basis and can reflect entire DevSecOps pipeline processes.
+**The tool assessment attestation references the results and metadata associated with tools used to assess software before or after its creation.** It is primary purpose is to provide an immutable attestation of tool assessment of a software so that it can be bundled with its provenance. This enables to mapping of build provenances to assessments on a per build basis and can reflect entire DevSecOps pipeline processes.
 
  However, this attestation can be used to describe the assessment of any target using any tool for any purpose and is not restricted to pipelines.
 
