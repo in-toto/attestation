@@ -181,14 +181,15 @@ hash in the DigestSet as well. If possible including both may provide the most
 flexibility for the user's various use cases.
 
 Per the specification [guidelines](#guidelines), the value encoding for
-non-cryptographic digests is identifier-specific.
+non-cryptographic digests is identifier-specific. See the `subject` [field
+details](statement.md#fields) for Statement `subject`-specific requirements.
 
 ## Examples
 
 -   `{"sha256": "abcd", "sha512": "1234"}` matches `{"sha256": "abcd"}`
 -   `{"sha256": "abcd"}` does not match `{"sha256": "fedb", "sha512": "abcd"}`
 -   `{"somecoolhash": "abcd"}` uses a non-predefined algorithm
--   `{"arn": "arn:aws:ec2:region:123:image/ami-123abcd"}` for a non-cryptographic VM image digest using an Amazon Resource Name (ARN)
+-   `{"arn": "arn:aws:ec2:region:123:image/ami-123abcd"}` for a non-cryptographic VM image digest using an Amazon Resource Name (ARN) in the `subject` field of a Statement
 
 <!-- Add a horizontal rule to separate footnotes -->
 
