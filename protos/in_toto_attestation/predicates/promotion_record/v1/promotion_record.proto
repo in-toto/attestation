@@ -1,0 +1,41 @@
+// Copyright 2026 The Kubernetes Authors.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package promo_tools.provenance.v1;
+
+option go_package = "sigs.k8s.io/promo-tools/v4/promoter/image/provenance";
+
+import "google/protobuf/timestamp.proto";
+
+// PromotionRecord captures the details of a single image promotion
+// for provenance generation.
+message PromotionRecord {
+  // src_ref is the fully qualified source image reference.
+  string src_ref = 1;
+
+  // dst_ref is the fully qualified destination image reference.
+  string dst_ref = 2;
+
+  // digest is the image digest (e.g., "sha256:abc...").
+  string digest = 3;
+
+  // timestamp is when the promotion occurred.
+  google.protobuf.Timestamp timestamp = 4;
+
+  // builder_id identifies the promotion system
+  // (e.g., "https://k8s.io/promo-tools@v4.0.8").
+  string builder_id = 5;
+}
