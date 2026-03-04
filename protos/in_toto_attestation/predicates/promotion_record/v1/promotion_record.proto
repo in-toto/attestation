@@ -16,7 +16,8 @@ syntax = "proto3";
 
 package promo_tools.provenance.v1;
 
-option go_package = "sigs.k8s.io/promo-tools/v4/promoter/image/provenance";
+option go_package = "github.com/in-toto/attestation/go/predicates/promotion_record/v1";
+option java_package = "io.github.intoto.attestation.predicates.promotion_record.v1";
 
 import "google/protobuf/timestamp.proto";
 
