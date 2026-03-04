@@ -62,7 +62,7 @@ content, but in different registry locations.
   "subject": [{ ... }],
 
   // Predicate:
-  "predicateType": "https://in-toto.io/attestation/promotion-record/v0.1",
+  "predicateType": "https://in-toto.io/attestation/promotion-record/v1",
   "predicate": {
     "srcRef": "<IMAGE_REFERENCE>",
     "dstRef": "<IMAGE_REFERENCE>",
