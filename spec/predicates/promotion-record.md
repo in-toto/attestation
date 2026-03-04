@@ -67,7 +67,7 @@ content, but in different registry locations.
     "srcRef": "<IMAGE_REFERENCE>",
     "dstRef": "<IMAGE_REFERENCE>",
     "digest": "<DIGEST>",
-    "timestamp": "<TIMESTAMP>",
+    "promotedAt": "<TIMESTAMP>",
     "builderId": "<URI>"
   }
 }
@@ -96,7 +96,7 @@ The image digest in the standard `algorithm:hex` format
 (e.g., `sha256:abc123...`). Because promotion is a server-side copy, this
 digest is the same at both the source and destination.
 
-`timestamp` _string ([Timestamp])_, _required_
+`promotedAt` _string ([Timestamp])_, _required_
 
 An [RFC 3339] formatted timestamp recording when the promotion occurred.
 
@@ -127,7 +127,7 @@ registry to the production `registry.k8s.io`:
     "srcRef": "gcr.io/k8s-staging-kas-network-proxy/proxy-agent:v0.31.0",
     "dstRef": "registry.k8s.io/kas-network-proxy/proxy-agent:v0.31.0",
     "digest": "sha256:d5b3f4e8c7a1b2d9e6f0c8a4b7d1e3f5a9c2b6d0e4f8a1c5b9d3e7f0a2c6b8",
-    "timestamp": "2025-07-15T14:30:00Z",
+    "promotedAt": "2025-07-15T14:30:00Z",
     "builderId": "https://k8s.io/promo-tools@v4.0.8"
   }
 }

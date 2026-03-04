@@ -33,8 +33,8 @@ message PromotionRecord {
   // digest is the image digest (e.g., "sha256:abc...").
   string digest = 3;
 
-  // timestamp is when the promotion occurred.
-  google.protobuf.Timestamp timestamp = 4;
+  // promoted_at is when the promotion occurred.
+  google.protobuf.Timestamp promoted_at = 4;
 
   // builder_id identifies the promotion system
   // (e.g., "https://k8s.io/promo-tools@v4.0.8").
