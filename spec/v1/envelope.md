@@ -1,6 +1,6 @@
 # Envelope layer specification
 
-The Envelope is the outermost layer of the attestation, handling  serialization
+The Envelope is the outermost layer of the attestation, handling serialization
 and authentication (via digital signatures).
 
 ## Schema
