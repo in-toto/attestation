@@ -260,7 +260,7 @@ Output (to be fed into policy engine):
 [RFC 3339]: https://tools.ietf.org/html/rfc3339
 [SLSA Attestation Model]: https://slsa.dev/attestation-model
 [SLSA Provenance]: https://slsa.dev/provenance
-[SPDX]: predicates/spdx.md
+[SPDX]: predicates/spdx3.md
 [Statement]: #statement
 [TypeURI]: field_types.md#TypeURI
 [in-toto 0.9]: https://github.com/in-toto/docs/blob/v0.9/in-toto-spec.md

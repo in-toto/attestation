@@ -74,7 +74,7 @@ The TestResult is then appended to the contents of `fooly.apk.intoto.jsonl`
 
 The CI/CD system then generates an SPDX SBOM attestation for `fooly.apk` with hash
 `aaa...` using an in-toto Statement with
-[`predicateType=https://spdx.dev/Document`](https://github.com/in-toto/attestation/blob/main/spec/predicates/spdx.md)
+[`predicateType=https://spdx.dev/Document`](https://github.com/in-toto/attestation/blob/main/spec/predicates/spdx3.md)
 and appending that to the contents of `fooly.apk.intoto.jsonl`.
 
 ```jsonl
