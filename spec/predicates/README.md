@@ -28,6 +28,7 @@ our [vetting process], and may be of general interest:
 -   [Release]: Details an artifact that is part of a given release version.
 -   [Test Result]: A generic schema to express results of any type of tests.
 -   [Reference]: References documents that are relevant to some resource.
+-   [Simple Verification Result]: Evidence that an artifact has been evaluated against one or more policies.
 
 [CycloneDX]: https://cyclonedx.org/
 [Link]: link.md
@@ -43,3 +44,4 @@ our [vetting process], and may be of general interest:
 [in-toto 0.9]: https://github.com/in-toto/docs/blob/master/in-toto-spec.md#44-file-formats-namekeyid-prefixlink
 [vetting process]: ../../docs/new_predicate_guidelines.md#vetting-process
 [Reference]: reference.md
+[Simple Verification Result]: svr.md
