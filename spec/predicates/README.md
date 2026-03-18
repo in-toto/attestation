@@ -22,7 +22,7 @@ our [vetting process], and may be of general interest:
     operations.
 -   [SLSA Verification Summary]: SLSA verification decision about a software
     artifact.
--   [SPDX]: SPDX-formatted BOM for software artifacts.
+-   [SPDX2] and [SPDX3]: SPDX-formatted BOM for software artifacts.
 -   [CycloneDX]: CycloneDX BOM for software artifacts.
 -   [VULNS]: Defines the metadata to share the results of vulnerability scanning on software artifacts.
 -   [Release]: Details an artifact that is part of a given release version.
@@ -39,7 +39,8 @@ our [vetting process], and may be of general interest:
 [VULNS]: vulns_02.md
 [SLSA Provenance]: https://slsa.dev/provenance
 [SLSA Verification Summary]: vsa.md
-[SPDX]: spdx.md
+[SPDX2]: spdx2.md
+[SPDX3]: spdx3.md
 [Test Result]: test-result.md
 [in-toto 0.9]: https://github.com/in-toto/docs/blob/master/in-toto-spec.md#44-file-formats-namekeyid-prefixlink
 [vetting process]: ../../docs/new_predicate_guidelines.md#vetting-process
