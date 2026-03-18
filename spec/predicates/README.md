@@ -12,23 +12,25 @@ community! Please see our [New Predicate Guidelines].
 This directory contains predicate specification types that have gone through
 our [vetting process], and may be of general interest:
 
--   [SLSA Provenance]: Describes how an artifact or set of artifacts was
-    produced.
+-   [CycloneDX]: CycloneDX BOM for software artifacts.
 <!-- markdownlint-disable-next-line MD059 -->
 -   [Link]: For migration from [in-toto 0.9].
--   [SCAI Report]: Evidence-based assertions about software artifact and
-    supply chain attributes or behavior.
+-   [Reference]: References documents that are relevant to some resource.
+-   [Release]: Details an artifact that is part of a given release version.
 -   [Runtime Traces]: Captures runtime traces of software supply chain
     operations.
+-   [SCAI Report]: Evidence-based assertions about software artifact and
+    supply chain attributes or behavior.
+-   [SLSA Provenance]: Describes how an artifact or set of artifacts was
+    produced.
 -   [SLSA Verification Summary]: SLSA verification decision about a software
     artifact.
 -   [SPDX2] and [SPDX3]: SPDX-formatted BOM for software artifacts.
--   [CycloneDX]: CycloneDX BOM for software artifacts.
--   [VULNS]: Defines the metadata to share the results of vulnerability scanning on software artifacts.
--   [Release]: Details an artifact that is part of a given release version.
+-   [Simple Verification Result]: Evidence that an artifact has been evaluated
+    against one or more policies.
 -   [Test Result]: A generic schema to express results of any type of tests.
--   [Reference]: References documents that are relevant to some resource.
--   [Simple Verification Result]: Evidence that an artifact has been evaluated against one or more policies.
+-   [VULNS]: Defines the metadata to share the results of vulnerability scanning
+    on software artifacts.
 
 [CycloneDX]: https://cyclonedx.org/
 [Link]: link.md
