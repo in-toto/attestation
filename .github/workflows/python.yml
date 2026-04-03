@@ -5,10 +5,10 @@ on:
     branches:
       - main
     paths:
-      - 'python/**'
+      - "python/**"
   pull_request:
     paths:
-      - 'python/**'
+      - "python/**"
   workflow_dispatch:
 
 permissions: {}
@@ -23,6 +23,8 @@ jobs:
           - "3.10"
           - "3.11"
           - "3.12"
+          - "3.13"
+          - "3.14"
     runs-on: ubuntu-latest
     permissions:
       contents: read
