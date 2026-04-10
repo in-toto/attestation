@@ -15,6 +15,7 @@ our [vetting process], and may be of general interest:
 -   [CycloneDX]: CycloneDX BOM for software artifacts.
 <!-- markdownlint-disable-next-line MD059 -->
 -   [Link]: For migration from [in-toto 0.9].
+-   [Promotion Record] | Records a container image move from registry to registry.
 -   [Reference]: References documents that are relevant to some resource.
 -   [Release]: Details an artifact that is part of a given release version.
 -   [Runtime Traces]: Captures runtime traces of software supply chain
