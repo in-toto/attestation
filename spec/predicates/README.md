@@ -32,7 +32,14 @@ our [vetting process], and may be of general interest:
 -   [VULNS]: Defines the metadata to share the results of vulnerability scanning
     on software artifacts.
 
+## Proposed Predicates
+
+-   [Decision Receipt]: Captures access control decisions from AI agent tool
+    calls and physical sensor attestations, with policy evidence and hash-chained
+    integrity.
+
 [CycloneDX]: https://cyclonedx.org/
+[Decision Receipt]: decision-receipt.md
 [Link]: link.md
 [New Predicate Guidelines]: ../../docs/new_predicate_guidelines.md
 [Release]: release.md
