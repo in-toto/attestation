@@ -277,6 +277,55 @@ additions:
 }
 ```
 
+## Relationship to SLSA Provenance
+
+Decision receipts and SLSA Provenance attest to different properties of the
+same subject. SLSA Provenance attests to *how an artifact was produced* (build
+inputs, steps, and observed runtime behavior) and is signed by the builder
+platform identity. A Decision Receipt attests to *what the policy-enforcement
+layer authorized at a specific call* and is signed by the supervisor identity
+that runs the policy gate. These are distinct trust domains. Cross-signing
+under the builder's key would obscure the supervisor's identity in downstream
+verification.
+
+The two compose via the `ResourceDescriptor` reference pattern. A SLSA
+Provenance attestation records that Decision Receipt attestations exist for
+the same subject by including a byproduct entry with the receipt attestation's
+digest, URI, and predicate type. The builder does not cross-sign the receipt
+content; it records its existence.
+
+Example byproduct entry in a SLSA provenance (adapted from the
+[`agent-commit/v0.2` build type](https://refs.arewm.com/agent-commit/v0.2)):
+
+```json
+{
+  "name": "decision-receipts",
+  "digest": { "sha256": "a8f3c9d2e1b7465f..." },
+  "uri": "oci://registry/org/agent-session/run-xyz/receipts:sha256-a8f3c9d2",
+  "annotations": {
+    "predicateType": "https://veritasacta.com/attestation/decision-receipt/v0.1",
+    "signerRole": "supervisor-hook",
+    "chainLength": 47,
+    "genesisReceiptHash": "sha256:a8f3c9d2e1b7465f",
+    "finalReceiptHash":   "sha256:e4d61f7a09b8cd34"
+  }
+}
+```
+
+A consumer fetching both:
+
+1. Verifies the SLSA provenance DSSE signature against the builder identity.
+2. Fetches the receipt attestation at the referenced URI, checks its digest
+   matches the byproduct entry, then verifies its DSSE signature against the
+   supervisor identity named by `issuerId`.
+3. Cross-references the receipt's subject against the SLSA provenance subject
+   and interprets the chain using this predicate's semantics.
+
+The `issuerId` in this predicate and the `signerRole` annotation in the SLSA
+byproduct are complementary: `issuerId` is the concrete identity (key
+fingerprint or DID) that signed the receipt, while `signerRole` is the logical
+role of that identity relative to the builder.
+
 ## Changelog and Migrations
 
 ### v0.1 (initial)
@@ -285,14 +334,19 @@ additions:
 - Supports software agent tool calls and physical sensor readings.
 - Chain integrity via `previousReceiptDigest`.
 - Compatible with Sigstore Rekor anchoring via DSSE envelope.
+- Composes with SLSA Provenance via `ResourceDescriptor` references in
+  byproducts; the builder records the receipt attestation's digest and URI
+  without cross-signing its content.
 
 ## References
 
 - [IETF draft-farley-acta-signed-receipts](https://datatracker.ietf.org/doc/draft-farley-acta-signed-receipts/) -- Receipt wire format
 - [RFC 8032](https://datatracker.ietf.org/doc/html/rfc8032) -- Ed25519 digital signatures
 - [RFC 8785](https://datatracker.ietf.org/doc/html/rfc8785) -- JCS canonicalization
+- [agent-commit build type](https://refs.arewm.com/agent-commit/v0.2) -- SLSA Provenance build type for AI-agent-produced commits; references this predicate via `ResourceDescriptor` in byproducts
 - [protect-mcp](https://www.npmjs.com/package/protect-mcp) -- Reference implementation (npm, 10K+ monthly downloads)
 - [@veritasacta/verify](https://www.npmjs.com/package/@veritasacta/verify) -- Offline verification CLI
 - [Sigstore Rekor integration](https://github.com/sigstore/rekor/issues/2798) -- Transparency log anchoring (working PoC)
+- [SLSA-for-agents discussion](https://github.com/slsa-framework/slsa/issues/1594) -- Composition of build provenance, agent identity, and decision receipts
 - [Microsoft Agent Governance Toolkit](https://github.com/microsoft/agent-governance-toolkit/pull/667) -- Enterprise consumer (merged)
 - [AWS Cedar for Agents](https://github.com/cedar-policy/cedar-for-agents/pull/64) -- Policy engine WASM bindings (merged)
