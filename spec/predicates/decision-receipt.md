@@ -125,6 +125,14 @@ Functionaries:
       "sha256": "<hex digest of the action output>"
     },
 
+    // Optional reference to a sibling Governance Attestation predicate
+    // (when the deployment uses authority-chain-referenced signing).
+    // Points at the root of the delegation chain under which the agent
+    // was authorized to make this decision.
+    "delegationChainRoot": {
+      "sha256": "<hex digest of the root delegation attestation>"
+    },
+
     // Optional metadata
     "metadata": {
       "deviceId": "<hardware device identifier, if physical>",
@@ -174,6 +182,7 @@ additions:
 | `previousReceiptDigest` | DigestSet | No | Digest of the previous receipt. Null for the first receipt in a chain. |
 | `issuerId` | string | Yes | Identifier for the signing entity |
 | `outputDigest` | DigestSet | No | Digest of the action output, if available |
+| `delegationChainRoot` | DigestSet | No | Digest of the root delegation attestation that authorized the agent to make this decision. Present when the receipt is emitted in authority-chain-referenced mode (i.e., the signer references a sibling Governance Attestation predicate). Absent in operator-signed mode where the operator's attestation is the sole authority. |
 | `metadata` | object | No | Additional context. Known fields: `deviceId`, `sessionId`, `framework` |
 
 ## Example
@@ -337,6 +346,29 @@ role of that identity relative to the builder.
 - Composes with SLSA Provenance via `ResourceDescriptor` references in
   byproducts; the builder records the receipt attestation's digest and URI
   without cross-signing its content.
+- Optional `delegationChainRoot` field for authority-chain-referenced
+  mode. Present when the receipt composes with a sibling Governance
+  Attestation predicate that binds the agent's authority to a principal
+  delegation chain; absent in operator-signed mode where the operator's
+  attestation is the sole authority.
+
+## Sibling predicates
+
+Decision Receipt is an atomic, per-call predicate. Deployments that need
+session-level structural authorization context should pair it with a
+**Governance Attestation** predicate (forthcoming) that binds the agent's
+authority to a principal delegation chain. The two compose cleanly:
+
+- Decision Receipt answers "was this specific call authorized under which
+  policy at this moment" (atomic, signed by the policy supervisor).
+- Governance Attestation answers "does this agent have the authority to be
+  making these calls at all, and under whose delegation" (session-level,
+  signed by each delegator in the chain).
+
+The `delegationChainRoot` field in this predicate references Governance
+Attestation by digest when both are emitted together, allowing a verifier
+that cares about authority-not-just-policy to cross-reference without
+cross-signing trust domains.
 
 ## References
 
