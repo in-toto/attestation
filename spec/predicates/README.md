@@ -12,6 +12,8 @@ community! Please see our [New Predicate Guidelines].
 This directory contains predicate specification types that have gone through
 our [vetting process], and may be of general interest:
 
+-   [Agent Threat Scan]: Records the result of scanning an AI agent artifact
+    against a named detection ruleset.
 -   [CycloneDX]: CycloneDX BOM for software artifacts.
 <!-- markdownlint-disable-next-line MD059 -->
 -   [Link]: For migration from [in-toto 0.9].
@@ -32,6 +34,7 @@ our [vetting process], and may be of general interest:
 -   [VULNS]: Defines the metadata to share the results of vulnerability scanning
     on software artifacts.
 
+[Agent Threat Scan]: agent-threat-scan.md
 [CycloneDX]: https://cyclonedx.org/
 [Link]: link.md
 [New Predicate Guidelines]: ../../docs/new_predicate_guidelines.md
