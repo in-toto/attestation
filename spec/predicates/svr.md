@@ -1,8 +1,8 @@
 # Predicate type: Simple Verification Result
 
-Type URI: https://in-toto.io/attestation/svr/v0.1
+Type URI: https://in-toto.io/attestation/svr/v0.2
 
-Version: 0.1
+Version: 0.2
 
 Authors: Tom Hennen (@TomHennen), Andrew McNamara (@arewm)
 
@@ -32,8 +32,8 @@ policies.
 This predicate depends on the [in-toto Attestation Framework]. Familiarity with
 the concept of attestation statements and the use of URIs for identifying
 verifiers and resources is assumed. Any verifier producing a SVR attestation
-will need to clearly provide its policy engine logic and verifier identities
-to consumers.
+will need to clearly provide its policy engine logic, verifier identities, and
+the policy references used during verification to consumers.
 
 ## Model
 
@@ -54,10 +54,11 @@ attestations for the simple verification result as needed.
   "subject": [{ ... }],
 
   // Predicate:
-  "predicateType": "https://in-toto.io/attestation/svr/v0.1",
+  "predicateType": "https://in-toto.io/attestation/svr/v0.2",
   "predicate": {
     "verifier": {
-      "id": "<URI>"
+      "id": "<URI>",
+      "policies": [{ ... }]
     },
     "timeCreated": "<TIMESTAMP>",
     "properties": ["<VERIFIED_PROPERTY>", ...]
@@ -69,6 +70,10 @@ attestations for the simple verification result as needed.
 
 This predicate follows the
 [in-toto Attestation Framework's parsing rules](../v1/README.md#parsing-rules).
+
+The `verifier.policies` field MUST be present. If no explicit policies were
+used, or the verifier cannot reference the policies, producers MUST encode this
+as an empty array (`"policies": []`).
 
 ### Fields
 
@@ -83,11 +88,13 @@ This predicate follows the
 > properties are verified, different validation rules are applied). This allows
 > consumers to distinguish between verifier versions and make trust decisions
 > accordingly.
->
-> Note: Verifiers that use configurable policies MAY include additional fields
-> (following the [in-toto extension field conventions]) to communicate policy
-> information to consumers familiar with that verifier's implementation. Such
-> fields are optional and verifier-specific.
+
+**`verifier.policies`, required** array of
+[ResourceDescriptor](../v1/resource_descriptor.md)
+
+> Identifies the policy artifacts used by the verifier when producing this
+> result. Producers MUST include this field even when no policy can be
+> referenced; in that case, the value MUST be an empty array.
 
 **`timeCreated`, required** string (Timestamp)
 
@@ -113,10 +120,11 @@ This predicate follows the
       "digest": {"sha256": "3A244fd47e07d10..."}
     }
   ],
-  "predicateType": "https://in-toto.io/attestation/svr/v0.1",
+  "predicateType": "https://in-toto.io/attestation/svr/v0.2",
   "predicate": {
     "verifier": {
-      "id": "https://example.com/publication_verifier/v2"
+      "id": "https://example.com/publication_verifier/v2",
+      "policies": []
     },
     "timeCreated": "1985-04-12T23:20:50.52Z",
     "properties": [
@@ -152,10 +160,11 @@ without adding explicit expiration fields to the predicate.
       "digest": {"sha256": "5d5b09f6dcb2d53..."}
     }
   ],
-  "predicateType": "https://in-toto.io/attestation/svr/v0.1",
+  "predicateType": "https://in-toto.io/attestation/svr/v0.2",
   "predicate": {
     "verifier": {
-      "id": "https://example.com/security_scanner/v3"
+      "id": "https://example.com/security_scanner/v3",
+      "policies": []
     },
     "timeCreated": "2024-03-15T10:30:00Z",
     "properties": [
@@ -171,13 +180,11 @@ In this example, `VERIFIER_VULN_SCANNED_1` means the scan was performed within
 one day. A consumer checking this attestation on 2024-03-15 would accept it,
 but would reject it on 2024-03-17 (more than 1 day later).
 
-### Optional Policy Information Example
+### Policy Information Example
 
-This example shows how a verifier might include optional policy information
-using extension fields on the verifier object. This is useful when the verifier
-uses configurable policies and wants to communicate which policy was applied.
-Consumers who understand this verifier's implementation can use this
-information; others can safely ignore it per the in-toto parsing rules.
+This example shows how a verifier communicates the policy information used for
+verification. The `policies` field is required; when policy material exists, it
+is represented using one or more resource descriptors.
 
 ```jsonc
 {
@@ -188,15 +195,16 @@ information; others can safely ignore it per the in-toto parsing rules.
       "digest": {"sha256": "abc123def456..."}
     }
   ],
-  "predicateType": "https://in-toto.io/attestation/svr/v0.1",
+  "predicateType": "https://in-toto.io/attestation/svr/v0.2",
   "predicate": {
     "verifier": {
       "id": "https://example.com/policy_engine/v1",
-      // Optional extension field specific to this verifier
-      "policy": {
-        "uri": "https://example.com/policies/production-deployment",
-        "digest": {"sha256": "789abc012def..."}
-      }
+      "policies": [
+        {
+          "uri": "https://example.com/policies/production-deployment",
+          "digest": {"sha256": "789abc012def..."}
+        }
+      ]
     },
     "timeCreated": "2024-03-15T14:22:00Z",
     "properties": [
@@ -207,15 +215,18 @@ information; others can safely ignore it per the in-toto parsing rules.
 }
 ```
 
-The `policy` field is an extension on the verifier object that consumers
-familiar with this verifier can use to identify exactly which policy was
-applied, enabling reproducibility or auditing of the verification decision.
-A resource descriptor is recommended when the policy is a file or
-document defined outside of the attestation itself.
+The `policies` field allows consumers to identify exactly which policy artifacts
+were used, enabling reproducibility or auditing of the verification decision.
+When no policy artifact is available, producers must still include
+`"policies": []` to indicate explicit non-representation.
 
 ## Changelog and Migrations
 
+-   0.2: `verifier.policies` is now required.
+        Producers MUST include `verifier.policies`; when no policy artifact is
+        available, it MUST be an empty array (`[]`).
+        This change is not backward-compatible with v0.1 producers that omitted
+        policy details or represented policy via optional extension fields.
 -   0.1: Initial version.
 
 [in-toto Attestation Framework]: ../v1/README.md
-[in-toto extension field conventions]: ../v1/README.md#parsing-rules
