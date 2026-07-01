@@ -74,3 +74,9 @@ the framework. In the meantime, please visit any of the language-specific
 [protobuf definitions]: protos/
 [pull requests]: https://github.com/in-toto/attestation/pulls?q=is%3Aopen+is%3Apr
 [specification]: spec/v1/
+
+## Governance & Licensing
+- [Scope](governance/02-scope.md)
+- [Notices](governance/03-notices.md)
+- [License](governance/04-license.md)
+- [Governance](governance/05-governance.md)
