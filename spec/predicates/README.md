@@ -12,6 +12,9 @@ community! Please see our [New Predicate Guidelines].
 This directory contains predicate specification types that have gone through
 our [vetting process], and may be of general interest:
 
+-   [Adversarial Execution Evidence]: Signed, recomputable evidence from
+    executing an untrusted artifact against an adversarial corpus inside a
+    containment substrate.
 -   [CycloneDX]: CycloneDX BOM for software artifacts.
 <!-- markdownlint-disable-next-line MD059 -->
 -   [Link]: For migration from [in-toto 0.9].
@@ -32,6 +35,7 @@ our [vetting process], and may be of general interest:
 -   [VULNS]: Defines the metadata to share the results of vulnerability scanning
     on software artifacts.
 
+[Adversarial Execution Evidence]: adversarial-execution-evidence.md
 [CycloneDX]: https://cyclonedx.org/
 [Link]: link.md
 [New Predicate Guidelines]: ../../docs/new_predicate_guidelines.md
