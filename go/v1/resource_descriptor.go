@@ -8,6 +8,9 @@ import (
 	"encoding/hex"
 	"errors"
 	"fmt"
+	"slices"
+	"strconv"
+	"strings"
 )
 
 var (
@@ -85,14 +88,43 @@ func (algo HashAlgorithm) String() string {
 	return string(algo)
 }
 
-// Indicates if a given fixed-size hash algorithm is supported by default and returns the algorithm's
-// digest size in bytes, if supported. We assume gitCommit and dirHash are aliases for sha1 and sha256, respectively.
+// digestLengths returns every digest size in bytes that an algorithm accepts.
+//
+// Most algorithms have exactly one. The git object algorithms have two: git
+// names objects with either a SHA-1 or a SHA-256 hash, and digest_set.md
+// accepts both, telling them apart by length.
+func (algo HashAlgorithm) digestLengths() []int {
+	switch algo {
+	case AlgorithmGitBlob, AlgorithmGitCommit, AlgorithmGitTag, AlgorithmGitTree:
+		return []int{20, 32}
+	}
+
+	if size := algo.HexLength(); size > 0 {
+		return []int{size}
+	}
+
+	return nil
+}
+
+// Indicates if a given hash algorithm is supported by default and returns the
+// digest sizes in bytes that it accepts, if supported.
 //
 // SHA digest sizes from https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.202.pdf
 // MD5 digest size from https://www.rfc-editor.org/rfc/rfc1321.html#section-1
-func isSupportedFixedSizeAlgorithm(algString string) (bool, int) {
-	algo := HashAlgorithm(algString)
-	return algo.HexLength() > 0, algo.HexLength()
+func isSupportedAlgorithm(algString string) (bool, []int) {
+	sizes := HashAlgorithm(algString).digestLengths()
+	return len(sizes) > 0, sizes
+}
+
+// formatSizes renders the accepted digest sizes for an error message, e.g.
+// "20" or "20 or 32".
+func formatSizes(sizes []int) string {
+	strs := make([]string, 0, len(sizes))
+	for _, size := range sizes {
+		strs = append(strs, strconv.Itoa(size))
+	}
+
+	return strings.Join(strs, " or ")
 }
 
 func (d *ResourceDescriptor) Validate() error {
@@ -107,7 +139,7 @@ func (d *ResourceDescriptor) Validate() error {
 			// Per https://github.com/in-toto/attestation/blob/main/spec/v1/digest_set.md
 			// check encoding and length for supported algorithms;
 			// use of custom, unsupported algorithms is allowed and does not not generate validation errors.
-			supported, size := isSupportedFixedSizeAlgorithm(alg)
+			supported, sizes := isSupportedAlgorithm(alg)
 			if supported {
 				// the in-toto spec expects a hex-encoded string in DigestSets for supported algorithms
 				hashBytes, err := hex.DecodeString(digest)
@@ -117,8 +149,8 @@ func (d *ResourceDescriptor) Validate() error {
 				}
 
 				// check the length of the digest
-				if len(hashBytes) != size {
-					return fmt.Errorf("%w: got %d bytes, want %d bytes (%s: %s)", ErrIncorrectDigestLength, len(hashBytes), size, alg, digest)
+				if !slices.Contains(sizes, len(hashBytes)) {
+					return fmt.Errorf("%w: got %d bytes, want %s bytes (%s: %s)", ErrIncorrectDigestLength, len(hashBytes), formatSizes(sizes), alg, digest)
 				}
 			}
 		}
