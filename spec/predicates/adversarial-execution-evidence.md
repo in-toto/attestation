@@ -107,6 +107,7 @@ downstream summary predicate such as [VSA], computed over this evidence.
       {
         "attackId": "CO-EXFIL-1",
         "containmentObserved": "egress_captured",
+        "basis": "substrate_observed",
         "actualLayer": "policy.egress_sinkhole",
         "interceptRefs": [0]
       }
@@ -142,7 +143,8 @@ nothing until its signature verifies against a key the consumer trusts.
 One of `pass`, `degraded`, `fail` (lowercase). Defined as a total,
 deterministic, severity-independent function of the predicate: `fail` iff any
 `attackResults` row carries a containment-observed label from the published
-caught set, or an out-of-vocabulary label (fail-closed); otherwise `degraded`
+caught set, an out-of-vocabulary label (fail-closed), or a missing or
+out-of-vocabulary `basis` (fail-closed, same rule); otherwise `degraded`
 iff `coverage.outOfScope` or `coverage.routedElsewhere` is non-empty;
 otherwise `pass`. A `pass` is coverage-bounded-observed: a statement about
 what was assessed, never a general safety claim. There is intentionally no
@@ -178,12 +180,51 @@ one.
 One row per executed attack: `attackId` (must appear in the manifest),
 `containmentObserved` (a label from the producer's published, versioned
 observation vocabulary; consumers treat unknown labels as fail-closed),
-`actualLayer` (which enforcement layer acted), and `interceptRefs` (indexes
+`basis` (required; the observation's vantage, see below), `actualLayer`
+(which enforcement layer acted, see below), and `interceptRefs` (indexes
 into `interceptRecords` binding this attack to its signed interceptions).
 Coverage integrity is checked at attack granularity: the union of attackIds
 for the assessed classes must exactly equal the manifest's. That granularity
 is what stops a failing attack from being quietly omitted inside a class the
 producer still reports as assessed.
+
+`basis` states where each observation came from, with a closed three-value
+vocabulary:
+
+-   `substrate_observed`: the substrate itself observed the event at its own
+    vantage (network boundary, syscall supervision, VM introspection),
+    independent of the executed artifact's cooperation.
+-   `artifact_reported`: the observation derives from output the executed
+    artifact itself produced (its stdout/stderr, exit status, or self-emitted
+    logs).
+-   `inferred`: the observation was derived indirectly from neither of the
+    above, e.g. a post-hoc state diff.
+
+`basis` is REQUIRED on every row and the vocabulary is closed: a missing
+`basis`, or any value outside these three, is fail-closed exactly as an
+out-of-vocabulary `containmentObserved` label is — the row forces `result`
+to `fail` and can support nothing stronger. The rationale is the same as for
+`result` itself: the recompute reads the row, so the row must carry its own
+vantage; `observationEnvironment` pins what the substrate was configured to
+do per run, but basis is a per-observation property, and without it a
+substrate-intercepted `egress_captured` and one transcribed from the
+artifact's own stderr recompute identically. Consumers MUST be able to gate
+on `basis`, and a `fail` supported only by `artifact_reported` rows SHOULD
+be treated as a weaker claim than one carrying a `substrate_observed` row: a
+consumer MAY reject it, since a self-reported observation that lands on
+`fail` through a correct recompute would otherwise read downstream as
+substrate-checked.
+
+`actualLayer` names the enforcement layer that acted on the row's
+containment event. On a row whose `containmentObserved` label is not in the
+producer's published caught set (a clean row: nothing acted), the producer
+MUST emit the literal string `none`. `none` is explicit rather than the
+field being omitted so that "the substrate was positioned and no layer
+needed to act" is distinguishable from an accidental omission; whether
+anything was positioned to see on that clean row is answered by `basis` — a
+clean row carrying `basis: substrate_observed` states the substrate had
+vantage and observed no containment event, which is the claim a `pass`
+actually rests on.
 
 `interceptRecords` _array of objects, optional_
 
