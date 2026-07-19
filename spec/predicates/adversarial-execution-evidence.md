@@ -249,11 +249,11 @@ Explicit negative scope: statements the producer declares this evidence makes
 no claim about (e.g. behavior outside the thrown corpus, host integrity
 beyond the substrate's own attestation). Advisory: a verifier MUST NOT
 require it, and nothing in it weakens the required checks. `doesNotAssert`
-is the single canonical spelling: earlier internal versions used snake_case
-`does_not_assert`, and that spelling is not accepted as an alias, since two
-accepted spellings would mean two canonicalizations for the same content.
-Migrating old producer output to the new name is a producer concern, not
-something the wire format carries.
+is the single canonical spelling: earlier internal versions used a
+snake_case spelling (see the changelog), which is not accepted as an alias,
+since two accepted spellings would mean two canonicalizations for the same
+content. Migrating old producer output to the new name is a producer
+concern, not something the wire format carries.
 
 `issuedAt` _string (RFC 3339 timestamp), required_
 
