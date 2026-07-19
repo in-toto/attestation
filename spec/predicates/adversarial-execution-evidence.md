@@ -216,9 +216,9 @@ consumer MAY reject it, since a self-reported observation that lands on
 substrate-checked.
 
 `actualLayer` names the enforcement layer that acted on the row's
-containment event. On a row whose `containmentObserved` label is not in the
-producer's published caught set (a clean row: nothing acted), the producer
-MUST emit the literal string `none`. `none` is explicit rather than the
+containment event. On a row whose `containmentObserved` label is from the
+published vocabulary but not in the caught set (a clean row: nothing acted),
+the producer MUST emit the literal string `none`. `none` is explicit rather than the
 field being omitted so that "the substrate was positioned and no layer
 needed to act" is distinguishable from an accidental omission; whether
 anything was positioned to see on that clean row is answered by `basis` — a
