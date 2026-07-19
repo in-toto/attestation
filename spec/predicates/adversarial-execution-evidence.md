@@ -1,8 +1,8 @@
 # Predicate type: Adversarial Execution Evidence
 
-Type URI: https://in-toto.io/attestation/adversarial-execution-evidence/v0.3
+Type URI: https://in-toto.io/attestation/adversarial-execution-evidence/v0.4
 
-Version: 0.3.0
+Version: 0.4.0
 
 Predicate Name: Adversarial Execution Evidence
 
@@ -84,7 +84,7 @@ downstream summary predicate such as [VSA], computed over this evidence.
   "subject": [
     { "name": "<executed-artifact-name>", "digest": { "sha256": "<64-hex>" } }
   ],
-  "predicateType": "https://in-toto.io/attestation/adversarial-execution-evidence/v0.3",
+  "predicateType": "https://in-toto.io/attestation/adversarial-execution-evidence/v0.4",
   "predicate": {
     "result": "fail",
     "observationEnvironment": {
@@ -120,7 +120,7 @@ downstream summary predicate such as [VSA], computed over this evidence.
       }
     ],
     "batchRoot": "<64-hex-merkle-root-over-intercept-records>",
-    "does_not_assert": [ "<explicit negative-scope statements>" ],
+    "doesNotAssert": [ "<explicit negative-scope statements>" ],
     "issuedAt": "2026-06-23T16:08:07Z"
   }
 }
@@ -243,14 +243,17 @@ publishable instead of turning it into a sensitive-data store.
 level. Binds the record SET: dropping or reordering a record changes the
 root. Omitted on a clean run with no interceptions.
 
-`does_not_assert` _array of strings, optional_
+`doesNotAssert` _array of strings, optional_
 
 Explicit negative scope: statements the producer declares this evidence makes
 no claim about (e.g. behavior outside the thrown corpus, host integrity
 beyond the substrate's own attestation). Advisory: a verifier MUST NOT
-require it, and nothing in it weakens the required checks. (Field name
-retained snake_case from the deployed wire format; flagging the
-lowerCamelCase convention mismatch for review.)
+require it, and nothing in it weakens the required checks. `doesNotAssert`
+is the single canonical spelling: earlier internal versions used snake_case
+`does_not_assert`, and that spelling is not accepted as an alias, since two
+accepted spellings would mean two canonicalizations for the same content.
+Migrating old producer output to the new name is a producer concern, not
+something the wire format carries.
 
 `issuedAt` _string (RFC 3339 timestamp), required_
 
@@ -265,11 +268,23 @@ placeholders.
 
 ## Changelog and Migrations
 
-Versions 0.1–0.2 were internal producer iterations; 0.3 is the first shape
+Versions 0.1–0.2 were internal producer iterations; 0.3 was the first shape
 proposed for vetting. Relative to those internal versions, 0.3 removed all
 verdict/policy semantics (moved downstream), moved intercepted-payload bytes
 out in favor of commitments, moved `batchRoot` from per-record to
 predicate-level, and adopted the I-JSON safe-integer profile on every rail.
+
+0.4 incorporates review feedback on 0.3:
+
+-   Added the required per-row `basis` field on `attackResults` (closed
+    vocabulary `substrate_observed` / `artifact_reported` / `inferred`,
+    fail-closed on unknown values), so each observation carries its own
+    vantage and consumers can gate on it.
+-   Pinned `actualLayer` clean-run behavior: rows with no containment event
+    carry the literal `none` rather than omitting the field.
+-   Renamed `does_not_assert` to `doesNotAssert` to match the lowerCamelCase
+    convention. The rename is in place with no alias: the old spelling is
+    rejected, keeping a single canonicalization per content.
 
 [Runtime Traces]: runtime-trace.md
 [SCAI]: scai.md
