@@ -71,7 +71,7 @@ runtime trace information.
                     "hostname": "<STRING>",
                     "port": /* integer */,
                     "protocol": "<STRING>",
-                    "process": { /* object */ }
+                    "invokingProcess": { /* object */ }
                 }
             ],
             "fileAccess": ["<ResourceDescriptor>", ...]
