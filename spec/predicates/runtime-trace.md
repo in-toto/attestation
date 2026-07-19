@@ -187,7 +187,7 @@ Port number of the remote endpoint, between 1 and 65535.
 Transport protocol, lowercase. Ex: `tcp`, `udp`. If `port` is present,
 `protocol` SHOULD also be present.
 
-`monitorLog.network[*].process` _object_, _optional_
+`monitorLog.network[*].invokingProcess` _object_, _optional_
 
 The process that generated the network activity. The exact format of this
 field is dependent on the monitor, and can be determined using `monitor.type`.
