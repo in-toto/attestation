@@ -1,11 +1,11 @@
 # Predicate type: Runtime Trace
 
-Type URI: https://in-toto.io/attestation/runtime-trace/v0.1
+Type URI: https://in-toto.io/attestation/runtime-trace/v0.2
 
-Version: 0.1.0
+Version: 0.2.0
 
 Authors: Parth Patel (@pxp928), Shripad Nadgowda (@nadgowdas),
-  Aditya Sirish A Yelgundhalli (@adityasaky)
+  Aditya Sirish A Yelgundhalli (@adityasaky), Hiroki Suezawa (@rung)
 
 ## Purpose
 
@@ -49,7 +49,7 @@ runtime trace information.
 {
     "_type": "https://in-toto.io/Statement/v1",
     "subject": [{ ... }],
-    "predicateType": "https://in-toto.io/attestation/runtime-trace/v0.1",
+    "predicateType": "https://in-toto.io/attestation/runtime-trace/v0.2",
     "predicate": {
         "monitor": {
             "type": "<TypeURI>",
@@ -66,7 +66,13 @@ runtime trace information.
                 { /* object */ }
             ],
             "network": [
-                { /* object */ }
+                {
+                    "ip": "<STRING>",
+                    "hostname": "<STRING>",
+                    "port": /* integer */,
+                    "protocol": "<STRING>",
+                    "invokingProcess": { /* object */ }
+                }
             ],
             "fileAccess": ["<ResourceDescriptor>", ...]
         },
@@ -121,16 +127,26 @@ Identifies the process being monitored.
 
 `monitoredProcess.hostID` _string (URI)_, _required_
 
-URI indicating the process host’s identity.
+URI indicating the process host’s identity. Ex: when monitoring a job on a
+CI/CD platform, this field records the platform’s identity, such as
+`https://github.com`.
 
 `monitoredProcess.type` _string (TypeURI)_, _required_
 
 URI indicating the type of process performed. Ex: when monitoring a build, this
-field records the build type.
+field records the build type. For builds on CI/CD platforms, producers SHOULD
+reuse the platform’s published SLSA `buildType` URI, such as
+`https://slsa-framework.github.io/github-actions-buildtypes/workflow/v1` for
+GitHub Actions.
 
 `monitoredProcess.event` _string_, _required_
 
 String identifying the specific job or task associated with the attestation.
+The value SHOULD uniquely identify the monitored job or task, so that
+consumers can tie the trace back to the exact run and cross-reference it with
+other attestations for the same run, such as build provenance. Ex:
+`https://github.com/<org>/<repo>/actions/runs/<run_id>/attempts/<n>` for a
+GitHub Actions job.
 
 `monitorLog` _object_, _required_
 
@@ -146,10 +162,36 @@ schema.
 
 `monitorLog.network` _list of objects_, _optional_
 
-Record of network activity observed by monitor. The exact format of this field
-is currently dependent on the monitor, and can be determined using
-`monitor.type`. In future, after consulting different monitors, this field may
-have a consistent schema.
+Record of network activity observed by monitor. Entries SHOULD use the
+following fields so that consumers can process network activity consistently
+across monitors. Producers MAY include additional, monitor-specific fields in
+each entry.
+
+`monitorLog.network[*].ip` _string_, _optional_
+
+IP address of the remote endpoint. Both IPv4 and IPv6 addresses use this
+field. The canonical textual form is recommended (for IPv6, [RFC 5952]).
+
+`monitorLog.network[*].hostname` _string_, _optional_
+
+Observed or resolved hostname of the remote endpoint. An entry SHOULD carry at
+least one of `ip` or `hostname`, and MAY carry just one of them when the
+association between the two is unknown.
+
+`monitorLog.network[*].port` _integer_, _optional_
+
+Port number of the remote endpoint, between 1 and 65535.
+
+`monitorLog.network[*].protocol` _string_, _optional_
+
+Transport protocol, lowercase. Ex: `tcp`, `udp`. If `port` is present,
+`protocol` SHOULD also be present.
+
+`monitorLog.network[*].invokingProcess` _object_, _optional_
+
+The process that generated the network activity. The exact format of this
+field is dependent on the monitor, and can be determined using `monitor.type`.
+Ex: `{ "pid": 1234, "comm": "curl" }`.
 
 `monitorLog.fileAccess` _list of ResourceDescriptor objects_, _optional_
 
@@ -186,7 +228,7 @@ Other properties of the monitoring event.
 ```json
 {
   "_type": "https://in-toto.io/Statement/v1",
-  "predicateType": "https://in-toto.io/attestation/runtime-trace/v0.1",
+  "predicateType": "https://in-toto.io/attestation/runtime-trace/v0.2",
   "subject": [
     {
       "name": "ttl.sh/testin123",
@@ -262,6 +304,19 @@ Other properties of the monitoring event.
           ],
           "privileged": null
         }
+      ],
+      "network": [
+        {
+          "ip": "140.82.112.3",
+          "hostname": "github.com",
+          "port": 443,
+          "protocol": "tcp"
+        },
+        {
+          "ip": "8.8.8.8",
+          "port": 53,
+          "protocol": "udp"
+        }
       ]
     },
     "metadata": {
@@ -271,3 +326,18 @@ Other properties of the monitoring event.
   }
 }
 ```
+
+## Changelog and Migrations
+
+### v0.2
+
+-   Defined a recommended entry shape for `monitorLog.network` entries;
+    the format was previously monitor-dependent, so producers SHOULD
+    migrate to the recommended field names.
+-   Clarified how `monitoredProcess` identifies CI/CD jobs.
+
+### v0.1
+
+Initial version.
+
+[RFC 5952]: https://www.rfc-editor.org/rfc/rfc5952
