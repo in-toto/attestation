@@ -296,7 +296,7 @@ the embedded `manifest`, and the `manifest` itself: a map from assessment
 class to the complete array of attack identifiers it defines; an attackId
 MUST NOT appear under more than one class), `catchPolicy` (JCS digest of the
 parsed catch-policy document, so an empty or permissive policy is
-distinguishable from an enforcing one), and `networkPosture` (the
+distinguishable from an enforcing one), `networkPosture` (the
 substrate-authoritative egress posture, e.g. `no_network`, `allowlist`,
 `sinkhole`, with its configuration digest), and `observationVocabulary` (the
 producer's versioned observation label set carried in the attestation:
@@ -468,11 +468,10 @@ the run this attestation carries, never about a run population — nothing
 in this predicate proves that other runs of the same configuration did not
 occur or were not withheld, and run-population completeness (for example
 via a run ledger or monotonic counter) is a consumer or policy concern. An
-`unattested` substrate clean row reads as self-reported absence, with the
-`artifact` clean rows; a `pass` resting on any `reconstructed` clean row
-SHOULD be read as tolerating transients between the observed states; a
-`pass` resting on any `artifact` clean row is self-reported absence, the
-weakest. The
+`pass` resting on any `reconstructed` clean row SHOULD be read as
+tolerating transients between the observed states; a `pass` resting on any
+`artifact` clean row, or on an `unattested` substrate clean row, is
+self-reported absence, the weakest. The
 clean-row ordering applies equally to the clean rows of a `degraded`
 result's assessed classes, with `degraded` additionally bounded by its
 disclosed coverage gap. A consumer MAY reject, never downgrade: an
