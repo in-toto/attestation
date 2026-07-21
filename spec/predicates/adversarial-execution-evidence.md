@@ -1,8 +1,8 @@
 # Predicate type: Adversarial Execution Evidence
 
-Type URI: https://in-toto.io/attestation/adversarial-execution-evidence/v0.4
+Type URI: https://in-toto.io/attestation/adversarial-execution-evidence/v0.5
 
-Version: 0.4.0
+Version: 0.5.0
 
 Predicate Name: Adversarial Execution Evidence
 
@@ -84,7 +84,7 @@ downstream summary predicate such as [VSA], computed over this evidence.
   "subject": [
     { "name": "<executed-artifact-name>", "digest": { "sha256": "<64-hex>" } }
   ],
-  "predicateType": "https://in-toto.io/attestation/adversarial-execution-evidence/v0.4",
+  "predicateType": "https://in-toto.io/attestation/adversarial-execution-evidence/v0.5",
   "predicate": {
     "result": "fail",
     "observationEnvironment": {
@@ -107,7 +107,8 @@ downstream summary predicate such as [VSA], computed over this evidence.
       {
         "attackId": "CO-EXFIL-1",
         "containmentObserved": "egress_captured",
-        "basis": "substrate_observed",
+        "basis": "substrate",
+        "method": "intercepted",
         "actualLayer": "policy.egress_sinkhole",
         "interceptRefs": [0]
       }
@@ -136,6 +137,12 @@ not reproduce makes the attestation invalid. Intercept record `payload`s
 follow the same verify-then-read discipline: the fields inside a payload mean
 nothing until its signature verifies against a key the consumer trusts.
 
+A design invariant follows from the recompute: any per-observation property
+that the recompute or the documented consumer gating reads travels on the
+row itself, as a required member with a closed vocabulary, fail-closed on
+missing or unknown values. Run-level pins in `observationEnvironment` never
+substitute for a row-level property, because the recompute reads rows.
+
 ### Fields
 
 `result` _string, required_
@@ -144,7 +151,7 @@ One of `pass`, `degraded`, `fail` (lowercase). Defined as a total,
 deterministic, severity-independent function of the predicate: `fail` iff any
 `attackResults` row carries a containment-observed label from the published
 caught set, an out-of-vocabulary label (fail-closed), or a missing or
-out-of-vocabulary `basis` (fail-closed, same rule); otherwise `degraded`
+out-of-vocabulary `basis` or `method` (fail-closed, same rule); otherwise `degraded`
 iff `coverage.outOfScope` or `coverage.routedElsewhere` is non-empty;
 otherwise `pass`. A `pass` is coverage-bounded-observed: a statement about
 what was assessed, never a general safety claim. There is intentionally no
@@ -180,51 +187,152 @@ one.
 One row per executed attack: `attackId` (must appear in the manifest),
 `containmentObserved` (a label from the producer's published, versioned
 observation vocabulary; consumers treat unknown labels as fail-closed),
-`basis` (required; the observation's vantage, see below), `actualLayer`
-(which enforcement layer acted, see below), and `interceptRefs` (indexes
-into `interceptRecords` binding this attack to its signed interceptions).
+`basis` (required; the observation's vantage, see below), `method`
+(required; the observation's directness, see below), `actualLayer`
+(required; which enforcement layer acted, see below), and `interceptRefs`
+(indexes into `interceptRecords` binding this attack to its signed
+interceptions).
 Coverage integrity is checked at attack granularity: the union of attackIds
 for the assessed classes must exactly equal the manifest's. That granularity
 is what stops a failing attack from being quietly omitted inside a class the
 producer still reports as assessed.
 
-`basis` states where each observation came from, with a closed three-value
+`basis` states each observation's vantage, with a closed two-value
 vocabulary:
 
--   `substrate_observed`: the substrate itself observed the event at its own
-    vantage (network boundary, syscall supervision, VM introspection),
-    independent of the executed artifact's cooperation.
--   `artifact_reported`: the observation derives from output the executed
-    artifact itself produced (its stdout/stderr, exit status, or self-emitted
-    logs).
--   `inferred`: the observation was derived indirectly from neither of the
-    above, e.g. a post-hoc state diff.
+-   `substrate`: every input the row's claim depends on was obtained at a
+    vantage the executed artifact could neither forge nor suppress (a
+    network boundary, syscall supervision, a hypervisor's read of guest
+    state). This names a class of vantage, cooperation-independence, not
+    the identity of the enforcing substrate: a passive tap, an inline gate,
+    and an adversarial corpus endpoint logging the connection it received
+    all sit at this basis and differ only in enforcement role, which is
+    `actualLayer`'s question.
+-   `artifact`: at least one input the claim depends on derives from output
+    the executed artifact itself produced (its stdout/stderr, exit status,
+    or self-emitted logs).
 
-`basis` is REQUIRED on every row and the vocabulary is closed: a missing
-`basis`, or any value outside these three, is fail-closed exactly as an
-out-of-vocabulary `containmentObserved` label is — the row forces `result`
-to `fail` and can support nothing stronger. The rationale is the same as for
-`result` itself: the recompute reads the row, so the row must carry its own
-vantage; `observationEnvironment` pins what the substrate was configured to
-do per run, but basis is a per-observation property, and without it a
-substrate-intercepted `egress_captured` and one transcribed from the
-artifact's own stderr recompute identically. Consumers MUST be able to gate
-on `basis`, and a `fail` supported only by `artifact_reported` rows SHOULD
-be treated as a weaker claim than one carrying a `substrate_observed` row: a
-consumer MAY reject it, since a self-reported observation that lands on
-`fail` through a correct recompute would otherwise read downstream as
-substrate-checked.
+An input is artifact-sourced when the claim relies on it as a channel
+whose content the artifact can populate arbitrarily without performing
+the claimed containment event: testimony about an event rather than the
+event itself. An egress capture is not artifact-sourced even though the
+packet bytes were artifact-authored, because the artifact cannot cause
+the boundary to record an egress without performing one; its stdout is
+artifact-sourced because the artifact can write anything there at no
+cost.
+
+`basis` is the vantage of the claim's weakest input. A derived observation
+inherits `artifact` from any artifact-sourced input it consumed: a state
+diff computed by substrate machinery over the artifact's own logs is
+`artifact`, however trusted the machinery, because the artifact could have
+populated what the machinery read without performing any containment
+event.
+
+`method` states how the row's claim was established, with a closed
+two-value vocabulary:
+
+-   `intercepted`: the claim rests on events captured as they occurred. On
+    a clean row, a live capture vantage was armed for the attack and no
+    capture was attributed to it.
+-   `reconstructed`: the claim derives from state examined after the fact,
+    e.g. a snapshot-to-snapshot diff. A reconstruction can miss a transient
+    raised and undone between the states it compares; on a clean row that
+    tolerance is part of the claim.
+
+Like `basis`, `method` composes by weakest input: a claim inherits
+`reconstructed` from any state-derived input it depends on. Post-hoc
+decode of an event stream captured as it occurred (a packet capture
+parsed later, a hardware trace decoded after the run) does not demote a
+row, provided the capture channel was armed for the claimed event class
+before the event; a row that fuses a live capture with after-the-fact
+state examination is `reconstructed`.
+
+`method` describes how the observation was made, not how the row was
+attributed to its attack: attribution strength (a hash-pinned payload
+versus a time-window pairing) stays in the producer's
+`containmentObserved` vocabulary, and so does attribution tolerance on
+clean rows, including window bleed between same-layer siblings.
+
+Both fields are REQUIRED on every row and both vocabularies are closed: a
+missing value, or any value outside them, is fail-closed exactly as an
+out-of-vocabulary `containmentObserved` label is — the row forces
+`result` to `fail` and can support nothing stronger. The 0.4 values
+`substrate_observed`, `artifact_reported`, and `inferred` are
+out-of-vocabulary in 0.5, with no alias, for the same
+single-canonicalization reason the old `does_not_assert` spelling is
+rejected. `inferred` has no successor value because it conflated the two
+axes: a hypervisor snapshot diff and a diff parsed from the artifact's own
+logs were both "derived indirectly" while carrying opposite vantages.
+Under 0.5 the first is (`substrate`, `reconstructed`), the second is
+(`artifact`, `reconstructed`), and no row can read as more independent
+than its weakest input.
+
+The two axes bind a consumer's confidence on opposite sides. A `fail`'s
+supporting rows are the rows that force `result` to `fail`: rows whose
+`containmentObserved` label is in the published caught set, plus rows
+fail-closed on a missing or out-of-vocabulary member. `basis` bounds a
+`fail` over that supporting set: it answers whether the artifact could
+have manufactured the observation. A `fail` whose supporting rows are all
+`artifact` SHOULD be treated as a weaker claim than one whose supporting
+set carries a `substrate` row, and a consumer MAY reject it; a `fail`
+from a (`substrate`, `reconstructed`) row is still an observation the
+artifact could not manufacture without performing a containment-relevant
+event, weaker than an interception only in that it was derived after the
+fact. A row fail-closed on `basis` or `method` sits at the bottom of both
+orderings: its vantage is unknown, so it can strengthen nothing. `method`
+bounds a `pass`: it answers whether a real event could have slipped past
+the observation. A `pass` whose clean rows are all (`substrate`,
+`intercepted`) makes the strongest absence claim this predicate can
+carry; a `pass` resting on any `reconstructed` clean row SHOULD be read
+as tolerating transients between the observed states; a `pass` resting on
+any `artifact` clean row is self-reported absence, the weakest. The
+clean-row ordering applies equally to the clean rows of a `degraded`
+result's assessed classes, with `degraded` additionally bounded by its
+disclosed coverage gap. Both orderings are consumer guidance; the
+predicate still carries no verdict.
+
+A caught row carrying `method: intercepted` SHOULD reference its
+interception through `interceptRefs`, and a consumer MAY reject, never
+downgrade, an attestation whose intercepted caught rows reference no
+verifiable intercept record, as incoherent with this predicate's model
+that each interception travels as an independently signed record. A clean
+row's `intercepted` has no record by definition: an armed vantage that
+captured nothing produces nothing to sign.
+
+`basis` and `method` are producer claims, not cryptographically bound;
+they defend against honest mislabeling and make the claim explicit,
+uniform, and auditable. A substrate operator who signs false evidence is
+outside this predicate's threat model, as for every self-asserted field:
+that operator holds the signing key (see Model). Consumers MAY
+coherence-check both fields against the pinned `observationEnvironment`:
+a `substrate` row claiming a network-boundary observation under a
+`networkPosture` that provides no interception path at that boundary is
+incoherent, and a consumer MAY reject the attestation on that ground.
 
 `actualLayer` names the enforcement layer that acted on the row's
-containment event. On a row whose `containmentObserved` label is from the
-published vocabulary but not in the caught set (a clean row: nothing acted),
-the producer MUST emit the literal string `none`. `none` is explicit rather than the
-field being omitted so that "the substrate was positioned and no layer
-needed to act" is distinguishable from an accidental omission; whether
-anything was positioned to see on that clean row is answered by `basis` — a
-clean row carrying `basis: substrate_observed` states the substrate had
-vantage and observed no containment event, which is the claim a `pass`
-actually rests on.
+containment event. It is required on every row; a row missing the member
+is malformed under the framework's standard parsing rules and the
+attestation is invalid, rather than the row forcing `fail`. That altitude
+is deliberate and follows from the design invariant under Parsing Rules:
+fail-closed-row semantics are reserved for members the recompute or the
+documented consumer gating reads (`containmentObserved`, `basis`,
+`method`); `actualLayer` is read by neither, so its absence is a
+malformed statement, not weak evidence. On a row whose
+`containmentObserved` label is from the published vocabulary but not in
+the caught set (a clean row: nothing acted), the producer MUST emit the
+literal string `none`. `none` is explicit rather than the field being
+omitted so that "no layer needed to act" is distinguishable from an
+accidental omission. `none` is also valid on a caught row, and there
+states that the containment event was observed but no enforcement layer
+acted: the observing vantage was positioned to see, not to act (a passive
+tap, a monitor-only deployment). This is deliberate: enforcement role
+travels here and only here, so `basis` never has to encode who could act.
+Whether anything was positioned to see is answered by `basis` and
+`method`: a clean row carrying (`basis: substrate`, `method:
+intercepted`) states a live substrate vantage was armed and no capture
+was attributed, which is the strongest claim a `pass` can rest on; a
+`reconstructed` clean row makes the bounded version of that claim
+described under `method`.
 
 `interceptRecords` _array of objects, optional_
 
@@ -285,6 +393,31 @@ predicate-level, and adopted the I-JSON safe-integer profile on every rail.
 -   Renamed `does_not_assert` to `doesNotAssert` to match the lowerCamelCase
     convention. The rename is in place with no alias: the old spelling is
     rejected, keeping a single canonicalization per content.
+
+0.5 incorporates review feedback on 0.4:
+
+-   Split the per-row `basis` field into two orthogonal required fields:
+    `basis` (closed vocabulary `substrate` / `artifact`) now names only the
+    observation's vantage, defined by its weakest input with a stated
+    artifact-sourcing criterion, and the new `method` (closed vocabulary
+    `intercepted` / `reconstructed`) names its directness, with the same
+    weakest-input composition rule. The 0.4 values `substrate_observed`,
+    `artifact_reported`, and `inferred` are rejected, not aliased, under
+    the same single-canonicalization rule as the `does_not_assert` rename;
+    `inferred` has no successor because it conflated the two axes.
+-   Made `actualLayer` required on every row (missing member: malformed
+    statement, deliberately a different altitude than the fail-closed row
+    members, per the stated design invariant) and extended its literal
+    `none` to caught rows, where it states observed-but-not-enforced, so
+    enforcement role never leaks into `basis`.
+-   Added consumer strength orderings on both sides with a defined
+    supporting set (`basis` bounds a `fail`, `method` bounds a `pass`,
+    fail-closed rows at the lattice bottom, clean-row ordering extended to
+    `degraded`), a coherence check of row claims against the pinned
+    `observationEnvironment`, and a row-internal check that intercepted
+    caught rows reference verifiable intercept records — all consumer-side.
+-   Stated the row-travel design invariant under Parsing Rules and the
+    producer-claim trust boundary for `basis`/`method`.
 
 [Runtime Traces]: runtime-trace.md
 [SCAI]: scai.md
