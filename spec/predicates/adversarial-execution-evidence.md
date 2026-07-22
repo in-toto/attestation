@@ -35,7 +35,7 @@ committed batch root.
 
 -   An admission controller (e.g. a Kubernetes policy engine) gating a
     third-party MCP server or agent tool image on evidence that it was
-    detonated against a named attack corpus under an enforcing catch policy,
+    executed against a named attack corpus under an enforcing catch policy,
     with the policy digest and network posture pinned in the evidence.
 -   An auditor re-verifying, offline and without trusting the producer's
     infrastructure, that a specific interception happened: the signed
