@@ -671,7 +671,11 @@ additionally leaks the producer's total run volume across its customers).
 Within one attestation these members are syntax-checked in the
 reserved-member walk and nothing else normative reads them: the coverage
 validity requirements, the `result` recompute, and the evidence tier are
-unchanged. Their value is across attestations, as consumer policy over
+unchanged. A violation of the syntax rules — a non-positive or non-integer
+`aeeRunSeq`, a malformed `aeePrevRunBinding`, a missing `aeeChainScope`
+when the sequence is present, or any of the three present without
+`aeeRunSeq` — is handled as any reserved-member violation: the record
+covers nothing. Their value is across attestations, as consumer policy over
 whatever set a producer publishes: a skipped sequence number is a gap; two
 attestations carrying the same `aeeRunSeq` under one key and scope are a
 fork; two carrying the same `aeePrevRunBinding` share a predecessor; and
