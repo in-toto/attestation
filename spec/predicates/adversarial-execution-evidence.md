@@ -502,7 +502,13 @@ claim that this row's specific channel was armed; and it is a claim about
 the run this attestation carries, never about a run population — nothing
 in this predicate proves that other runs of the same configuration did not
 occur or were not withheld, and run-population completeness (for example
-via a run ledger or monotonic counter) is a consumer or policy concern. An
+via a run ledger or monotonic counter) is a consumer or policy concern.
+The optional run-sequence members defined under `observationRecords` move
+cherry-picking from invisible to gap-evident across whatever set a
+producer does publish — a gap, a duplicated sequence number, a shared
+predecessor, or a duplicated genesis is detectable by any consumer holding
+both attestations — without changing this non-claim; their definition
+states the ordering-only scope and the registration-receipt completion. An
 `pass` resting on any `reconstructed` clean row SHOULD be read as
 tolerating transients between the observed states; a `pass` resting on any
 `artifact` clean row, or on an `unattested` substrate clean row, is
@@ -643,7 +649,41 @@ A `sealed` record covers no clean row unless its `aeeStillArmed` is
 declared in the same signed payload, and its `aeePostureDigest` equals
 both the arming record's and the pinned `networkPosture` digest — each a
 check on signed carried bytes, so failing it is a coverage validity
-failure, never a silent pass. These members are deliberately semantic
+failure, never a silent pass.
+
+An `arming` record's payload MAY additionally carry three reserved members
+that chain runs under the same substrate key: `aeeRunSeq` (a positive
+safe-range integer), `aeePrevRunBinding` (the lowercase 64-hex run binding
+digest of the predecessor run, absent exactly when `aeeRunSeq` is `1`),
+and `aeeChainScope` (a producer-declared string naming the population the
+sequence counts; REQUIRED whenever `aeeRunSeq` is present, RECOMMENDED at
+minimum the pair of substrate key and subject — an unscoped counter makes
+every chain rule below vacuous, and a single global per-key counter
+additionally leaks the producer's total run volume across its customers).
+Within one attestation these members are syntax-checked in the
+reserved-member walk and nothing else normative reads them: the coverage
+validity requirements, the `result` recompute, and the evidence tier are
+unchanged. Their value is across attestations, as consumer policy over
+whatever set a producer publishes: a skipped sequence number is a gap; two
+attestations carrying the same `aeeRunSeq` under one key and scope are a
+fork; two carrying the same `aeePrevRunBinding` share a predecessor; and
+two genesis records (absent `aeePrevRunBinding`) under one key and scope
+are equivocation of the same grade as a shared predecessor — a chain
+reset is not a fresh start. The members claim ordering under the substrate
+key, nothing more: nothing on the wire anchors when an arming record was
+signed relative to the run's outcome, so commit-before-outcome holds only
+in combination with the publicly datable run-entropy floor under
+Prerequisites or an external registration receipt. A numeric gap is
+unexplained absence — crashed, private, and discarded runs all produce
+gaps innocently — never fraud evidence in itself; what the members buy is
+demand-disclosure: a consumer policy MAY require a contiguous, fork-free
+chain over the runs offered to it, and fork consistency is the ceiling of
+what any self-contained attestation set can establish. The external
+completion is a registration receipt — committing each arming record to
+an append-only transparency log at run start (for example SCITT, RFC
+9943, with COSE receipts, RFC 9942) upgrades gap-evidence to
+third-party-auditable non-omission — and that machinery is deliberately
+outside this predicate. These members are deliberately semantic
 (armed, stayed armed, nothing dropped, posture unchanged) rather than
 mechanism-specific: how a substrate establishes them (a checkpoint chain,
 a sequence counter, a hardware watchdog) stays producer territory. A
@@ -651,7 +691,9 @@ record whose `aeeKind` the consumer does not recognize covers nothing and
 is otherwise ignored, while still contributing its leaf to `batchRoot`;
 minor versions MAY add kinds and MUST NOT change the covering semantics of
 an existing kind — an unrecognized kind can only weaken, never
-strengthen, a row. The `aee` member prefix is reserved for future versions
+strengthen, a row (candidate future kinds, informatively: a hardware-quote
+kind binding the vantage to a measured platform, and a `registration` kind
+carrying a transparency-service receipt over the arming record). The `aee` member prefix is reserved for future versions
 (`aeeVersion` is reserved for a payload contract version); everything else
 in the payload stays producer territory.
 
