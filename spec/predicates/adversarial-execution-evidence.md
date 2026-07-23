@@ -635,7 +635,26 @@ minor versions MAY add kinds and MUST NOT change the covering semantics of
 an existing kind — an unrecognized kind can only weaken, never
 strengthen, a row. The `aee` member prefix is reserved for future versions
 (`aeeVersion` is reserved for a payload contract version); everything else
-in the payload stays producer territory. No record is required to name its
+in the payload stays producer territory.
+
+*Precedent (informative).* Reserved members inside a producer-defined
+signed payload follow an established lineage rather than a novel
+mechanism: an RFC 7519 JWT claims set is a producer-defined object from
+which verifiers read registered claim names (`exp`, `aud`, `iss`), with
+collision resistance by registration and prefixing; EAT (RFC 9711) applies
+the same registered-claims pattern inside an attestation token, in the
+RATS family; OCI image annotations reserve the `org.opencontainers.*`
+prefix inside an otherwise free-form map; and the `+json` requirement is
+RFC 6839 Section 3.1's structured-syntax license to parse a media type not
+otherwise known. None of the cited standards' semantics apply here by
+reference; the citations locate the pattern, not the rules. Two deliberate
+departures from that lineage: where RFC 7519 tells consumers to ignore
+unrecognized claims, this predicate is fail-closed — a colliding or
+unrecognized `aee*` member can only weaken coverage (the record covers
+nothing), never create it — and the verify-then-read discipline is
+normative here (a payload's fields mean nothing until its signature
+verifies), which closes the parse-before-verify class of deployment
+mistake the JWT lineage is known for. No record is required to name its
 attack — substrates sign at observation time, before attribution, and
 attribution strength deliberately remains producer vocabulary. What an
 `interception` record carries is a commitment to an intercepted payload
