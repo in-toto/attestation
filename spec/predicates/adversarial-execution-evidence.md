@@ -69,6 +69,21 @@ enforce the RFC 7493 (I-JSON) safe-integer profile on canonicalized content:
 integers with magnitude at or above 2^53 MUST be rejected, so every rail
 (producer and verifier, in any language) derives identical bytes.
 
+The identical-bytes requirement has a string half. On every signed canonical
+surface — object member names in covering record payloads and the
+`observationVocabulary.labels`/`caught` arrays — strings MUST be BMP-only:
+no code point above U+FFFF, no surrogate pair. RFC 8785 sorts object members
+by UTF-16 code unit; a verifier that instead compares Unicode code points
+orders a supplementary-plane name differently from one in U+E000 through
+U+FFFF, so two otherwise-conforming verifiers could disagree on whether
+identical bytes are canonical — which under the coverage validity gate is
+attestation-valid versus attestation-invalid on the same bytes. Restricting
+the sorted strings to the BMP makes UTF-16 code-unit order and code-point
+order coincide, so that divergence is unconstructible. A verifier MUST treat
+a violation exactly as it treats non-canonical bytes: a supplementary-plane
+member name makes the covering payload cover nothing, and a
+supplementary-plane vocabulary entry makes the statement malformed.
+
 **Run binding.** For any statement carrying at least one `basis: substrate`
 row, the run binding digest is the lowercase 64-hex SHA-256 of the RFC 8785
 canonicalization of the object `{"aeeBindingVersion": "1", "catchPolicy":
@@ -302,9 +317,11 @@ substrate-authoritative egress posture, e.g. `no_network`, `allowlist`,
 producer's versioned observation label set carried in the attestation:
 `labels`, the complete array of `containmentObserved` values the producer can
 emit, and `caught`, the subset whose observation constitutes a caught
-containment event; both arrays sorted ascending with no duplicates, `caught` a
-subset of `labels`, and `digest` the JCS digest of the object `{"caught":
-[...], "labels": [...]}` — a statement violating any of these is malformed).
+containment event; both arrays sorted ascending by UTF-16 code unit (RFC 8785
+Section 3.2.3) with no duplicates and every entry BMP-only (see
+Prerequisites), `caught` a subset of `labels`, and `digest` the JCS digest of
+the object `{"caught": [...], "labels": [...]}` — a statement violating any
+of these is malformed).
 The recompute and the coverage validity requirements read only this carried
 set; the producer's published documentation is commentary on the same
 vocabulary, never a normative input, so archived attestations remain
@@ -575,7 +592,8 @@ and `signatures`. A consumer verifies each record's signature — DSSE PAE
 over `(payloadType, payload)` — before reading any field inside the
 payload. Any record used to cover a `basis: substrate` row MUST carry a
 JSON object payload that is canonical per RFC 8785 and valid I-JSON per
-RFC 7493 (no duplicate members, integers within the safe range), whose
+RFC 7493 (no duplicate members, integers within the safe range, member
+names BMP-only per Prerequisites), whose
 media type ends in `+json`, and which carries these reserved members as
 top-level fields; a record whose payload is not so parseable, or whose
 media type is not `+json`, covers nothing:
