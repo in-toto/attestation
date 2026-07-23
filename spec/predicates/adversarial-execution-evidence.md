@@ -370,14 +370,17 @@ below), `method` (required; the observation's directness, see below),
 `observationRefs`
 (indexes into `observationRecords` binding this row to the observation
 records that cover it). An `interception` index MAY be referenced by more
-than one row when the record's committed payload genuinely evidences each
-referenced attack. A row MAY carry `observationSelectors`, an array of
+than one row. A producer MUST NOT reference a record from a row whose
+attack the record's committed payload does not evidence; that is a
+producer obligation outside every gate — no validity requirement,
+recompute input, or tier evaluation reads it, so a conforming verifier
+neither can nor may invent an evidencing heuristic for shared references.
+A row MAY carry `observationSelectors`, an array of
 producer-defined string tokens positionally parallel to `observationRefs`,
 each naming the sub-observation within the referenced record's committed
-payload that this row rests on; token content is producer vocabulary and
-nothing normative reads it. Where no selector is carried, a shared
-`interception` index covers each referencing row only where its committed
-payload evidences each referenced attack. `arming`, `sealed`, and
+payload that this row rests on; token content is producer vocabulary,
+nothing normative reads it, and selector presence or absence changes no
+gate outcome. `arming`, `sealed`, and
 `examination` indexes MAY likewise be shared: one run-level record covers
 every row earned under it. The single normative reading of this value is its
 membership in the carried caught set; see `method` for the
@@ -809,6 +812,14 @@ tolerance travels on the `method` axis, so an admission rule that needs a
 live observation keys on `method: intercepted` as well as the tier.
 
 ## Changelog and Migrations
+
+A versioning discipline this predicate commits to: a member is born exactly
+when a normative reader consumes it. In particular, if a future version
+makes the shared-reference evidencing obligation checkable (for example by
+committing per-attack expected artifacts in the corpus manifest),
+attribution strength acquires a normative reader at that version and
+becomes a required member then — never retroactively, and never by a
+verifier-invented heuristic in the meantime.
 
 Versions 0.1–0.2 were internal producer iterations; 0.3 was the first shape
 proposed for vetting. Relative to those internal versions, 0.3 removed all
