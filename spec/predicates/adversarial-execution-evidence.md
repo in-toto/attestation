@@ -226,13 +226,18 @@ record payloads but not signatures or consumer policy) and the evidence tier
 recompute: the validity gate can invalidate an attestation, and the tier ranks
 a row, but neither alters `result`.
 
-A verifier typically proceeds (informative; only the consumption
-preconditions stated under Coverage validity and the evidence tier are
-normative): envelope signature; statement well-formedness and, for
-substrate-carrying statements, run-binding derivability; the coverage
-validity requirements; the `result` recompute; manifest and vocabulary
-digest integrity; the per-row evidence tier; the strength orderings;
-consumer policy.
+A verifier proceeds in two stages. Stage one is byte-pure — four validity
+steps, each a function of the carried statement alone, and all four are
+consumption preconditions: (1) statement well-formedness, including the
+vocabulary rules and, for substrate-carrying statements, run-binding
+derivability; (2) the coverage validity requirements; (3) the `result`
+recompute; (4) manifest and vocabulary digest integrity. Stage two is
+trust-relative: the envelope signature and the per-row evidence tier
+against consumer key policy, then the strength orderings and the rest of
+consumer policy, including the anchor comparison under Consumer policy
+obligations. Only the consumption preconditions stated under Coverage
+validity and the evidence tier are normative in this ordering; the
+sequencing itself is informative.
 
 A design invariant follows from the recompute: any per-observation property
 that the recompute or the documented consumer gating reads travels on the
@@ -770,6 +775,26 @@ re-derivable from the embedded manifest (`{"classes":{"CO":["CO-EXFIL-1"]}}`
 canonicalized under RFC 8785 and hashed); the remaining digests are
 placeholders.
 
+### Consumer policy obligations
+
+Two expectations are consumer policy, resolved outside the attestation and
+never read from it: which keys count as substrate observation keys (the
+evidence tier's input), and which corpus and substrate this consumer
+expects. A consumer MUST pin, out of band, the corpus digest and the
+substrate digest it expects for the deployment it is admitting into, and
+at consumption MUST compare them against
+`observationEnvironment.corpus.digest` and
+`observationEnvironment.substrate.digest`; on mismatch the attestation is
+not admitted, exactly as an attestation whose covering signatures do not
+verify is not admitted. The comparison is deliberately not a validity
+gate: validity is a function of carried bytes alone and holds identically
+for every consumer, while the expected corpus and substrate differ per
+consumer — an anchor-mismatched attestation is valid evidence about the
+wrong context. Verification surfaces SHOULD expose one consumer-facing
+admission result that conjoins validity, tier-policy satisfaction, and the
+anchor comparison, so a result-only consumer cannot read a
+valid-but-wrong-context attestation as admissible.
+
 ### Consumer policy example (non-normative)
 
 Naming the substrate observation keys is policy, not wire format. A
@@ -919,6 +944,30 @@ predicate-level, and adopted the I-JSON safe-integer profile on every rail.
     independence from the validity gate and the tier. Stated the
     composition and run-population non-claims. Unknown `aeeKind` covers
     nothing and is otherwise ignored (fail-closed forward compatibility).
+-   Completed the canonical-bytes profile with its string half: the
+    vocabulary arrays are sorted ascending by UTF-16 code unit explicitly,
+    and every signed canonical surface (covering payload member names,
+    both vocabulary arrays) is BMP-only, rejected as malformed — within
+    the BMP, code-unit and code-point order coincide, so conforming
+    verifiers cannot split on sort order.
+-   Numbered the byte-pure validity steps and separated them from the
+    trust-relative stage; stated the consumer anchor obligations (pinned
+    expected corpus and substrate digests, compared at consumption, with
+    a single conjoined admission result recommended for verification
+    surfaces) as consumer policy rather than a validity gate.
+-   Recommended a publicly datable, round-unpredictable component in the
+    run-entropy pre-image (proven signing-time floor; asserted ceiling
+    unchanged), with the qualifications that make the floor real.
+-   Added the optional `aeeRunSeq` / `aeePrevRunBinding` /
+    `aeeChainScope` arming-payload members: cross-run gap evidence under
+    a declared scope, ordering-only, with equivocation semantics for
+    forks and duplicated geneses and a stated registration-receipt
+    completion path.
+-   Reclassified the shared-reference evidencing rule as a producer
+    obligation outside every gate, and recorded the member-birth
+    versioning discipline in this changelog. Documented the
+    registered-claims lineage for reserved payload members as an
+    informative note.
 
 [Runtime Traces]: runtime-trace.md
 [SCAI]: scai.md
