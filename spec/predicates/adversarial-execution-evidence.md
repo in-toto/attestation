@@ -92,8 +92,26 @@ canonicalization of the object `{"aeeBindingVersion": "1", "catchPolicy":
 "<runEntropy.digest.sha256>", "subject": "<subject[0].digest.sha256>",
 "substrate": "<substrate.digest.sha256>"}`. `runEntropy` is a run-start
 value the substrate emits and commits inside the arming record's signature;
-its pre-image is the substrate's run-start checkpoint or beacon head, so
-two executions sharing every other input still derive distinct bindings.
+its pre-image is the substrate's run-start checkpoint, so two executions
+sharing every other input still derive distinct bindings. The pre-image
+SHOULD additionally fold in a publicly datable value that was unpredictable
+before its round — a drand round output, or an epoch identifier in the
+RFC 9334 Section 10.3 sense — in addition to, never in place of, the
+substrate-unique run-start component, with the round reference recoverable
+by the consumer (carrying it in the arming payload as producer vocabulary
+suffices, since the digest binds it). A signature over a value that did not
+exist before its round cannot predate the round, so the arming record gains
+a proven earliest-possible signing time — a floor. `issuedAt` remains the
+asserted ceiling; the pair is deliberately not a two-sided proof, by the
+asserted-versus-attested rule this predicate applies everywhere. The floor
+bounds recency only where consumer policy couples the folded round to its
+freshness window — the producer selects the round, so an uncoupled round
+proves age, never freshness — and a beacon inside the producer's own trust
+domain yields no floor against that producer. The value is fetched at
+arming time, never cached: a stale round silently folded as current would
+defeat the same coupling. Public rounds also make two consumers'
+`runEntropy`-reuse observations comparable against a shared public time
+axis rather than against the producer's clock.
 For this predicate `subject` MUST contain exactly one entry, and each of
 the six digest inputs MUST carry a `sha256` digest whose value is already
 lowercase 64-hex; a substrate-row-carrying statement violating either
