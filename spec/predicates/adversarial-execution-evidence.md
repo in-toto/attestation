@@ -76,6 +76,39 @@ payload, makes the statement malformed. A lenient parser that silently keeps
 the last of a repeated member would let two rails disagree on identical bytes,
 so a verifier MUST reject a duplicate member statement-wide, fail-closed.
 
+Strict I-JSON also constrains the bytes of every string, and for the same
+reason. A verifier MUST reject, statement-wide and fail-closed, any statement
+in which a string literal is not a well-formed sequence of Unicode scalar
+values. That means: the statement MUST be valid UTF-8, with no overlong form
+and no surrogate encoded directly in UTF-8 (CESU-8); a `\u` escape naming a
+high surrogate MUST be immediately followed by a `\u` escape naming a low
+surrogate, and an unpaired surrogate escape of either half is malformed; and a
+string MUST NOT contain a raw unescaped character below U+0020. A `\u` escape
+MUST consist of exactly four hexadecimal digits, with no sign, no whitespace
+and no radix prefix, so that a reader built on a permissive integer parser does
+not accept `\u+041` where a strict one rejects it.
+
+This rule exists because a lenient decoder does not fail on ill-formed bytes,
+it substitutes U+FFFD for them, and every check downstream of the decode then
+reads a string the producer never wrote. Where a digest is recomputed from
+decoded strings rather than compared against carried bytes -- which is how the
+`observationVocabulary` digest is defined below -- a producer could otherwise
+emit ill-formed bytes, derive the digest over the substituted form, and obtain
+a statement that one conforming verifier calls valid and another calls
+malformed. A verifier MUST therefore apply this check to the raw bytes, before
+any decoded string is read.
+
+A verifier MUST reject, fail-closed, a statement whose JSON nesting depth
+exceeds 128. Nesting depth is the number of arrays and objects that are open
+at a given point, counting the outermost `{` of the statement as depth 1;
+scalar values do not increase it. The bound is normative because it is not a
+resource limit alone: with no bound stated, implementations pick their own, and
+two conforming verifiers then disagree about whether identical bytes are
+evidence at all over the entire range between their choices. The counting rule
+is stated because implementations that increment per parsed value rather than
+per open container arrive one level apart from an identical constant. Record
+payloads are parsed under the same bound.
+
 The identical-bytes requirement has a string half. On every signed canonical
 surface (object member names in covering record payloads and the
 `observationVocabulary.labels`/`caught` arrays), strings MUST be BMP-only:
@@ -657,7 +690,9 @@ over `(payloadType, payload)`, before reading any field inside the
 payload. Any record used to cover a `basis: substrate` row MUST carry a
 JSON object payload that is canonical per RFC 8785 and valid I-JSON per
 RFC 7493 (no duplicate members, integers within the safe range, member
-names BMP-only per Prerequisites), whose
+names BMP-only per Prerequisites, every string a well-formed sequence of
+Unicode scalar values per Prerequisites, and nesting within the bound stated
+there), whose
 media type ends in `+json`, and which carries these reserved members as
 top-level fields; a record whose payload is not so parseable, or whose
 media type is not `+json`, covers nothing:
@@ -705,7 +740,7 @@ registered below, sorted in the same canonical order as
 structurally under one substrate key; each token names a further within-key
 partition attribute already carried elsewhere in the attestation and fixes
 where a consumer reads that attribute's value. The declared array is the
-*dimension set*; the *evaluated tuple* is the projection of the
+_dimension set_; the _evaluated tuple_ is the projection of the
 substrate-key value and each declared token onto its registered attribute
 value for this run (computed, never carried). The recommended minimum is
 `["subject"]`; the empty array is the single global per-key counter that
@@ -779,7 +814,7 @@ carrying a transparency-service receipt over the arming record). The `aee` membe
 (`aeeVersion` is reserved for a payload contract version); everything else
 in the payload stays producer territory.
 
-*Precedent (informative).* Reserved members inside a producer-defined
+_Precedent (informative)._ Reserved members inside a producer-defined
 signed payload follow an established lineage rather than a novel
 mechanism: an RFC 7519 JWT claims set is a producer-defined object from
 which verifiers read registered claim names (`exp`, `aud`, `iss`), with
