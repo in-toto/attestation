@@ -15,6 +15,9 @@ our [vetting process], and may be of general interest:
 -   [CycloneDX]: CycloneDX BOM for software artifacts.
 <!-- markdownlint-disable-next-line MD059 -->
 -   [Link]: For migration from [in-toto 0.9].
+-   [OCG Execution Receipt]: A deterministic-compute execution receipt: the
+    inputs, output, and a recomputable execution hash of a single OpenChainGraph
+    node run, with optional zkVM proof and transparency-log/timestamp evidence.
 -   [Reference]: References documents that are relevant to some resource.
 -   [Release]: Details an artifact that is part of a given release version.
 -   [Runtime Traces]: Captures runtime traces of software supply chain
@@ -35,6 +38,7 @@ our [vetting process], and may be of general interest:
 [CycloneDX]: https://cyclonedx.org/
 [Link]: link.md
 [New Predicate Guidelines]: ../../docs/new_predicate_guidelines.md
+[OCG Execution Receipt]: ocg-execution-receipt.md
 [Release]: release.md
 [Runtime Traces]: runtime-trace.md
 [SCAI Report]: scai.md
