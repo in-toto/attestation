@@ -86,7 +86,14 @@ surrogate, and an unpaired surrogate escape of either half is malformed; and a
 string MUST NOT contain a raw unescaped character below U+0020. A `\u` escape
 MUST consist of exactly four hexadecimal digits, with no sign, no whitespace
 and no radix prefix, so that a reader built on a permissive integer parser does
-not accept `\u+041` where a strict one rejects it.
+not accept `\u+041` where a strict one rejects it. The profile also excludes the
+Unicode noncharacters -- the code points U+FDD0 through U+FDEF, and U+nFFFE and
+U+nFFFF in every plane -- which RFC 7493 section 2.1 forbids in the same sentence
+as surrogates. A noncharacter is a valid scalar value that nothing substitutes
+for, so unlike an ill-formed sequence it is not a cross-rail decoding split; it
+is excluded so that a verifier implementing the RFC 7493 label does not reject a
+record another verifier accepts, and it is rejected wherever a string literal
+appears, at any depth and in both member-name and value position.
 
 This rule exists because a lenient decoder does not fail on ill-formed bytes,
 it substitutes U+FFFD for them, and every check downstream of the decode then
@@ -123,6 +130,15 @@ order coincide, so that divergence is unconstructible. A verifier MUST treat
 a violation exactly as it treats non-canonical bytes: a supplementary-plane
 member name makes the covering payload cover nothing, and a
 supplementary-plane vocabulary entry makes the statement malformed.
+
+These bounds close the divergences the text can foresee: a stated depth, a fixed
+sort order, a pinned encoding. They do not close the ones it cannot. Where the
+text underdetermines a reading and no conformance vector exercises it, two
+implementations agreeing on that reading is evidence the text is determinate, not
+proof of it -- the reading is untested rather than confirmed, and a third
+implementation could differ there in silence. Conformance is established by
+vectors; an agreement no vector has exercised is a candidate for the next vector,
+not a settled rule.
 
 **Run binding.** For any statement carrying at least one `basis: substrate`
 row, the run binding digest is the lowercase 64-hex SHA-256 of the RFC 8785
