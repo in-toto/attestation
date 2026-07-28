@@ -1,0 +1,294 @@
+// Proto representation of predicate type
+// https://in-toto.io/attestation/adversarial-execution-evidence/v0.6
+//
+// Validation of all fields is left to the users of this proto. The predicate's
+// soundness lives in the verifier rules (statement well-formedness, the two
+// coverage/tier consumption gates, the offline `result` recompute, the
+// digest-integrity checks, and the per-record DSSE signature), never in this
+// schema: a proto-valid object is not necessarily a sound attestation.
+//
+// -----------------------------------------------------------------------------
+// TWO PROPERTIES OF THIS PREDICATE MAKE THIS PROTO SUBTLE. READ BOTH BEFORE
+// EDITING OR GENERATING CODE FROM IT.
+// -----------------------------------------------------------------------------
+//
+// 1. STRING-TYPED VOCABULARIES, NEVER proto3 ENUMS.
+//
+//    `result`, `containmentObserved`, `basis`, `method`, `actualLayer`, and
+//    `networkPosture.posture` carry closed value vocabularies, yet every one is
+//    a `string` here, not a proto3 `enum`. This is deliberate and load-bearing:
+//
+//      - The AEE vocabularies are consumer-side, FAIL-CLOSED closed vocabularies.
+//        A value outside the carried vocabulary is STRUCTURALLY VALID and
+//        fail-closes at the verifier's recompute gate (a fail-closed row forces
+//        `result` to `fail`), exactly as an absent `basis`/`method` does. A
+//        proto3 enum cannot express this: an unknown wire value would deserialize
+//        to the zero member (`UNKNOWN = 0`) and be silently swallowed, erasing
+//        the very fail-closed signal the recompute depends on. String preserves
+//        the unknown value verbatim for the verifier to reject.
+//      - `containmentObserved`'s admissible label set is not even fixed by this
+//        predicate: it is producer vocabulary carried on-wire in
+//        `observationEnvironment.observationVocabulary.{labels,caught}` and read
+//        by the verifier, so no enum could enumerate it.
+//      - It matches the in-toto house convention: there are ZERO proto3 `enum`
+//        declarations across any merged in-toto predicate `.proto`
+//        (vsa, scai, test_result, provenance, release, vulns, svr, ...); every
+//        closed vocabulary in those predicates travels as a `string`.
+//
+// 2. THIS PROTO IS FOR TRANSPORT/CODEGEN ONLY. ITS JSON OUTPUT MUST NEVER BE
+//    RE-CANONICALIZED FOR SIGNING OR RE-HASHED.
+//
+//    The CANONICAL BYTES of an AEE attestation are the on-wire JSON emitted by
+//    the producer. The DSSE signature is computed over
+//    `PAE(payloadType, SERIALIZED_BODY)` -- the Pre-Authentication Encoding over
+//    the body BYTES VERBATIM -- and every downstream digest (corpus manifest
+//    digest, observation-vocabulary digest, `batchRoot` leaves, the run binding)
+//    is taken over RFC 8785 (JCS) canonical bytes. proto3 canonical ProtoJSON is
+//    NOT RFC 8785 / JCS and cannot be made so; at least two divergences are
+//    unfixable:
+//
+//      - ProtoJSON emits 64-bit integers (`int64`/`uint64`) as QUOTED strings,
+//        a JSON token-type change JCS never makes (JCS keeps them as numbers).
+//      - ProtoJSON preserves proto field declaration order; JCS lexicographically
+//        sorts object member names by UTF-16 code unit. The two orderings differ.
+//        (ProtoJSON/Struct also re-formats timestamps, re-pads base64, and may
+//        drop or reformat members, each a further divergence.)
+//
+//    Therefore a consumer MUST NOT parse an attestation into this proto, re-emit
+//    its JSON, and re-hash or re-verify against that output: it would compute a
+//    digest over bytes the producer never signed and reject a genuine bundle
+//    (or, worse, mask a tampered one). Verify DSSE over the producer's exact
+//    on-wire bytes; use this proto only for language bindings and transport.
+//    (This mirrors sigstore's decision to DELETE its proto-derived JSON-Schema
+//    rather than maintain a co-equal signed schema.)
+//
+//    Consequences of (2) visible below: `manifest.classes`, `_ext` use
+//    google.protobuf.Struct (proto3 maps cannot carry repeated/array values, so
+//    a message-wrapped modeling would ALTER the JSON shape); `payload` is the
+//    opaque base64 string carried verbatim (not proto `bytes`, whose base64
+//    decode/re-encode round-trip could alter padding); and the reserved
+//    `aee*` payload members (aeeKind, aeeMethod, aeeRunBinding, armedAt,
+//    aeePostureDigest, aeeStillArmed, aeeDropCount, aeeChainScope, aeeRunSeq,
+//    aeePrevRunBinding, aeeVersion, ...) are NOT modeled as proto fields: they
+//    live INSIDE the base64 `payload` bytes and are producer-signed and
+//    opaque-until-verified (verify-then-read), never sibling wire fields.
+
+syntax = "proto3";
+
+package in_toto_attestation.predicates.adversarial_execution_evidence.v06;
+
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/in-toto/attestation/go/predicates/adversarial_execution_evidence/v06";
+option java_package = "io.github.intoto.attestation.predicates.adversarial_execution_evidence.v06";
+
+// The single signed artifact one bounded adversarial-stimulus run emits per
+// system under test.
+message AdversarialExecutionEvidence {
+  // The fused pass|degraded|fail reduction, recomputed offline from the rest of
+  // the predicate. STRING, not enum (see header rule 1): the recompute reads
+  // this value, and a value the recompute does not reproduce is invalid.
+  string result = 1;
+
+  ObservationEnvironment observation_environment = 2 [json_name = "observationEnvironment"];
+
+  Coverage coverage = 3;
+
+  repeated AttackResult attack_results = 4 [json_name = "attackResults"];
+
+  // Optional. Absent on an artifact-only statement. When present and non-empty,
+  // `batch_root` is required (a rule the verifier enforces, not this proto).
+  repeated ObservationRecord observation_records = 5 [json_name = "observationRecords"];
+
+  // RFC 6962 Merkle root over `observation_records` (SHA-256, domain-separated,
+  // recursive split). Required iff `observation_records` is non-empty, omitted
+  // otherwise. lowercase 64-hex.
+  string batch_root = 6 [json_name = "batchRoot"];
+
+  // Optional, advisory. Explicit negative-scope statements; a verifier MUST NOT
+  // require it and nothing in it weakens a required check.
+  repeated string does_not_assert = 7 [json_name = "doesNotAssert"];
+
+  // When the producer signed the evidence bundle (RFC 3339). Modeled as a
+  // Timestamp to match the in-toto house style (cf. vsa `timeVerified`); on the
+  // wire this is the producer's exact RFC 3339 string, which is the canonical
+  // byte -- see header rule 2 on why ProtoJSON's reformatted output must not be
+  // re-hashed.
+  google.protobuf.Timestamp issued_at = 8 [json_name = "issuedAt"];
+
+  // Optional producer extension.
+  ExecutionEnvelope execution_envelope = 9 [json_name = "executionEnvelope"];
+
+  // Optional producer extension bag (`_ext` on the wire). Free-form JSON object.
+  google.protobuf.Struct ext = 10 [json_name = "_ext"];
+}
+
+// The digest-pinned context the evidence was earned under.
+message ObservationEnvironment {
+  // The subject reference of the substrate's own attestation.
+  message Substrate {
+    string name = 1;
+    // algorithm -> lowercase-hex, per the in-toto digest-set convention.
+    map<string, string> digest = 2;
+  }
+  Substrate substrate = 1;
+
+  // The corpus thrown at the subject.
+  message Corpus {
+    string name = 1;
+    // RECOMMENDED as a purl, e.g. pkg:<producer>/<corpus>@<version>.
+    string uri = 2;
+    // JCS digest of the embedded `manifest` (algorithm -> lowercase-hex).
+    map<string, string> digest = 3;
+
+    // A map from assessment class code to the complete array of attack
+    // identifiers it defines, e.g. {"CO":["CO-EXFIL-1"]}. Modeled as a Struct,
+    // NOT map<string, repeated string>: proto3 map values cannot be `repeated`,
+    // so any message-wrapped modeling would inject an extra JSON nesting level
+    // and change the on-wire shape. A Struct's ProtoJSON reproduces the
+    // map-of-arrays exactly. (Verifier re-derives `corpus.digest` from these
+    // bytes; see header rule 2.)
+    message Manifest {
+      google.protobuf.Struct classes = 1;
+    }
+    Manifest manifest = 4;
+  }
+  Corpus corpus = 2;
+
+  // JCS digest of the parsed catch-policy document.
+  message CatchPolicy {
+    map<string, string> digest = 1;
+  }
+  CatchPolicy catch_policy = 3 [json_name = "catchPolicy"];
+
+  // The substrate-authoritative egress posture and its configuration digest.
+  message NetworkPosture {
+    // STRING, not enum (see header rule 1): Probity's registered posture
+    // vocabulary (e.g. no_network, allowlist, sinkhole, unsafe_bypass_egress) is
+    // producer identity, validated by the verifier, closed and fail-closed.
+    string posture = 1;
+    map<string, string> digest = 2;
+  }
+  NetworkPosture network_posture = 4 [json_name = "networkPosture"];
+
+  // The producer's on-wire, versioned observation label set. The recompute and
+  // the coverage-validity gate read THIS carried set (not the producer's docs),
+  // so archived attestations verify without external documentation.
+  message ObservationVocabulary {
+    // JCS digest of {"caught":[...],"labels":[...]} (algorithm -> lowercase-hex).
+    map<string, string> digest = 1;
+    // Every `containmentObserved` value the producer can emit; sorted ascending
+    // by UTF-16 code unit, no duplicates, BMP-only (verifier soundness rules).
+    repeated string labels = 2;
+    // The subset of `labels` whose observation is a caught containment event.
+    repeated string caught = 3;
+  }
+  ObservationVocabulary observation_vocabulary = 5 [json_name = "observationVocabulary"];
+
+  // The substrate-emitted run-start value folded into the run binding. OPTIONAL
+  // here; the verifier requires it exactly when any `attack_results` row is
+  // basis:substrate.
+  message RunEntropy {
+    map<string, string> digest = 1;
+  }
+  RunEntropy run_entropy = 6 [json_name = "runEntropy"];
+}
+
+// The coverage bound: the disjoint partition of the manifest's classes into
+// assessed / out-of-scope / routed-elsewhere.
+message Coverage {
+  // Class codes actually assessed.
+  repeated string assessed_classes = 1 [json_name = "assessedClasses"];
+  // Class code -> reason string; empty when complete. A non-empty map forces
+  // `result` to degraded.
+  map<string, string> out_of_scope = 2 [json_name = "outOfScope"];
+  // Class code -> reason string; empty when complete. A non-empty map forces
+  // `result` to degraded.
+  map<string, string> routed_elsewhere = 3 [json_name = "routedElsewhere"];
+}
+
+// One row per executed attack.
+message AttackResult {
+  // Must appear in the manifest; unique across rows (one row per executed attack).
+  string attack_id = 1 [json_name = "attackId"];
+
+  // A label from the carried `observationVocabulary.labels`. STRING, not enum
+  // (see header rule 1): the admissible set travels on-wire in
+  // `observationVocabulary`; a label outside the carried set is valid here and
+  // fail-closes at the recompute gate.
+  string containment_observed = 2 [json_name = "containmentObserved"];
+
+  // The observation's vantage (producer MUST emit `substrate` or `artifact`).
+  // STRING, not enum: an absent or out-of-vocabulary value is valid-but-
+  // fail-closed at the recompute gate, never proto/schema-rejected. NOT a
+  // proto-required field for the same reason.
+  string basis = 3;
+
+  // The observation's directness (producer MUST emit `intercepted` or
+  // `reconstructed`). STRING, not enum; same fail-closed rule as `basis`.
+  string method = 4;
+
+  // Which enforcement layer acted, drawn from the registered layer vocabulary,
+  // OR the literal string "none" (the clean-row sentinel). STRING, not enum: a
+  // missing value is a MALFORMED statement (a different altitude than the
+  // fail-closed row members); the closed layer set is producer identity the
+  // verifier checks.
+  string actual_layer = 5 [json_name = "actualLayer"];
+
+  // Indexes into `observation_records` binding this row to its covering records.
+  // uint32 (not int64) so ProtoJSON emits bare JSON numbers, matching the
+  // on-wire `[0]` shape (see header rule 2 on int64 -> quoted-string divergence).
+  // An out-of-range index makes the statement malformed (verifier rule).
+  repeated uint32 observation_refs = 6 [json_name = "observationRefs"];
+
+  // Optional producer-defined tokens, positionally parallel to
+  // `observation_refs`, naming the sub-observation within a referenced record's
+  // committed payload. Producer vocabulary; nothing normative reads it.
+  repeated string observation_selectors = 7 [json_name = "observationSelectors"];
+}
+
+// One DSSE envelope per observation. The producer signs at observation time,
+// before attribution; a consumer verifies the signature (DSSE PAE over
+// `payload_type` and the base64-decoded `payload`) BEFORE reading any field
+// inside the payload (verify-then-read).
+//
+// NOTE (header rule 2): the reserved `aee*` members the verifier reads
+// post-verify (aeeRunBinding, aeeKind, aeeMethod, and per-kind members
+// armedAt / aeePostureDigest / aeeStillArmed / aeeDropCount / aeeDropBound /
+// aeeRunSeq / aeePrevRunBinding / aeeChainScope / aeeVersion, ...) live INSIDE
+// the base64 `payload` bytes as top-level members of the signed +json object.
+// They are producer-signed and opaque-until-verified and are deliberately NOT
+// modeled as proto fields of this record.
+message ObservationRecord {
+  // base64(exact canonical +json bytes the substrate signed). Carried as the
+  // opaque base64 STRING verbatim (not proto `bytes`): the DSSE PAE is over the
+  // producer's exact base64-decoded bytes, and proto `bytes` would round-trip
+  // through its own base64 decode/re-encode, which may alter padding.
+  string payload = 1;
+
+  // A producer-defined media type ending in `+json`. The exact bytes are the
+  // first PAE input, so a differing value changes the signed bytes.
+  string payload_type = 2 [json_name = "payloadType"];
+
+  // DSSE signature. `keyid` is an unauthenticated lookup hint and OPTIONAL
+  // (never the check itself); only `sig` carries the signature.
+  message Signature {
+    string keyid = 1;
+    string sig = 2;
+  }
+  repeated Signature signatures = 3;
+
+  // Optional predicate-layer emission sequence (1-based) of this record within
+  // the run's signed stream: the stable join key a vmi.attribution record's
+  // catch_seq resolves against, robust to a later filter or reorder of
+  // `observation_records`. The signed payload carries no seq. uint32 so
+  // ProtoJSON emits a bare number (see header rule 2). Absent only when the
+  // producer emitted an un-sequenced stream.
+  uint32 seq = 4;
+}
+
+// Optional producer extension: linkage to a distributed-trace context.
+message ExecutionEnvelope {
+  string otel_trace_id = 1 [json_name = "otelTraceId"];
+}
