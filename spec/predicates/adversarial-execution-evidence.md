@@ -23,13 +23,27 @@ to run-end), and an explicit statement of the observation's coverage bounds.
 
 The design goal is that a consumer can recompute the outcome from the
 attestation alone, with no call back to the producer's infrastructure and no
-dependency on a document that does not travel with the statement. The outcome
-is a deterministic function of the carried evidence; the coverage denominator
-is committed by digest, so the producer cannot assert it unilaterally; and
-each observation record verifies on its own before it is read. A
-producer cannot claim more than the evidence supports, and a producer claiming
-less is detectable, since dropping an inconvenient interception changes the
-committed batch root.
+dependency on a document that does not travel with the statement. That goal
+is met on one half and not on the other, and the split is worth stating at
+the top. The reduction of the carried rows to a `result` is deterministic and
+recomputable: the coverage denominator is committed by digest, so the
+producer cannot assert it unilaterally, and each observation record verifies
+on its own before it is read. The construction of those rows is not
+recomputable. Mapping an observation to attack semantics is an
+assembly-plane assertion no verifier can check, because the substrate sees a
+dropped packet or a changed inode and has no notion of where one attack
+begins and another ends. The substrate cryptographically proves what was
+observed; the assembly plane asserts what it means.
+
+A producer therefore cannot claim more than the carried evidence supports. A
+producer claiming less is not detectable from the statement. `batchRoot` is
+recomputed over the records the statement carries, so a producer that drops
+an inconvenient interception and recomputes the root emits a self-consistent
+statement that passes every check in this document. What the root binds is
+the carried set against a party who cannot re-sign the enclosing envelope,
+which is a network attacker rather than the assembly plane the substrate key
+separation is written against. Completeness of that set against the run is
+nowhere proven.
 
 ## Use Cases
 
@@ -334,6 +348,28 @@ assessed and makes no general safety claim. There is intentionally no
 severity threshold, policy ruleset, or free-text reason here; policy belongs
 downstream.
 
+Two further bounds sit beside that one. The substrate is a passive sensor,
+not an orchestrator: it observes what crosses the vantages it was armed at,
+and it has no view of the runner that injects the corpus. It therefore cannot
+verify that the runner executed every attack the manifest names. The set of
+attacks actually executed is a producer assertion. Coverage integrity
+compares the carried rows against the carried manifest, which catches an
+omission the producer failed to declare in `coverage`, but neither comparison
+reaches the run, so a consumer reading a `pass` is relying on producer
+integrity that nothing was silently skipped.
+
+The second bound is that four fields sit deliberately outside the run
+binding, because the substrate operates on content digests and has no view of
+presentation metadata: `corpus.name`, `corpus.uri` (RECOMMENDED as a purl),
+`substrate.name`, and `subject[0].name`. No digest, no record payload, and no
+gate reads them, so they are attacker-modifiable on a statement that remains
+fully valid. Calling them unauthenticated understates that for a reader who
+assumes the enclosing envelope signature protects everything inside it: a
+statement can be relabeled as evidence about a differently named corpus,
+substrate, or artifact and still satisfy every requirement in this document.
+Consumers MUST anchor identity on the digests rather than on these names, as
+Consumer policy obligations below requires for the corpus and the substrate.
+
 **Coverage validity (derived from carried bytes; a violation is malformed).**
 For every `basis: substrate` row, the following MUST hold or the attestation
 is invalid, exactly as a missing `actualLayer` is invalid. These read record
@@ -362,6 +398,23 @@ consumer that consumes `result`, credits any row, or applies either
 strength ordering MUST first evaluate them, and on failure the attestation
 is invalid and its `result` MUST NOT be consumed, the same handling as
 any malformed statement.
+
+What these requirements are is worth stating as plainly as what they
+require, because their name invites a reader to take them for a security
+gate on their own, and on their own they are not one. Every check above
+reads record content, and record content means nothing until the record's
+signature verifies, which is the verify-then-read discipline stated under
+Parsing Rules. Against a party able to author a record, none of these checks
+costs a secret: `aeeRunBinding` is derived from six digests the statement
+already carries in plaintext, `aeePostureDigest` is the pinned
+`networkPosture` digest carried beside them, and an `arming` or `sealed`
+payload describing a vantage that never existed satisfies every constraint
+here. These requirements are therefore structural well-formedness
+constraints. They become security properties only in combination with
+observation-record signature verification against a substrate key the
+consumer trusts, which is the evidence tier below. A verifier that evaluates
+coverage validity and skips that verification has checked that the producer
+filled the form in correctly.
 
 A caught row is one whose `containmentObserved` label is in the carried
 caught set (`observationVocabulary.caught`); a clean row is one whose
@@ -650,15 +703,29 @@ additionally require that the key signing any covering observation record
 differ from the key signing the enclosing Statement. The tier's value
 against a dishonest producer is exactly that separation: where the
 observation key is held apart from the assembly plane, the tier defeats a
-pipeline with no substrate in the loop, cross-configuration splices,
-record drops, and method inflation. Where one party holds both keys (the
-common single-root deployment), the tier instead defeats only a party that
-does not hold a consumer-named substrate key: it still binds every record
-to this run and pins `method` to what the substrate signed, so a
-downstream tamperer cannot splice, drop, or inflate an already-signed set,
-but a substrate operator who signs false evidence, or who runs no
-substrate at all and signs an arming record anyway, remains outside this
-predicate's threat model, as for every self-asserted field. Coverage is
+pipeline with no substrate in the loop and cross-configuration splices,
+because neither can be produced without a signature under the observation
+key. It does not defeat record drops, and it does not defeat method
+inflation. Both limits are structural rather than gaps in the checks above.
+`batchRoot` recomputes over the carried records, so a party holding the
+envelope key removes a record and recomputes a root that is self-consistent
+over what remains. The `method` cap binds a row to the weakest `aeeMethod`
+across the records that row references, and no record names its attack, since
+a substrate signs at observation time and before attribution; the cap is
+therefore per record and never per attack, so re-pointing a row's
+`observationRefs` at an `intercepted` record signed for a different attack
+raises that row's `method` with every substrate signature still verifying.
+What holding the observation key apart defeats is the manufacture of
+substrate evidence, not the assembly plane's selection and arrangement of
+substrate evidence that genuinely exists. Where one party holds both keys
+(the common single-root deployment), the tier instead defeats only a party
+that holds neither key: the envelope signature closes the carried set to
+such a party, and the run binding and the signed `aeeMethod` close record
+substitution and forgery, so a tamperer with no key cannot splice, drop, or
+inflate an already-signed set. A substrate operator who signs false
+evidence, or who runs no substrate at all and signs an arming record anyway,
+remains outside this predicate's threat model, as for every self-asserted
+field. Coverage is
 therefore only as trustworthy as the named key's un-compromised lifetime;
 the single trust root is a single point of total failure, and a consumer's
 policy MAY bound a named key with a validity window checked against
@@ -871,8 +938,14 @@ that does not recompute over the carried records makes the attestation
 invalid. Because every `basis: substrate` row requires covering records
 under Coverage validity, any valid attestation carrying a substrate row
 carries a `batchRoot`, and a clean run's committed set includes its
-`arming` and `sealed` records, so absence evidence cannot be dropped
-without changing the root. `batchRoot` is omitted only when
+`arming` and `sealed` records. The root commits to the set the statement
+carries and not to the set the run produced: it is recomputed from the
+carried records, so a party who can re-sign the enclosing envelope drops a
+record, recomputes over what remains, and emits a statement whose root is
+self-consistent. What `batchRoot` detects is alteration of the carried set
+by a party who cannot re-sign the envelope, and what it establishes for
+every other party is the internal consistency of that set, never its
+completeness against the run. `batchRoot` is omitted only when
 `observationRecords` is absent, in which case every `basis: substrate` row
 fails Coverage validity, so a valid recordless attestation carries only
 `basis: artifact` rows.
@@ -1093,6 +1166,25 @@ predicate-level, and adopted the I-JSON safe-integer profile on every rail.
     versioning discipline in this changelog. Documented the
     registered-claims lineage for reserved payload members as an
     informative note.
+-   Retracted three claims that building the reference verifier and
+    executing attacks against it disproved. `batchRoot` is recomputed from
+    the carried records, so it establishes the internal consistency of the
+    carried set and never its completeness: neither a dropped interception
+    nor a dropped `arming` or `sealed` record changes a root recomputed
+    over what remains, and the `method` cap is per record rather than per
+    attack, so re-pointing a row's `observationRefs` at another attack's
+    record inflates the row's `method` with every substrate signature still
+    verifying. Each retracted sentence is replaced by a statement of the
+    party the mechanism does bound, namely one who cannot re-sign the
+    enclosing envelope. Coverage validity is now stated as a set of
+    structural well-formedness constraints that become security properties
+    only in combination with observation-record signature verification.
+    Recorded two further limitations beside the coverage-bounded-observed
+    one (the executed attack set is a producer assertion, and the four
+    names outside the run binding are attacker-modifiable on a valid
+    statement), and split the recompute goal into its recomputable
+    reduction and its asserted construction. No normative requirement
+    changed.
 
 [Runtime Traces]: runtime-trace.md
 [SCAI]: scai.md
