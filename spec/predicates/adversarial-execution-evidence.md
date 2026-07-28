@@ -374,7 +374,11 @@ Consumer policy obligations below requires for the corpus and the substrate.
 For every `basis: substrate` row, the following MUST hold or the attestation
 is invalid, exactly as a missing `actualLayer` is invalid. These read record
 payloads but never signatures or consumer policy, so they are a pure function
-of the carried statement:
+of the carried statement, and that is what makes them runnable by a consumer
+holding no keys. It is also their limit: a violation here is conclusive, since
+no signature can rescue a statement that does not hang together, but the
+absence of a violation concludes nothing on its own. These requirements
+establish that the statement is well formed, never that it is true:
 
 -   its `observationRefs` is non-empty and every index is in range for
     `observationRecords`;
@@ -768,9 +772,15 @@ described under `method`.
 
 One DSSE envelope per observation: `payload` (base64 of the exact
 canonical bytes the substrate signed at observation time), `payloadType`,
-and `signatures`. A consumer verifies each record's signature, DSSE PAE
-over `(payloadType, payload)`, before reading any field inside the
-payload. Any record used to cover a `basis: substrate` row MUST carry a
+and `signatures`, which MUST carry at least one entry. A consumer verifies
+each record's signature, DSSE PAE over `(payloadType, payload)`, before
+relying on any field inside the payload. The order is deliberate and the
+wording is exact: the byte-pure gates below do read payload fields without
+verifying anything, because they are structural and a consumer must be able
+to run them with no key material at all, and what they produce is not a
+finding a consumer may act on until the covering signatures have verified.
+Reading ahead of verification is a stage, never a conclusion. Any record used
+to cover a `basis: substrate` row MUST carry a
 JSON object payload that is canonical per RFC 8785 and valid I-JSON per
 RFC 7493 (no duplicate members, integers within the safe range, member
 names BMP-only per Prerequisites, every string a well-formed sequence of
