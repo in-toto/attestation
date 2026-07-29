@@ -536,19 +536,18 @@ producer still reports as assessed.
 That comparison is only as strong as the manifest it reads against, so the
 manifest carries a floor of its own: it MUST declare at least one attack
 identifier across all of its classes, and a manifest declaring zero attack
-identifiers makes the statement malformed, the condition a verifier names
-`corpus-manifest-no-attacks`. The requirement is phrased over attack
-identifiers rather than over classes because a manifest whose classes object
-is empty and a manifest carrying a named class with an empty array declare
-the same thing, nothing to execute, and only counting identifiers closes
-both; the second is the more plausible of the two, since it reads as a real
-assessment class. Without the floor a zero-attack manifest satisfies coverage
-integrity vacuously, comparing an empty union against an empty union, and the
-rest of the statement follows from there: zero rows means zero `basis:
-substrate` rows, and with no substrate row this document permits
-`runEntropy`, `observationRecords` and `batchRoot` to be absent, so every
-structure that would have required a substrate signature drops out and a
-valid `pass` about an arbitrary subject can be minted with no substrate
+identifiers makes the statement malformed. The requirement is phrased over
+attack identifiers rather than over classes because a manifest whose classes
+object is empty and a manifest carrying a named class with an empty array
+declare the same thing, nothing to execute, and only counting identifiers
+closes both; the second is the more plausible of the two, since it reads as
+a real assessment class. Without the floor a zero-attack manifest satisfies
+coverage integrity vacuously, comparing an empty union against an empty
+union, and the rest of the statement follows from there: zero rows means
+zero `basis: substrate` rows, and with no substrate row this document
+permits `runEntropy`, `observationRecords` and `batchRoot` to be absent, so
+every structure that would have required a substrate signature drops out and
+a valid `pass` about an arbitrary subject can be minted with no substrate
 participation at all. A corpus declaring no adversarial inputs is not an
 adversarial corpus, which is why this sits with well-formedness rather than
 with `result`: scoring it would concede that a zero-attack run is a
@@ -1222,11 +1221,11 @@ predicate-level, and adopted the I-JSON safe-integer profile on every rail.
     changed.
 -   Required the corpus manifest to declare at least one attack identifier
     across all of its classes; a manifest declaring none makes the statement
-    malformed (`corpus-manifest-no-attacks`). Coverage integrity otherwise
-    passes vacuously on an empty union, zero rows carry no `basis: substrate`
-    row, and the statement then legally omits `runEntropy`,
-    `observationRecords` and `batchRoot`, which admitted a valid `pass` about
-    an arbitrary subject with no substrate participation at all. The
+    malformed. Coverage integrity otherwise passes vacuously on an empty
+    union, zero rows carry no `basis: substrate` row, and the statement then
+    legally omits `runEntropy`, `observationRecords` and `batchRoot`, which
+    admitted a valid `pass` about an arbitrary subject with no substrate
+    participation at all. The
     requirement is stated over attack identifiers rather than over classes so
     that a named class with an empty array is closed alongside an empty
     classes object, and it leaves the honest fully-skipped run (attack
