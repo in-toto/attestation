@@ -77,6 +77,7 @@ syntax = "proto3";
 
 package in_toto_attestation.predicates.adversarial_execution_evidence.v06;
 
+import "in_toto_attestation/v1/resource_descriptor.proto";
 import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
 
@@ -130,15 +131,17 @@ message AdversarialExecutionEvidence {
   google.protobuf.Struct ext = 10 [json_name = "_ext"];
 }
 
-// The digest-pinned context the evidence was earned under.
+// The digest-pinned context the evidence was earned under. Two of its six
+// members are ResourceDescriptors and the other four are locally typed; the
+// markdown states the rule that decides which, and its reason.
 message ObservationEnvironment {
-  // The subject reference of the substrate's own attestation.
-  message Substrate {
-    string name = 1;
-    // algorithm -> lowercase-hex, per the in-toto digest-set convention.
-    map<string, string> digest = 2;
-  }
-  Substrate substrate = 1;
+  // The subject reference of the substrate's own attestation. A
+  // ResourceDescriptor: the member carries a name and a digest and nothing
+  // else, which is what the descriptor holds, and the verifier's requirement
+  // of a `sha256` digest is one the descriptor specification permits a context
+  // using the type to impose. The JSON member names are identical either way,
+  // so this typing is not a wire change.
+  in_toto_attestation.v1.ResourceDescriptor substrate = 1;
 
   // The corpus thrown at the subject.
   message Corpus {
@@ -162,11 +165,9 @@ message ObservationEnvironment {
   }
   Corpus corpus = 2;
 
-  // JCS digest of the parsed catch-policy document.
-  message CatchPolicy {
-    map<string, string> digest = 1;
-  }
-  CatchPolicy catch_policy = 3 [json_name = "catchPolicy"];
+  // JCS digest of the parsed catch-policy document. A ResourceDescriptor for
+  // the same reason `substrate` is one: a digest and nothing beside it.
+  in_toto_attestation.v1.ResourceDescriptor catch_policy = 3 [json_name = "catchPolicy"];
 
   // The substrate-authoritative egress posture and its configuration digest.
   message NetworkPosture {

@@ -477,6 +477,40 @@ manifest pre-image travels in the attestation, so a verifier re-derives
 `corpus.digest` offline and any edit to the assessed set (a dropped attack, a
 renamed class) fails that check.
 
+A typing discipline this predicate commits to, stated here so that a later
+reader inherits it rather than rediscovers the question. Each of these six
+members is descriptor-shaped, and two of them are [ResourceDescriptor]s.
+`substrate` and `catchPolicy` identify a resource and carry nothing beside
+that identity, so they take the framework type; the `sha256` digest required
+on each is a requirement the descriptor specification permits a context using
+the type to impose, and a producer MAY additionally carry `uri`,
+`downloadLocation` or `mediaType` there, none of which any rule in this
+document reads. Reading a pinned `sha256` off a descriptor is already what
+this predicate does in its most load-bearing place, since `subject` entries
+are [ResourceDescriptor]s by the Statement specification and the run binding
+reads `subject[0].digest.sha256`.
+
+The other four members stay locally typed, and the reasons are stated here
+rather than left to inference. Where a member carries the pre-image its digest
+is taken over, that pre-image stays on the statement's own JSON surface:
+`corpus` carries the `manifest` and `observationVocabulary` carries `labels`
+and `caught`, and the only descriptor member that could hold either is
+`content`, whose value is base64. Every byte-level rule Prerequisites imposes
+is stated over the statement's JSON, namely the duplicate-member rule at any
+depth, the well-formed-scalar-value requirement applied to the raw bytes
+before any decoded string is read, the nesting bound of 128, and the BMP
+restriction on canonical surfaces. Material inside a base64 member is outside
+all four, so carrying a digest pre-image there would open a second
+canonicalization boundary inside a signed statement, in a predicate whose
+whole encoding profile exists so that two conforming verifiers cannot
+disagree about identical bytes. Where a member instead carries further
+normative material beside an identity, this predicate keeps the member
+locally typed rather than extending a descriptor with members of its own,
+which is the shape [Runtime Traces] uses for `monitor`. `runEntropy` is
+offered as a reading rather than as a rule: its digest commits to a
+substrate-emitted run-start value rather than describing a resource, so a
+descriptor is the wrong vessel for it.
+
 `coverage` _object, required_
 
 The coverage bound: `assessedClasses` (array of class codes actually
@@ -1255,7 +1289,19 @@ predicate-level, and adopted the I-JSON safe-integer profile on every rail.
     off-guideline, and the case rule was written nowhere, which had already
     split two independently written verifiers on the same bytes. `armedAt`
     now cites the profile instead of restating half of it.
+-   Typed `observationEnvironment.substrate` and
+    `observationEnvironment.catchPolicy` as the framework's
+    `ResourceDescriptor`, the type the sibling predicates already import, and
+    stated the rule the other four members of that object are held under. The
+    JSON member names and the wire shape are unchanged, so no signed byte, no
+    digest, no signature and no conformance vector moves; in the protobuf
+    schema two locally declared messages become that import. The rule is that
+    a member carrying the pre-image its digest is taken over keeps that
+    pre-image on the statement's own JSON surface, because the only descriptor
+    member that could hold it is base64 `content`, and material inside a
+    base64 member is outside every byte-level rule Prerequisites states.
 
+[ResourceDescriptor]: ../v1/resource_descriptor.md
 [Runtime Traces]: runtime-trace.md
 [SCAI]: scai.md
 [SVR]: svr.md
