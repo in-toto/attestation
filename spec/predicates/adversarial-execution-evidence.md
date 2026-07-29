@@ -787,11 +787,25 @@ substitution and forgery, so a tamperer with no key cannot splice, drop, or
 inflate an already-signed set. A substrate operator who signs false
 evidence, or who runs no substrate at all and signs an arming record anyway,
 remains outside this predicate's threat model, as for every self-asserted
-field. Coverage is
-therefore only as trustworthy as the named key's un-compromised lifetime;
-the single trust root is a single point of total failure, and a consumer's
-policy MAY bound a named key with a validity window checked against
-`issuedAt`. Consumers MAY additionally coherence-check row claims against
+field. Coverage is therefore only as trustworthy as the named key's
+un-compromised lifetime; the single trust root is a single point of total
+failure, and a consumer's policy MAY bound a named key with a validity
+window. Where it does, that window MUST be evaluated against a
+substrate-signed instant, and the one this predicate mandates is the
+`armedAt` carried inside an `arming` record whose signature verifies under
+the key being bounded; it MUST NOT be evaluated against `issuedAt`.
+`issuedAt` is producer-asserted, sits outside every substrate signature,
+and is not among the run binding digest's inputs, so a party holding the
+envelope key moves it at will, changing no digest and breaking no
+signature. The only constraint this document places on it is that
+`armedAt` is no later than `issuedAt`, which every instant at or after the
+run satisfies, and `armedAt` itself precedes the compromise of any key that
+signed that run. A window evaluated against `issuedAt` therefore
+rehabilitates, by back-dating alone, every record the revoked key ever
+signed. A statement carrying no `arming` record that verifies under the
+bounded key carries no substrate-signed instant for that key, so a consumer
+bounding a key's validity refuses that statement rather than falling back
+to `issuedAt`. Consumers MAY additionally coherence-check row claims against
 the pinned `observationEnvironment`: a `substrate` row claiming a
 network-boundary observation under a `networkPosture` that provides no
 interception path at that boundary is incoherent, and a consumer MAY
@@ -1300,6 +1314,24 @@ predicate-level, and adopted the I-JSON safe-integer profile on every rail.
     pre-image on the statement's own JSON surface, because the only descriptor
     member that could hold it is base64 `content`, and material inside a
     base64 member is outside every byte-level rule Prerequisites states.
+-   Corrected the key-validity window recommendation, which named `issuedAt`
+    as the operand a consumer checks a named key's validity against. That
+    field is producer-asserted, sits outside every substrate signature, and
+    is not among the run binding digest's inputs, and the one rule this
+    document states about it survives moving it later, so the window was
+    recommended on the single temporal value the party that key separation
+    exists to constrain writes at will: back-dating it rehabilitates every
+    record a since-revoked key ever signed, at no signature and no digest.
+    The operand is now the `armedAt` inside an `arming` record that verifies
+    under the bounded key, and a statement carrying no such record is refused
+    rather than falling back. The operand is stated normatively rather than
+    left to the consumer because an admission policy written independently of
+    this sentence had already bounded evidence age against the same field and
+    believed it bounded; one implementer choosing the defeated operand is a
+    mistake, and two choosing it separately is a property of how the field
+    reads. No wire byte, digest, signature or conformance vector moves: the
+    correction is to a consumer obligation in stage two, which the byte-pure
+    validity gate does not reach.
 
 [ResourceDescriptor]: ../v1/resource_descriptor.md
 [Runtime Traces]: runtime-trace.md
