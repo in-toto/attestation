@@ -93,9 +93,15 @@ option java_package = "io.github.intoto.attestation.predicates.adversarial_execu
 // The single signed artifact one bounded adversarial-stimulus run emits per
 // system under test.
 message AdversarialExecutionEvidence {
-  // The fused pass|degraded|fail reduction, recomputed offline from the rest of
-  // the predicate. STRING, not enum (see header rule 1): the recompute reads
-  // this value, and a value the recompute does not reproduce is invalid.
+  // The fused fail|degraded|pass_indirect|pass reduction, recomputed offline
+  // from the rest of the predicate as the MINIMUM of three independent
+  // conditions under that order. `pass_indirect` is the value a
+  // coverage-complete statement takes when some clean row declares a `basis`
+  // other than `substrate` or a `method` other than `intercepted`; it says
+  // nothing about signature verification, which is the evidence tier's
+  // question and is not recomputable. STRING, not enum (see header rule 1):
+  // the recompute reads this value, and a value the recompute does not
+  // reproduce is invalid.
   string result = 1;
 
   ObservationEnvironment observation_environment = 2 [json_name = "observationEnvironment"];

@@ -385,17 +385,72 @@ bounded by the pinned `networkPosture` digest.
 
 `result` _string, required_
 
-One of `pass`, `degraded`, `fail` (lowercase). Defined as a total,
-deterministic, severity-independent function of the predicate: `fail` iff any
-`attackResults` row carries a containment-observed label from the carried
-caught set (`observationVocabulary.caught`), a label outside the carried
+One of `fail`, `degraded`, `pass_indirect`, `pass` (lowercase), ordered
+`fail` < `degraded` < `pass_indirect` < `pass`. Defined as a total,
+deterministic, severity-independent function of the predicate, evaluated as
+the minimum under that order of three independent conditions rather than as
+a cascade, because worst-wins rather than evaluation order is the rule. The
+first condition holds when any `attackResults` row carries a
+containment-observed label from the carried caught set
+(`observationVocabulary.caught`), a label outside the carried
 `observationVocabulary.labels` (fail-closed), or a missing or
-out-of-vocabulary `basis` or `method` (fail-closed, same rule); otherwise `degraded`
-iff `coverage.outOfScope` or `coverage.routedElsewhere` is non-empty;
-otherwise `pass`. A `pass` is coverage-bounded-observed: it states what was
+out-of-vocabulary `basis` or `method` (fail-closed, same rule), and it
+contributes `fail`. The second holds when `coverage.outOfScope` or
+`coverage.routedElsewhere` is non-empty, and it contributes `degraded`. The
+third holds when any clean row, meaning a row whose `containmentObserved`
+is in the carried labels and not in the carried caught set, carries a
+`basis` other than `substrate` or a `method` other than `intercepted`, and
+it contributes `pass_indirect`. A condition that does not hold contributes
+`pass`. A `pass` is coverage-bounded-observed: it states what was
 assessed and makes no general safety claim. There is intentionally no
 severity threshold, policy ruleset, or free-text reason here; policy belongs
 downstream.
+
+`pass_indirect` is a coverage-complete result at least one of whose clean
+rows rests on an observation that was indirect in vantage (`basis:
+artifact`, the executed artifact's own account of itself) or indirect in
+time (`method: reconstructed`, derived after the event rather than at it).
+`pass` and `pass_indirect` make the same coverage claim and different
+observation claims, and the ordering says only that the second is never the
+stronger of the two. The distinction exists because the top result was
+otherwise reachable by a statement disclaiming substrate observation
+altogether. A party holding the enclosing envelope key but not the
+substrate's observation key can move every row to `basis: artifact` and
+then drop the observation records, the batch root and the run entropy that
+those rows no longer require, and the statement it presents is well formed,
+carries no substrate evidence at all, and reads at the top of the ordering.
+That statement is byte-identical to one an honest producer with no
+substrate vantage emits from the same configuration, so no function of the
+carried bytes refuses the first without refusing the second, and refusing
+both would remove the producer whose attack classes have no substrate
+vantage to observe from. What the fourth value does instead is price both
+below a live interception, which is the only distinction the carried bytes
+support.
+
+`pass_indirect` is not a revival of the retired 0.4 `inferred` value.
+`inferred` was a row-level value whose conflation destroyed, at its only
+carrier, which axis was weak; `pass_indirect` is a statement-level
+reduction over `basis` and `method`, both of which remain required and
+individually readable on every row, so nothing a consumer needs is
+available only through the reduction. A consumer that needs to separate
+indirectness of vantage from indirectness of time MUST read the two row
+members and never the result token.
+
+`pass_indirect` says nothing about signature verification, and the third
+condition is deliberately not phrased over the evidence tier. A `pass` may
+still rest on clean rows deriving `unattested`, which the clean-row
+ordering ranks with `artifact`; that half of the weakness is key-relative,
+belongs to the evidence tier rather than to the recompute, and a byte-pure
+function cannot see it. Neither the token nor the tier substitutes for the
+other, and a consumer crediting any `basis: substrate` row MUST derive the
+tier whichever of the two top results the statement carries.
+
+The default admission threshold is `result == "pass"`. A consumer MAY
+accept `pass_indirect`, and a consumer relaxing its threshold below `pass`
+MUST additionally key on each clean row's `basis` and `method` and on that
+row's derived evidence tier, because below `pass` the ordinal stops
+distinguishing them: a `degraded` reached through a disclosed coverage gap
+and a `degraded` whose clean rows are all `artifact` carry the same token.
 
 Two further bounds sit beside that one. The substrate is a passive sensor,
 not an orchestrator: it observes what crosses the vantages it was armed at,
@@ -786,11 +841,17 @@ cherry-picking from invisible to gap-evident across whatever set a
 producer does publish (a gap, a duplicated sequence number, a shared
 predecessor, or a duplicated genesis is detectable by any consumer holding
 both attestations), without changing this non-claim; their definition
-states the ordering-only scope and the registration-receipt completion. An
-`pass` resting on any `reconstructed` clean row SHOULD be read as
-tolerating transients between the observed states; a `pass` resting on any
-`artifact` clean row, or on an `unattested` substrate clean row, is
-self-reported absence, the weakest. The
+states the ordering-only scope and the registration-receipt completion. A
+result resting on any `reconstructed` clean row SHOULD be read as
+tolerating transients between the observed states, and a result resting on
+any `artifact` clean row is self-reported absence, the weakest; both of
+those statements recompute to `pass_indirect` rather than to `pass`, so the
+first two ranks of this ordering are the two ranks the result token already
+separates from a live interception, and a consumer reading only the token
+still cannot tell them apart from each other. A `pass` resting on an
+`unattested` substrate clean row is self-reported absence too, and is the
+one rank of this ordering the recompute cannot express, because whether a
+covering signature verifies is key-relative and the recompute is not. The
 clean-row ordering applies equally to the clean rows of a `degraded`
 result's assessed classes, with `degraded` additionally bounded by its
 disclosed coverage gap. A consumer MAY reject, never downgrade: an
@@ -1203,7 +1264,12 @@ deny[msg] {
 
 `attested` is coverage-of-existence, not temporal completeness; transient
 tolerance travels on the `method` axis, so an admission rule that needs a
-live observation keys on `method: intercepted` as well as the tier.
+live observation keys on `method: intercepted` as well as the tier. The
+second rule above is the row-level half of the partition the `result`
+recompute now also reduces to a token: a policy gating on `result ==
+"pass"` already excludes every statement that rule would deny, and a policy
+relaxed to admit `pass_indirect` MUST keep the rule, because the token
+states that some clean row is indirect and never which one.
 
 ## Changelog and Migrations
 
@@ -1425,6 +1491,27 @@ predicate-level, and adopted the I-JSON safe-integer profile on every rail.
     reads. No wire byte, digest, signature or conformance vector moves: the
     correction is to a consumer obligation in stage two, which the byte-pure
     validity gate does not reach.
+-   Added a fourth `result` value, `pass_indirect`, ordered between
+    `degraded` and `pass`, and restated the recompute as the minimum of
+    three independent conditions rather than as a cascade. The added
+    condition holds when a clean row carries a `basis` other than
+    `substrate` or a `method` other than `intercepted`. The top result was
+    otherwise reachable by a statement carrying no substrate evidence at
+    all: a party holding the enclosing envelope key alone moves every row
+    to `basis: artifact`, drops the records, the batch root and the run
+    entropy that a substrate row would have required, and lands above the
+    run it downgraded. That mutant is byte-identical to the statement an
+    honest producer with no substrate vantage emits, measured over every
+    finding-bearing vector in the conformance suite, so the two are not
+    separable by any function of the carried bytes and the value prices
+    both rather than refusing either. The condition reads only required row
+    members with closed vocabularies, so the recompute stays byte-pure, and
+    it is deliberately phrased over declared vantage and directness rather
+    than over the evidence tier, so the tier's independence from `result`
+    survives unchanged and the one weakness the tier owns, an `unattested`
+    substrate clean row, keeps the top token as it always did. Four accept
+    vectors and one reject vector move their expected result; no wire
+    member, digest, signature or record moves.
 
 [ResourceDescriptor]: ../v1/resource_descriptor.md
 [Runtime Traces]: runtime-trace.md
