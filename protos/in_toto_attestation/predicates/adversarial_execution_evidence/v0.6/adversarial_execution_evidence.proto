@@ -25,7 +25,12 @@
 //        proto3 enum cannot express this: an unknown wire value would deserialize
 //        to the zero member (`UNKNOWN = 0`) and be silently swallowed, erasing
 //        the very fail-closed signal the recompute depends on. String preserves
-//        the unknown value verbatim for the verifier to reject.
+//        the unknown value verbatim for the verifier to reject. The altitude of
+//        that rejection differs by member and the markdown states which: an
+//        unknown `basis`/`method`/`containmentObserved` fail-closes a row, while
+//        an unknown `actualLayer` or `networkPosture.posture` makes the whole
+//        statement malformed. Either way the verifier must see the value it was
+//        given, which is what an enum would take away.
 //      - `containmentObserved`'s admissible label set is not even fixed by this
 //        predicate: it is producer vocabulary carried on-wire in
 //        `observationEnvironment.observationVocabulary.{labels,caught}` and read
@@ -42,7 +47,8 @@
 //    the producer. The DSSE signature is computed over
 //    `PAE(payloadType, SERIALIZED_BODY)` -- the Pre-Authentication Encoding over
 //    the body BYTES VERBATIM -- and every downstream digest (corpus manifest
-//    digest, observation-vocabulary digest, `batchRoot` leaves, the run binding)
+//    digest, observation-vocabulary digest, the network-posture object digest
+//    the run binding folds in, `batchRoot` leaves, and the run binding itself)
 //    is taken over RFC 8785 (JCS) canonical bytes. proto3 canonical ProtoJSON is
 //    NOT RFC 8785 / JCS and cannot be made so; at least two divergences are
 //    unfixable:
@@ -170,10 +176,20 @@ message ObservationEnvironment {
   in_toto_attestation.v1.ResourceDescriptor catch_policy = 3 [json_name = "catchPolicy"];
 
   // The substrate-authoritative egress posture and its configuration digest.
+  //
+  // The run binding takes the RFC 8785 canonical digest of THIS WHOLE MESSAGE
+  // as carried on the wire, not the value of its `digest` member, so every
+  // member here is inside the substrate's signature and a member added or
+  // removed after the arming record is signed invalidates the statement. That
+  // is a reason not to extend this message casually: unlike the descriptors
+  // above, a producer-specific member here changes a signed digest.
   message NetworkPosture {
-    // STRING, not enum (see header rule 1): Probity's registered posture
-    // vocabulary (e.g. no_network, allowlist, sinkhole, unsafe_bypass_egress) is
-    // producer identity, validated by the verifier, closed and fail-closed.
+    // STRING, not enum (see header rule 1): the registered posture vocabulary
+    // is closed and fail-closed at exactly four values -- no_network,
+    // allowlist, sinkhole, unsafe_bypass_egress -- and an unregistered value
+    // makes the statement malformed. A proto3 enum would deserialize the
+    // unregistered value to the zero member and erase the rejection, which is
+    // the same reason every other closed vocabulary here is a string.
     string posture = 1;
     map<string, string> digest = 2;
   }
@@ -184,6 +200,9 @@ message ObservationEnvironment {
   // so archived attestations verify without external documentation.
   message ObservationVocabulary {
     // JCS digest of {"caught":[...],"labels":[...]} (algorithm -> lowercase-hex).
+    // This value is also a run-binding input, so narrowing `caught` after the
+    // run changes every record's required aeeRunBinding rather than merely
+    // re-deriving this digest against the arrays beside it.
     map<string, string> digest = 1;
     // Every `containmentObserved` value the producer can emit; sorted ascending
     // by UTF-16 code unit, no duplicates, BMP-only (verifier soundness rules).
