@@ -819,25 +819,24 @@ media type is not `+json`, covers nothing:
 -   `aeeKind` _string_: `interception` (per-event capture, covers caught
     rows); `arming` (run-level: a live, cooperation-independent capture
     vantage was armed for the run before corpus injection; payload MUST
-    carry `armedAt` in RFC 3339 with a zero UTC offset (`Z` or `+00:00`, never a
-    non-zero offset such as `+05:00`) no later than `issuedAt` and
-    `aeePostureDigest` equal to the pinned `networkPosture` digest, and
-    its `aeeMethod` MUST be `intercepted`); `sealed` (run-level: the
-    vantage stayed armed to run-end; payload MUST carry `aeeStillArmed`,
-    a boolean; `aeeDropCount`, an integer counting run-wide dropped
-    observations; and `aeePostureDigest`, the effective posture at
-    run-end; it MAY carry `aeeDropBound`, a producer-declared integer
-    bound; its `aeeMethod` MUST be `intercepted`); or `examination` (the
-    substrate examined artifact-independent state after the fact; its
-    `aeeMethod` MUST be `reconstructed`, and its payload SHOULD identify
-    the states compared).
+    carry `armedAt` under the timestamp profile `issuedAt` defines, no
+    later than `issuedAt`, and `aeePostureDigest` equal to the pinned
+    `networkPosture` digest, and its `aeeMethod` MUST be `intercepted`);
+    `sealed` (run-level: the vantage stayed armed to run-end; payload MUST
+    carry `aeeStillArmed`, a boolean; `aeeDropCount`, an integer counting
+    run-wide dropped observations; and `aeePostureDigest`, the effective
+    posture at run-end; it MAY carry `aeeDropBound`, a producer-declared
+    integer bound; its `aeeMethod` MUST be `intercepted`); or
+    `examination` (the substrate examined artifact-independent state after
+    the fact; its `aeeMethod` MUST be `reconstructed`, and its payload
+    SHOULD identify the states compared).
 -   `aeeMethod` _string_: `intercepted` or `reconstructed`; how the
     substrate observed, stated inside the signature.
 
 A record violating any constraint of its declared `aeeKind` (including a
 missing `armedAt` on an `arming` record, an `armedAt` after `issuedAt`, an
-`armedAt` with a non-zero UTC offset, or
-an `examination` record signed `aeeMethod: intercepted`) covers nothing.
+`armedAt` outside the timestamp profile, or an `examination` record signed
+`aeeMethod: intercepted`) covers nothing.
 A `sealed` record covers no clean row unless its `aeeStillArmed` is
 `true`, its `aeeDropCount` is zero or does not exceed an `aeeDropBound`
 declared in the same signed payload, and its `aeePostureDigest` equals
@@ -996,9 +995,25 @@ since two accepted spellings would mean two canonicalizations for the same
 content. Migrating old producer output to the new name is a producer
 concern that the wire format does not carry.
 
-`issuedAt` _string (RFC 3339 timestamp), required_
+`issuedAt` _Timestamp, required_
 
-When the producer signed the evidence bundle.
+When the producer signed the evidence bundle. `Timestamp` is the framework's
+field type, which requires RFC 3339 in the UTC timezone, and this document
+pins the two choices that type leaves open. A statement is canonicalized
+and digested as its bytes, so no verifier may normalize the field before
+reading it and the admissible set has to be written down; left open, one
+implementation is quietly stricter than another and the divergence surfaces
+only when a statement crosses between them. The date-time separator and the
+zone designator MUST be uppercase, never the lowercase `t` and `z` that
+RFC 3339 also admits, and the zone designator MUST be `Z`, `+00:00` or
+`-00:00`, never a non-zero offset such as `+05:00`. `-00:00` is admitted
+rather than excluded because RFC 3339 Section 4.3 gives it the meaning that
+the instant in UTC is known while the offset to local time is not, which
+describes where the producer stood and not when it signed, and the instant
+is the only thing this document reads from the field. A statement whose
+`issuedAt` is absent, is not RFC 3339, or is RFC 3339 outside this profile
+is malformed. `armedAt` carries the same profile, defined here and cited
+from the arming record so that the two fields cannot drift apart.
 
 ## Example
 
@@ -1231,6 +1246,15 @@ predicate-level, and adopted the I-JSON safe-integer profile on every rail.
     classes object, and it leaves the honest fully-skipped run (attack
     identifiers declared, every class disclosed under `outOfScope`, scoring
     `degraded`) valid.
+-   Typed `issuedAt` as the framework's `Timestamp` rather than as a
+    lowercase RFC 3339 timestamp, which is what the protobuf schema already
+    did, and stated on the field the timestamp profile the type leaves open:
+    uppercase designators, and a zone designator of `Z`, `+00:00` or
+    `-00:00`. The zone rule was previously written only on `armedAt`, so a
+    statement whose `issuedAt` carried `+05:00` was conformant while being
+    off-guideline, and the case rule was written nowhere, which had already
+    split two independently written verifiers on the same bytes. `armedAt`
+    now cites the profile instead of restating half of it.
 
 [Runtime Traces]: runtime-trace.md
 [SCAI]: scai.md

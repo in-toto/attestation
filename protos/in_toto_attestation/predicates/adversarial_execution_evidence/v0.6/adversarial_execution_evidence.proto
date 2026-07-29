@@ -115,6 +115,12 @@ message AdversarialExecutionEvidence {
   // wire this is the producer's exact RFC 3339 string, which is the canonical
   // byte -- see header rule 2 on why ProtoJSON's reformatted output must not be
   // re-hashed.
+  //
+  // The markdown pins the profile this type leaves open: the date-time
+  // separator and the zone designator are uppercase, and the zone designator is
+  // `Z`, `+00:00` or `-00:00`. ProtoJSON parsers accept spellings outside that
+  // profile, so parsing a statement into this message is not a conformance
+  // check on the field; the verifier checks the carried string.
   google.protobuf.Timestamp issued_at = 8 [json_name = "issuedAt"];
 
   // Optional producer extension.
