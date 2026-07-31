@@ -1275,10 +1275,12 @@ media type is not `+json`, covers nothing:
     run-wide dropped observations; `aeePostureDigest`, the effective
     posture at run-end; `aeeObservedSet`; and `aeeObservedAttacks`; it MAY
     carry `aeeDropBound`, a producer-declared integer bound; its `aeeMethod`
-    MUST be `intercepted`); or
+    MUST be `intercepted`);
     `examination` (the substrate examined artifact-independent state after
     the fact; its `aeeMethod` MUST be `reconstructed`, and its payload
-    SHOULD identify the states compared).
+    SHOULD identify the states compared); `moat-drop`; or
+    `uncommitted-observation`. The last two cover nothing, carry no
+    constraints of their own, and are defined below.
 -   `aeeMethod` _string_: `intercepted` or `reconstructed`; how the
     substrate observed, stated inside the signature.
 
@@ -1292,6 +1294,80 @@ declared in the same signed payload, and its `aeePostureDigest` equals
 both the arming record's and the pinned `networkPosture` digest, each a
 check on signed carried bytes, so failing it is a coverage validity
 failure, never a silent pass.
+
+`moat-drop` and `uncommitted-observation` are registered by this document and
+neither covers anything. Both name records substrates were already signing
+under this run binding with no spelling here to sign them under, and the
+alternative to registering them is worse than the absence: stamped
+`interception`, a record of either shape carries no `aeePayloadCommitment` and
+is malformed, and a malformed interception is still a carried interception, so
+a producer taking that route invalidates the whole statement rather than
+merely overclaiming in one record. A kind that covers nothing is the honest
+home for an observation no row may rest on.
+
+`moat-drop` is a drop the containment layer performed and the substrate
+observed from the enforcement path: a packet the kernel refused to forward,
+seen where the refusal happened rather than on the wire.
+`uncommitted-observation` is a run-bound observation the substrate signed
+without committing to a payload -- a catch whose bytes were replaced before a
+commitment could be taken over them, an introspection record attributing
+activity to an artifact rather than to a message, a snapshot reporting what a
+quarantine held.
+
+Neither kind carries constraints, because there is no state in which either
+covers anything and therefore none in which a constraint could change an
+outcome. A verifier MUST verify their signatures as it verifies any record's
+and MUST include their leaves in the `batchRoot` recompute, on the same terms
+as every other carried record. It MUST NOT let either satisfy any row's
+class-match requirement, MUST NOT admit either into the method cap, and MUST
+NOT include either in the `aeeObservedSet` recompute, which is defined over
+`interception` and `examination` records and is unchanged by this
+registration. A row resolving one of these records and nothing else is
+uncovered. A verifier SHOULD report that refusal under a condition naming the
+kind rather than under its unrecognized-kind condition, because a citation of
+a kind that covers nothing by registration and a citation of a kind the
+verifier has never heard of are different producer errors with different
+fixes; this document defines no condition vocabulary, so the distinction is a
+diagnostic obligation and never a validity rule.
+
+What neither kind may be used to claim is the half worth stating, because a
+record that covers nothing can still be read by a party that wants it to mean
+more than it does. A `moat-drop` record evidences that one path refused one
+packet. It does not evidence containment: it says nothing about another path,
+about a retry that succeeded, or about a payload that never reached the
+enforcement point. It cannot make a caught row caught, since
+`containmentObserved` is read only against the carried caught set and a caught
+row still requires an `interception`, and it cannot make a clean row clean,
+which still requires `arming` and `sealed`. It is also not the run's drop
+counter, and the collision of the word is the reason to say so: `aeeDropCount`
+counts observations the substrate FAILED TO RECORD, `moat-drop` records an
+enforcement action the substrate DID record, and a producer incrementing the
+one for the other emits a seal that is wrong in the direction the seal exists
+to catch.
+
+An `uncommitted-observation` record evidences that the substrate saw something
+it declined, or was unable, to commit to. It cannot stand in for an
+`interception` anywhere: not for a caught row's coverage, not for the
+existence requirement a row declaring `attribution: pinned` must satisfy, and
+not for the `expectedPayloads` comparison, which is left with no carried value
+to compare. It does not raise a row's `method` to `intercepted` and does not
+make a row's `attribution` pinnable. A producer MUST NOT put
+`aeePayloadCommitment` on one: a substrate holding a commitment emits an
+`interception`, and a record declaring it holds none while carrying one says
+two things. That obligation is stated and not gated, on the same terms as the
+shared-reference evidencing obligation: no validity requirement, recompute
+input or tier evaluation reads a member of a record that covers nothing, so a
+verifier enforcing it would be inventing a consequence this document does not
+define.
+
+Both registrations are verdict-preserving, which is what makes them additions
+a minor revision may make. A verifier that does not implement them treats each
+as an unrecognized kind, which covers nothing and is otherwise ignored, and
+reaches the same validity answer over the same bytes; the difference is
+confined to what the two verifiers call the refusal. Neither name may later
+acquire covering semantics, which is the other thing registration buys: an
+unregistered name stays available to a future minor version, and these two are
+now spent.
 
 Four reserved members carry the commitments this version adds. Each is
 required on exactly one kind, each is a value the substrate holds at the
@@ -2045,6 +2121,16 @@ the wire, on the corpus and on every published conformance record:
     independent re-run is the strongest external evidence this document has
     that its text is determinate, and a breaking version spends it. The
     predicate is pre-adoption, so the price is payable once and never again.
+-   Registered `moat-drop` and `uncommitted-observation`, two kinds producers
+    were already signing under this run binding with no spelling here. Both
+    cover nothing, and registering them changes no verdict: a verifier that
+    does not implement them treats each as an unrecognized kind and reaches
+    the same answer, which is why the addition sits inside this version rather
+    than obliging another type. What it buys is that the two names can never
+    later acquire covering semantics, that each states in its own voice what
+    it cannot be used to claim, and that a producer with such an observation
+    has somewhere honest to put it instead of stamping it `interception` and
+    invalidating the statement it was trying to enrich.
 
 [ResourceDescriptor]: ../v1/resource_descriptor.md
 [Runtime Traces]: runtime-trace.md
