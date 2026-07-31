@@ -1,8 +1,8 @@
 # Predicate type: Adversarial Execution Evidence
 
-Type URI: https://in-toto.io/attestation/adversarial-execution-evidence/v0.6
+Type URI: https://in-toto.io/attestation/adversarial-execution-evidence/v0.7
 
-Version: 0.6.0
+Version: 0.7.0
 
 Predicate Name: Adversarial Execution Evidence
 
@@ -36,14 +36,31 @@ begins and another ends. The substrate cryptographically proves what was
 observed; the assembly plane asserts what it means.
 
 A producer therefore cannot claim more than the carried evidence supports. A
-producer claiming less is not detectable from the statement. `batchRoot` is
-recomputed over the records the statement carries, so a producer that drops
-an inconvenient interception and recomputes the root emits a self-consistent
-statement that passes every check in this document. What the root binds is
-the carried set against a party who cannot re-sign the enclosing envelope,
-which is a network attacker rather than the assembly plane the substrate key
-separation is written against. Completeness of that set against the run is
-nowhere proven.
+producer claiming less is not detectable from the statement, and that
+sentence is exact rather than cautious: a statement that withdraws a claim is
+a statement an honest producer with weaker instruments emits from the same
+configuration, so no function of the carried bytes refuses the one without
+refusing the other, and no quantity of additional signed material changes
+that, because additional material is material a withdrawing producer also
+declines to carry.
+
+Between claiming more and claiming less, one rule decides where a commitment
+can help and where it cannot: a commitment carried on a record binds
+precisely the attacks that need that record, and none of the attacks that can
+delete it. `batchRoot` is on the wrong side of that rule and it is worth
+keeping the reason in sight. It is recomputed over the records the statement
+carries, so it can never detect a missing member; what it binds is the
+carried set against a party who cannot re-sign the enclosing envelope, which
+is a network attacker rather than the assembly plane the substrate key
+separation is written against. The run-end `sealed` record is on the right
+side of it, because a party deleting an interception cannot also delete the
+seal and still present a statement carrying a `basis: substrate` row. The
+run-start `arming` record is on the right side of it for coverage inflation,
+because inflation fabricates rows that must point at run-level records the
+inflated statement therefore has to keep. Completeness of the record set
+against the run is still nowhere proven: what the run-end commitment below
+establishes is that the carried set is the emitted set, never that the
+emitted set is everything that happened.
 
 ## Use Cases
 
@@ -264,6 +281,16 @@ so it re-derives for free, and no record's binding moved. Binding the
 carried digest closes it, since a narrowed vocabulary derives a different
 run binding and every record then fails the comparison.
 
+Version 2 is unchanged in 0.7 and no version 3 is defined. Every commitment
+0.7 adds travels either on a record payload, where a substrate signature
+already covers it, or inside the corpus manifest, whose digest is already an
+input here. The manifest gaining `expectedPayloads` therefore changes the
+value of the `corpus` input on every statement carrying one and changes
+nothing about how that input is built, so a producer editing
+`expectedPayloads` after the arming record is signed derives a binding its
+own records do not carry, by the same mechanism that already covers the class
+map beside it.
+
 ## Model
 
 The producer is a containment substrate operator: a functionary that runs the
@@ -287,7 +314,7 @@ downstream summary predicate such as [VSA], computed over this evidence.
   "subject": [
     { "name": "<executed-artifact-name>", "digest": { "sha256": "<64-hex>" } }
   ],
-  "predicateType": "https://in-toto.io/attestation/adversarial-execution-evidence/v0.6",
+  "predicateType": "https://in-toto.io/attestation/adversarial-execution-evidence/v0.7",
   "predicate": {
     "result": "fail",
     "observationEnvironment": {
@@ -296,7 +323,10 @@ downstream summary predicate such as [VSA], computed over this evidence.
         "name": "<corpus-name>",
         "uri": "pkg:<producer>/<corpus>@<version>",
         "digest": { "sha256": "<64-hex-JCS-digest-of-manifest>" },
-        "manifest": { "classes": { "CO": ["CO-EXFIL-1"] } }
+        "manifest": {
+          "classes": { "CO": ["CO-EXFIL-1"] },
+          "expectedPayloads": { "CO-EXFIL-1": ["<64-hex>"] }
+        }
       },
       "catchPolicy": { "digest": { "sha256": "<64-hex-JCS-digest-of-catch-policy>" } },
       "networkPosture": { "posture": "sinkhole", "digest": { "sha256": "<64-hex>" } },
@@ -318,11 +348,28 @@ downstream summary predicate such as [VSA], computed over this evidence.
         "containmentObserved": "egress_captured",
         "basis": "substrate",
         "method": "intercepted",
+        "attribution": "pinned",
         "actualLayer": "policy.egress_sinkhole",
         "observationRefs": [0]
       }
     ],
     "observationRecords": [
+      // aeeKind: interception. Covers the caught row above and carries
+      // aeePayloadCommitment.
+      {
+        "payload": "<base64(canonical +json bytes the substrate signed)>",
+        "payloadType": "<producer-defined media type ending in +json>",
+        "signatures": [ { "keyid": "<hex>", "sig": "<base64>" } ]
+      },
+      // aeeKind: arming. Carries aeeAssessedAttacks.
+      {
+        "payload": "<base64(canonical +json bytes the substrate signed)>",
+        "payloadType": "<producer-defined media type ending in +json>",
+        "signatures": [ { "keyid": "<hex>", "sig": "<base64>" } ]
+      },
+      // aeeKind: sealed. Carries aeeObservedSet and aeeObservedAttacks, and is
+      // required on any statement carrying a basis: substrate row whether or
+      // not a row references it.
       {
         "payload": "<base64(canonical +json bytes the substrate signed)>",
         "payloadType": "<producer-defined media type ending in +json>",
@@ -394,8 +441,8 @@ first condition holds when any `attackResults` row carries a
 containment-observed label from the carried caught set
 (`observationVocabulary.caught`), a label outside the carried
 `observationVocabulary.labels` (fail-closed), or a missing or
-out-of-vocabulary `basis` or `method` (fail-closed, same rule), and it
-contributes `fail`. The second holds when `coverage.outOfScope` or
+out-of-vocabulary `basis`, `method` or `attribution` (fail-closed, same
+rule), and it contributes `fail`. The second holds when `coverage.outOfScope` or
 `coverage.routedElsewhere` is non-empty, and it contributes `degraded`. The
 third holds when any clean row, meaning a row whose `containmentObserved`
 is in the carried labels and not in the carried caught set, carries a
@@ -452,15 +499,33 @@ row's derived evidence tier, because below `pass` the ordinal stops
 distinguishing them: a `degraded` reached through a disclosed coverage gap
 and a `degraded` whose clean rows are all `artifact` carry the same token.
 
-Two further bounds sit beside that one. The substrate is a passive sensor,
-not an orchestrator: it observes what crosses the vantages it was armed at,
-and it has no view of the runner that injects the corpus. It therefore cannot
-verify that the runner executed every attack the manifest names. The set of
-attacks actually executed is a producer assertion. Coverage integrity
-compares the carried rows against the carried manifest, which catches an
-omission the producer failed to declare in `coverage`, but neither comparison
-reaches the run, so a consumer reading a `pass` is relying on producer
-integrity that nothing was silently skipped.
+`attribution` enters the recompute through the fail-closed arm of the first
+condition and nowhere else. A row declaring `paired` is not a weaker result,
+it is a weaker binding between the row and the records that cover it, and the
+two are different questions: the recompute asks what was observed, and
+`attribution` asks how firmly this row is the row that observation belongs to.
+Pricing `paired` in the result would charge an honest producer for a layer
+whose committed value no corpus can predict, which the member's own definition
+states is a permanent condition of some layers rather than a gap in this one.
+A consumer that cares about the binding reads the member; the token never
+carries it, exactly as it never carries the evidence tier.
+
+Two further bounds sit beside that one. The substrate observes what crosses
+the vantages it was armed at, and this document requires nothing of it beyond
+that. Some deployments run a substrate that also dispatches the corpus, and
+such a substrate holds, on its own clock, which probe it issued and which of
+its own records fell inside that probe's window; `aeeObservedAttacks` exists
+so that a substrate holding that correspondence can sign it instead of handing
+it to the assembly plane unsigned. Neither shape reaches the bound stated
+here. A substrate that never saw the runner cannot verify that the runner
+executed every attack the manifest names, and a substrate that dispatched the
+corpus itself still says nothing about an attack that produced no observation,
+because a lower bound over what was observed is silent about what was not. The
+set of attacks actually executed therefore remains a producer assertion under
+both shapes. Coverage integrity compares the carried rows against the carried
+manifest, which catches an omission the producer failed to declare in
+`coverage`, but neither comparison reaches the run, so a consumer reading a
+`pass` is relying on producer integrity that nothing was silently skipped.
 
 The second bound is that four fields sit deliberately outside the run
 binding, because the substrate operates on content digests and has no view of
@@ -501,6 +566,48 @@ establish that the statement is well formed, never that it is true:
     its covering records (`reconstructed` is weaker than `intercepted`);
 -   `batchRoot` recomputes over `observationRecords` (see `batchRoot`).
 
+Five further coverage validity requirements hold on the statement, or on
+every row rather than only on a `basis: substrate` row. Each is a function of
+carried bytes on the same terms as the list above, and a violation of any of
+them makes the attestation invalid:
+
+-   a clean row resolves no `observationRefs` index to an `interception`
+    record. A row stating that nothing was caught while pointing at a record
+    in which the substrate signed that it intercepted traffic states both
+    halves of a contradiction, and the check is a membership test that reads
+    no signature and no key. It is stated over every row because the
+    contradiction does not depend on the vantage the row declares;
+-   every carried record whose payload `aeeKind` is `interception` is
+    resolved by at least one `observationRefs` index on a caught row. An
+    interception the statement carries and no caught row accounts for is an
+    observation the substrate signed and the producer then reported nothing
+    about. One record MAY be resolved by more than one row, so this costs
+    none of the sharing this document already permits;
+-   a statement carrying at least one `basis: substrate` row carries at least
+    one `sealed` record that satisfies every constraint of its kind and whose
+    `aeeRunBinding` equals the derived run binding, whether or not any row
+    resolves an index to it. Before 0.7 a `sealed` record was required only
+    to cover a clean intercepted row, so a statement whose rows were all
+    caught carried none, and the run-end commitment defined under
+    `observationRecords` had nowhere to live on exactly the statements a
+    record deletion works against. A rule conditioned on the presence of the
+    record it constrains is a rule a producer switches off by omission;
+-   `aeeObservedSet` on every carried `sealed` record equals the value
+    recomputed over the carried records, by the construction stated at that
+    member. A seal committing to a record set the statement does not carry
+    does not hang together, in the same sense as a `batchRoot` that does not
+    recompute;
+-   a row declaring `attribution: pinned` resolves at least one
+    `observationRefs` index to an `interception` record, its `attackId`
+    carries an entry in `corpus.manifest.expectedPayloads`, and every
+    `interception` record it resolves carries in its `aeePayloadCommitment`
+    at least one value from that entry. A row whose `attackId` carries no
+    such entry MUST declare `paired`. The first part is not redundant beside
+    the third: a requirement universally quantified over an empty set is
+    vacuously true, so without it a producer deletes the interception
+    records, relabels the row, resolves only run-level records, and still
+    declares the stronger of the two values with nothing checking it.
+
 These requirements are consumption preconditions, not optional lints: a
 consumer that consumes `result`, credits any row, or applies either
 strength ordering MUST first evaluate them, and on failure the attestation
@@ -523,6 +630,88 @@ observation-record signature verification against a substrate key the
 consumer trusts, which is the evidence tier below. A verifier that evaluates
 coverage validity and skips that verification has checked that the producer
 filled the form in correctly.
+
+**What the 0.7 commitments do not close.** Each of the four members 0.7 adds
+is either a bound on inflation or a conversion of an invisible edit into a
+declaration a consumer can read. None is a detector, and the four stop in
+different places, so the limits are stated one at a time rather than as a
+single caveat.
+
+`aeeObservedSet` binds the deletion of a record from the carried set, and only
+while the statement still has to carry the seal. It does not reach a producer
+that declines to run an attack, declines to report a row, or withdraws every
+`basis: substrate` row: once no row declares that basis, `runEntropy`,
+`observationRecords`, `batchRoot` and the `sealed` record become optional
+together, and what remains is a statement an honest producer with no substrate
+vantage emits from the same configuration. It inherits, without curing,
+whatever the substrate did not record, because a commitment to the emitted set
+is a claim about what the substrate emitted and never a claim that nothing else
+happened; an evasion at a boundary that produces no record is faithfully absent
+from a verified commitment. And it is a structural constraint like every other
+requirement here: against a party that can sign records it is exactly as
+forgeable as the rest of the payload.
+
+`aeeObservedAttacks` binds the deletion and the relabelling in one member,
+because deleting every interception record does not delete the seal's claim
+that an attack was observed. Three things bound it in turn. It is a lower bound
+by construction: a seal naming an attack obliges a caught row for that attack,
+and a seal omitting one licenses nothing, so an observation the substrate could
+not attribute subtracts from the claim rather than adding a false one. It is
+available only to a substrate that holds the correspondence, and a substrate
+that does not carries the empty array honestly, so a producer withdraws the
+whole control by presenting a substrate that does not dispatch the corpus. What
+the member changes there is visibility rather than reachability: the withdrawal
+is an empty array on the wire instead of an absence nothing records, and a
+consumer that demands a non-empty set refuses a statement rather than failing
+to notice one. And it names no attack on the record that observed it, so it
+cannot cap a `method` per attack and cannot tell two observations of one attack
+apart.
+
+`aeeAssessedAttacks` binds coverage inflation and nothing else. It cannot
+bind coverage suppression, and that is a property of the target rather than a
+weakness of the rule: a producer that withdraws its rows and discloses the
+classes emits a statement byte-identical to the one an honest producer emits
+after a run that could not assess them, so no rule over the carried statement
+refuses the first without refusing the second. The rule that would close
+suppression inside the format conditions the commitment's presence on the
+disclosure itself, and its price is the artifact-only producer that has no
+substrate and is honest about a class it did not cover, the fully-skipped run
+this document deliberately keeps valid, and every run that loses coverage
+part-way; that price is not paid here. The comparison is a subset rather than
+an equality, which is what keeps the part-way loss expressible, and what the
+subset bounds is the producer's own run-start declaration: a producer that
+declares the whole manifest at run start has committed to the largest set the
+manifest permits and is bounded there by coverage integrity alone. What the
+member removes is the freedom to raise that declaration after the outcome is
+known. It is also computed over the carried manifest, so it is blind to a
+corpus whose manifest never declared the class a consumer wanted assessed.
+
+`expectedPayloads`, `aeePayloadCommitment` and `attribution` bind the
+permutation of the row-to-record assignment, and only on the layers where the
+committed value is predictable from the corpus. They do not bind the deletion,
+because their commitments ride the records a deletion removes; that ground
+belongs to the run-end commitment and not to these. They are unavailable,
+rather than merely absent, wherever a substrate commits to a value no corpus
+author can compute in advance: a commitment taken under a per-run key, one over
+bytes the substrate re-serialized rather than the bytes the artifact emitted,
+one over bytes a scrubbing or capping policy altered, or one over a raw frame
+prefix carrying values a kernel assigned. On those layers `paired` is the true
+answer, and a universal `pinned` requirement would oblige a producer to state a
+falsehood or oblige a substrate to give up the property that made its
+commitment unpredictable. `paired` is therefore itself a free withdrawal: a
+producer declaring it on every row satisfies every rule here, because a
+statement claiming a weaker binding is a statement an honest producer with a
+weaker binding emits. The closure against that producer is the consumer
+obligation stated under Consumer policy obligations, and it is the closure
+rather than a hook into one, in the same place and for the same stated reason
+as the corpus and substrate pins.
+
+One limit is common to all four and is stronger than any of them. A property
+that compares this statement against another statement of the same run is
+unreachable by any rule over one statement, whatever that statement carries: a
+consumer holds one attestation, and a rule asking whether a label was different
+before has no second statement to read. That is the run-population non-claim
+this document already keeps loudest, wearing different clothes.
 
 A caught row is one whose `containmentObserved` label is in the carried
 caught set (`observationVocabulary.caught`); a clean row is one whose
@@ -556,9 +745,10 @@ prefix `aee`, MUST be ignored and MUST NOT alter the derivation.
 The digest-pinned context the evidence was earned under. Five required
 members: `substrate` (the subject reference of the substrate's own
 attestation), `corpus` (name, uri, RECOMMENDED as a purl; the JCS digest of
-the embedded `manifest`, and the `manifest` itself: a map from assessment
-class to the complete array of attack identifiers it defines; an attackId
-MUST NOT appear under more than one class), `catchPolicy` (JCS digest of the
+the embedded `manifest`, and the `manifest` itself, which carries a required
+`classes`, a map from assessment class to the complete array of attack
+identifiers it defines, and an optional `expectedPayloads` defined below; an
+attackId MUST NOT appear under more than one class), `catchPolicy` (JCS digest of the
 parsed catch-policy document, so an empty or permissive policy is
 distinguishable from an enforcing one), `networkPosture` (the
 substrate-authoritative egress posture, drawn from the closed vocabulary
@@ -581,6 +771,38 @@ binding), is required exactly when any row carries `basis: substrate`. The
 manifest pre-image travels in the attestation, so a verifier re-derives
 `corpus.digest` offline and any edit to the assessed set (a dropped attack, a
 renamed class) fails that check.
+
+`corpus.manifest.expectedPayloads` is an optional map from attack identifier
+to the duplicate-free array of lowercase 64-hex commitment values a substrate
+is expected to carry when it observes that attack. Every key MUST be an attack
+identifier the same manifest's `classes` declares, every array MUST be
+non-empty, sorted ascending by UTF-16 code unit and duplicate-free, and every
+entry MUST be lowercase 64-hex; a manifest violating any of these is
+malformed. The map is a sibling of `classes` rather than an enrichment of it,
+because `classes` is the in-scope partition that the manifest floor and
+coverage integrity read, and what an attack looks like on the wire can be
+added, corrected or extended without repartitioning the corpus. It inherits
+the manifest's digest pinning with no new mechanism: it sits inside the
+pre-image `corpus.digest` is taken over, which is a run binding input, so it
+is pinned out of band by the same consumer obligation that pins the classes
+beside it.
+
+The value an entry carries is the commitment as the substrate computes it, and
+not a digest of the input the corpus author wrote down. Where a substrate
+canonicalizes before committing, a path it normalizes or a host name it maps
+to its A-label form, the corpus carries the canonical form; a corpus carrying
+the raw form silently fails to match and every row it should have supported
+falls back to `paired` while looking correct. This is a producer obligation
+that no verifier can check, because a verifier holding the corpus and the
+statement cannot tell an honest absence of an expectation from a mispredicted
+one, and it is stated here because the failure is silent in the direction that
+weakens the claim rather than in the direction that invalidates it.
+
+`expectedPayloads` discharges the versioning commitment recorded in the
+changelog: it is the per-attack expected artifact that example named, so
+attribution strength acquires a normative reader at this version and becomes a
+required row member here. It is not retroactive, and no verifier reading a
+statement of an earlier version may invent the reader.
 
 The `networkPosture.posture` vocabulary is closed. Four values are
 registered: `allowlist`, egress permitted only to a declared destination
@@ -660,15 +882,22 @@ One row per executed attack: `attackId` (must appear in the manifest),
 `observationVocabulary.labels`; consumers treat labels outside the carried
 set as fail-closed), `basis` (required; the observation's vantage, see
 below), `method` (required; the observation's directness, see below),
+`attribution` (required; how firmly the row is bound to the records that
+cover it, see below),
 `actualLayer` (required; which enforcement layer acted, see below), and
 `observationRefs`
 (indexes into `observationRecords` binding this row to the observation
 records that cover it). An `interception` index MAY be referenced by more
 than one row. A producer MUST NOT reference a record from a row whose
-attack the record's committed payload does not evidence; that is a
-producer obligation outside every gate: no validity requirement,
-recompute input, or tier evaluation reads it, so a conforming verifier
-neither can nor may invent an evidencing heuristic for shared references.
+attack the record's committed payload does not evidence. On a row declaring
+`attribution: pinned` that obligation is checkable and is checked, by the
+coverage validity requirement stated above: the corpus declares what the
+attack's interception commits to and the verifier compares. On a row
+declaring `paired` it remains an obligation outside every gate, because no
+validity requirement, recompute input or tier evaluation reads it there, and
+a conforming verifier neither can nor may invent an evidencing heuristic in
+its place. The line between the two is exactly the line the corpus draws by
+carrying an expectation or not.
 No two `attackResults` rows may carry the same `attackId`: one row per
 executed attack is a well-formedness invariant, and a statement with a
 duplicate `attackId` across rows is malformed. Coverage integrity
@@ -780,16 +1009,41 @@ value is exhausted by its membership in the carried caught set: nothing
 normative (neither the `result` recompute, the coverage validity gate,
 the evidence tier, nor either strength ordering) reads anything else from
 the label. An axis earns its own required member exactly when a normative
-reader consumes it, which is why `basis` and `method` are members (the
-recompute and the gate read them) and attribution nuance is not: no
-normative reader consumes attribution strength (a hash-pinned payload
-versus a time-window pairing) or attribution tolerance on clean rows,
-including window bleed between same-layer siblings, so they remain
-non-normative producer vocabulary documented beside the vocabulary's
-definition, and a consumer MUST NOT move a `result` or an evidence tier on
-them.
+reader consumes it, which is why `basis` and `method` are members: the
+recompute and the gate read them.
 
-Both fields are REQUIRED on every row and both vocabularies are closed: a
+`attribution` is the axis that acquires such a reader at this version. It
+states how firmly the row is bound to the records that cover it, over a closed
+two-value vocabulary:
+
+-   `pinned`: the row rests on at least one interception whose committed value
+    the corpus declared in advance, so a consumer holding the pinned corpus
+    can check that the record this row cites is a record of this attack.
+-   `paired`: the row rests on a correspondence established some other way,
+    typically by the window in which the observation fell. The binding is a
+    producer assertion.
+
+Until 0.7 attribution strength was non-normative producer vocabulary, for a
+stated reason: no normative reader consumed it. `expectedPayloads` makes it
+checkable, so the member is born here rather than inherited, and the two
+values are exactly the two readings that reason named, a hash-pinned payload
+and a time-window pairing. Attribution _tolerance_ on clean rows, including
+window bleed between same-layer siblings, is untouched by this and remains
+non-normative producer vocabulary documented beside the observation
+vocabulary's definition; a consumer MUST NOT move a `result` or an evidence
+tier on it.
+
+`pinned` is a claim about the binding and never about the observation. It does
+not make the row's `method` stronger, does not raise its evidence tier, and
+does not enter the `result` recompute except through the fail-closed arm every
+required row member with a closed vocabulary shares. `paired` is a claim a
+producer may always truthfully make, including where the corpus offers an
+expectation, so it is a floor rather than a confession: what a consumer learns
+from it is that this row does not carry the stronger binding, never that the
+producer had one and withheld it.
+
+`basis`, `method` and `attribution` are REQUIRED on every row and all three
+vocabularies are closed: a
 missing value, or any value outside them, is fail-closed exactly as an
 out-of-vocabulary `containmentObserved` label is: the row forces
 `result` to `fail` and can support nothing stronger. The 0.4 values
@@ -902,16 +1156,25 @@ against a dishonest producer is exactly that separation: where the
 observation key is held apart from the assembly plane, the tier defeats a
 pipeline with no substrate in the loop and cross-configuration splices,
 because neither can be produced without a signature under the observation
-key. It does not defeat record drops, and it does not defeat method
-inflation. Both limits are structural rather than gaps in the checks above.
+key. It does not defeat method inflation, and it defeats a record drop only
+where the run-end commitment reaches. Both limits are structural rather than
+gaps in the checks above.
 `batchRoot` recomputes over the carried records, so a party holding the
 envelope key removes a record and recomputes a root that is self-consistent
-over what remains. The `method` cap binds a row to the weakest `aeeMethod`
-across the records that row references, and no record names its attack, since
+over what remains; what refuses that party is `aeeObservedSet` on the seal,
+which is signed by a party that does not control the carried set, and it
+refuses only while the statement still has to carry the seal. The `method`
+cap binds a row to the weakest `aeeMethod`
+across the records that row references, and no per-event record names its
+attack, since
 a substrate signs at observation time and before attribution; the cap is
 therefore per record and never per attack, so re-pointing a row's
 `observationRefs` at an `intercepted` record signed for a different attack
 raises that row's `method` with every substrate signature still verifying.
+`attribution: pinned` narrows that re-pointing wherever the corpus declares
+an expectation for the row's attack, because the borrowed record must then
+also carry that attack's committed value, and narrows nothing where it does
+not.
 What holding the observation key apart defeats is the manufacture of
 substrate evidence, not the assembly plane's selection and arrangement of
 substrate evidence that genuinely exists. Where one party holds both keys
@@ -1000,16 +1263,19 @@ media type is not `+json`, covers nothing:
 -   `aeeRunBinding` _string_: the run binding digest defined under
     Prerequisites.
 -   `aeeKind` _string_: `interception` (per-event capture, covers caught
-    rows); `arming` (run-level: a live, cooperation-independent capture
+    rows; payload MUST carry `aeePayloadCommitment`); `arming` (run-level: a
+    live, cooperation-independent capture
     vantage was armed for the run before corpus injection; payload MUST
     carry `armedAt` under the timestamp profile `issuedAt` defines, no
-    later than `issuedAt`, and `aeePostureDigest` equal to the pinned
-    `networkPosture` digest, and its `aeeMethod` MUST be `intercepted`);
+    later than `issuedAt`, `aeePostureDigest` equal to the pinned
+    `networkPosture` digest, and `aeeAssessedAttacks`, and its
+    `aeeMethod` MUST be `intercepted`);
     `sealed` (run-level: the vantage stayed armed to run-end; payload MUST
     carry `aeeStillArmed`, a boolean; `aeeDropCount`, an integer counting
-    run-wide dropped observations; and `aeePostureDigest`, the effective
-    posture at run-end; it MAY carry `aeeDropBound`, a producer-declared
-    integer bound; its `aeeMethod` MUST be `intercepted`); or
+    run-wide dropped observations; `aeePostureDigest`, the effective
+    posture at run-end; `aeeObservedSet`; and `aeeObservedAttacks`; it MAY
+    carry `aeeDropBound`, a producer-declared integer bound; its `aeeMethod`
+    MUST be `intercepted`); or
     `examination` (the substrate examined artifact-independent state after
     the fact; its `aeeMethod` MUST be `reconstructed`, and its payload
     SHOULD identify the states compared).
@@ -1026,6 +1292,119 @@ declared in the same signed payload, and its `aeePostureDigest` equals
 both the arming record's and the pinned `networkPosture` digest, each a
 check on signed carried bytes, so failing it is a coverage validity
 failure, never a silent pass.
+
+Four reserved members carry the commitments this version adds. Each is
+required on exactly one kind, each is a value the substrate holds at the
+moment it signs that kind, and a record missing or malforming the member its
+kind requires covers nothing, on the same terms as a missing `armedAt`.
+
+`aeePayloadCommitment` _array of strings_, required on an `interception`
+record: the commitment values this interception carries, duplicate-free,
+sorted ascending by UTF-16 code unit (RFC 8785 Section 3.2.3, the
+canonicality rule the vocabulary arrays already carry), non-empty, every
+entry lowercase 64-hex. The member names what an `interception` record has
+always carried and had no reserved spelling for. What a commitment is taken
+over is the substrate's choice and this document does not constrain it,
+because the choice is what keeps an attestation publishable rather than a
+store of the traffic it observed; what a corpus can declare in advance is
+bounded by that same choice, which is the subject of `expectedPayloads`. It
+is an array rather than a single value because one record may be resolved by
+more than one row and may commit to more than one observed value.
+
+`aeeAssessedAttacks` _array of strings_, required on an `arming` record: the
+attack identifiers this run declared, before corpus injection, that it would
+assess. Duplicate-free, sorted ascending by UTF-16 code unit, every entry an
+attack identifier the carried `corpus.manifest.classes` declares; a record
+violating any of these covers nothing. The union of the manifest's
+identifiers for the carried `coverage.assessedClasses` MUST be a subset of
+this array, and a statement violating that is invalid.
+
+The comparison is a subset rather than an equality, and the choice is
+load-bearing in both directions. A subset refuses the claim to have assessed
+more than was declared before any outcome was known, which is the whole of
+what a run-start commitment can bind. An equality would additionally refuse
+the honest run that declared two classes, lost one part-way, and disclosed the
+loss, which is the shape the coverage maps exist to reward; and it would buy,
+against the withdrawal it appears to catch, only the version of that
+withdrawal that leaves the arming record in place, since a producer with no
+`basis: substrate` row left may drop the record and the commitment with it.
+A rule that costs an honest producer a legitimate shape in exchange for
+catching the incomplete form of an attack is not a bargain.
+
+The array is carried inside the signature rather than as a digest over a
+pre-image on the statement's own JSON surface, which is the shape `corpus`
+and `observationVocabulary` take. The two cases differ in who authors the
+value. Those pre-images are producer material a verifier must read, so the
+surface is the right home and the digest is the binding. This value is the
+substrate's own assertion about a moment the assembly plane cannot revisit,
+and splitting it would let the party under scrutiny author the array the
+substrate is committing to. Carrying identifiers rather than a digest also
+admits no value the substrate was not already committing to, since every
+admissible entry appears in the carried manifest and the manifest's digest is
+already a run binding input inside the same signature.
+
+`aeeObservedSet` _string_, required on a `sealed` record: the lowercase
+64-hex SHA-256 of the RFC 8785 canonicalization of the duplicate-free array,
+sorted ascending by UTF-16 code unit, of the lowercase 64-hex leaf hashes of
+every `interception` and `examination` record the substrate emitted for this
+run, where a leaf hash is `H(0x00 || the record's DSSE PAE bytes)`, the same
+leaf construction `batchRoot` uses. A verifier recomputes the same value over
+the carried records of those two kinds and requires equality; a `sealed`
+record whose `aeeObservedSet` does not equal that recompute covers nothing,
+and because a `sealed` record is required on every statement carrying a
+`basis: substrate` row, such a statement is invalid.
+
+The seal is the only substrate signature made after the run is over, and
+until this member it carried three facts about the vantage and none about the
+observations. What the member adds is a commitment, by a party that does not
+control the carried set, to the set that was emitted. A dropped record removes
+a leaf and the values diverge. A record fabricated to keep a count intact
+cannot be signed without the substrate key, a record borrowed from another run
+fails the run binding comparison, and a record duplicated to the same end is
+already invalid, because two byte-identical entries in `observationRecords`
+make the attestation invalid. It commits to nothing the substrate would have
+to interpret: no attack identifier, no outcome, no label, only a hash over
+bytes the substrate itself produced.
+
+Two producer obligations travel with it and neither is checkable by a
+verifier. The seal is signed after every record it commits to, so a substrate
+that examines state after run end seals after that examination rather than
+before it; a seal that predates a record the statement carries is a seal its
+own record set contradicts, and the statement is invalid on the recompute
+without the verifier ever learning why. And every site at which the substrate
+drops an observation rather than emitting it MUST increment `aeeDropCount`.
+The two members are siblings: one commits to what the substrate recorded and
+the other to what it failed to record, and a substrate that silently discards
+an observation without counting it emits a wire claim that is wrong while
+looking right, since the seal then commits to a set that is complete by its
+own account and short by the run's.
+
+`aeeObservedAttacks` _array of strings_, required on a `sealed` record: the
+attack identifiers to which this run attributed at least one of its own
+observations. Duplicate-free, sorted ascending by UTF-16 code unit, every
+entry an attack identifier the carried `corpus.manifest.classes` declares; a
+record violating any of these covers nothing. For every identifier in the
+array the statement MUST carry an `attackResults` row with that `attackId`
+whose `containmentObserved` is in the carried caught set, and a statement
+violating that is invalid.
+
+The array is a lower bound and the rule reads in one direction only. A seal
+naming an attack obliges a caught row for that attack; a seal omitting one
+licenses nothing, and in particular does not oblige a clean row. That is what
+makes the member sound without requiring the substrate to resolve every
+ambiguous case: an observation it could not attribute is left out, which
+subtracts from what the seal claims and can never add a claim that is false.
+Over-inclusion is the direction that would be unsound, and a substrate that
+attributes by disjoint dispatch windows cannot produce it.
+
+The empty array is the honest value, and it is required rather than
+omissible. A substrate that does not dispatch the corpus holds no
+correspondence to sign and says so by carrying nothing in the array; a
+substrate that dispatched the corpus and attributed no observation says the
+same thing and means something different. Allowing the member to be absent
+instead would make the whole control escapable by omission, which is the
+defect the mandatory `sealed` record above exists to close and would be
+reintroduced one level down.
 
 An `arming` record's payload MAY additionally carry three reserved members
 that chain runs under the same substrate key: `aeeRunSeq` (a positive
@@ -1130,12 +1509,20 @@ unrecognized `aee*` member can only weaken coverage, the record covering
 nothing, never create it), and the verify-then-read discipline is
 normative here (a payload's fields mean nothing until its signature
 verifies), which closes the parse-before-verify class of deployment
-mistake the JWT lineage is known for. No record is required to name its
-attack. Substrates sign at observation time, before attribution, and
-attribution strength remains producer vocabulary. What an
-`interception` record carries is a commitment to an intercepted payload
-rather than the payload itself, keeping the attestation publishable rather
-than a sensitive-data store.
+mistake the JWT lineage is known for. No per-event record is required to
+name its attack, and none may be: a substrate signs an `interception` or an
+`examination` at observation time, before attribution, so a record naming an
+attack would be signing the runner's account of what it was doing rather than
+its own account of what it saw. The run-level `sealed` record names attacks
+because it is signed at run end, by which time the substrate that dispatched
+the corpus holds the correspondence between its own probes and its own
+records; that is its assertion and not the runner's, and it is why the
+attack-naming member sits on that kind alone. `aeePayloadCommitment` keeps
+the same discipline on the per-event side: an `interception` record carries a
+commitment to an intercepted payload rather than the payload itself, which
+keeps the attestation publishable rather than a sensitive-data store, and the
+comparison that turns the commitment into an attribution happens in the
+verifier, against a corpus pinned out of band, rather than in the substrate.
 
 `batchRoot` _string, required when `observationRecords` is non-empty_
 
@@ -1201,16 +1588,22 @@ from the arming record so that the two fields cannot drift apart.
 ## Example
 
 The schema block above is a complete statement whose `corpus.digest` is
-re-derivable from the embedded manifest (`{"classes":{"CO":["CO-EXFIL-1"]}}`
-canonicalized under RFC 8785 and hashed); the remaining digests are
-placeholders.
+re-derivable from the embedded manifest, which is the whole `manifest` object
+including `expectedPayloads` and not the `classes` map alone, canonicalized
+under RFC 8785 and hashed; the remaining digests are placeholders.
 
 ### Consumer policy obligations
 
-Two expectations are consumer policy, resolved outside the attestation and
+Four expectations are consumer policy, resolved outside the attestation and
 never read from it: which keys count as substrate observation keys (the
-evidence tier's input), and which corpus and substrate this consumer
-expects. A consumer MUST pin, out of band, the corpus digest and the
+evidence tier's input), which corpus and substrate this consumer
+expects, which assessment classes it demands a run to have assessed, and
+what it requires of the row-to-record binding. The first two are stated
+first because they are the older pair; the second two are the closures for
+two attacks no rule over the carried statement can reach, and they are stated
+here rather than left as guidance for that reason.
+
+A consumer MUST pin, out of band, the corpus digest and the
 substrate digest it expects for the deployment it is admitting into, and
 at consumption MUST compare them against
 `observationEnvironment.corpus.digest` and
@@ -1224,6 +1617,49 @@ wrong context. Verification surfaces SHOULD expose one consumer-facing
 admission result that conjoins validity, tier-policy satisfaction, and the
 anchor comparison, so a result-only consumer cannot read a
 valid-but-wrong-context attestation as admissible.
+
+A consumer MUST pin, out of band, the set of assessment classes it requires a
+run to have assessed, and at consumption MUST compare that set against
+`coverage.assessedClasses`; a statement disclosing a demanded class under
+`outOfScope` or `routedElsewhere` is not admitted, exactly as an
+anchor-mismatched statement is not admitted. This is the only obligation in
+this section whose value a consumer must derive from what it wants rather than
+from what a producer published. The corpus anchor pins bytes and says nothing
+about what those bytes must contain, so a consumer that pinned a digest it
+copied out of a producer's bundle has pinned whatever that producer chose to
+ship. The demand is stated over classes rather than over attack identifiers
+because identifiers are corpus-version scoped: a consumer pinning them re-pins
+on every corpus revision, and the list it re-pins to is one it read out of the
+producer's own manifest. A pin whose value comes from the party being checked
+is not a demand.
+
+The obligation exists because withdrawn coverage is invisible in the carried
+bytes and provably so, and because the consumer holds the only fact that
+decides it, which is what it asked for. It therefore never has to tell an
+honest skipped run from a suppressed one: it refuses both, on the ground that
+it demanded the class and the class was not assessed, and the producer's
+intent stops being the question. A consumer that demands no class MUST record
+that decision explicitly rather than reach it by omission, and MUST NOT fold
+the decision into the corpus and substrate pins, which decline something else:
+declining those concedes evidence about any corpus while leaving every
+self-consistency requirement in this document standing, and declining this one
+concedes that a producer may withdraw any class it likes, against which
+nothing in this document stands at all. Absence here is not a degraded
+control; it is the absence of one.
+
+Finally, a consumer decides what it requires of the row-to-record binding and
+of the run-end attack set. A consumer MAY require `attribution: pinned` on
+every row whose attack the pinned corpus carries an `expectedPayloads` entry
+for, and MAY require a non-empty `aeeObservedAttacks` on the seal. Each is a
+refusal of a declared weakness rather than the detection of a hidden one: a
+producer that declares `paired` throughout, or that presents a substrate
+holding no correspondence to sign, violates no requirement in this document,
+and the statement it emits is one an honest producer in the same position
+emits. What the format does is put the weakness on the wire where a policy can
+read it. A consumer that declines either requirement is admitting a statement
+whose row-to-record assignment rests on the producer's word, and the conjoined
+admission result recommended above SHOULD say so rather than report a bare
+pass.
 
 ### Consumer policy example (non-normative)
 
@@ -1280,6 +1716,14 @@ committing per-attack expected artifacts in the corpus manifest),
 attribution strength acquires a normative reader at that version and
 becomes a required member then, not retroactively and not through a
 verifier-invented heuristic in the meantime.
+
+That commitment came due. 0.7 carries `expectedPayloads` in the corpus
+manifest, which is the example the sentence named, so attribution strength is
+a required row member from 0.7 and from no earlier version, spelled
+`attribution`. The clause about retroactivity is what decided that 0.7 is a
+new predicate type rather than a revision of 0.6: a rule that attaches to one
+version and not to its predecessor needs the wire to say which version a
+reader is holding, and `predicateType` is the only member that says so.
 
 Versions 0.1–0.2 were internal producer iterations; 0.3 was the first shape
 proposed for vetting. Relative to those internal versions, 0.3 removed all
@@ -1512,6 +1956,94 @@ predicate-level, and adopted the I-JSON safe-integer profile on every rail.
     substrate clean row, keeps the top token as it always did. Four accept
     vectors and one reject vector move their expected result; no wire
     member, digest, signature or record moves.
+
+0.7 makes checkable four things 0.6 could only describe. It is breaking on
+the wire, on the corpus and on every published conformance record:
+
+-   The predicate type is `.../v0.7` and 0.6 is retired with no alias and no
+    dual-accept window, under the same single-canonicalization rule that
+    retired the 0.4 basis values and the `does_not_assert` spelling. The bump
+    is neither housekeeping nor free. Three members become REQUIRED and a
+    record that was conditionally required becomes unconditional, so a
+    statement valid under 0.6 can be malformed under 0.7. The versioning
+    discipline above says a member becomes required at the version that gives
+    it a normative reader and never retroactively, and that rule is
+    unimplementable unless the wire says which version a reader is holding.
+    `aeeBindingVersion` cannot say it, because it scopes the run binding
+    construction alone and none of these members is a binding input. A minor
+    version was not available either: this document licenses a minor version
+    to append a posture value, a chain dimension or a record kind without
+    changing the covering semantics of an existing kind, and every change
+    below changes the covering semantics of `arming` and `sealed`. So the
+    discipline decides the bump, and the review calendar does not.
+-   A `sealed` record is now required on every statement carrying a
+    `basis: substrate` row rather than only where a clean intercepted row
+    needs covering, and it carries `aeeObservedSet`, a commitment to the leaf
+    hashes of every `interception` and `examination` record the substrate
+    emitted. Until this, the only substrate signature made after the run was
+    over carried three facts about the vantage and none about the
+    observations, and a party holding the enclosing envelope key could delete
+    an inconvenient interception, recompute a root over what remained, and
+    emit a statement that satisfied every requirement in the document. The
+    requirement is unconditional because a rule conditioned on the presence of
+    the record it constrains is a rule a producer switches off by omission,
+    and the statements it was switched off on were exactly the statements the
+    deletion works against.
+-   Two structural requirements join coverage validity and need no signed
+    data at all: a clean row may resolve no index to an `interception`
+    record, and every carried `interception` record is resolved by at least
+    one caught row. The first refuses a relabelled row that still points at
+    the record its caught form cited; the second refuses the escalation of
+    dropping the reference instead of the record. Neither reaches a producer
+    that drops the record itself, which is what the run-end commitment is for,
+    and the second is worth nothing against a producer that also withdraws
+    every substrate row, which is stated where it is defined rather than
+    discovered later.
+-   `aeeObservedAttacks` on the seal names the attacks the run attributed at
+    least one of its own observations to, and obliges a caught row for each.
+    It is the one member here that survives the deletion of every interception
+    record, because the seal's claim does not travel on the records the
+    deletion removes. It is a lower bound in one direction by construction, it
+    is available only to a substrate that dispatched the corpus, and the empty
+    array is required rather than omissible so that a substrate holding no
+    correspondence declares that on the wire instead of leaving an absence
+    nothing records.
+-   `aeeAssessedAttacks` on the arming record names the attacks the run
+    declared, before injection, that it would assess, and the assessed set
+    carried at run end must be a subset of it. It binds coverage inflation,
+    which is the withdrawal's mirror image and the only half of that pair a
+    commitment can reach: inflation must keep the run-level records its
+    fabricated rows point at, and withdrawal need keep nothing at all. The
+    comparison is deliberately a subset and not an equality, so that a run
+    which loses coverage part-way can still disclose the loss.
+-   `corpus.manifest.expectedPayloads`, `aeePayloadCommitment` on
+    `interception` records, and the required row member `attribution` over the
+    closed vocabulary `pinned` / `paired` together make the shared-reference
+    evidencing obligation checkable, which is the change the versioning
+    discipline above pre-authorised and which is what makes attribution
+    strength a member at this version. A row declaring `pinned` must resolve
+    at least one interception and every interception it resolves must carry a
+    value the corpus declared for that attack; the quantifier is paired with
+    an existence requirement because a universally quantified rule over an
+    empty set is vacuously true, and without the pairing a producer could
+    delete the records and keep the stronger label.
+-   What none of the four closes is stated beside the coverage validity
+    requirements, one member at a time, because the four stop in different
+    places and a single caveat would flatten them. Two of the closures in this
+    version are consumer obligations rather than validity rules, and they are
+    written as obligations under Consumer policy obligations for the same
+    stated reason the corpus and substrate pins are: the deciding fact is one
+    the consumer holds and the statement cannot carry.
+-   The run binding is unchanged and stays at version 2. Every commitment here
+    travels either on a record payload or inside the corpus manifest, whose
+    digest is already an input, so the construction does not move; the value
+    of the `corpus` input moves on every statement carrying
+    `expectedPayloads`, which is the binding working rather than changing.
+-   Every published conformance record breaks, including any built by an
+    independent implementer, and that cost is named rather than absorbed: an
+    independent re-run is the strongest external evidence this document has
+    that its text is determinate, and a breaking version spends it. The
+    predicate is pre-adoption, so the price is payable once and never again.
 
 [ResourceDescriptor]: ../v1/resource_descriptor.md
 [Runtime Traces]: runtime-trace.md

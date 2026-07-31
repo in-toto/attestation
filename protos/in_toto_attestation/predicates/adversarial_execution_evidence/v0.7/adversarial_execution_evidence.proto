@@ -1,5 +1,5 @@
 // Proto representation of predicate type
-// https://in-toto.io/attestation/adversarial-execution-evidence/v0.6
+// https://in-toto.io/attestation/adversarial-execution-evidence/v0.7
 //
 // Validation of all fields is left to the users of this proto. The predicate's
 // soundness lives in the verifier rules (statement well-formedness, the two
@@ -14,7 +14,8 @@
 //
 // 1. STRING-TYPED VOCABULARIES, NEVER proto3 ENUMS.
 //
-//    `result`, `containmentObserved`, `basis`, `method`, `actualLayer`, and
+//    `result`, `containmentObserved`, `basis`, `method`, `attribution`,
+//    `actualLayer`, and
 //    `networkPosture.posture` carry closed value vocabularies, yet every one is
 //    a `string` here, not a proto3 `enum`. This is deliberate and load-bearing:
 //
@@ -27,7 +28,8 @@
 //        the very fail-closed signal the recompute depends on. String preserves
 //        the unknown value verbatim for the verifier to reject. The altitude of
 //        that rejection differs by member and the markdown states which: an
-//        unknown `basis`/`method`/`containmentObserved` fail-closes a row, while
+//        unknown `basis`/`method`/`attribution`/`containmentObserved`
+//        fail-closes a row, while
 //        an unknown `actualLayer` or `networkPosture.posture` makes the whole
 //        statement malformed. Either way the verifier must see the value it was
 //        given, which is what an enum would take away.
@@ -68,27 +70,30 @@
 //    (This mirrors sigstore's decision to DELETE its proto-derived JSON-Schema
 //    rather than maintain a co-equal signed schema.)
 //
-//    Consequences of (2) visible below: `manifest.classes`, `_ext` use
-//    google.protobuf.Struct (proto3 maps cannot carry repeated/array values, so
-//    a message-wrapped modeling would ALTER the JSON shape); `payload` is the
+//    Consequences of (2) visible below: `manifest.classes`,
+//    `manifest.expectedPayloads` and `_ext` use google.protobuf.Struct (proto3
+//    maps cannot carry repeated/array values, so a message-wrapped modeling
+//    would ALTER the JSON shape); `payload` is the
 //    opaque base64 string carried verbatim (not proto `bytes`, whose base64
 //    decode/re-encode round-trip could alter padding); and the reserved
 //    `aee*` payload members (aeeKind, aeeMethod, aeeRunBinding, armedAt,
 //    aeePostureDigest, aeeStillArmed, aeeDropCount, aeeChainScope, aeeRunSeq,
-//    aeePrevRunBinding, aeeVersion, ...) are NOT modeled as proto fields: they
+//    aeePrevRunBinding, aeePayloadCommitment, aeeAssessedAttacks,
+//    aeeObservedSet, aeeObservedAttacks, aeeVersion, ...) are NOT modeled as
+//    proto fields: they
 //    live INSIDE the base64 `payload` bytes and are producer-signed and
 //    opaque-until-verified (verify-then-read), never sibling wire fields.
 
 syntax = "proto3";
 
-package in_toto_attestation.predicates.adversarial_execution_evidence.v06;
+package in_toto_attestation.predicates.adversarial_execution_evidence.v07;
 
 import "in_toto_attestation/v1/resource_descriptor.proto";
 import "google/protobuf/struct.proto";
 import "google/protobuf/timestamp.proto";
 
-option go_package = "github.com/in-toto/attestation/go/predicates/adversarial_execution_evidence/v06";
-option java_package = "io.github.intoto.attestation.predicates.adversarial_execution_evidence.v06";
+option go_package = "github.com/in-toto/attestation/go/predicates/adversarial_execution_evidence/v07";
+option java_package = "io.github.intoto.attestation.predicates.adversarial_execution_evidence.v07";
 
 // The single signed artifact one bounded adversarial-stimulus run emits per
 // system under test.
@@ -172,6 +177,16 @@ message ObservationEnvironment {
     // bytes; see header rule 2.)
     message Manifest {
       google.protobuf.Struct classes = 1;
+
+      // Optional. attackId -> the array of lowercase 64-hex commitment values
+      // a substrate is expected to carry when it observes that attack. A
+      // Struct for the same reason `classes` is one: the values are arrays,
+      // which a proto3 map cannot hold without injecting a nesting level the
+      // wire shape does not have. It sits inside the pre-image
+      // `corpus.digest` is taken over, so adding, editing or removing an
+      // entry after the arming record is signed derives a run binding the
+      // statement's own records do not carry.
+      google.protobuf.Struct expected_payloads = 2 [json_name = "expectedPayloads"];
     }
     Manifest manifest = 4;
   }
@@ -278,6 +293,16 @@ message AttackResult {
   // `observation_refs`, naming the sub-observation within a referenced record's
   // committed payload. Producer vocabulary; nothing normative reads it.
   repeated string observation_selectors = 7 [json_name = "observationSelectors"];
+
+  // How firmly this row is bound to the records that cover it (producer MUST
+  // emit `pinned` or `paired`). STRING, not enum; same fail-closed rule as
+  // `basis`. A `pinned` row is checked against the corpus manifest's
+  // `expectedPayloads` and the covering records' `aeePayloadCommitment`; a
+  // `paired` row rests on a producer-asserted correspondence. The value
+  // constrains the binding and never the result, the method or the evidence
+  // tier. It is declared last because its field number is new, not because it
+  // is optional: the verifier requires it on every row.
+  string attribution = 8;
 }
 
 // One DSSE envelope per observation. The producer signs at observation time,
