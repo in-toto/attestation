@@ -1540,8 +1540,9 @@ minor version may admit detached records addressed by leaf hash with
 that does not recompute over the carried records makes the attestation
 invalid. Because every `basis: substrate` row requires covering records
 under Coverage validity, any valid attestation carrying a substrate row
-carries a `batchRoot`, and a clean run's committed set includes its
-`arming` and `sealed` records. The root commits to the set the statement
+carries a `batchRoot`, and every such attestation's committed set includes a
+`sealed` record, which is now required whether or not a row resolves an index
+to it. The root commits to the set the statement
 carries and not to the set the run produced: it is recomputed from the
 carried records, so a party who can re-sign the enclosing envelope drops a
 record, recomputes over what remains, and emits a statement whose root is
