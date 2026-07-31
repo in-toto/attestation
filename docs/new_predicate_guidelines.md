@@ -56,8 +56,10 @@ Our vetting process is simple, and is based on the process specified in [ITE-9].
     -   Add the new predicate to the list of [existing predicates].
     -   To generate Go/Python/Java language bindings for the new predicate,
         include a [protobuf definition].
-2.  The in-toto Attestation Framework maintainers will review the PR at the
-    next maintainers meeting.
+2.  The in-toto Attestation Framework maintainers will review the PR.
+    Subproject activity is reported at the monthly [community meeting], the
+    open forum for raising a proposal or asking about the status of one.
+    Agendas and minutes are kept with the [meeting notes].
 3.  If accepted, the new predicate type will be included in our directory.
 4.  Finally, if the new [predicateType] URI is defined under the
     https://in-toto.io/attestation namespace, submit a PR to add the following
@@ -67,6 +69,8 @@ Our vetting process is simple, and is based on the process specified in [ITE-9].
 
 [ITE-9]: https://github.com/in-toto/ITE/tree/master/ITE/9#document-format
 [Predicates]: ../spec/v1/predicate.md
+[community meeting]: https://zoom-lfx.platform.linuxfoundation.org/meetings/intoto
+[meeting notes]: https://github.com/in-toto/community/tree/main/community-meetings
 [RFC 3339]: https://tools.ietf.org/html/rfc3339
 [URL redirects list]: https://github.com/in-toto/in-toto.io/blob/main/layouts/index.redirects
 [field types]: ../spec/v1/field_types.md
