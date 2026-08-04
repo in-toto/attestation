@@ -566,7 +566,7 @@ establish that the statement is well formed, never that it is true:
     its covering records (`reconstructed` is weaker than `intercepted`);
 -   `batchRoot` recomputes over `observationRecords` (see `batchRoot`).
 
-Five further coverage validity requirements hold on the statement, or on
+Six further coverage validity requirements hold on the statement, or on
 every row rather than only on a `basis: substrate` row. Each is a function of
 carried bytes on the same terms as the list above, and a violation of any of
 them makes the attestation invalid:
@@ -592,6 +592,20 @@ them makes the attestation invalid:
     `observationRecords` had nowhere to live on exactly the statements a
     record deletion works against. A rule conditioned on the presence of the
     record it constrains is a rule a producer switches off by omission;
+-   every carried record that binds to this run and whose payload `aeeKind`
+    names a covering kind -- `interception`, `arming`, `sealed`,
+    `examination` -- satisfies every constraint of that kind, whether or not
+    any row resolves an `observationRefs` index to it. A constraint evaluated
+    only where a row points is a constraint whose subject the producer
+    chooses: a substrate signs a `sealed` record reporting its moat down, the
+    producer carries that record and points the row at a second seal, and the
+    run reads clean with the record that says otherwise sitting in the
+    statement and inside `batchRoot`. The kinds registered as covering
+    nothing and the kinds a verifier does not recognize are unaffected, since
+    neither carries a constraint that could be violated. This is the
+    universal partner of the requirement above it, over the same records on
+    the same terms: that one asks whether a valid `sealed` record is present,
+    this one asks whether an invalid one is;
 -   `aeeObservedSet` on every carried `sealed` record equals the value
     recomputed over the carried records, by the construction stated at that
     member. A seal committing to a record set the statement does not carry
@@ -2066,6 +2080,18 @@ the wire, on the corpus and on every published conformance record:
     the record it constrains is a rule a producer switches off by omission,
     and the statements it was switched off on were exactly the statements the
     deletion works against.
+-   A record's kind constraints are now evaluated on every carried record of
+    a covering kind rather than only where a row resolves one. Requiring a
+    valid `sealed` record to be present, as the entry above does, says
+    nothing about the invalid ones beside it, and the gap between those two
+    sentences is a producer's to use: carry the `sealed` record the substrate
+    signed with its moat reported down, point the row at a second seal, and
+    the defective record is carried, signed, committed in `batchRoot` and
+    read by nothing. The same gap holds `arming` open through a second arming
+    record, `examination` through an unreferenced one, and `interception`
+    through a caught row of a basis the per-row requirements above do not
+    reach. It is one defect in four places, so it is repaired once, over the
+    kind rather than over the reference.
 -   Two structural requirements join coverage validity and need no signed
     data at all: a clean row may resolve no index to an `interception`
     record, and every carried `interception` record is resolved by at least
