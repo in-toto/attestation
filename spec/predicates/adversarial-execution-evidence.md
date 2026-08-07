@@ -1580,17 +1580,20 @@ strengthen, a row (candidate future kinds, informatively: a hardware-quote
 kind binding the vantage to a measured platform, and a `registration` kind
 carrying a transparency-service receipt over the arming record). The `aee` member prefix is reserved for future versions
 (`aeeVersion` is reserved for a payload contract version); everything else
-in the payload stays producer territory. A producer that defines an
-ordered axis in that territory, meaning any member whose values a reader
-might rank, is defining producer vocabulary rather than a strength axis of
-this predicate: a verifier MUST NOT rank its values, MUST NOT compose it
-by weakest input across records or rows, and MUST NOT read it into
-`result` or into the evidence tier. The two axes this predicate does
-order, `basis` and `method`, are ordered because a normative reader
-consumes them, and a producer-defined axis acquires no such reader by
-being spelled in the same payload. The rule is stated here rather than at
-each future member so that an implementer meets it before the member
-exists.
+in the payload stays producer territory. No member of that territory is
+read by a conforming verifier: a producer-defined member MUST NOT affect
+structural validity, MUST NOT affect `result`, and MUST NOT affect the
+evidence tier, whether or not its values can be ordered. One case is
+worth naming on its own, because it is the one a verifier is tempted to
+read. A producer that defines an ordered axis there, meaning any member
+whose values a reader might rank, is defining producer vocabulary rather
+than a strength axis of this predicate: a verifier MUST NOT rank its
+values and MUST NOT compose it by weakest input across records or rows.
+The two axes this predicate does order, `basis` and `method`, are ordered
+because a normative reader consumes them, and a producer-defined axis
+acquires no such reader by being spelled in the same payload. The rules
+are stated here rather than at each future member so that an implementer
+meets them before the member exists.
 
 _Precedent (informative)._ Reserved members inside a producer-defined
 signed payload follow an established lineage rather than a novel
@@ -2167,6 +2170,21 @@ the wire, on the corpus and on every published conformance record:
     it cannot be used to claim, and that a producer with such an observation
     has somewhere honest to put it instead of stamping it `interception` and
     invalidating the statement it was trying to enrich.
+-   Producer territory is stated to be inert to a verifier. The reserved-prefix
+    paragraph granted a producer everything outside the reserved names and said
+    nothing about what a verifier may do with what it finds there, which left
+    the answer to be guessed once per implementation. A member of that territory
+    now MUST NOT affect structural validity, `result`, or the evidence tier,
+    whether or not its values can be ordered. The ordered case is named
+    separately because it is the one a verifier is tempted to read: an axis a
+    reader might rank looks like a strength axis, and the two this predicate
+    does order are ordered because a normative reader consumes them rather than
+    because they are spelled in the same payload. Both halves are stated at the
+    paragraph that grants the territory rather than at each future member, so an
+    implementer meets them before the member exists. The structural-validity
+    half is not hypothetical: a checker built against this text gated AEE
+    validity on the value of a producer-defined member, which the same
+    implementation's own design document already forbade.
 
 [ResourceDescriptor]: ../v1/resource_descriptor.md
 [Runtime Traces]: runtime-trace.md
