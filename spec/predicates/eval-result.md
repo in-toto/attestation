@@ -128,6 +128,9 @@ A verifier that accepts this attestation learns that the signed claim is authent
 does **not** learn that the metric is correct, that the eval was well designed, that the model is safe
 or fair, or that the score generalizes. Those are out of scope for this predicate.
 
+This predicate does not establish that the evaluation harness or grader is fit for purpose, or
+that it has any particular detection performance.
+
 ## Examples
 
 A private-model eval (subject is the receipt; the model stays secret):
