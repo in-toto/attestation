@@ -103,8 +103,10 @@ consumer can authenticate the verdict but cannot recompute it from the predicate
 digest; a generic verifier MUST NOT treat it as one. This is what lets the evaluated model/dataset stay
 private while the claim is still verifiable.
 
-`assuranceLevel` *(string, required)*: how much a pass is worth: `self_attested` (producer testimony),
-`third_party`, `reproduced`, or `enclave_attested`.
+`assuranceLevel` *(string, required)*: an issuer-declared assurance claim about how the result was
+produced: `self_attested` (producer testimony), `third_party`, `reproduced`, or `enclave_attested`. The
+value is the issuer's own declaration; this predicate does not corroborate it. External corroboration
+belongs in separately referenced evidence.
 
 `subjectProfile` *(string, required)*: which subject the attestation binds to: `receipt` (a binder over
 the receipt; reveals nothing), `public-model` (a disclosed model's real digest), or `release-gate` (a
