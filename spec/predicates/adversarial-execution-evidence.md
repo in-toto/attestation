@@ -1580,7 +1580,17 @@ strengthen, a row (candidate future kinds, informatively: a hardware-quote
 kind binding the vantage to a measured platform, and a `registration` kind
 carrying a transparency-service receipt over the arming record). The `aee` member prefix is reserved for future versions
 (`aeeVersion` is reserved for a payload contract version); everything else
-in the payload stays producer territory.
+in the payload stays producer territory. A producer that defines an
+ordered axis in that territory, meaning any member whose values a reader
+might rank, is defining producer vocabulary rather than a strength axis of
+this predicate: a verifier MUST NOT rank its values, MUST NOT compose it
+by weakest input across records or rows, and MUST NOT read it into
+`result` or into the evidence tier. The two axes this predicate does
+order, `basis` and `method`, are ordered because a normative reader
+consumes them, and a producer-defined axis acquires no such reader by
+being spelled in the same payload. The rule is stated here rather than at
+each future member so that an implementer meets it before the member
+exists.
 
 _Precedent (informative)._ Reserved members inside a producer-defined
 signed payload follow an established lineage rather than a novel
