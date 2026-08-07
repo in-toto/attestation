@@ -92,7 +92,9 @@ for that field. Consumers MUST NOT infer or synthesize a default value from abse
 `suite` *(object, required)*: `{name, version}` of the eval suite.
 
 `claims` *(array, required)*: one or more `{metric, comparator, threshold, passed}`. `comparator` is one
-of `>=`, `>`, `<=`, `<`; `passed` is the pass of `metric comparator threshold`.
+of `>=`, `>`, `<=`, `<`. `passed` is the producer's signed threshold verdict for the stated metric,
+comparator and threshold. Unless an exact observed value is disclosed by a separate profile, a generic
+consumer can authenticate the verdict but cannot recompute it from the predicate alone.
 
 `sampleSize` *(int, required)*: number of samples the result is over.
 
