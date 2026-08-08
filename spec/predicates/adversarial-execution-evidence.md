@@ -715,7 +715,18 @@ falsehood or oblige a substrate to give up the property that made its
 commitment unpredictable. `paired` is therefore itself a free withdrawal: a
 producer declaring it on every row satisfies every rule here, because a
 statement claiming a weaker binding is a statement an honest producer with a
-weaker binding emits. The closure against that producer is the consumer
+weaker binding emits.
+
+There is a second use of these three members, found by implementing them rather
+than by designing them, and recorded here because it was not what they were
+written for. A consumer that demands `pinned` on every attack the carried
+manifest holds an expectation for learns, from its own refusals, which layers of
+its own substrate cannot produce predictable commitments. The refusals are the
+measurement, no adversary is involved, and the answer is about the consumer's
+own stack rather than about any statement it received. Reported by the author of
+the second independent implementation during review of this predicate.
+
+The closure against that producer is the consumer
 obligation stated under Consumer policy obligations, and it is the closure
 rather than a hook into one, in the same place and for the same stated reason
 as the corpus and substrate pins.
@@ -1484,8 +1495,29 @@ licenses nothing, and in particular does not oblige a clean row. That is what
 makes the member sound without requiring the substrate to resolve every
 ambiguous case: an observation it could not attribute is left out, which
 subtracts from what the seal claims and can never add a claim that is false.
-Over-inclusion is the direction that would be unsound, and a substrate that
-attributes by disjoint dispatch windows cannot produce it.
+
+Over-inclusion is the direction that would be unsound. A substrate attributing
+by disjoint dispatch windows cannot produce it, and that is the argument this
+member was written against, but nothing above requires that attribution shape:
+a substrate correlating by connection five-tuple, or by a heuristic over payload
+shape, satisfies every syntactic requirement here while the argument stops
+applying to it. Over-attribution is caught downstream at the row, by the rule
+under `attackResults` that a producer MUST NOT reference a record from a row
+whose attack the record's committed payload does not evidence, checkable on a
+row declaring `attribution: pinned` and an obligation outside every gate on one
+declaring `paired`. That pointer is stated here, rather than left to be met
+several hundred lines later, because a reader who meets this member first will
+otherwise reach the end of it believing the seal alone carries the guarantee.
+
+It does not, and the residue is worth naming. That producer obligation binds the
+producer, while the seal is signed by the substrate, so a consumer holding a
+non-empty `aeeObservedAttacks` cannot read the attribution shape off the seal
+before it has already decided whether to demand `pinned`. Closing that needs a
+substrate-declared token inside the sealed payload, beside `aeeMethod`, which is
+the same kind of statement about how the substrate observed; a producer-declared
+token cannot close it, because the producer sits on the far side of the
+signature and would be reporting a belief about a substrate it cannot inspect.
+No such token is defined in this version.
 
 The empty array is the honest value, and it is required rather than
 omissible. A substrate that does not dispatch the corpus holds no
