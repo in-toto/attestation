@@ -628,6 +628,21 @@ strength ordering MUST first evaluate them, and on failure the attestation
 is invalid and its `result` MUST NOT be consumed, the same handling as
 any malformed statement.
 
+Where a statement carries at least one `basis: substrate` row and no carried
+`sealed` record satisfies every constraint of its kind, the existence
+requirement and its universal partner are unmet by the same record and name
+different repairs. A verifier SHOULD report the unmet existence requirement as
+its primary condition and any refusal naming the defective record's kind beside
+it rather than in its place, because where a satisfying record is carried beside
+the defective one dropping or repairing that record reaches validity and where
+none is it does not: a statement whose only seal reports its moat down is not
+repaired by dropping the seal, and a producer told only that a carried record is
+defective has been told to perform a repair that cannot work. This document
+defines no condition vocabulary, so what is fixed is which of the two a verifier
+reporting a single condition reports and which a verifier reporting a set
+includes, never the identifier either is drawn under, and the obligation is
+diagnostic and never a validity rule.
+
 What these requirements are is worth stating as plainly as what they
 require, because their name invites a reader to take them for a security
 gate on their own, and on their own they are not one. Every check above
@@ -1346,9 +1361,16 @@ anticipated, and not one it can enumerate.
 A `sealed` record covers no clean row unless its `aeeStillArmed` is
 `true`, its `aeeDropCount` is zero or does not exceed an `aeeDropBound`
 declared in the same signed payload, and its `aeePostureDigest` equals
-both the arming record's and the pinned `networkPosture` digest, each a
-check on signed carried bytes, so failing it is a coverage validity
-failure, never a silent pass.
+the pinned `networkPosture` digest and the `aeePostureDigest` of every
+`arming` record the row resolves, each a check on signed carried bytes,
+so failing it is a coverage validity failure, never a silent pass. The
+quantifier is stated because a row may resolve more than one `arming`
+record and the equality holds against each of them: a definite singular
+reads as a promise that a statement carries exactly one, and this
+document permits several. This sentence is stated over a row and its
+set is the records that row resolves; which `arming` records supply the
+set on a check that reads no row is not stated here and is not settled
+by it.
 
 `moat-drop` and `uncommitted-observation` are registered by this document and
 neither covers anything. Both name records substrates were already signing
