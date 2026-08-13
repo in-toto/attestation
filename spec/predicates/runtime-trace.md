@@ -136,8 +136,7 @@ CI/CD platform, this field records the platform’s identity, such as
 URI indicating the type of process performed. Ex: when monitoring a build, this
 field records the build type. For builds on CI/CD platforms, producers SHOULD
 reuse the platform’s published SLSA `buildType` URI, such as
-`https://slsa-framework.github.io/github-actions-buildtypes/workflow/v1` for
-GitHub Actions.
+`https://actions.github.io/buildtypes/workflow/v1` for GitHub Actions.
 
 `monitoredProcess.event` _string_, _required_
 
