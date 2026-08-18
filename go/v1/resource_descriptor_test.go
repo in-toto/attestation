@@ -101,3 +101,39 @@ func TestBadResourceDescriptorDigestLength(t *testing.T) {
 	err = got.Validate()
 	assert.ErrorIs(t, err, ErrIncorrectDigestLength, "did not get expected error when validating ResourceDescriptor with incorrect digest length")
 }
+
+const gitCommitSha1Rd = `{"name":"artifact","digest":{"gitCommit":"a1234567b1234567c1234567d1234567e1234567"}}`
+
+const gitCommitSha256Rd = `{"name":"artifact","digest":{"gitCommit":"a1234567b1234567c1234567d1234567e1234567f1234567a1234567b1234567"}}`
+
+const badGitCommitLengthRd = `{"name":"artifact","digest":{"gitCommit":"abc123"}}`
+
+func TestGitCommitDigestSha1(t *testing.T) {
+	got := &ResourceDescriptor{}
+	err := protojson.Unmarshal([]byte(gitCommitSha1Rd), got)
+
+	assert.NoError(t, err, "Error during JSON unmarshalling")
+
+	err = got.Validate()
+	assert.NoError(t, err, "Error during validation of RD with SHA-1 gitCommit digest")
+}
+
+func TestGitCommitDigestSha256(t *testing.T) {
+	got := &ResourceDescriptor{}
+	err := protojson.Unmarshal([]byte(gitCommitSha256Rd), got)
+
+	assert.NoError(t, err, "Error during JSON unmarshalling")
+
+	err = got.Validate()
+	assert.NoError(t, err, "Error during validation of RD with SHA-256 gitCommit digest")
+}
+
+func TestBadGitCommitDigestLength(t *testing.T) {
+	got := &ResourceDescriptor{}
+	err := protojson.Unmarshal([]byte(badGitCommitLengthRd), got)
+
+	assert.NoError(t, err, "Error during JSON unmarshalling")
+
+	err = got.Validate()
+	assert.ErrorIs(t, err, ErrIncorrectDigestLength, "did not get expected error when validating ResourceDescriptor with incorrect gitCommit digest length")
+}
