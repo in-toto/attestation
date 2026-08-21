@@ -227,6 +227,8 @@ truth of the payload's contents.
 
 ## Example
 
+### Example 1 — minimal (ephemeral key)
+
 A complete Statement follows. The signature is real and re-verifies with the
 procedure in **Model** (length, keccak256, signer recovery). The subject is the exact
 292-byte JSON body below. The signer is an **ephemeral example key** generated for this
@@ -290,6 +292,60 @@ const ok =
      signature: p.signature })).toLowerCase() === p.publisher.toLowerCase();
 // ok === true for the example above; then apply policy: accepted publisher? accepted domain? deadline fresh enough?
 ```
+
+### Example 2 — production receipt (sanctions-screen)
+
+A complete Statement built from a real production receipt captured from the live
+gateway (2026-08-21T03:55:08.648Z, `https://x402.payperbyte.io/feeds/sanctions-screen`). The signature is real and re-verifies
+with the procedure in **Model** (length, keccak256, signer recovery) — checked
+automatically by `evidence/regen_from_capture.mjs` before this example was
+generated. The signer, `0xB48CCc9e3ab67041e3b5D09700138E45cda6AeA8`, is the gateway's live delivery attester
+(not an ephemeral example key). The subject is the exact 3312-byte JSON
+body below.
+
+Exact subject bytes (UTF-8 — the fence content below PLUS one trailing LF (0x0A); total 3312 bytes, sha256 `2fae9140f9b95c09bf7e711cd93086b24464373579710522e774d001d7fa9be3`):
+
+```text
+{"answer":{"v":"sanctions-screen/v1","ts":1787284507,"query":{"address":"0x833589fcd6edb6e08f4c7c32d4f71b54bda02913","name":null,"chain":null},"verdict":"ALLOW","score":100,"reasons":["no match on the OFAC SDN list (19249 entries; list published 2026-08-20, fetched 2026-08-20T23:42:38Z, sha256 50213298d936901a\u2026)","no match on the OFAC Consolidated (non-SDN) list (481 entries; list published 2026-08-20, fetched 2026-08-20T23:42:41Z, sha256 5a629469398539ac\u2026)"],"signals":{"sdn":{"list_available":true,"address_hit":false,"address_matches":[],"name_exact_hit":false,"name_exact_matches":[],"name_fuzzy_hit":false,"name_fuzzy_matches":[],"list_state":{"source":"OFAC SDN (Specially Designated Nationals and Blocked Persons)","source_url":"https://sanctionslistservice.ofac.treas.gov/api/PublicationPreview/exports/SDN.CSV","published_date":"2026-08-20","fetched_at":"2026-08-20T23:42:38Z","content_sha256":"50213298d936901a1aaad7bb19c968dab9e82fa07e8c808aacfae8fcea3d870e","entry_count":19249,"age_days":0,"stale":false},"error":null},"consolidated":{"list_available":true,"address_hit":false,"address_matches":[],"name_exact_hit":false,"name_exact_matches":[],"name_fuzzy_hit":false,"name_fuzzy_matches":[],"list_state":{"source":"OFAC Consolidated (non-SDN) Sanctions List","source_url":"https://sanctionslistservice.ofac.treas.gov/api/PublicationPreview/exports/CONS_PRIM.CSV","published_date":"2026-08-20","fetched_at":"2026-08-20T23:42:41Z","content_sha256":"5a629469398539aca2d180a086543e2161d1203fb2a3c9c737b1d682544df5b1","entry_count":481,"age_days":0,"stale":false},"error":null}},"list_state":{"sdn":{"source":"OFAC SDN (Specially Designated Nationals and Blocked Persons)","source_url":"https://sanctionslistservice.ofac.treas.gov/api/PublicationPreview/exports/SDN.CSV","published_date":"2026-08-20","fetched_at":"2026-08-20T23:42:38Z","content_sha256":"50213298d936901a1aaad7bb19c968dab9e82fa07e8c808aacfae8fcea3d870e","entry_count":19249,"age_days":0,"stale":false},"consolidated":{"source":"OFAC Consolidated (non-SDN) Sanctions List","source_url":"https://sanctionslistservice.ofac.treas.gov/api/PublicationPreview/exports/CONS_PRIM.CSV","published_date":"2026-08-20","fetched_at":"2026-08-20T23:42:41Z","content_sha256":"5a629469398539aca2d180a086543e2161d1203fb2a3c9c737b1d682544df5b1","entry_count":481,"age_days":0,"stale":false}},"retrieved_at":"2026-08-21T03:55:07Z","methodology":"ss-v1","input_hashes":{"sdn":"0x9bcbbaa69c4040ffc3513afab8080366074718c49a18071fc2c9fd865af6f8d4","consolidated":"0xeee09b9059da1fb85d29fdc01bd7e7c6d3b8d76d3712a5cd7937e2bb66d0469b"},"source":"OFAC SDN + OFAC Consolidated (non-SDN) via sanctionslistservice.ofac.treas.gov (official Treasury exports)","error":null},"broadcast":{"ok":false,"tx":null,"delivered":0,"note":"broadcast disabled (SANCTIONS_SCREEN_BROADCAST=0)"},"attestation":{"payloadHash":"0xbe58daa362cf94a4b4d6dc90c8415c306c06d69eedb5f599a69e14e62cc79464","payloadLength":2720,"deadline":2102644507,"signer":"0x344ECaCDe6566294c31397445c98b62a3EEEA456","signature":"0xb63cf806e4d74bc8323de684f502ceda8c04e2e3bbc049dc9d631bd276214dac02dfbb22d624b28deff1359b857e5110247d4c2f7e147232f2fddaca0a084ed21b","domain":{"name":"BYTE Library","version":"1","chainId":421614,"verifyingContract":"0x44729bB148F46d8Db509E47b0453edc271e06e95"}}}
+```
+
+```json
+{
+  "_type": "https://in-toto.io/Statement/v1",
+  "subject": [
+    {
+      "name": "https://x402.payperbyte.io/feeds/sanctions-screen",
+      "digest": {
+        "sha256": "2fae9140f9b95c09bf7e711cd93086b24464373579710522e774d001d7fa9be3",
+        "keccak256": "b14ef4b30838a2964800ace5f02f592834e14c695be5862b54b6ff8d2e1647d3"
+      }
+    }
+  ],
+  "predicateType": "https://payperbyte.io/attestation/eip712-payload-attestation/v1",
+  "predicate": {
+    "alg": "EIP712-PayloadAttestation",
+    "domain": {
+      "name": "BYTE Library",
+      "version": "1",
+      "chainId": 421614,
+      "verifyingContract": "0x44729bB148F46d8Db509E47b0453edc271e06e95"
+    },
+    "publisher": "0xB48CCc9e3ab67041e3b5D09700138E45cda6AeA8",
+    "payloadHash": "0xb14ef4b30838a2964800ace5f02f592834e14c695be5862b54b6ff8d2e1647d3",
+    "payloadLength": 3312,
+    "deadline": 2102644507,
+    "signature": "0x575399d1e3f8fdcfc5586c93be797951a83802b718621aa1e1d938dbf56f443434e1ec4cb18bead30bc4ea2582f587ee1797ea8580334bcd42d682ed5eea6cf11c",
+    "tier": "delivery",
+    "expiresAt": "2036-08-18T03:55:07Z",
+    "attestedAt": "2026-08-21T03:55:08.648Z"
+  }
+}
+```
+
+Re-verification: `evidence/regen_from_capture.mjs` re-derived this exact receipt
+(length, keccak256, EIP-712 signer recovery) from `./attestation-capture-sanctions-2026-08-21.json` and scanned its
+body for degraded-response markers before emitting this example (zero matches).
+The check output is recorded in `capture_verify.json` alongside this file.
 
 ## Changelog and Migrations
 
