@@ -158,7 +158,10 @@ tolerance).
 
 `threshold` _number, required_
 
-The pre-committed bar the observed metric value is compared against.
+The pre-committed bar the observed metric value is compared against. MUST be
+finite: the IEEE 754 special values (positive and negative infinity, NaN) are
+prohibited by the PRML specification, because a manifest carrying one binds a
+bar that no observation can fail or meet.
 
 `seed` _integer, required_
 
