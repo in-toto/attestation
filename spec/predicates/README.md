@@ -15,6 +15,8 @@ our [vetting process], and may be of general interest:
 -   [CycloneDX]: CycloneDX BOM for software artifacts.
 <!-- markdownlint-disable-next-line MD059 -->
 -   [Link]: For migration from [in-toto 0.9].
+-   [PRML]: Success criteria of an AI/ML evaluation, locked before the
+    evaluation is run.
 -   [Reference]: References documents that are relevant to some resource.
 -   [Release]: Details an artifact that is part of a given release version.
 -   [Runtime Traces]: Captures runtime traces of software supply chain
@@ -48,3 +50,4 @@ our [vetting process], and may be of general interest:
 [vetting process]: ../../docs/new_predicate_guidelines.md#vetting-process
 [Reference]: reference.md
 [Simple Verification Result]: svr.md
+[PRML]: prml.md
