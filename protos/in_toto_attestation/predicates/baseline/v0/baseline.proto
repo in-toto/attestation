@@ -1,0 +1,91 @@
+// Protobuf definition for the Baseline Policy Compliance Attestation
+// (predicateType = https://baseline.openssf.org/attestation/0.1)
+//
+// Validation of all fields is left to the users of this proto.
+
+syntax = "proto3";
+
+package in_toto_attestation.predicates.osps_baseline.v0;
+
+import "google/protobuf/struct.proto";
+import "in_toto_attestation/v1/resource_descriptor.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/in-toto/attestation/go/predicates/osps_baseline/v0";
+option java_package = "io.github.intoto.attestation.predicates.osps.baseline.v0";
+
+// A ProjectAssessment declares that the project's controls have been evaluated
+// against the specified baseline policy
+message ProjectAssessment {
+    // author provides a description of the human or software which produced this
+    // assessment.  If multiple humans or software tools are used to evaluate a project,
+    // each should produce their own ProjectAssessment, which can then be bundled
+    // together to provide a complete picture of the project's status
+    in_toto_attestation.v1.ResourceDescriptor author = 1;
+
+    // framework is a TypeURI representing the specific version of the baseline, such as
+    // "https://baseline.openssf.org/versions/2025-02-25"
+    // 
+    string framework = 2 [json_name = "framework"];
+
+    // A list of controls that the project was assessed against.  This list of controls
+    // may be incomplete for a given level, and need to be combined with other statements
+    // from additional authors
+    ControlAssessment controls = 3;
+
+    // timestamp records when author assessed the project
+    google.protobuf.Timestamp asssessed_at = 4 [json_name = "assessedAt"];
+}
+
+// ControlAssessment describes the evaluation of a particular control against the project.
+// This may be supported by multiple pieces of evidence
+message ControlAssessment {
+    // control is a short string of the form "OSPS-BR-01.01" representing a specific
+    // security baseline control, and acts as a unique key across ControlAssessments
+    // within a ProjectAssessment.  Controls should be represented with capital letters,
+    // but consumers should treat them as case-insensitive.
+    //
+    // A ProjectAssessment with multiple ControlAssessments with the same control value
+    // is invalid, and should be rejected.
+    string control = 1;
+
+    // result provides a summary assessment of whether the project meets the specified
+    // control.  If the assessment_results contain their own result values, then this
+    // aggregated result value must be **no stronger** than the lowest assessment_result.
+    // That is, if there is at least one "failure" in the assessment_results, the result
+    // MUST be failure.  If there are no "failure"s in the assessment_results, but at
+    // least one "needs review", then the aggregate result may not be higher than
+    // "needs review".
+    string result = 2;  // Accepted values: "passed", "needs review", "failed"
+
+    // assessment_result provides details about how the author of the assessment came to
+    // the result conclusion.
+    repeated AssessmentResult evidence = 3 [json_name = "evidence"];
+}
+
+// AssessmentResult reports the details of a particular method of assessing a control.
+// For example, if a project consists of four code repositories, it may have a separate
+// AssessmentResult for branch protection controls for each repository.
+message AssessmentResult {
+    // name is a unique identifier within the set of AssessmentResults in a ControlAssessment.
+    string name = 1;
+
+    // result provides a summary assessment of whether the assessed control was active.
+    string result = 2;  // Accepted values: "passed", "needs review", "failed"
+
+    // Implementations may add additional fields.  Additional fields should follow the
+    // in-toto parsing rules, in particular the monotonic principle that ignoring an
+    // attestation or a field within an attestation should never turn a DENY decision into
+    // an allow decision.
+    //
+    // https://github.com/in-toto/attestation/blob/main/spec/v1/README.md#parsing-rules
+    //
+    // Some well-known fields include:
+
+    // description contains a description of what assessment was performed
+    string description = 3;
+
+    // message contains a human-readable string explaining the result of the assessment.
+    // message should only be set if result is not "passed".
+    string message = 4;
+}
