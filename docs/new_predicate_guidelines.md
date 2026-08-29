@@ -59,7 +59,7 @@ Our vetting process is simple, and is based on the process specified in [ITE-9].
 2.  The in-toto Attestation Framework maintainers will review the PR.
     Subproject activity is reported at the monthly [community meeting], the
     open forum for raising a proposal or asking about the status of one.
-    Agendas and minutes are kept with the [meeting notes].
+    Agendas and minutes are kept with the [meeting notes], now on [HackMD].
 3.  If accepted, the new predicate type will be included in our directory.
 4.  Finally, if the new [predicateType] URI is defined under the
     https://in-toto.io/attestation namespace, submit a PR to add the following
@@ -71,6 +71,7 @@ Our vetting process is simple, and is based on the process specified in [ITE-9].
 [Predicates]: ../spec/v1/predicate.md
 [community meeting]: https://zoom-lfx.platform.linuxfoundation.org/meetings/intoto
 [meeting notes]: https://github.com/in-toto/community/tree/main/community-meetings
+[HackMD]: https://hackmd.io/Czv1Si4jQkieo_qByoMkPQ
 [RFC 3339]: https://tools.ietf.org/html/rfc3339
 [URL redirects list]: https://github.com/in-toto/in-toto.io/blob/main/layouts/index.redirects
 [field types]: ../spec/v1/field_types.md
