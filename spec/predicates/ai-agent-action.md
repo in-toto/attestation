@@ -175,7 +175,7 @@ The predicate defines three record types that share a chain:
   "_type": "https://in-toto.io/Statement/v1",
   "subject": [{
     "name": "<agent-session-identifier>",
-    "digest": { "sha256": "<chain-hash-of-the-chain's-genesis-record (stable chain identifier)>" }
+    "digest": { "sha256": "<chain-hash-of-the-chain's-root-record: its genesis record, or the null-priorHead chain_break that roots a post-break segment (stable chain identifier)>" }
   }],
   "predicateType": "https://in-toto.io/attestation/ai-agent-action/v0.1",
   "predicate": {
@@ -258,7 +258,7 @@ The predicate defines three record types that share a chain:
       "timestamp": "<RFC 3339 timestamp>"
     },
     "chain": {
-      "previousHash": "<lowercase 64-hex; equals chainBreak.priorHead; omitted when the prior head is unrecoverable>"
+      "previousHash": "<lowercase 64-hex; equals chainBreak.priorHead; omitted when the prior head is unrecoverable (see Chain shape)>"
     },
     "chainBreak": {
       "reason": "<string>",
@@ -272,6 +272,11 @@ The predicate defines three record types that share a chain:
   }
 }
 ```
+
+When `chainBreak.priorHead` is null, the enclosing Statement's
+`subject[].digest.sha256` carries the break record's own chain hash rather
+than any pre-break chain identifier. This is the identifier the segment's
+subsequent statements also carry (see Chain shape, "Genesis and breaks").
 
 ### Underlying record shape
 
@@ -373,12 +378,17 @@ from identical observations.
 
 The record canonical form is the RFC 8785 (JCS) canonicalization of the audit
 record object, including its `attestation` member, encoded as UTF-8. Object
-members are sorted by UTF-16 code unit, numbers take the shortest form that
-round-trips under IEEE 754, and no insignificant whitespace appears. A
-producer MUST write each JSONL line as exactly these bytes, and a verifier
-MUST recompute the form from the parsed record and MUST reject, fail-closed,
-any line whose bytes differ from the recomputation. The line terminator is
-not part of the record: the chain hash preimage ends at the closing brace.
+members are sorted by UTF-16 code unit, every number is a safe integer (see
+the safe-integer bound below) serialized as a decimal literal with no
+fractional part and no exponent, and no insignificant whitespace appears.
+This form admits no non-integer numbers: a record in which any JSON number
+token carries a fractional part or an exponent, or encodes a magnitude at
+or above 2^53, is malformed, and a verifier MUST reject it fail-closed
+whatever the record's content digests bind. A producer MUST
+write each JSONL line as exactly these bytes, and a verifier MUST recompute
+the form from the parsed record and MUST reject, fail-closed, any line whose
+bytes differ from the recomputation. The line terminator is not part of the
+record: the chain hash preimage ends at the closing brace.
 
 That last obligation is the one that cannot be dropped. Without it the
 preimage has two readings, the bytes on disk and the re-serialization of the
@@ -444,8 +454,20 @@ well-defined preimage to digest. A verifier that holds the response payload
 MUST reject, fail-closed, a record carrying a `contentDigest.response`
 computed from a malformed response.
 
-Floats are permitted here and only here. MCP tool payloads are arbitrary JSON
-and routinely carry them.
+The boundary between the two forms is drawn by where the bytes live rather
+than by which rule takes precedence. A payload lives behind its content
+digest: RFC 8785 canonicalizes the payload bytes, SHA-256 reduces them to a
+lowercase 64-hex string, and only that hex string appears inside a record or
+a Statement. Non-integer numbers in the digested payload are lawful and are
+the reason RFC 8785 governs this form: MCP tool payloads are arbitrary JSON
+and routinely carry floats. Non-integer numbers *inside* a record or a
+Statement, by contrast, are malformed and MUST be rejected fail-closed: the
+record canonical form above admits none, and every Statement field either
+mirrors a record member or is a non-numeric annotation. An implementation that populates `extensions` with
+values derived from a payload MUST encode non-integer numbers as strings, so
+that the record's own canonicalization judges the string and not a JSON
+number the record canonical form does not admit; the reference gateway's
+canonicalizer enforces this at emit time.
 
 Using RFC 8785 for content digests aligns with the registry-level content
 digest scheme proposed in in-toto/attestation#570.
@@ -614,29 +636,43 @@ range between their private choices.
 
 The externally authored conformance corpus for this predicate is maintained
 at [`astrogilda/aee-conformance`](https://github.com/astrogilda/aee-conformance)
-under `vectors-ai-agent-action/`. The corpus at commit
-`92a4340e557615418b1d59f7482f73259beb0b75` certifies the predecessor of
-this revision: its `spec-vendored/` directory freezes the specification
-text at commit `639ec56`, and regeneration against the present text is
-scheduled as a follow-up, at which point the pin advances with it. Once a
-corpus pin regenerated against this text lands, an implementation claiming
-conformance to this predicate MUST accept every vector in the `accept/`
-directory and MUST reject every vector in the `reject/` directory at that
-pin. The corpus's `check_vectors.py` self-check refuses to pass a corpus in
-which any reject condition lacks an accepting twin carrying the same
-condition id, so a verifier that trivially rejects everything does not
-satisfy the corpus.
+under `vectors-ai-agent-action/`. The pinned release is
+[v0.8.0](https://github.com/astrogilda/aee-conformance/releases/tag/v0.8.0),
+at commit `0599e85cfc1b22f5cda5bf4b265de40cd54acb51`, carrying 53 vectors,
+37 accept and 16 reject, across 16 conditions. Its `spec-vendored/`
+directory is regenerated against the specification text at the parent of
+this revision, commit `8783c6b800247f2ffe34714a32a9b722e438d851`, and the
+release notes publish
 
-The corpus is authored by Sankalp Gilda (@astrogilda).
-Corpus-versus-specification drift is detectable by comparing the vendored
-spec against the pinned specification commit, and either version is
-authoritative for its own artifact.
+-   `corpusDigest`
+    `f2be44dbb8d207a444eecc19874b7ba3e1276f15175c7f161e8062909ddc1d2a`, and
+-   `specDigest`
+    `273eb3475d11610b5f868661abb7b5538546c482a1a7d589a07a635ef2a79c02`,
+    which equals the SHA-256 of this specification's bytes at `8783c6b`.
 
-This corpus follows the external-corpus door in
+An implementation claiming conformance to the text at commit `8783c6b`
+MUST accept every vector in the pinned release's `accept/` directory and
+MUST reject every vector in its `reject/` directory. The corpus's
+`check_vectors.py` self-check refuses to pass a corpus in which any reject
+condition lacks an accepting twin carrying the same condition id, so a
+verifier that trivially rejects everything does not satisfy the corpus.
+
+This subsection binds a MUST to a specific pair of bytes: the release
+`v0.8.0` is normative for the specification text it vendors, and every
+subsequent revision of this document (this revision included) is
+normative-in-principle but is not certified until the next release whose
+`spec-vendored/` recomputes to a `specDigest` matching the revised text.
+Between revisions, both the tagged release and the current text remain
+authoritative for their own artefacts, and drift is detectable by
+recomputing `specDigest` over the vendored spec at the pinned tag and
+comparing it against the current text's SHA-256.
+
+The corpus is authored by Sankalp Gilda (@astrogilda). This corpus follows
+the external-corpus door in
 [in-toto/ITE#63](https://github.com/in-toto/ITE/pull/63): a conformance
 suite authored by someone other than the specification's author, with
 negative controls enforced by its self-check. A published run against the
-reference implementation will follow the regeneration.
+reference implementation will follow the next regeneration.
 
 ### Chain shape
 
@@ -729,16 +765,33 @@ remains rejected fail-closed by the paragraph above.
 
 The literal `genesis` appears as `previousHash` exactly once in a chain's
 lifetime, on the first record. Its chain hash becomes the anchor for the
-chain and the stable chain identifier: every statement in the chain,
-`tool_call`, `checkpoint`, and `chain_break` alike, carries the genesis
-record's chain hash as its subject digest, so verification policies can
-target entire audit chains.
+chain and the stable chain identifier: every statement in a genesis-rooted
+chain, `tool_call`, `checkpoint`, and `chain_break` alike, carries the
+genesis record's chain hash as its subject digest, so verification policies
+can target entire audit chains. The general rule is that a chain's
+identifier is the chain hash of its root record, and a root is either a
+genesis record or a `chain_break` with `priorHead: null` (below).
 
 If a chain is broken and restarted (crash, forced rotation, state
 corruption), the attestor MUST emit a signed `chain_break` record. After a
 `chain_break`, the successor carries the break record's chain hash, never
 `genesis`, which binds the discontinuity into the successor chain so that
 discarding the break record breaks linkage.
+
+A `chain_break` with `priorHead: null` roots a new chain segment that has
+no ancestor chain state, so no pre-break `genesis` record's chain hash is
+available to serve as the segment's identifier. The stable chain identifier
+for such a segment is the break record's own chain hash: every statement in
+the segment, the break record's own Statement included, carries the break
+record's chain hash as its `subject[].digest.sha256`. A statement in a
+break-rooted segment MUST NOT carry any other chain's identifier; the
+attestor by definition no longer holds a truthful value for the pre-break
+chain hash, so any statement claiming one in a segment rooted at a
+null-`priorHead` break is malformed and MUST be rejected fail-closed. This
+makes the discontinuity visible on the identifier alone: a verification
+policy that requires the complete history of a session MUST NOT accept a
+break-rooted segment as satisfying it, because the segment's subject digest
+does not equal the pre-break chain's identifier.
 
 A verifier MUST reject, fail-closed, a log in which `genesis` appears more
 than once. This is a MUST and not a SHOULD. A detection obligation a
@@ -835,7 +888,7 @@ This predicate follows the in-toto attestation parsing rules. Summary:
 | Field             | Type              | Required | Description                                         |
 | ----------------- | ----------------- | -------- | --------------------------------------------------- |
 | `reason`          | string            | Yes      | Why the chain was broken (e.g., `"crash_recovery"`, `"forced_rotation"`) |
-| `priorHead`       | string or null    | Yes (may be null) | Last known chain head before the break. When non-null, `predicate.chain.previousHash` carries the same value; when null, the break record carries no `predicate.chain` and roots a new chain segment (see Chain shape). MUST appear in the record even when the value is null; MUST NOT be omitted |
+| `priorHead`       | string or null    | Yes (may be null) | Last known chain head before the break. When non-null, `predicate.chain.previousHash` carries the same value; when null, the break record carries no `predicate.chain` and roots a new chain segment whose stable identifier (and every statement's `subject[].digest.sha256`) is the break record's own chain hash rather than any pre-break chain identifier (see Chain shape, "Genesis and breaks"). MUST appear in the record even when the value is null; MUST NOT be omitted |
 | `priorSequence`   | integer or null   | Yes (may be null) | Last checkpoint sequence before the break. MUST appear in the record even when null; MUST NOT be omitted           |
 | `priorRecordCount`| integer or null   | Yes (may be null) | Last known record count before the break. MUST appear in the record even when null; MUST NOT be omitted            |
 
@@ -1210,20 +1263,40 @@ hide records A-B-C can emit a `chain_break` with `reason: "crash_recovery"`
 and `priorHead: null` to root a new chain segment that has no cryptographic
 tie to the abandoned prefix. No hash link is broken, the second-`"genesis"`
 rule is not tripped, and the presenter chooses whether the abandoned prefix
-is discoverable. A conformant deployment claiming resistance against a
-compromised attestor MUST mitigate this by one of: (1) requiring that any
-`chain_break` with `priorHead: null` be preceded by an externalized
-checkpoint whose head a consumer can compare against any produced-elsewhere
-successor chain segment; (2) requiring an out-of-band co-attestation over
-the `chain_break` record's `id`, `timestamp`, `reason`, and its own record
-chain hash, signed by a distinct party whose key the compromised attestor
-does not hold, and published to a verifier-reachable channel independent of
-the attestor (v0.1 does not admit `parties` on `chain_break` records, so
-the co-attestation is a sibling in-toto statement rather than a member of
-the break record itself); or (3) forbidding `priorHead: null` in the
-deployment profile. Absent one of these, a planted break is an accepted
-residual risk that a verifier should surface as an unattested discontinuity
-rather than silently accepting.
+is discoverable. What no rule inside the presented log can supply is the
+existence of the abandoned prefix: a compromised attestor that restarts
+holds every field on the break record, so any evidence that lives only in
+the presented segment is evidence the same adversary controls.
+
+A conformant deployment claiming resistance against a compromised attestor
+MUST forbid `priorHead: null` in the deployment profile. Producers
+configured this way MUST NOT emit a `chain_break` with `priorHead: null`,
+and verifiers MUST reject, fail-closed, any such record they receive.
+Absent this prohibition, a planted break is an accepted residual risk that
+a verifier should surface as an unattested discontinuity rather than
+silently accepting.
+
+Two further mechanisms are useful as detection aids and are not sufficient
+alone. An externalized checkpoint (see Tail truncation window) is a
+detection aid: it binds the segment a consumer is shown to a head a
+consumer can compare against a produced-elsewhere successor, but it cannot
+bind the segment to the history the presenter chose to omit once the
+identifier splits at a null-`priorHead` break, and its usefulness against
+this attack is further conditioned on the null-`priorHead` subject-digest
+rule ("Genesis and breaks") that makes the split visible. An out-of-band
+co-attestation over the `chain_break` record's `id`, `timestamp`, `reason`,
+and its own record chain hash, signed by a distinct party whose key the
+compromised attestor does not hold, and published to a verifier-reachable
+channel independent of the attestor, is a detection aid: it attests that a
+break was emitted, not that the emission was honest. An adversary who
+restarts the attestor produces a genuine break record carrying exactly the
+fields the co-signer signs, so the co-attestation cannot distinguish an
+honest crash from an adversarial restart. (v0.1 does not admit `parties` on
+`chain_break` records, so the co-attestation, if a deployment chooses to
+require one, is a sibling in-toto statement rather than a member of the
+break record itself.) Deployments MAY layer either mechanism on top of the
+null-`priorHead` prohibition to surface unattested discontinuities as
+first-class alerts, but neither substitutes for the prohibition.
 
 ### Signature scheme and trust model
 
@@ -1328,6 +1401,27 @@ Canonicalization hardening from the second review round:
 -   Recomputed the worked example under the record canonical form and the
   widened signing tuple
 
+Hardening from the third review round:
+
+-   Resolved the float boundary as a data-location rule: payloads live
+  behind their digests and never inside records or Statements; a JSON
+  number token in a record with a fractional part, an exponent, or a
+  magnitude at or above 2^53 is malformed, rejected fail-closed; payload
+  values inlined into `extensions` MUST string-encode non-integer numbers
+-   Defined the stable identifier for a chain rooted in a null-priorHead
+  `chain_break`: a chain's identifier is its root record's chain hash, and
+  a root is a genesis record or a null-priorHead break. Statements in a
+  break-rooted segment MUST NOT carry any other chain's identifier, and a
+  policy requiring complete history MUST NOT accept a break-rooted segment
+  as satisfying it
+-   Deployments claiming resistance against a compromised attestor MUST
+  forbid `priorHead: null`; externalized checkpoints and out-of-band
+  co-attestations remain as detection aids that do not substitute for the
+  prohibition
+-   Bumped the conformance corpus pin to aee-conformance v0.8.0, whose
+  vendored spec matches this document's parent commit 8783c6b
+-   Fixed four list-marker lint violations in the Deviations appendix
+
 ## Acknowledgments
 
 The record canonical form, the strict I-JSON profile, the chain-shape rules,
@@ -1343,20 +1437,25 @@ https://github.com/astrogilda/aee-conformance.
 The following four points depart from the replacement prose deliberately.
 Each is documented in the normative sections referenced.
 
-- **`chain_break` with `priorHead: null`** carries no `predicate.chain`
-  object and roots a new segment. The vendored text has `chain_break` carry
-  `predicate.chain.previousHash` in every case; when the crash also lost the
-  chain state, there is nothing truthful to place there. Security
-  Considerations names the resulting planted-break residual risk and three
-  implementable mitigations.
-- **`tool_call` signing tuple retains `method`, `upstream`, `principal`** at
-  positions 4, 7, 8. The vendored list drops all three. They stay because
-  the `parties` scopes reference them and dropping would hollow provenance;
-  the retention rule is stated in the signing canonical form subsection.
-- **Line terminator is not part of the chain-hash preimage.** The chain
-  hash preimage ends at the closing brace. Vendored prose left this
-  implicit.
-- **On a checkpoint record, `predicate.chain.previousHash` MUST equal
-  `predicate.checkpoint.previousHash` byte-for-byte.** Both derive from the
-  single record `previousHash`. Vendored prose left the equality implicit;
-  it is now a MUST-reject on mismatch.
+-   **`chain_break` with `priorHead: null`** carries no `predicate.chain`
+    object and roots a new segment whose stable identifier is the break
+    record's own chain hash. The vendored text has `chain_break` carry
+    `predicate.chain.previousHash` in every case; when the crash also lost
+    the chain state, there is nothing truthful to place there. Security
+    Considerations names the resulting planted-break residual risk and
+    requires that any deployment claiming resistance against a compromised
+    attestor forbid `priorHead: null`; checkpoint externalization and
+    out-of-band co-attestation remain in the text as detection aids that
+    do not substitute for the prohibition.
+-   **`tool_call` signing tuple retains `method`, `upstream`, `principal`**
+    at positions 4, 7, 8. The vendored list drops all three. They stay
+    because the `parties` scopes reference them and dropping would hollow
+    provenance; the retention rule is stated in the signing canonical form
+    subsection.
+-   **Line terminator is not part of the chain-hash preimage.** The chain
+    hash preimage ends at the closing brace. Vendored prose left this
+    implicit.
+-   **On a checkpoint record, `predicate.chain.previousHash` MUST equal
+    `predicate.checkpoint.previousHash` byte-for-byte.** Both derive from
+    the single record `previousHash`. Vendored prose left the equality
+    implicit; it is now a MUST-reject on mismatch.
