@@ -85,23 +85,37 @@ This predicate follows the
 [in-toto Attestation Framework's parsing rules](../v1/README.md#parsing-rules).
 In addition:
 
--   **The predicate is carried verbatim.** Consumers MUST NOT re-serialize the
-    receipt with their own canonicalization before checking it. The certificate is
-    `digest(canonical(manifest))` under CR's canonical form (spec §2); a carrier that
-    re-encodes the manifest breaks the join between the bytes and the certificate.
--   **Subject join.** `subject[0].digest.sha256` MUST equal the hex part of
-    `predicate.manifest.output.digest`, and `predicate.manifest.digest_alg` MUST be
-    `sha256` for that join to be meaningful. A Statement whose subject and manifest
-    output digests differ is invalid.
+-   **The predicate is carried verbatim, and `manifest` is closed.** Consumers MUST NOT
+    re-serialize the receipt with their own canonicalization before checking it: the
+    certificate is `digest(canonical(manifest))` under CR's canonical form (spec §2), and a
+    carrier that re-encodes the manifest breaks the join between the bytes and the
+    certificate. Because `certificate` covers the whole `manifest` object, the framework's
+    general rules are qualified here as the framework permits ("unless otherwise noted in
+    the predicate specification"): consumers MUST NOT drop unrecognized fields inside
+    `manifest` before recomputing the certificate (doing so turns a well-formed receipt into
+    `MALFORMED`), and producers MUST NOT add extension fields inside `manifest` (doing so
+    changes `certificate`, which the framework's own rule that an extension must not
+    influence any other field already forbids). Extension fields belong in `meta`, which is
+    outside the certificate.
+-   **Subject join.** `subject` MUST contain exactly one entry, and `subject[0].digest.sha256`
+    MUST equal the hex part of `predicate.manifest.output.digest`; `predicate.manifest.digest_alg`
+    MUST be `sha256` for that join to be meaningful. A Statement with more than one subject, or
+    whose subject and manifest output digests differ, is invalid.
 -   **The integrity check is arithmetic-free.** Any consumer can recompute
     `digest(canonical(manifest))` and compare it to `certificate` without any numeric
     capability. A mismatch means the receipt is `MALFORMED` and MUST be refused before
     anything else is considered.
 -   **The presence of a receipt is not an ACCEPT.** A well-formed, correctly signed
     Statement carrying a receipt establishes only that someone claimed this output.
-    The only path to `ACCEPT` is re-execution of the computation by the verifier with
-    a matching output digest (spec §6). Policies MUST NOT treat a valid signature, a
-    transparency-log inclusion, or a certificate match as verification of the output.
+    The only path to `ACCEPT` is the verifier's own re-execution of the computation
+    reproducing the **certificate** — i.e. the verifier's independently built manifest
+    (model, input, computation, arithmetic profile and output digests) canonicalizes to the
+    same certificate (spec §6). Comparing the output digest alone is not sufficient: a
+    manifest field the verifier does not model (for example an unexpected
+    `computation.graph_digest`) yields a different certificate and MUST be refused, which is
+    what makes a forged field detectable (spec §13.1). Policies MUST NOT treat a valid
+    signature, a transparency-log inclusion, or a certificate-integrity match as verification
+    of the output.
 -   **Verdict discipline (spec §6).** A verifier that re-executes returns exactly one
     of `MALFORMED`, `REJECT`, `UNVERIFIABLE`, `ACCEPT`. `UNVERIFIABLE` is returned for
     any receipt whose profile is not `order_independent` — **including when the
@@ -203,9 +217,9 @@ A receipt for one linear layer of a model under the exact `bposit16-quire256`
 profile, produced by the reference implementation, wrapped in a Statement whose
 subject is the certified output. A verifier with the weights and input (fetched by
 digest from an artifact store — the Statement carries claims, not tensors) re-executes
-the layer and compares its output digest to `manifest.output.digest`; `ACCEPT` only
-on a match, and only because the registry confirms `bposit16-quire256` is
-order-independent.
+the layer, builds its own manifest from what it ran, and compares the resulting
+certificate to `certificate`; `ACCEPT` only on a match, and only because the registry
+confirms `bposit16-quire256` is order-independent.
 
 ```json
 {
