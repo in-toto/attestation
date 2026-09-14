@@ -28,6 +28,8 @@ our [vetting process], and may be of general interest:
 -   [SPDX2] and [SPDX3]: SPDX-formatted BOM for software artifacts.
 -   [Simple Verification Result]: Evidence that an artifact has been evaluated
     against one or more policies.
+-   [Source Review Coverage]: Evidence that a source revision was covered by
+    the review it claims, recomputable from the repository.
 -   [Test Result]: A generic schema to express results of any type of tests.
 -   [VULNS]: Defines the metadata to share the results of vulnerability scanning
     on software artifacts.
@@ -48,3 +50,4 @@ our [vetting process], and may be of general interest:
 [vetting process]: ../../docs/new_predicate_guidelines.md#vetting-process
 [Reference]: reference.md
 [Simple Verification Result]: svr.md
+[Source Review Coverage]: source-review-coverage.md
