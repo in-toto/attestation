@@ -31,7 +31,10 @@ our [vetting process], and may be of general interest:
 -   [Test Result]: A generic schema to express results of any type of tests.
 -   [VULNS]: Defines the metadata to share the results of vulnerability scanning
     on software artifacts.
+-   [AI Agent Action]: Records AI agent tool invocations observed by protocol
+    intermediaries for tamper-evident auditing.
 
+[AI Agent Action]: ai-agent-action.md
 [CycloneDX]: https://cyclonedx.org/
 [Link]: link.md
 [New Predicate Guidelines]: ../../docs/new_predicate_guidelines.md
