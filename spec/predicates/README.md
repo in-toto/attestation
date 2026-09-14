@@ -15,6 +15,8 @@ our [vetting process], and may be of general interest:
 -   [CycloneDX]: CycloneDX BOM for software artifacts.
 <!-- markdownlint-disable-next-line MD059 -->
 -   [Link]: For migration from [in-toto 0.9].
+-   [ML Eval Result]: Signed, offline-verifiable machine-learning evaluation
+    results as threshold claims, with private-model commitments.
 -   [Reference]: References documents that are relevant to some resource.
 -   [Release]: Details an artifact that is part of a given release version.
 -   [Runtime Traces]: Captures runtime traces of software supply chain
@@ -34,6 +36,7 @@ our [vetting process], and may be of general interest:
 
 [CycloneDX]: https://cyclonedx.org/
 [Link]: link.md
+[ML Eval Result]: eval-result.md
 [New Predicate Guidelines]: ../../docs/new_predicate_guidelines.md
 [Release]: release.md
 [Runtime Traces]: runtime-trace.md
