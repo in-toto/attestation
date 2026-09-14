@@ -24,6 +24,8 @@ predicates have protobuf definitions:
     chain attributes.
 -   [Test Result]: Expresses the result of a test run in the software supply
     chain.
+-   [Adversarial Execution Evidence]: Records recomputable evidence from a
+    bounded adversarial-stimulus run against a system under test.
 
 ## Supported language bindings
 
@@ -55,6 +57,7 @@ testing the supported language bindings.
 [VULNS]: in_toto_attestation/predicates/vulns/
 [in-toto Link]: in_toto_attestation/predicates/link/
 [Test Result]: in_toto_attestation/predicates/test_result/
+[Adversarial Execution Evidence]: in_toto_attestation/predicates/adversarial_execution_evidence/
 [documentation]: ../docs/protos.md
 [go]: ../go/
 [python]: ../python/
