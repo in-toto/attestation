@@ -45,6 +45,20 @@ claim is true is established only by re-executing the computation and comparing 
 output digest; the attestation carries what a verifier needs to do that, never the
 result of having done it.
 
+**Pin the artifact, not the claim.** For the receipt to be re-executable rather than
+merely re-assertable, the manifest MUST bind every artifact the computation consumed that
+a stranger needs to reproduce the output — the `input` in every receipt, and the `model`
+whenever the computation has weights. A receipt that names a computation without pinning
+the artifact digests it ran on ("the standard inference image") carries nothing to
+re-execute against, and a verifier MUST return `UNVERIFIABLE`, never `ACCEPT`.
+
+**Coverage bounds the verdict.** A receipt attests exactly what `manifest.coverage`
+declares — by default the single named output, in full. An `ACCEPT` says nothing about
+anything outside that scope (other outputs, side effects, timing, untested shapes, or the
+rows a partial receipt did not list); those are out-of-scope — neither attested nor
+denied. Because `coverage` lives inside `manifest`, it is bound by `certificate` and
+cannot be widened after the fact.
+
 ## Schema
 
 ```jsonc
@@ -69,9 +83,10 @@ result of having done it.
         "params": { ... }
       },
       "computation": {"id": "<STRING>", "version": "<STRING>", "graph_digest": "<ALG:HEX>" /* optional */},
-      "model":  {"digest": "<ALG:HEX>", "n_tensors": <INT>},   // optional
-      "input":  {"digest": "<ALG:HEX>", "n_tensors": <INT>},   // optional
-      "output": {"digest": "<ALG:HEX>", "shape": [<INT>, ...]}
+      "model":  {"digest": "<ALG:HEX>", "n_tensors": <INT>},   // required when the computation has weights
+      "input":  {"digest": "<ALG:HEX>", "n_tensors": <INT>},   // required (pin the input)
+      "output": {"digest": "<ALG:HEX>", "shape": [<INT>, ...]},
+      "coverage": {"unit": "output" | "rows", "rows": [<INT>, ...] /* iff unit==rows */, "excludes": ["<STRING>", ...] /* optional */}   // optional; absent = full output
     },
     "certificate": "<ALG:HEX>",            // digest(canonical(manifest))
     "meta": { ... }                        // optional, untrusted, NOT covered by the certificate
@@ -140,6 +155,18 @@ In addition:
     machine. Consumers MAY log it and MUST NOT use it in a verification decision.
 -   **Version refusal.** A consumer that does not implement the `manifest.cr` version
     MUST refuse the receipt (`MALFORMED`) rather than interpret it.
+-   **Recomputable binding (pin the artifact, not the claim).** The manifest MUST bind
+    every artifact the computation consumed that a re-executor needs to reproduce the
+    output: `input` in every receipt, and `model` whenever the computation has weights. A
+    receipt that omits a pinned digest for an artifact its computation actually consumed is
+    re-assertable, not re-executable; a verifier that cannot rebuild the manifest from
+    pinned artifacts MUST return `UNVERIFIABLE`, never `ACCEPT`.
+-   **Coverage bounds the verdict.** An `ACCEPT` attests exactly what `manifest.coverage`
+    declares — absent a `coverage` object, the full named `output`. Outputs, tensors, rows,
+    side effects, timing or shapes outside `coverage` are out-of-scope: a verifier MUST NOT
+    read a green verdict as covering them and MUST NOT treat their absence as a pass.
+    `coverage` is inside `manifest`, so `certificate` binds it and the declared scope
+    cannot be widened after signing.
 
 ### Fields
 
@@ -186,19 +213,32 @@ In addition:
 > `graph_digest` (`<alg>:<hex>`) binds a canonical computation graph so that two
 > different computations cannot share a name (spec §11, draft).
 
-**`manifest.model`, optional** object
+**`manifest.model`, required when the computation has weights** object
 
 > Named-collection digest of the model weights (`digest`, `n_tensors`), spec §3.2.
-> Absent for computations without weights (e.g. a reduction).
+> Required whenever the computation consumes weights, so they are pinned for
+> re-execution; absent only for computations that genuinely have none (e.g. a pure
+> reduction over the input).
 
-**`manifest.input`, optional** object
+**`manifest.input`, required** object
 
-> Named-collection digest of the inputs (`digest`, `n_tensors`), spec §3.2.
+> Named-collection digest of the inputs (`digest`, `n_tensors`), spec §3.2. Required so
+> the receipt pins the input a re-executor must run on; a receipt that does not pin its
+> input is re-assertable only (see Recomputable binding, above).
 
 **`manifest.output`, required** object
 
 > Tensor digest (`digest`, `<alg>:<hex>`) and `shape` (array of int) of the certified
 > output. Its digest is the Statement's subject.
+
+**`manifest.coverage`, optional** object
+
+> The scope an `ACCEPT` attests. Absent, it defaults to the full named `output`. `unit`
+> is `"output"` (the whole output tensor) or `"rows"`; when `"rows"`, `rows` is the exact
+> list of first-axis indices covered and the verdict extends to no others. `excludes` is
+> an optional, informational list naming what is deliberately not attested (e.g. timing,
+> side effects). Bound by `certificate`, so the declared scope cannot be widened after
+> signing.
 
 **`certificate`, required** string
 
@@ -270,6 +310,11 @@ confirms `bposit16-quire256` is order-independent.
 The same Statement with `"profile": "float64"` and `"order_independent": false` is
 equally well-formed and equally signable; a verifier's answer for it is
 `UNVERIFIABLE`, whatever its own re-execution produced.
+
+This example pins both `model` and `input` (so it is re-executable) and omits
+`coverage`, so it attests the full `layer0.output`. A receipt covering only part of an
+output would carry `coverage` with `unit: "rows"` and the exact indices, changing
+`certificate` accordingly.
 
 ## Changelog and Migrations
 
