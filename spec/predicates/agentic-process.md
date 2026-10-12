@@ -22,6 +22,7 @@ can be used to verify generic agnetic process questions, such as:
 5. the process session logs are available  
 
 Also, specific process types validations are supported:
+
 6. is the process aligned?
 7. is this code-development agnetic process referenced the requirements resources
 8. were the organization review-guidelines resources used within the pr-approval agentic process 
