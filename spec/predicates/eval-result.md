@@ -81,6 +81,9 @@ ignored (forward compatibility); and the
 exists. Time fields are RFC 3339. `threshold` is a decimal **string**, never a JSON float, so a value
 is never altered by float round-tripping.
 
+Unless a field specifies otherwise, absence of an optional field means only that no claim is made
+for that field. Consumers MUST NOT infer or synthesize a default value from absence.
+
 ### Fields
 
 `verifier.id` *(TypeURI, required)*: the party that emitted/verified the result.
