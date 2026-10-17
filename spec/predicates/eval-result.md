@@ -69,7 +69,7 @@ of the commitment entry or the predicate-level ResourceDescriptor, as specified 
     "model":   { /* ResourceDescriptor */ },                      // public model, instead of commitments.model
     "dataset": { /* ResourceDescriptor */ },                      // public dataset, instead of commitments.dataset
     "assuranceLevel": "self_attested|third_party|reproduced|enclave_attested",
-    "subjectProfile": "receipt|public-model|release-gate",
+    "subjectProfile": "receipt|public_model|release_gate",
     "preRegistration": { "alg": "sha256", "value": "<hex>" },   // OPTIONAL
     "evidence": [ { /* ResourceDescriptor */ } ],                // OPTIONAL
     "harness": { "name": "<string>", "version": "<string>", "digest": { "sha256": "<hex>" } }  // OPTIONAL
@@ -133,7 +133,7 @@ value is the issuer's own declaration; this predicate does not corroborate it. E
 belongs in `evidence`.
 
 `subjectProfile` *(string, required)*: which subject the attestation binds to: `receipt` (a binder over
-the receipt; reveals nothing), `public-model` (a disclosed model's real digest), or `release-gate` (a
+the receipt; reveals nothing), `public_model` (a disclosed model's real digest), or `release_gate` (a
 release artifact gated on the pass).
 
 `preRegistration` *(object, optional)*: `{alg, value}` over the eval protocol committed before the run.
@@ -214,3 +214,4 @@ is not a conformance example for the proposed in-toto predicate type. The implem
     public model and dataset descriptors, and replace the emitter-specific receipt block with generic
     `evidence`. The [proofbundle implementation draft](https://github.com/b7n0de/proofbundle/pull/301)
     uses an independently versioned vendor predicate type. Discussion: in-toto/attestation#565.
+    The values of `subjectProfile` use snake_case, like those of `assuranceLevel`.
