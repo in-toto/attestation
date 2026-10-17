@@ -65,7 +65,7 @@ may summarize "a verifier confirmed this passed" as passing property strings.
     "subjectProfile": "receipt|public-model|release-gate",
     "preRegistration": { "alg": "sha256", "value": "<hex>" },   // OPTIONAL
     "receipt": { "schema": "<string>", "merkleRootB64": "<base64>" },  // OPTIONAL
-    "harness": { "name": "<string>", "version": "<string>" },   // OPTIONAL
+    "harness": { "name": "<string>", "version": "<string>", "digest": { "sha256": "<hex>" } },  // OPTIONAL
     "anchors": [ /* external time anchors, OPTIONAL, see the anchors extension */ ]
   }
 }
@@ -110,7 +110,11 @@ release artifact gated on the pass).
 
 `receipt` *(object, optional)*: `{schema, merkleRootB64}` binding to the external signed receipt.
 
-`harness` *(object, optional)*: `{name, version}` of the eval harness.
+`harness` *(object, optional)*: the eval harness. `name` and `version` identify it. `digest` is an
+optional [DigestSet](../v1/digest_set.md) over the harness artifact, for consumers that need to bind
+the exact artifact that produced the result. A `harness` that carries only `name` and `version`
+remains conforming. `digest` binds identity only. It asserts nothing about the harness's detection
+performance.
 
 `anchors` *(array, optional)*: external time anchors (e.g. RFC 3161 TSA, OpenTimestamps) for the
 receipt or the pre-registration. Defined by a separate anchors extension.
