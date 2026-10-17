@@ -148,6 +148,9 @@ The digest identifies the referenced evidence artifact. When `content` is presen
 its decoded bytes. A `uri` or `downloadLocation`, when provided, describes the same artifact. For a
 signed receipt, the described artifact includes the signature envelope when that envelope is part of the
 supplied receipt. An internal Merkle root is not a substitute for the digest of that artifact.
+Verification of the statement signature and a referenced artifact's digest does not by itself
+recompute the aggregate; any such recomputation requires the relevant data and aggregation rules
+to be available and applied.
 
 `harness` *(object, optional)*: the eval harness. `name` and `version` identify it. `digest` is an
 optional [DigestSet](../v1/digest_set.md) over the harness artifact, for consumers that need to bind
