@@ -131,11 +131,11 @@ or fair, or that the score generalizes. Those are out of scope for this predicat
 This predicate does not establish that the evaluation harness or grader is fit for purpose, or
 that it has any particular detection performance.
 
-The consequences of this non-claim are not symmetric. For a claim about what the subject achieves,
-a harness that under-detects understates the subject. For a claim about what the subject withholds
-or refuses, a harness that under-detects yields `passed: true` for a subject that did not withhold
-it, and this predicate carries that result no differently from any other. The use cases above and
-the example below are of the second kind.
+The consequences can be asymmetric. When detected positives are evidence of capability, missed
+positives can understate performance. When `passed: true` depends on the absence of detected
+failures, missed failures can instead yield a passing verdict even though the failures occurred.
+This attestation authenticates either verdict without establishing the harness's detection
+capability.
 
 ## Examples
 
