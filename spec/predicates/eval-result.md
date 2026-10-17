@@ -12,8 +12,8 @@ Attest the result of a machine-learning **evaluation** in a way a generic in-tot
 with support for private model or dataset identities through salted commitments and public artifacts
 through content digests. An ML eval has three properties the generic [`test-result`](test-result.md)
 predicate does not model: a **metric threshold** with a pass/fail against it, the need to withhold the
-model/dataset identity, and an optional binding to an external signed receipt (and, later, an external
-time anchor for pre-registration).
+model/dataset identity, and optional references to supporting evidence such as an external signed
+receipt (and, later, an external time anchor for pre-registration).
 
 This predicate authenticates a *claim*: *who signed these exact eval bytes, and that nothing changed
 since*. It does **not** assert the semantic truth, fairness, safety, or generalization of the result;
@@ -38,11 +38,11 @@ issuer and is never in the attestation. A public model or dataset may instead be
 
 ## Model
 
-An evaluation run produces a signed, tamper-evident receipt. This predicate is a projection of that
-receipt onto an in-toto Statement: the `subject` is what the attestation is *about* (the receipt itself,
-a public model artifact, or a gated release artifact), and the predicate carries the eval's facts. The
-detailed per-metric result lives here; a companion [SVR](svr.md)
-may summarize "a verifier confirmed this passed" as passing property strings.
+This predicate records evaluation claims in an in-toto Statement. The `subject` identifies what the
+attestation is about, such as a receipt, a public model artifact, or a gated release artifact. The
+predicate carries the evaluation facts and may reference supporting material through `evidence`. A
+separate signed receipt is optional. Detailed per-metric results live here; a companion [SVR](svr.md)
+may summarize verified properties.
 
 ## Schema
 
@@ -71,7 +71,7 @@ of the commitment entry or the predicate-level ResourceDescriptor, as specified 
     "assuranceLevel": "self_attested|third_party|reproduced|enclave_attested",
     "subjectProfile": "receipt|public-model|release-gate",
     "preRegistration": { "alg": "sha256", "value": "<hex>" },   // OPTIONAL
-    "receipt": { "schema": "<string>", "merkleRootB64": "<base64>" },  // OPTIONAL
+    "evidence": [ { /* ResourceDescriptor */ } ],                // OPTIONAL
     "harness": { "name": "<string>", "version": "<string>", "digest": { "sha256": "<hex>" } }  // OPTIONAL
   }
 }
@@ -123,14 +123,14 @@ public model or dataset, identified by its real content. The descriptor MUST car
 For the model, exactly one of `commitments.model` and predicate-level `model` MUST be present. For the
 dataset, exactly one of `commitments.dataset` and predicate-level `dataset` MUST be present. Each
 present representation MUST satisfy its field requirements. Consumers MUST reject a predicate with both
-representations or neither representation for either identity. Statement `subject` entries do not
-satisfy or violate this count. The existing commitment form is retained; public artifacts may instead
-use descriptors.
+representations or neither representation for either identity. Statement `subject` entries and
+references in `evidence` do not satisfy or violate this count. The existing commitment form is retained;
+public artifacts may instead use descriptors.
 
 `assuranceLevel` *(string, required)*: an issuer-declared assurance claim about how the result was
 produced: `self_attested` (producer testimony), `third_party`, `reproduced`, or `enclave_attested`. The
 value is the issuer's own declaration; this predicate does not corroborate it. External corroboration
-belongs in separately referenced evidence.
+belongs in `evidence`.
 
 `subjectProfile` *(string, required)*: which subject the attestation binds to: `receipt` (a binder over
 the receipt; reveals nothing), `public-model` (a disclosed model's real digest), or `release-gate` (a
@@ -138,7 +138,16 @@ release artifact gated on the pass).
 
 `preRegistration` *(object, optional)*: `{alg, value}` over the eval protocol committed before the run.
 
-`receipt` *(object, optional)*: `{schema, merkleRootB64}` binding to the external signed receipt.
+`evidence` *(array of [ResourceDescriptor](../v1/resource_descriptor.md), optional)*: references to
+material that supports the result, for example an external signed receipt, an evaluation log, or a
+transparency log entry. Each entry MUST carry `digest` and SHOULD carry `mediaType` and one of `uri` or
+`downloadLocation`. This predicate does not interpret the referenced material; a consumer that relies on
+it verifies it under its own rules.
+
+The digest identifies the referenced evidence artifact. When `content` is present, the digest identifies
+its decoded bytes. A `uri` or `downloadLocation`, when provided, describes the same artifact. For a
+signed receipt, the described artifact includes the signature envelope when that envelope is part of the
+supplied receipt. An internal Merkle root is not a substitute for the digest of that artifact.
 
 `harness` *(object, optional)*: the eval harness. `name` and `version` identify it. `digest` is an
 optional [DigestSet](../v1/digest_set.md) over the harness artifact, for consumers that need to bind
@@ -182,15 +191,23 @@ A private-model eval (subject is the receipt; the model stays secret):
     },
     "assuranceLevel": "self_attested",
     "subjectProfile": "receipt",
-    "receipt": { "schema": "proofbundle/v0.1", "merkleRootB64": "…" }
+    "evidence": [{ "name": "eval-receipt", "digest": { "sha256": "…" }, "mediaType": "application/json" }]
   }
 }
 ```
 
-A release-gate example (subject is the deployed artifact's real digest) is in the reference
-implementation's `examples/intoto/release-gate.statement.json`.
+In this example, the evidence artifact is supplied alongside the attestation, so no retrieval location
+is included.
+
+A release-gate example, whose subject is the deployed artifact's digest, is available in the
+[proofbundle implementation draft](https://github.com/b7n0de/proofbundle/blob/3ebc94a3781faec7cef1e7c9781191800e6b621a/examples/intoto/release-gate.statement.json).
+It uses `https://b7n0de.com/attestation/eval-result/v0.2` and illustrates the vendor implementation. It
+is not a conformance example for the proposed in-toto predicate type. The implementation is available in
+[draft PR 301](https://github.com/b7n0de/proofbundle/pull/301) and is not yet merged or released.
 
 ## Changelog and Migrations
 
--   v0.1: initial draft. Reference emitter/verifier: [proofbundle](https://github.com/b7n0de/proofbundle)
-    (`proofbundle intoto`). Discussion: in-toto/attestation#565.
+-   v0.1: initial proposal, revised during review in in-toto/attestation#575 to use `evaluator`, permit
+    public model and dataset descriptors, and replace the emitter-specific receipt block with generic
+    `evidence`. The [proofbundle implementation draft](https://github.com/b7n0de/proofbundle/pull/301)
+    uses an independently versioned vendor predicate type. Discussion: in-toto/attestation#565.
