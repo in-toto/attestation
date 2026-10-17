@@ -50,7 +50,7 @@ may summarize "a verifier confirmed this passed" as passing property strings.
   "subject": [{ "name": "<optional>", "digest": { "<alg>": "<hex>" } }],
   "predicateType": "https://in-toto.io/attestation/eval-result/v0.1",
   "predicate": {
-    "verifier": { "id": "<TypeURI>" },
+    "evaluator": { "id": "<TypeURI>" },
     "evaluatedAt": "<RFC 3339>",
     "suite": { "name": "<string>", "version": "<string>" },
     "claims": [
@@ -85,7 +85,10 @@ for that field. Consumers MUST NOT infer or synthesize a default value from abse
 
 ### Fields
 
-`verifier.id` *(TypeURI, required)*: the party that emitted/verified the result.
+`evaluator.id` *(TypeURI, required)*: the party that ran the evaluation and produced the `claims`. This
+field identifies the evaluation role, distinct from the verification role in [SVR](svr.md). The
+statement signer is authenticated through the enclosing signature envelope. The same party MAY perform
+more than one role.
 
 `evaluatedAt` *(Timestamp, required)*: when the evaluation ran.
 
@@ -147,7 +150,7 @@ A private-model eval (subject is the receipt; the model stays secret):
   "subject": [{ "name": "eval-receipt", "digest": { "sha256": "…" } }],
   "predicateType": "https://in-toto.io/attestation/eval-result/v0.1",
   "predicate": {
-    "verifier": { "id": "https://example.com/verifier" },
+    "evaluator": { "id": "https://example.com/evaluator" },
     "evaluatedAt": "2026-07-05T12:00:00Z",
     "suite": { "name": "safety-refusals", "version": "1.2.0" },
     "claims": [{ "metric": "refusal_rate", "comparator": ">=", "threshold": "0.98", "passed": true }],
