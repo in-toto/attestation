@@ -143,7 +143,7 @@ attestation SHOULD have a subject per artifact:
     {
       "name": "urllib3-2.1.0-py3-none-any.whl",
       "digest": {
-        "sha256": "55901e91...",
+        "sha256": "55901e91..."
       }
     }
   ],

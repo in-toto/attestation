@@ -201,7 +201,7 @@ The following parsing rules apply in addition:
     "predicate": {
         "attributes": [{
             "attribute": "WITH_STACK_PROTECTION",
-            "conditions": { "flags": "-fstack-protector*" },
+            "conditions": { "flags": "-fstack-protector*" }
         }],
         "producer": {
             "uri": "file:///usr/bin/gcc",
@@ -298,7 +298,7 @@ The following parsing rules apply in addition:
                 "name": "my-rsa-lib.so",
                 "digest": { "sha256": "ebebebe..." },
                 "uri": "http://example.com/libraries/my-rsa-lib.so"
-            }
+            },
             "evidence": {
                 "name": "rsa-lib-attribute-report.json",
                 "digest": { "sha256": "0987654..." },
@@ -306,7 +306,7 @@ The following parsing rules apply in addition:
             }
         }],
         "producer": {
-            "uri": "https://example.com/my-github-actions-runner",
+            "uri": "https://example.com/my-github-actions-runner"
         }
     }
 }
@@ -323,14 +323,14 @@ The following parsing rules apply in addition:
         "digest": { "sha256": "78ab6a8..." }
     }],
         
-    "predicateType": "https://in-toto.io/attestation/scai/v0.3"
+    "predicateType": "https://in-toto.io/attestation/scai/v0.3",
     "predicate": {
         "attributes": [{
             "attribute": "VALID_ENCLAVE",
             "target": {
                 "name": "enclave.signed.so",
                 "digest": { "sha256": "e3b0c44..." },
-                "uri": "http://example.com/enclaves/enclave.signed.so",
+                "uri": "http://example.com/enclaves/enclave.signed.so"
             },
             "evidence": {
                 "name": "my-sgx-builder.json",
@@ -359,7 +359,7 @@ The following parsing rules apply in addition:
         "attributes": [{
             "attribute": "attestation-1",
             "evidence": {
-                "uri": "https://example.com/attestations/attestation-1"
+                "uri": "https://example.com/attestations/attestation-1",
                 "digest": { "sha256": "abcdabcd..." },
                 "mediaType": "application/x.dsse+json"
             }
@@ -367,7 +367,7 @@ The following parsing rules apply in addition:
         {
             "attribute": "attestation-2",
             "evidence": {
-                "uri": "https://example.com/attestations/attestation-2"
+                "uri": "https://example.com/attestations/attestation-2",
                 "digest": { "sha256": "01234567..." },
                 "mediaType": "application/x.dsse+json"
             }
@@ -375,7 +375,7 @@ The following parsing rules apply in addition:
         {
             "attribute": "attestation-3",
             "evidence": {
-                "uri": "https://example.com/attestations/attestation-3"
+                "uri": "https://example.com/attestations/attestation-3",
                 "digest": { "sha256": "deadbeef..." },
                 "mediaType": "application/x.dsse+json"
             }
