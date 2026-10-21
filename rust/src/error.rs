@@ -42,6 +42,12 @@ pub enum Error {
     /// This variant includes a string describing the serialization error.
     #[error("Serialization error: {0}")]
     SerializationError(String),
+
+    /// Represents a DSSE envelope that failed to decode or verify.
+    ///
+    /// This variant includes a string describing the envelope error.
+    #[error("Envelope error: {0}")]
+    EnvelopeError(String),
 }
 
 /// A type alias for results that use the custom `Error` type.

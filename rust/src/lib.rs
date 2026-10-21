@@ -41,6 +41,8 @@ use protobuf::well_known_types::struct_::Struct;
 use protobuf::{MessageDyn, MessageField};
 use protobuf_json_mapping::{parse_from_str, print_to_string};
 
+#[cfg(feature = "dsse")]
+pub mod envelope;
 pub mod error;
 pub mod hash_algorithm;
 pub mod predicates;

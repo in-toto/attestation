@@ -8,7 +8,12 @@ authors = ["in-toto Contributors"]
 repository = "https://github.com/in-toto/attestation/rust"
 readme = "README.md"
 
+[features]
+# Sign and verify Statements in DSSE envelopes.
+dsse = ["dep:dsse"]
+
 [dependencies]
+dsse = { version = "0.1.1", optional = true }
 hex = "0.4.3"
 protobuf = "3.7.2"
 protobuf-json-mapping = "3.7.2"

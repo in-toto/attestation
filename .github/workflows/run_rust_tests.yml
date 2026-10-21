@@ -32,6 +32,12 @@ jobs:
       - name: Lint
         run: |
           cd rust && cargo clippy -- -Dwarnings
+      - name: Lint with the dsse feature
+        run: |
+          cd rust && cargo clippy --features dsse -- -Dwarnings
       - name: Run tests
         run: |
           cd rust && cargo test
+      - name: Run tests with the dsse feature
+        run: |
+          cd rust && cargo test --features dsse

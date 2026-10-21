@@ -16,8 +16,24 @@ To import the Rust bindings into your project, add it to your Cargo.toml:
 in_toto_attestation = "0.1.0"
 ```
 
+## Signing and verifying envelopes
+
+The optional `dsse` feature adds the `envelope` module, which signs a Statement
+into a [DSSE] envelope and verifies an envelope back into a Statement. The
+envelope support comes from the [`dsse`](https://crates.io/crates/dsse) crate,
+which the module re-exports as `in_toto_attestation::envelope::dsse`.
+
+```toml
+[dependencies]
+in_toto_attestation = { version = "0.2.0", features = ["dsse"] }
+```
+
+`verify_statement` checks the signatures against the keys and threshold you
+pass, then parses the Statement from the verified payload bytes.
+
 ## Testing
 
 See the [testing docs] for info and instructions for testing this implementation.
 
 [testing docs]: ../docs/testing.md#testing-the-rust-bindings
+[DSSE]: https://github.com/secure-systems-lab/dsse

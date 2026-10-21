@@ -79,5 +79,12 @@ cd rust
 cargo test
 ```
 
+To also run the DSSE envelope tests, which the optional `dsse` feature
+enables:
+
+```bash
+cargo test --features dsse
+```
+
 [Go testing package]: https://pkg.go.dev/testing
 [Python unittest package]: https://docs.python.org/3/library/unittest.html
