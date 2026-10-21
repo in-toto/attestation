@@ -17,7 +17,12 @@ var (
 	ErrSubjectRequired       = errors.New("at least one subject required")
 	ErrDigestRequired        = errors.New("at least one digest required")
 	ErrPredicateTypeRequired = errors.New("predicate type required")
-	ErrPredicateRequired     = errors.New("predicate object required")
+
+	// Deprecated: the predicate is optional (spec/v1/statement.md: "Unset
+	// is treated the same as set-but-empty"), so Validate no longer returns
+	// this error. It is kept so that callers comparing against it still
+	// compile.
+	ErrPredicateRequired = errors.New("predicate object required")
 )
 
 func (s *Statement) Validate() error {
@@ -46,9 +51,8 @@ func (s *Statement) Validate() error {
 		return ErrPredicateTypeRequired
 	}
 
-	if s.GetPredicate() == nil {
-		return ErrPredicateRequired
-	}
+	// The predicate is optional: an omitted, null or empty predicate are
+	// all valid, and are treated the same way (spec/v1/statement.md).
 
 	return nil
 }

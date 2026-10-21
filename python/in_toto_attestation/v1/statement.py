@@ -42,5 +42,5 @@ class Statement:
         if self.pb.predicate_type == "":
             raise ValueError("Predicate type required")
 
-        if len(self.pb.predicate) == 0:
-            raise ValueError("Predicate object required")
+        # The predicate is optional: an omitted, null or empty predicate are
+        # all valid, and are treated the same way (spec/v1/statement.md).

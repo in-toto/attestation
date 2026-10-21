@@ -68,6 +68,19 @@ class TestStatement(unittest.TestCase):
         ):
             got.validate()
 
+    def test_predicate_optional(self):
+        # spec/v1/statement.md: the predicate is optional, and "Unset is
+        # treated the same as set-but-empty", so all three must validate.
+        head = '{"_type":"https://in-toto.io/Statement/v1","subject":[{"name":"theSub","digest":{"alg1":"abc123"}}],"predicateType":"thePredicate"'
+        for name, tail in [
+            ("omitted", "}"),
+            ("null", ',"predicate":null}'),
+            ("empty", ',"predicate":{}}'),
+        ]:
+            with self.subTest(predicate=name):
+                got_pb = pb_json.Parse(head + tail, stpb.Statement())
+                Statement.copy_from_pb(got_pb).validate()
+
     def test_bad_predicate_type(self):
         bad_st = '{"_type":"https://in-toto.io/Statement/v1","subject":[{"name":"theSub","digest":{"alg1":"abc123"}}],"predicateType":"","predicate":{"keyObj":{"subKey":"subVal"}}}'
 
@@ -76,17 +89,6 @@ class TestStatement(unittest.TestCase):
 
         with self.assertRaises(
             ValueError, msg="Error: created malformed Statement (bad predicate type)"
-        ):
-            got.validate()
-
-    def test_bad_predicate(self):
-        bad_st = '{"_type":"https://in-toto.io/Statement/v1","subject":[{"name":"theSub","digest":{"alg1":"abc123"}}],"predicateType":"thePredicate"}'
-
-        got_pb = pb_json.Parse(bad_st, stpb.Statement())
-        got = Statement.copy_from_pb(got_pb)
-
-        with self.assertRaises(
-            ValueError, msg="Error: created malformed Statement (bad predicate)"
         ):
             got.validate()
 

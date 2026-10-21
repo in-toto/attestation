@@ -142,11 +142,6 @@ func TestBadStatementPredicate(t *testing.T) {
 			err:          ErrPredicateTypeRequired,
 			noErrMessage: "created malformed Statement (missing predicate type)",
 		},
-		"missing predicate": {
-			input:        `{"_type":"https://in-toto.io/Statement/v1","subject":[{"name":"theSub","digest":{"alg1":"abc123"}}],"predicateType":"thePredicate"}`,
-			err:          ErrPredicateRequired,
-			noErrMessage: "created malformed Statement (no predicate)",
-		},
 	}
 
 	for name, test := range tests {
@@ -156,5 +151,26 @@ func TestBadStatementPredicate(t *testing.T) {
 
 		err = got.Validate()
 		assert.ErrorIs(t, err, test.err, fmt.Sprintf("%s in test '%s'", test.noErrMessage, name))
+	}
+}
+
+func TestStatementPredicateOptional(t *testing.T) {
+	// spec/v1/statement.md: the predicate is optional, and "Unset is treated
+	// the same as set-but-empty". Under protojson an omitted key and an
+	// explicit null both decode to a nil Struct, and {} to an empty one; all
+	// three must validate.
+	tests := map[string]string{
+		"predicate omitted": `{"_type":"https://in-toto.io/Statement/v1","subject":[{"name":"theSub","digest":{"alg1":"abc123"}}],"predicateType":"thePredicate"}`,
+		"predicate null":    `{"_type":"https://in-toto.io/Statement/v1","subject":[{"name":"theSub","digest":{"alg1":"abc123"}}],"predicateType":"thePredicate","predicate":null}`,
+		"predicate empty":   `{"_type":"https://in-toto.io/Statement/v1","subject":[{"name":"theSub","digest":{"alg1":"abc123"}}],"predicateType":"thePredicate","predicate":{}}`,
+	}
+
+	for name, input := range tests {
+		got := &Statement{}
+		err := protojson.Unmarshal([]byte(input), got)
+		assert.NoError(t, err, fmt.Sprintf("error during JSON unmarshalling in test '%s'", name))
+
+		err = got.Validate()
+		assert.NoError(t, err, fmt.Sprintf("rejected a valid Statement in test '%s'", name))
 	}
 }
