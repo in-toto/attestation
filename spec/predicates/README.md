@@ -12,6 +12,9 @@ community! Please see our [New Predicate Guidelines].
 This directory contains predicate specification types that have gone through
 our [vetting process], and may be of general interest:
 
+-   [AI Agent Decision]: A decision made by an automated agent, with the
+    integrity block needed to detect whether the record of it was later
+    altered.
 -   [CycloneDX]: CycloneDX BOM for software artifacts.
 <!-- markdownlint-disable-next-line MD059 -->
 -   [Link]: For migration from [in-toto 0.9].
@@ -32,6 +35,7 @@ our [vetting process], and may be of general interest:
 -   [VULNS]: Defines the metadata to share the results of vulnerability scanning
     on software artifacts.
 
+[AI Agent Decision]: ai-agent-decision.md
 [CycloneDX]: https://cyclonedx.org/
 [Link]: link.md
 [New Predicate Guidelines]: ../../docs/new_predicate_guidelines.md
