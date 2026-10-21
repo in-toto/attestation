@@ -50,6 +50,7 @@ including, but not limited to, the following high-level examples:
 -   [motivating use case](motivating_use_case.md)
 -   [guidelines for creating new attestation schemas](new_predicate_guidelines.md)
 -   [validation model](validation.md)
+-   [verifying an attestation against conformance vectors](verifying.md)
 -   [ideas for future schemas](schema_ideas.md)
 -   [protobuf definitions](protos.md)
 -   [testing the implementations](testing.md)

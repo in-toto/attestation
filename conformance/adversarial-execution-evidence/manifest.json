@@ -1,0 +1,75 @@
+{
+  "$comment": "A conformance manifest declares, per vector, the verdict a conforming verifier must reach. It is the whole interface: a verifier reads this file, runs every statement it names, and compares its own verdict to the declared one. Nothing here is specific to this predicate except the type URI and the condition ids.",
+  "predicateType": "https://in-toto.io/attestation/adversarial-execution-evidence/v0.7",
+  "specPath": "spec/predicates/adversarial-execution-evidence.md",
+  "comparisonSurface": {
+    "normative": [
+      "verdict",
+      "result"
+    ],
+    "measured": [
+      "codes"
+    ],
+    "note": "A rail conforms when its verdict, and for an accepted statement its result token, match this manifest. The codes on a reject entry are the reference verifier's own vocabulary, not the specification's: a rail names a reason from whatever set it declares, and a differing code is a reason-parity datum rather than a failure. Report that parity as its own figure. The divergences worth finding are the statements two rails both reject for different reasons, and scoring on codes would hide exactly those."
+  },
+  "counts": {
+    "accept": 2,
+    "reject": 2
+  },
+  "vectors": [
+    {
+      "id": "v48542b44ffd26237",
+      "kind": "accept",
+      "file": "statements/v48542b44ffd26237.json",
+      "conditions": [
+        "aee-c-5",
+        "aee-c-42",
+        "aee-c-44"
+      ],
+      "expected": {
+        "verdict": "valid",
+        "result": "fail"
+      }
+    },
+    {
+      "id": "v18bdbadef67b38f4",
+      "kind": "accept",
+      "file": "statements/v18bdbadef67b38f4.json",
+      "conditions": [
+        "aee-c-1"
+      ],
+      "expected": {
+        "verdict": "valid",
+        "result": "fail"
+      }
+    },
+    {
+      "id": "v2adb319fc7515885",
+      "kind": "reject",
+      "file": "statements/v2adb319fc7515885.json",
+      "conditions": [
+        "aee-c-78"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "environment-incomplete"
+        ]
+      }
+    },
+    {
+      "id": "v3418101227718535",
+      "kind": "reject",
+      "file": "statements/v3418101227718535.json",
+      "conditions": [
+        "aee-c-92"
+      ],
+      "expected": {
+        "verdict": "invalid",
+        "codes": [
+          "corpus-manifest-no-attacks"
+        ]
+      }
+    }
+  ]
+}
