@@ -31,6 +31,7 @@ our [vetting process], and may be of general interest:
 -   [Test Result]: A generic schema to express results of any type of tests.
 -   [VULNS]: Defines the metadata to share the results of vulnerability scanning
     on software artifacts.
+-   [Agentic Process Provenance]: Defines the metadata of an agentic process with details of what, and with whom the process ran, using which resources, and with immutable links to the process session logs.
 
 [CycloneDX]: https://cyclonedx.org/
 [Link]: link.md
@@ -48,3 +49,4 @@ our [vetting process], and may be of general interest:
 [vetting process]: ../../docs/new_predicate_guidelines.md#vetting-process
 [Reference]: reference.md
 [Simple Verification Result]: svr.md
+[Agentic Process Provenance]: agentic-process.md
