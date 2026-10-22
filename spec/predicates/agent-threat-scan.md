@@ -9,7 +9,7 @@ Authors: Adam Lin (@eeee2345)
 ## Purpose
 
 The Agent Threat Scan predicate communicates that an AI agent artifact (such as
-a Model Context Protocol server, a Claude Code skill, or another agent
+a Model Context Protocol server, an agent skill package, or another agent
 configuration manifest) has been scanned against a named detection ruleset for
 agent-specific threats including prompt injection, tool poisoning, MCP request
 forgery, and skill compromise. It enables consumers of agent artifacts to
@@ -40,23 +40,22 @@ critical match.
 
 This predicate depends on the in-toto Attestation Framework and on the
 existence of a named detection ruleset that issues stable rule identifiers.
-One example of such a ruleset is Agent Threat Rules (ATR), an open detection
-standard for AI agent threats licensed Apache-2.0, available at
-https://github.com/Agent-Threat-Rule/agent-threat-rules. The predicate is not
-tied to ATR; any ruleset that issues stable identifiers and a version may be
-referenced through the ruleset.uri and ruleset.version fields. ATR is shipped
-in production at Cisco AI Defense and Microsoft agent-governance-toolkit.
+One example of such a ruleset is Agent Threat Rules (ATR), an MIT-licensed
+detection ruleset for AI agent threats. The predicate is not tied to ATR; any ruleset that issues stable identifiers and can be identified
+by a versioned URI and, preferably, a digest may be referenced through the
+`ruleset` [ResourceDescriptor].
 
 ## Model
 
 An Agent Threat Scan attestation declares that a named scanner, applying a
-named ruleset at a specific version, evaluated the subject artifact at
-scannedAt and produced an outcome of pass, warn, or fail, optionally
-enumerating the rules that matched. Multiple Agent Threat Scan attestations
-can be produced for the same subject across rulesets or across time. The
-predicate does not include the rule definitions themselves; it references
-them by stable identifier and by ruleset version so that consumers can resolve
-them through the ruleset.uri.
+named ruleset identified by a versioned URI and, where available, a digest,
+evaluated the subject artifact at scannedAt and produced an outcome of pass,
+warn, or fail, optionally enumerating the rules that matched. Multiple Agent
+Threat Scan attestations can be produced for the same subject across rulesets
+or across time. The predicate does not include the rule definitions
+themselves; it references them by stable identifier, and identifies the
+ruleset that issued them with a [ResourceDescriptor] so that consumers can
+resolve them.
 
 ## Schema
 
@@ -69,14 +68,8 @@ them through the ruleset.uri.
   // Predicate:
   "predicateType": "https://in-toto.io/attestation/agent-threat-scan/v0.1",
   "predicate": {
-    "scanner": {
-      "uri": "<URI>",
-      "version": "<STRING>"
-    },
-    "ruleset": {
-      "uri": "<URI>",
-      "version": "<STRING>"
-    },
+    "scanner": "<ResourceDescriptor>",
+    "ruleset": "<ResourceDescriptor>",
     "scannedAt": "<TIMESTAMP>",
     "outcome": "pass|warn|fail",
     "matches": [
@@ -98,33 +91,24 @@ This predicate follows the
 
 ### Fields
 
-**`scanner`, required** object
+**`scanner`, required** [ResourceDescriptor]
 
-> Identifies the tool that performed the scan.
+> Identifies the tool that performed the scan. `uri` SHOULD identify the
+> scanner and its version, for example a package URL such as
+> `pkg:npm/example-agent-scanner@1.0.0`. `digest` MAY carry the digest of the
+> scanner artifact that ran.
 
-**`scanner.uri`, required** string (ResourceURI)
+**`ruleset`, required** [ResourceDescriptor]
 
-> URI identifying the scanner. May reference a package, repository, or service.
-
-**`scanner.version`, optional** string
-
-> The version of the scanner.
-
-**`ruleset`, required** object
-
-> Identifies the detection ruleset applied during the scan.
-
-**`ruleset.uri`, required** string (ResourceURI)
-
-> URI identifying the ruleset. SHOULD resolve to a definition of the rules,
-> or to documentation describing how to resolve a rule identifier to its
-> rule definition.
-
-**`ruleset.version`, required** string
-
-> The version of the ruleset that was applied. The version SHOULD be stable
-> and citable so that a consumer can re-resolve any ruleId in matches against
-> the exact ruleset version used.
+> Identifies the detection ruleset applied during the scan. `uri` MUST be set
+> and SHOULD identify the exact version that was applied, for example a
+> package URL with a version or a tag URL, so that a consumer can re-resolve
+> any ruleId in matches against the ruleset that was used. The ruleset SHOULD
+> resolve to a definition of the rules, or to documentation describing how to
+> resolve a rule identifier to its rule definition. `digest` SHOULD carry the
+> digest of the ruleset artifact that was evaluated, such as a package
+> tarball, so that the ruleset is pinned by content and not only by a version
+> string.
 
 **`scannedAt`, required** string (Timestamp)
 
@@ -176,18 +160,17 @@ This predicate follows the
   "predicateType": "https://in-toto.io/attestation/agent-threat-scan/v0.1",
   "predicate": {
     "scanner": {
-      "uri": "pkg:npm/%40panguard-ai/cli@1.4.13",
-      "version": "1.4.13"
+      "uri": "pkg:npm/example-agent-scanner@1.0.0"
     },
     "ruleset": {
-      "uri": "https://github.com/Agent-Threat-Rule/agent-threat-rules",
-      "version": "v2.0.17"
+      "uri": "pkg:npm/agent-threat-rules@4.1.5",
+      "digest": {"sha256": "a872606780acdd7b15482182b152c28f80ea5bc6d7055c8d16f560be6c08d4c4"}
     },
-    "scannedAt": "2026-05-09T10:00:00Z",
+    "scannedAt": "2026-10-20T10:00:00Z",
     "outcome": "fail",
     "matches": [
       {
-        "ruleId": "ATR-2026-00081",
+        "ruleId": "ATR-2026-00579",
         "severity": "high",
         "threatClass": "prompt_injection",
         "evidence": "tools[2].description contained a hidden instruction directive"
@@ -201,4 +184,4 @@ This predicate follows the
 
 Not applicable for this initial version.
 
-[Attestation]: ../README.md
+[ResourceDescriptor]: ../v1/resource_descriptor.md
