@@ -32,6 +32,16 @@ our [vetting process], and may be of general interest:
 -   [VULNS]: Defines the metadata to share the results of vulnerability scanning
     on software artifacts.
 
+## Community Contributed Predicates
+
+These predicates were contributed by their authors and follow the
+[New Predicate Guidelines]. They have not been through the [vetting process].
+
+-   [AI Change Provenance]: Whether a human independent of a software change's
+    effective author approved it, where the author may be a coding agent and
+    its human operator, with the facts and a re-evaluable verdict.
+
+[AI Change Provenance]: ai-change-provenance.md
 [CycloneDX]: https://cyclonedx.org/
 [Link]: link.md
 [New Predicate Guidelines]: ../../docs/new_predicate_guidelines.md
