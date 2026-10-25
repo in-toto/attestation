@@ -67,6 +67,7 @@ runtime trace information.
             ],
             "network": [
                 {
+                    "direction": "<STRING>",
                     "ip": "<STRING>",
                     "hostname": "<STRING>",
                     "port": /* integer */,
@@ -165,6 +166,14 @@ Record of network activity observed by monitor. Entries SHOULD use the
 following fields so that consumers can process network activity consistently
 across monitors. Producers MAY include additional, monitor-specific fields in
 each entry.
+
+`monitorLog.network[*].direction` _string_, _optional_
+
+Direction of the connection from the monitored process's point of view:
+`outbound` if the monitored process initiated it, `inbound` if it accepted it.
+Whichever value is recorded, `ip`, `hostname` and `port` always describe the
+remote peer, never the monitored process's own endpoint. A consumer that finds
+no `direction` MUST NOT assume either value.
 
 `monitorLog.network[*].ip` _string_, _optional_
 
@@ -334,6 +343,7 @@ Other properties of the monitoring event.
     the format was previously monitor-dependent, so producers SHOULD
     migrate to the recommended field names.
 -   Clarified how `monitoredProcess` identifies CI/CD jobs.
+-   Added the optional `monitorLog.network[*].direction` field.
 
 ### v0.1
 
