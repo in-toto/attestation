@@ -67,10 +67,13 @@ runtime trace information.
             ],
             "network": [
                 {
+                    "direction": "<STRING>",
                     "ip": "<STRING>",
                     "hostname": "<STRING>",
+                    "hostnameSource": "<STRING>",
                     "port": /* integer */,
                     "protocol": "<STRING>",
+                    "timestamp": "<TIMESTAMP>",
                     "invokingProcess": { /* object */ }
                 }
             ],
@@ -166,6 +169,14 @@ following fields so that consumers can process network activity consistently
 across monitors. Producers MAY include additional, monitor-specific fields in
 each entry.
 
+`monitorLog.network[*].direction` _string_, _optional_
+
+Direction of the connection from the monitored process's point of view:
+`outbound` if the monitored process initiated it, `inbound` if it accepted it.
+Whichever value is recorded, `ip`, `hostname` and `port` always describe the
+remote peer, never the monitored process's own endpoint. A consumer that finds
+no `direction` MUST NOT assume either value.
+
 `monitorLog.network[*].ip` _string_, _optional_
 
 IP address of the remote endpoint. Both IPv4 and IPv6 addresses use this
@@ -175,7 +186,18 @@ field. The canonical textual form is recommended (for IPv6, [RFC 5952]).
 
 Observed or resolved hostname of the remote endpoint. An entry SHOULD carry at
 least one of `ip` or `hostname`, and MAY carry just one of them when the
-association between the two is unknown.
+association between the two is unknown. When `hostname` is present, the
+producer SHOULD record where it came from in `hostnameSource`.
+
+`monitorLog.network[*].hostnameSource` _string_, _optional_
+
+How the monitor learned `hostname`. The values defined here are `tls-sni`
+(the Server Name Indication in the TLS ClientHello, [RFC 6066]), `http-host`
+(the HTTP `Host` header, [RFC 9110]) and `reverse-dns` (a reverse DNS lookup of
+`ip`). The sources differ in how far the monitored process, or a remote party,
+controls the value, so a consumer weighs a hostname by its source. Producers MAY
+use other values, and consumers MUST treat an unrecognized value as an unknown
+source.
 
 `monitorLog.network[*].port` _integer_, _optional_
 
@@ -185,6 +207,11 @@ Port number of the remote endpoint, between 1 and 65535.
 
 Transport protocol, lowercase. Ex: `tcp`, `udp`. If `port` is present,
 `protocol` SHOULD also be present.
+
+`monitorLog.network[*].timestamp` _Timestamp_, _optional_
+
+Time the monitor observed this activity, as an [RFC 3339] timestamp. It lets a
+consumer order network activity against other events in the same trace.
 
 `monitorLog.network[*].invokingProcess` _object_, _optional_
 
@@ -308,6 +335,9 @@ Other properties of the monitoring event.
         {
           "ip": "140.82.112.3",
           "hostname": "github.com",
+          "hostnameSource": "tls-sni",
+          "direction": "outbound",
+          "timestamp": "2022-10-13T22:55:58Z",
           "port": 443,
           "protocol": "tcp"
         },
@@ -334,9 +364,15 @@ Other properties of the monitoring event.
     the format was previously monitor-dependent, so producers SHOULD
     migrate to the recommended field names.
 -   Clarified how `monitoredProcess` identifies CI/CD jobs.
+-   Added the optional `monitorLog.network[*].direction` field.
+-   Added the optional `monitorLog.network[*].hostnameSource` field.
+-   Added the optional `monitorLog.network[*].timestamp` field.
 
 ### v0.1
 
 Initial version.
 
+[RFC 3339]: https://www.rfc-editor.org/rfc/rfc3339
 [RFC 5952]: https://www.rfc-editor.org/rfc/rfc5952
+[RFC 6066]: https://www.rfc-editor.org/rfc/rfc6066
+[RFC 9110]: https://www.rfc-editor.org/rfc/rfc9110
