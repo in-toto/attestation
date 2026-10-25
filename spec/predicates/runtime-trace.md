@@ -73,6 +73,7 @@ runtime trace information.
                     "hostnameSource": "<STRING>",
                     "port": /* integer */,
                     "protocol": "<STRING>",
+                    "timestamp": "<TIMESTAMP>",
                     "invokingProcess": { /* object */ }
                 }
             ],
@@ -207,6 +208,11 @@ Port number of the remote endpoint, between 1 and 65535.
 Transport protocol, lowercase. Ex: `tcp`, `udp`. If `port` is present,
 `protocol` SHOULD also be present.
 
+`monitorLog.network[*].timestamp` _Timestamp_, _optional_
+
+Time the monitor observed this activity, as an [RFC 3339] timestamp. It lets a
+consumer order network activity against other events in the same trace.
+
 `monitorLog.network[*].invokingProcess` _object_, _optional_
 
 The process that generated the network activity. The exact format of this
@@ -329,6 +335,9 @@ Other properties of the monitoring event.
         {
           "ip": "140.82.112.3",
           "hostname": "github.com",
+          "hostnameSource": "tls-sni",
+          "direction": "outbound",
+          "timestamp": "2022-10-13T22:55:58Z",
           "port": 443,
           "protocol": "tcp"
         },
@@ -357,11 +366,13 @@ Other properties of the monitoring event.
 -   Clarified how `monitoredProcess` identifies CI/CD jobs.
 -   Added the optional `monitorLog.network[*].direction` field.
 -   Added the optional `monitorLog.network[*].hostnameSource` field.
+-   Added the optional `monitorLog.network[*].timestamp` field.
 
 ### v0.1
 
 Initial version.
 
+[RFC 3339]: https://www.rfc-editor.org/rfc/rfc3339
 [RFC 5952]: https://www.rfc-editor.org/rfc/rfc5952
 [RFC 6066]: https://www.rfc-editor.org/rfc/rfc6066
 [RFC 9110]: https://www.rfc-editor.org/rfc/rfc9110
