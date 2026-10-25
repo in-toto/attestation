@@ -70,6 +70,7 @@ runtime trace information.
                     "direction": "<STRING>",
                     "ip": "<STRING>",
                     "hostname": "<STRING>",
+                    "hostnameSource": "<STRING>",
                     "port": /* integer */,
                     "protocol": "<STRING>",
                     "invokingProcess": { /* object */ }
@@ -184,7 +185,18 @@ field. The canonical textual form is recommended (for IPv6, [RFC 5952]).
 
 Observed or resolved hostname of the remote endpoint. An entry SHOULD carry at
 least one of `ip` or `hostname`, and MAY carry just one of them when the
-association between the two is unknown.
+association between the two is unknown. When `hostname` is present, the
+producer SHOULD record where it came from in `hostnameSource`.
+
+`monitorLog.network[*].hostnameSource` _string_, _optional_
+
+How the monitor learned `hostname`. The values defined here are `tls-sni`
+(the Server Name Indication in the TLS ClientHello, [RFC 6066]), `http-host`
+(the HTTP `Host` header, [RFC 9110]) and `reverse-dns` (a reverse DNS lookup of
+`ip`). The sources differ in how far the monitored process, or a remote party,
+controls the value, so a consumer weighs a hostname by its source. Producers MAY
+use other values, and consumers MUST treat an unrecognized value as an unknown
+source.
 
 `monitorLog.network[*].port` _integer_, _optional_
 
@@ -344,9 +356,12 @@ Other properties of the monitoring event.
     migrate to the recommended field names.
 -   Clarified how `monitoredProcess` identifies CI/CD jobs.
 -   Added the optional `monitorLog.network[*].direction` field.
+-   Added the optional `monitorLog.network[*].hostnameSource` field.
 
 ### v0.1
 
 Initial version.
 
 [RFC 5952]: https://www.rfc-editor.org/rfc/rfc5952
+[RFC 6066]: https://www.rfc-editor.org/rfc/rfc6066
+[RFC 9110]: https://www.rfc-editor.org/rfc/rfc9110
