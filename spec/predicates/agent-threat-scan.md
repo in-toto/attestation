@@ -50,8 +50,9 @@ by a versioned URI and, preferably, a digest may be referenced through the
 An Agent Threat Scan attestation declares that a named scanner, applying a
 named ruleset identified by a versioned URI and, where available, a digest,
 evaluated the subject artifact at scannedAt and produced an outcome of pass,
-warn, or fail, optionally enumerating the rules that matched. Multiple Agent
-Threat Scan attestations can be produced for the same subject across rulesets
+warn, fail, or incomplete, recording which rules it evaluated and, optionally,
+enumerating the rules that matched. Multiple Agent Threat Scan attestations
+can be produced for the same subject across rulesets
 or across time. The predicate does not include the rule definitions
 themselves; it references them by stable identifier, and identifies the
 ruleset that issued them with a [ResourceDescriptor] so that consumers can
@@ -71,7 +72,8 @@ resolve them.
     "scanner": "<ResourceDescriptor>",
     "ruleset": "<ResourceDescriptor>",
     "scannedAt": "<TIMESTAMP>",
-    "outcome": "pass|warn|fail",
+    "outcome": "pass|warn|fail|incomplete",
+    "evaluatedRules": ["<STRING>"],
     "matches": [
       {
         "ruleId": "<STRING>",
@@ -116,15 +118,31 @@ This predicate follows the
 
 **`outcome`, required** string
 
-> One of pass, warn, or fail. pass means no rules matched. warn means at most
-> rules below the producer's chosen blocking threshold matched. fail means at
-> least one rule at or above the blocking threshold matched. Producers SHOULD
+> One of pass, warn, fail, or incomplete. fail means at least one rule at or
+> above the producer's chosen blocking threshold matched. incomplete means no
+> rule at or above that threshold matched, but the scanner did not evaluate
+> every rule in the ruleset that `ruleset` identifies, for example because a rule was
+> unsupported, failed to run, or was excluded by configuration; a scan that
+> did not evaluate every rule MUST NOT report pass or warn. warn means every
+> rule was evaluated and only rules below the blocking threshold matched.
+> pass means every rule was evaluated and no rule matched. Producers SHOULD
 > document their threshold mapping where the predicate is consumed.
+
+**`evaluatedRules`, optional** array of string
+
+> The ruleIds of the rules the scanner evaluated against the subject.
+> REQUIRED, and non-empty, when outcome is pass, warn, or incomplete; SHOULD
+> be present when outcome is fail. When outcome is pass or warn it lists every
+> rule in the identified ruleset, which lets a consumer check the coverage
+> claim against the ruleset itself; when outcome is incomplete it lists the
+> rules that did run. This follows `passedTests` in
+> [Test Result](test-result.md), which records which tests ran.
 
 **`matches`, optional** array of object
 
 > The list of rules that matched on the subject. MAY be empty when outcome
-> is pass. SHOULD be present and non-empty when outcome is warn or fail.
+> is pass. SHOULD be present and non-empty when outcome is warn or fail, and
+> when outcome is incomplete and any rule matched.
 
 **`matches[*].ruleId`, required** string
 
