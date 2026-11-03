@@ -47,7 +47,7 @@ class AttributeReport:
 
     @staticmethod
     def copy_from_pb(proto: type[scaipb.AttributeReport]) -> "AttributeReport":  # type: ignore[name-defined]
-        report = AttributeReport([None])
+        report = AttributeReport([])
         report.pb.CopyFrom(proto)
         return report
 
