@@ -5,7 +5,10 @@ Profile URI: `urn:lgd:in-toto:profile:eval-evidence:v0.1`
 The profile identifier is a `urn:`, not an `https:` URI, on purpose: there is no registry for
 profiles yet, and an `https:` identifier that returns 503 is a defect a reviewer can see in one
 `curl`. When one exists, an `https:` URI will be minted alongside, and this URN stays as an alias.
-Applies to: `https://in-toto.io/attestation/eval-result/v0.1` (in-toto/attestation#575)
+Applies to: `https://in-toto.io/attestation/eval-result/v0.1` (in-toto/attestation#575).
+Note: that type URI resolves only once #575 merges; as of 2026-11-17 it returns HTTP 404.
+Checked, not assumed — a reader running `curl` today will see the same 404, and it belongs to
+the predicate's own landing, not to this profile.
 Status: draft for review in in-toto/attestation#565. **Changes nothing in #575.**
 
 ---

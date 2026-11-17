@@ -210,8 +210,10 @@ def verify(stmt, ev, files):
 
 
 def build(write=False):
-    """Recompute the example in memory. Only write=True touches the tree, so a
-    plain verification run leaves the working copy clean for the next reviewer."""
+    """Recompute the example. Only write=True touches the tree, so a plain run
+    leaves the working copy clean and verifies the committed example rather than
+    a rebuilt guess. A plain run still needs the out-of-band bundle to recompute
+    digests, so without it the script exits 2 (not verified) rather than passing."""
     os.makedirs(OOB, exist_ok=True); os.makedirs(EX, exist_ok=True)
     missing = [n for n in ("smoke_suite_v1.json", "qwen2.5-coder_3b-instruct-q2_K.smoke.jsonl",
                              "census_rescore.jsonl", "census_digests.json")
