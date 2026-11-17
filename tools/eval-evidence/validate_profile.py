@@ -96,6 +96,10 @@ def verify(stmt, ev, files):
             rows_in_ds = len(ds)
         if rows_in_ds is None or total != rows_in_ds:
             codes.append("total_unbound")
+    else:
+        # A verifier without the dataset cannot check this rule. Saying "no problem"
+        # would report a pass it did not earn; the honest verdict is indeterminate.
+        codes.append("cannot_verify:dataset")
 
     # PV-2 / PV-3 / PV-5 — denominator is the *scored* count; cannot-determine rows are
     # reported separately by PV-5, so a claim can never be unsatisfiable merely because
@@ -142,6 +146,10 @@ def verify(stmt, ev, files):
             n_true = sum(1 for v in (rec.get("per_task") or {}).values() if v)
             if e_claims[0].get("numerator") != n_true:
                 codes.append("numerator_unbound")
+    elif e_claims:
+        # same reasoning as PV-1c: without the per-task artifact the numerator is an
+        # assertion, and a verifier that cannot recompute it must not call it fine.
+        codes.append("cannot_verify:per-task scores")
 
 
     # PV-4
@@ -196,7 +204,7 @@ def verify(stmt, ev, files):
         name = e.get("name", "")
         ref = files.get(name)
         if ref is None:
-            codes.append(f"unresolvable_evidence:{name}")
+            codes.append(f"cannot_verify:{name}")
         else:
             d = ref if re.fullmatch(r"[0-9a-f]{64}", ref) else sha(ref)
             if d != (e.get("digest") or {}).get("sha256"):
@@ -336,12 +344,26 @@ def build(write=False):
 
 def vectors():
     stmt, ev, files = build()
+
+    # Self-consistency gate. If the committed example and the evidence file it names do not
+    # agree, the only honest thing to do is stop: every vector below would still "pass"
+    # against a mutated copy while the published pair is broken, and the extra evidence
+    # codes would be read as a property of some negative case rather than of the release.
+    base = [c for c in verify(stmt, ev, files) if not c.startswith("cannot_verify:")]
+    if base != ["template_not_run_bound"]:
+        sys.stderr.write("published example is self-inconsistent: %s\n" % ",".join(base))
+        sys.exit(3)
+
     rows = []
 
     def run(name, s, e, f, expect_ok, expect_codes=()):
         codes = verify(s, e, f)
-        ok = ((not codes) == expect_ok) and all(c in codes for c in expect_codes)
-        rows.append({"name": name, "expect_ok": expect_ok, "codes": codes, "pass": ok})
+        hard = [c for c in codes if not c.startswith("cannot_verify:")]
+        verdict = "reject" if hard else ("indeterminate" if codes else "accept")
+        want = "accept" if expect_ok is True else ("reject" if expect_ok is False else "indeterminate")
+        ok = (verdict == want) and all(c in codes for c in expect_codes)
+        rows.append({"name": name, "expect_ok": expect_ok, "verdict": verdict,
+                     "codes": codes, "pass": ok})
 
     # P1: the *published* example as it stands. It cannot satisfy PV-6 — its chat-template
     # digest was captured 2026-11-16, three months after evaluatedAt. The profile is meant
@@ -377,9 +399,17 @@ def vectors():
     s3 = json.loads(json.dumps(stmt)); s3["predicate"]["evidence"] = s3["predicate"]["evidence"][:1]
     run("N10 evidence list emptied except profile", s3, ev, {**files}, False, ["statement_binding_mismatch"])
 
-    print(f"{'vector':52} {'expect':6} {'verdict':5} codes")
+    # I1 / I2 — the third verdict. A verifier that was not given the artifact cannot
+    # decide, and must say so instead of reporting acceptance it did not earn. Both use
+    # the run-bound evidence so that nothing else in the case is wrong.
+    f_nods = {k: v for k, v in files.items() if k != "dataset"}
+    run("I1 dataset absent (PV-1c not checkable)", stmt, e2, f_nods, "indeterminate", ["cannot_verify:dataset"])
+    f_nopt = {k: v for k, v in files.items() if k != "per-task scores"}
+    run("I2 per-task artifact absent (PV-2b not checkable)", stmt, e2, f_nopt, "indeterminate", ["cannot_verify:per-task scores"])
+
+    print(f"{'vector':52} {'expect':6} {'verdict':11} {'ok':4} codes")
     for r in rows:
-        print(f"{r['name']:52} {str(r['expect_ok']):6} {'PASS' if r['pass'] else 'FAIL':5} {','.join(r['codes']) or '-'}")
+        print(f"{r['name']:52} {str(r['expect_ok']):6} {r['verdict']:11} {'PASS' if r['pass'] else 'FAIL':4} {','.join(r['codes']) or '-'}")
     print(f"\n{sum(r['pass'] for r in rows)}/{len(rows)} vectors behaved as specified")
     with open(os.path.join(HERE, "profile_vector_results.json"), "w") as f:
         json.dump(rows, f, indent=2)
