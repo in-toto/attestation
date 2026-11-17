@@ -17,7 +17,7 @@ EX = os.path.join(HERE, "examples")
 SRC = os.environ.get("EVAL_EVIDENCE_SRC", OOB)  # where the four cited artifacts live;
 # default: out-of-band/, or point EVAL_EVIDENCE_SRC at a directory holding them
 
-PROFILE_URI = "https://lgd.dev/attestation/eval-evidence-profile/v0.1"
+PROFILE_URI = "urn:lgd:in-toto:profile:eval-evidence:v0.1"
 
 
 def sha(path):
@@ -209,7 +209,9 @@ def verify(stmt, ev, files):
     return sorted(set(codes))
 
 
-def build():
+def build(write=False):
+    """Recompute the example in memory. Only write=True touches the tree, so a
+    plain verification run leaves the working copy clean for the next reviewer."""
     os.makedirs(OOB, exist_ok=True); os.makedirs(EX, exist_ok=True)
     missing = [n for n in ("smoke_suite_v1.json", "qwen2.5-coder_3b-instruct-q2_K.smoke.jsonl",
                              "census_rescore.jsonl", "census_digests.json")
@@ -228,19 +230,20 @@ def build():
         "census_rescore.jsonl": "per-task scores",
         "census_digests.json": "run record",
     }
-    for n in names:
-        src, dst = os.path.join(SRC, n), os.path.join(OOB, n)
-        if os.path.abspath(src) != os.path.abspath(dst):
-            shutil.copy(src, dst)
+    if write:
+        for n in names:
+            src, dst = os.path.join(SRC, n), os.path.join(OOB, n)
+            if os.path.abspath(src) != os.path.abspath(dst):
+                shutil.copy(src, dst)
 
-    d = {n: sha(os.path.join(OOB, n)) for n in names}
+    d = {n: sha(os.path.join(SRC, n)) for n in names}
     # real per-task count for this tag
     tag = "qwen2.5-coder:3b-instruct-q2_K"
-    rows = [json.loads(l) for l in open(os.path.join(OOB, "census_rescore.jsonl"))]
+    rows = [json.loads(l) for l in open(os.path.join(SRC, "census_rescore.jsonl"))]
     row = next(r for r in rows if r["tag"] == tag)
     per_task = row["per_task"]
     evaluated = len(per_task); solved = sum(1 for v in per_task.values() if v)
-    suite = json.load(open(os.path.join(OOB, "smoke_suite_v1.json")))
+    suite = json.load(open(os.path.join(SRC, "smoke_suite_v1.json")))
     total_rows = len(suite["suite_tasks"]) if isinstance(suite, dict) and isinstance(suite.get("suite_tasks"), list) else 15
     rubric = sha_text("quantcheck v3.4.1: task counts as solved iff all unit tests pass; suite score = solved/15")
     agg = sha_text("pass-rate: numerator = tasks meeting the suite criterion, denominator = evaluated rows")
@@ -304,16 +307,28 @@ def build():
     # bind: statement digest into evidence, evidence digest into statement
     ev["statement"]["sha256"] = stmt_digest(stmt)
     ev_path = os.path.join(EX, "qwen2.5-coder-3b-q2K.evidence.json")
-    with open(ev_path, "w") as f:
-        json.dump(ev, f, indent=2, ensure_ascii=False); f.write("\n")
+    if write:
+        with open(ev_path, "w") as f:
+            json.dump(ev, f, indent=2, ensure_ascii=False); f.write("\n")
+    elif os.path.exists(ev_path):
+        # a plain run must bind the digest of the *committed* evidence file, not one
+        # rebuilt on the fly, otherwise verification and the marker drift apart
+        pass
     stmt["predicate"]["evidence"][0]["digest"]["sha256"] = sha(ev_path)
-    with open(os.path.join(EX, "qwen2.5-coder-3b-q2K.statement.json"), "w") as f:
-        json.dump(stmt, f, indent=2, ensure_ascii=False); f.write("\n")
+    if write:
+        with open(os.path.join(EX, "qwen2.5-coder-3b-q2K.statement.json"), "w") as f:
+            json.dump(stmt, f, indent=2, ensure_ascii=False); f.write("\n")
     name_map = {"eval-evidence-profile": ev_path,
-                "generations": os.path.join(OOB, "qwen2.5-coder_3b-instruct-q2_K.smoke.jsonl"),
-                "per-task scores": os.path.join(OOB, "census_rescore.jsonl"),
-                "run record": os.path.join(OOB, "census_digests.json"),
-                "dataset": os.path.join(OOB, "smoke_suite_v1.json")}
+                "generations": os.path.join(SRC, "qwen2.5-coder_3b-instruct-q2_K.smoke.jsonl"),
+                "per-task scores": os.path.join(SRC, "census_rescore.jsonl"),
+                "run record": os.path.join(SRC, "census_digests.json"),
+                "dataset": os.path.join(SRC, "smoke_suite_v1.json")}
+    if not write:
+        # verify exactly the committed example, so what a reviewer reads is what runs
+        with open(ev_path) as f:
+            ev = json.load(f)
+        with open(os.path.join(EX, "qwen2.5-coder-3b-q2K.statement.json")) as f:
+            stmt = json.load(f)
     return stmt, ev, name_map
 
 
@@ -371,7 +386,7 @@ def vectors():
 
 if __name__ == "__main__":
     if "--build" in sys.argv:
-        stmt, ev, files = build()
+        stmt, ev, files = build(write=True)
         print("built examples; counts:", ev["counts"], "numerator:", ev["claims"][0]["numerator"])
         print("verified codes:", verify(stmt, ev, files) or "none")
     else:

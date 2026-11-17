@@ -1,5 +1,5 @@
 {
-  "profile": "https://lgd.dev/attestation/eval-evidence-profile/v0.1",
+  "profile": "urn:lgd:in-toto:profile:eval-evidence:v0.1",
   "statement": {
     "sha256": "d2805eed89fe80f51ef228441c1a32f45d8afc7da8ee35a0575c9a4092b548a8"
   },

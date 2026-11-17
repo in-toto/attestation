@@ -1,6 +1,10 @@
 # Evidence profile for `eval-result` v0.1 — draft v0.1.2
 
-Profile URI: `https://lgd.dev/attestation/eval-evidence-profile/v0.1`
+Profile URI: `urn:lgd:in-toto:profile:eval-evidence:v0.1`
+
+The profile identifier is a `urn:`, not an `https:` URI, on purpose: there is no registry for
+profiles yet, and an `https:` identifier that returns 503 is a defect a reviewer can see in one
+`curl`. When one exists, an `https:` URI will be minted alongside, and this URN stays as an alias.
 Applies to: `https://in-toto.io/attestation/eval-result/v0.1` (in-toto/attestation#575)
 Status: draft for review in in-toto/attestation#565. **Changes nothing in #575.**
 
@@ -45,7 +49,7 @@ recompute reads the evidence artifact, whose digest is pinned in the Statement, 
 
 ```jsonc
 {
-  "profile": "https://lgd.dev/attestation/eval-evidence-profile/v0.1",
+  "profile": "urn:lgd:in-toto:profile:eval-evidence:v0.1",
   "statement": { "sha256": "<digest of the signed Statement, one direction only>" },
   "counts": {
     "total": 15,             // rows in the pinned dataset (MUST equal its row count)
