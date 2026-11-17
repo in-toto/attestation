@@ -13,6 +13,7 @@ option java_package = "io.github.intoto.attestation.predicates.vsa.v1";
 message VerificationSummary {
   message Verifier {
     string id = 1;
+    map<string, string> version = 2;
   }
   Verifier verifier = 1;
 
