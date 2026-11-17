@@ -152,6 +152,19 @@ that the higher grade is attributable to someone other than the issuer. Reject
 **PV-8 drift disclosure is informational.** A listed mismatch MUST NOT fail conformance; an
 *unlisted* known mismatch is the maintainer's call, not this profile's. No reason code.
 
+**PV-9 indeterminacy is a verdict, not a pass.** Three checks need an artifact the verifier may
+not hold: PV-1c needs the pinned dataset, PV-2b needs the per-task rows, and any digest comparison
+needs the file itself. When such an artifact is absent, the verifier MUST report the case as
+*indeterminate*, naming the missing artifact as `cannot_verify:<evidence name>`. It MUST NOT
+report acceptance: a rule that was not evaluated has not been satisfied, and silence in place of a
+verdict is the fail-open shape this profile exists to close. A verifier that has every artifact
+MUST never return this verdict.
+
+This rule is normative because of what a reader does without it: given PV-1c and PV-2b as written,
+two reviewers of this draft concluded that a verifier lacking the dataset should simply accept —
+there is no sentence telling it otherwise. The behaviour was in the validator before it was in this
+text, which is the wrong order.
+
 ## 5. Non-claims
 
 This profile does not make the metric correct, the dataset representative, or the harness fair. It

@@ -73,7 +73,7 @@
     "pass": true
   },
   {
-    "name": "N6 template digest captured months later",
+    "name": "N6 template recorded eleven days before the run (outside the 7-day window)",
     "expect_ok": false,
     "verdict": "reject",
     "codes": [

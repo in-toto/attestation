@@ -387,9 +387,12 @@ def vectors():
     m = json.loads(json.dumps(ev)); m["counts"]["cannotDetermine"] = 2; m["counts"]["scored"] = 13
     m["claims"][0]["metricKind"] = "failure_absence"; m["claims"][0]["passed"] = True
     run("N5 cannot-determine folded into a passing verdict", stmt, m, files, False, ["cannot_determine_folded"])
-    m = json.loads(json.dumps(ev)); m["generation"]["chatTemplate"]["servedAt"] = "2026-11-16T00:00:00Z"; m["generation"]["chatTemplate"]["digest"]["sha256"] = "1e65450c30670713aa47fe23e8b9662bdf4065e81cc8e3cbfaa98924fcc0d320"
-    # template served three months after evaluatedAt -> must fail
-    run("N6 template digest captured months later", stmt, m, files, False)
+    # N6 must be distinct from P1: P1 already covers "captured after the run". This one
+    # covers the other side of the same one-directional rule — recorded eleven days before
+    # the run, outside the seven-day window. Found by diffing the vector set against the
+    # base pair, which showed N6 and P1 carrying the identical change.
+    m = json.loads(json.dumps(ev)); m["generation"]["chatTemplate"]["servedAt"] = "2026-08-01T00:00:00Z"
+    run("N6 template recorded eleven days before the run (outside the 7-day window)", stmt, m, files, False, ["template_not_run_bound"])
     m = json.loads(json.dumps(ev)); del m["generation"]["decode"]
     run("N7 decode settings omitted", stmt, m, files, False, ["generation_undisclosed"])
     m = json.loads(json.dumps(ev)); m["reproducibility"]["digest"]["sha256"] = "0" * 64
