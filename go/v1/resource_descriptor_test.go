@@ -137,3 +137,79 @@ func TestBadGitCommitDigestLength(t *testing.T) {
 	err = got.Validate()
 	assert.ErrorIs(t, err, ErrIncorrectDigestLength, "did not get expected error when validating ResourceDescriptor with incorrect gitCommit digest length")
 }
+
+func TestValidateDigestSet(t *testing.T) {
+	tests := map[string]struct {
+		input   map[string]string
+		wantErr error
+	}{
+		"valid sha256, gitCommit, and custom algorithm": {
+			input: map[string]string{
+				"sha256":    "a1234567b1234567c1234567d1234567e1234567f1234567a1234567b1234567",
+				"gitCommit": "a1234567b1234567c1234567d1234567e1234567",
+				"customAlg": "opaque-id-123",
+			},
+			wantErr: nil,
+		},
+		"nil digest set": {
+			input:   nil,
+			wantErr: ErrDigestRequired,
+		},
+		"empty digest set": {
+			input:   map[string]string{},
+			wantErr: ErrDigestRequired,
+		},
+		"empty algorithm key": {
+			input:   map[string]string{"": "abc123"},
+			wantErr: ErrEmptyDigest,
+		},
+		"empty custom algorithm value": {
+			input:   map[string]string{"customAlg": ""},
+			wantErr: ErrEmptyDigest,
+		},
+		"invalid hex characters": {
+			input:   map[string]string{"sha256": "not_hex!"},
+			wantErr: ErrInvalidDigestEncoding,
+		},
+		"odd-length hex string": {
+			input:   map[string]string{"sha256": "abc"},
+			wantErr: ErrInvalidDigestEncoding,
+		},
+		"wrong byte length for sha256": {
+			input:   map[string]string{"sha256": "abcd"},
+			wantErr: ErrIncorrectDigestLength,
+		},
+		"empty value for sha256": {
+			input:   map[string]string{"sha256": ""},
+			wantErr: ErrIncorrectDigestLength,
+		},
+	}
+
+	for name, tc := range tests {
+		t.Run(name, func(t *testing.T) {
+			err := ValidateDigestSet(tc.input)
+			if tc.wantErr == nil {
+				assert.NoError(t, err)
+			} else {
+				assert.ErrorIs(t, err, tc.wantErr)
+			}
+		})
+	}
+}
+
+func BenchmarkResourceDescriptorValidate(b *testing.B) {
+	rd := &ResourceDescriptor{
+		Uri: "https://example.com/policy.cel",
+		Digest: map[string]string{
+			"sha256":    "a1234567b1234567c1234567d1234567e1234567f1234567a1234567b1234567",
+			"gitCommit": "a1234567b1234567c1234567d1234567e1234567",
+		},
+	}
+	b.ReportAllocs()
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		if err := rd.Validate(); err != nil {
+			b.Fatal(err)
+		}
+	}
+}

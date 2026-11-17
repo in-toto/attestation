@@ -5,10 +5,8 @@ Wrapper APIs for in-toto attestation ResourceDescriptor protos.
 package v1
 
 import (
-	"encoding/hex"
 	"errors"
 	"fmt"
-	"slices"
 	"strconv"
 	"strings"
 )
@@ -16,6 +14,7 @@ import (
 var (
 	ErrIncorrectDigestLength = errors.New("digest has incorrect length")
 	ErrInvalidDigestEncoding = errors.New("digest is not valid hex-encoded string")
+	ErrEmptyDigest           = errors.New("digest algorithm or value cannot be empty")
 	ErrRDRequiredField       = errors.New("at least one of name, URI, or digest are required")
 )
 
@@ -63,7 +62,7 @@ var HashAlgorithms = map[string]HashAlgorithm{
 	"dirHash":    AlgorithmDirHash,
 }
 
-// HexLength returns the expected length of an algorithm's hash when hexencoded
+// HexLength returns the expected length of an algorithm's hash in bytes.
 func (algo HashAlgorithm) HexLength() int {
 	switch algo {
 	case AlgorithmMD5:
@@ -88,14 +87,22 @@ func (algo HashAlgorithm) String() string {
 	return string(algo)
 }
 
+func (algo HashAlgorithm) isGitObject() bool {
+	switch algo {
+	case AlgorithmGitBlob, AlgorithmGitCommit, AlgorithmGitTag, AlgorithmGitTree:
+		return true
+	default:
+		return false
+	}
+}
+
 // digestLengths returns every digest size in bytes that an algorithm accepts.
 //
 // Most algorithms have exactly one. The git object algorithms have two: git
 // names objects with either a SHA-1 or a SHA-256 hash, and digest_set.md
 // accepts both, telling them apart by length.
 func (algo HashAlgorithm) digestLengths() []int {
-	switch algo {
-	case AlgorithmGitBlob, AlgorithmGitCommit, AlgorithmGitTag, AlgorithmGitTree:
+	if algo.isGitObject() {
 		return []int{20, 32}
 	}
 
@@ -104,6 +111,14 @@ func (algo HashAlgorithm) digestLengths() []int {
 	}
 
 	return nil
+}
+
+func (algo HashAlgorithm) validByteLength(byteLen int) bool {
+	if algo.isGitObject() {
+		return byteLen == 20 || byteLen == 32
+	}
+	want := algo.HexLength()
+	return want > 0 && byteLen == want
 }
 
 // Indicates if a given hash algorithm is supported by default and returns the
@@ -127,6 +142,60 @@ func formatSizes(sizes []int) string {
 	return strings.Join(strs, " or ")
 }
 
+// isValidHex reports whether s is an even-length hexadecimal string without
+// allocating a decoded byte slice (accepting upper- and lower-case hex to
+// match encoding/hex.DecodeString behavior).
+func isValidHex(s string) bool {
+	if len(s)%2 != 0 {
+		return false
+	}
+	for i := 0; i < len(s); i++ {
+		c := s[i]
+		if !((c >= '0' && c <= '9') || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F')) {
+			return false
+		}
+	}
+	return true
+}
+
+// ValidateDigestSet checks that digestSet contains at least one entry and that
+// all entries using supported default hash algorithms contain valid hex-encoded
+// digests of an accepted byte length per
+// https://github.com/in-toto/attestation/blob/main/spec/v1/digest_set.md.
+// Custom, unrecognized algorithms are permitted provided both the algorithm
+// name and digest value are non-empty.
+func ValidateDigestSet(digestSet map[string]string) error {
+	if len(digestSet) == 0 {
+		return ErrDigestRequired
+	}
+
+	for alg, digest := range digestSet {
+		if alg == "" {
+			return ErrEmptyDigest
+		}
+
+		algo := HashAlgorithm(alg)
+		if algo.HexLength() == 0 {
+			if digest == "" {
+				return fmt.Errorf("%w (%s)", ErrEmptyDigest, alg)
+			}
+			continue
+		}
+
+		if !isValidHex(digest) {
+			return fmt.Errorf("%w (%s: %s)", ErrInvalidDigestEncoding, alg, digest)
+		}
+
+		byteLen := len(digest) / 2
+		if !algo.validByteLength(byteLen) {
+			_, sizes := isSupportedAlgorithm(alg)
+			return fmt.Errorf("%w: got %d bytes, want %s bytes (%s: %s)", ErrIncorrectDigestLength, byteLen, formatSizes(sizes), alg, digest)
+		}
+	}
+
+	return nil
+}
+
 func (d *ResourceDescriptor) Validate() error {
 	// at least one of name, URI or digest are required
 	if d.GetName() == "" && d.GetUri() == "" && len(d.GetDigest()) == 0 {
@@ -134,25 +203,8 @@ func (d *ResourceDescriptor) Validate() error {
 	}
 
 	if len(d.GetDigest()) > 0 {
-		for alg, digest := range d.GetDigest() {
-
-			// Per https://github.com/in-toto/attestation/blob/main/spec/v1/digest_set.md
-			// check encoding and length for supported algorithms;
-			// use of custom, unsupported algorithms is allowed and does not not generate validation errors.
-			supported, sizes := isSupportedAlgorithm(alg)
-			if supported {
-				// the in-toto spec expects a hex-encoded string in DigestSets for supported algorithms
-				hashBytes, err := hex.DecodeString(digest)
-
-				if err != nil {
-					return fmt.Errorf("%w (%s: %s)", ErrInvalidDigestEncoding, alg, digest)
-				}
-
-				// check the length of the digest
-				if !slices.Contains(sizes, len(hashBytes)) {
-					return fmt.Errorf("%w: got %d bytes, want %s bytes (%s: %s)", ErrIncorrectDigestLength, len(hashBytes), formatSizes(sizes), alg, digest)
-				}
-			}
+		if err := ValidateDigestSet(d.GetDigest()); err != nil {
+			return err
 		}
 	}
 
