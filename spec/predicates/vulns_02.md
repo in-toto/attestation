@@ -78,15 +78,15 @@ The `predicate` contains a JSON-encoded data with the following fields:
 
 > > > > This is the identifier of the vulnerability, e.g. [GHSA-fxph-q3j8-mv87](https://github.com/advisories/GHSA-fxph-q3j8-mv87) whose CVE id is [CVE-2017-5645](https://nvd.nist.gov/vuln/detail/CVE-2017-5645).
 
-**scanner.result.[*].severity, required** object
+**scanner.result.[*].severity, required** object list
 
 > > > > The severity contains a list to describe the severity of a vulnerability using one or more quantitative scoring method.
 
-**scanner.result.[*].severity.method, required** string
+**scanner.result.[*].severity.[*].method, required** string
 
 > > > > > The method describes the quantitative method used to calculate the associated severity score such as nvd, cvss and others.
 
-**scanner.result.[*].severity.score, required** string
+**scanner.result.[*].severity.[*].score, required** string
 
 > > > > > This is a string representing the severity score based on the selected method.
 
