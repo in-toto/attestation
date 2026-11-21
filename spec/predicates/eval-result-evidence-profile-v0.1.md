@@ -100,8 +100,9 @@ allowed, an artifact whose `statement.sha256` does not match is rejected.
 `sample_size_mismatch`.
 
 **PV-1c claim binding.** The Statement's single `predicate.claims[0]` and this artifact's single
-`claims[0]` MUST agree on `metric`, `comparator`, `threshold` and `passed`, and
-`denominator` MUST equal `predicate.sampleSize`. Otherwise the artifact computes a verdict the
+`claims[0]` MUST agree on `metric`, `comparator`, `threshold` and `passed`. The `denominator`
+is bound to `counts.scored` by PV-2, not to `sampleSize`; when a row cannot be determined,
+`denominator < sampleSize` is conformant. Otherwise the artifact computes a verdict the
 signed predicate never asserted. Reject `claim_binding`.
 
 **PV-2 denominator binding.** Every `claims[].denominator` MUST equal `counts.scored`, not

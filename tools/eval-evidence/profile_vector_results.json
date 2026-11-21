@@ -31,7 +31,6 @@
     "expect_ok": false,
     "verdict": "reject",
     "codes": [
-      "claim_binding",
       "denominator_mismatch",
       "template_not_run_bound"
     ],
@@ -66,7 +65,6 @@
     "codes": [
       "cannot_determine_folded",
       "claim_binding",
-      "denominator_mismatch",
       "template_not_run_bound",
       "verdict_not_recomputable"
     ],
@@ -119,6 +117,13 @@
       "statement_binding_mismatch",
       "template_not_run_bound"
     ],
+    "pass": true
+  },
+  {
+    "name": "P3 one undecidable row, denominator=scored=14",
+    "expect_ok": true,
+    "verdict": "accept",
+    "codes": [],
     "pass": true
   },
   {

@@ -112,8 +112,8 @@ def verify(stmt, ev, files):
         for key in ("metric", "comparator", "threshold", "passed"):
             if s_claims[0].get(key) != e_claims[0].get(key):
                 codes.append("claim_binding")
-        if p.get("sampleSize") != e_claims[0].get("denominator"):
-            codes.append("claim_binding")
+    # NOTE: denominator is bound to counts.scored by PV-2 below, not to sampleSize.
+    # When a row cannot be determined, denominator < sampleSize is the conformant case.
     for cl in e_claims:
         den, num = cl.get("denominator"), cl.get("numerator")
         if den != scored:
@@ -318,7 +318,7 @@ def build(write=False):
     ev["statement"]["sha256"] = stmt_digest(stmt)
     ev_path = os.path.join(EX, "qwen2.5-coder-3b-q2K.evidence.json")
     if write:
-        with open(ev_path, "w") as f:
+        with open(ev_path, "w", newline="\n") as f:
             json.dump(ev, f, indent=2, ensure_ascii=False); f.write("\n")
     elif os.path.exists(ev_path):
         # a plain run must bind the digest of the *committed* evidence file, not one
@@ -326,7 +326,7 @@ def build(write=False):
         pass
     stmt["predicate"]["evidence"][0]["digest"]["sha256"] = sha(ev_path)
     if write:
-        with open(os.path.join(EX, "qwen2.5-coder-3b-q2K.statement.json"), "w") as f:
+        with open(os.path.join(EX, "qwen2.5-coder-3b-q2K.statement.json"), "w", newline="\n") as f:
             json.dump(stmt, f, indent=2, ensure_ascii=False); f.write("\n")
     name_map = {"eval-evidence-profile": ev_path,
                 "generations": os.path.join(SRC, "qwen2.5-coder_3b-instruct-q2_K.smoke.jsonl"),
@@ -385,6 +385,7 @@ def vectors():
     m["exclusionPolicy"] = {"ruleId": "stage-2", "description": "synthetic: 5 rows held back, no rule digest"}
     run("N4 excluded rows without rule digest", stmt, m, files, False, ["exclusion_opaque"])
     m = json.loads(json.dumps(ev)); m["counts"]["cannotDetermine"] = 2; m["counts"]["scored"] = 13
+    m["claims"][0]["denominator"] = 13
     m["claims"][0]["metricKind"] = "failure_absence"; m["claims"][0]["passed"] = True
     run("N5 cannot-determine folded into a passing verdict", stmt, m, files, False, ["cannot_determine_folded"])
     # N6 must be distinct from P1: P1 already covers "captured after the run". This one
@@ -402,6 +403,16 @@ def vectors():
     s3 = json.loads(json.dumps(stmt)); s3["predicate"]["evidence"] = s3["predicate"]["evidence"][:1]
     run("N10 evidence list emptied except profile", s3, ev, {**files}, False, ["statement_binding_mismatch"])
 
+    # P3: one undecidable row -> denominator = scored (14) < sampleSize (15). This is the
+    # conformant case PV-2/ PV-5 are designed to allow; numerator 0 matches the real per-task n_true.
+    e3 = json.loads(json.dumps(e2))
+    e3["counts"]["scored"] = 14; e3["counts"]["cannotDetermine"] = 1
+    e3["claims"][0]["denominator"] = 14
+    e3["claims"][0]["numerator"] = 0
+    e3["claims"][0]["metricKind"] = "capability_positive"
+    e3["statement"]["sha256"] = stmt_digest(stmt)
+    run("P3 one undecidable row, denominator=scored=14", stmt, e3, files, True)
+
     # I1 / I2 — the third verdict. A verifier that was not given the artifact cannot
     # decide, and must say so instead of reporting acceptance it did not earn. Both use
     # the run-bound evidence so that nothing else in the case is wrong.
@@ -414,7 +425,7 @@ def vectors():
     for r in rows:
         print(f"{r['name']:52} {str(r['expect_ok']):6} {r['verdict']:11} {'PASS' if r['pass'] else 'FAIL':4} {','.join(r['codes']) or '-'}")
     print(f"\n{sum(r['pass'] for r in rows)}/{len(rows)} vectors behaved as specified")
-    with open(os.path.join(HERE, "profile_vector_results.json"), "w") as f:
+    with open(os.path.join(HERE, "profile_vector_results.json"), "w", newline="\n") as f:
         json.dump(rows, f, indent=2)
     return rows
 

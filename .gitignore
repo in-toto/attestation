@@ -7,3 +7,11 @@ dist
 __pycache__
 env
 rust/target
+
+# Third-party evaluation data is fetched locally for self-testing only; never commit it.
+# Only out-of-band/MANIFEST.md (digests) is tracked.
+tools/eval-evidence/out-of-band/*
+!tools/eval-evidence/out-of-band/MANIFEST.md
+# Local pre-PRRG backups
+*.bak_prrg
+*.bak_20261120
