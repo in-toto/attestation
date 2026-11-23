@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package in_toto_attestation.predicates.svr.v0_2;
+
+import "google/protobuf/timestamp.proto";
+import "in_toto_attestation/v1/resource_descriptor.proto";
+
+option go_package = "github.com/in-toto/attestation/go/predicates/svr/v02";
+option java_package = "io.github.intoto.attestation.predicates.svr.v02";
+
+// Proto representation of predicate type https://in-toto.io/attestation/svr/v0.2
+message SimpleVerificationResult {
+  message Verifier {
+    string id = 1;
+
+    // Policy artifacts used by the verifier. The spec requires this field,
+    // with an empty array when no policy can be referenced. proto3 can't tell
+    // an empty repeated field from a missing one, so that's left to the
+    // producer's JSON encoding.
+    repeated in_toto_attestation.v1.ResourceDescriptor policies = 2;
+  }
+
+  // Verifier describes the verification engine (policy engine).
+  Verifier verifier = 1;
+
+  // Creation timestamp, reflecting when the verification took place.
+  google.protobuf.Timestamp time_created = 2 [json_name = "timeCreated"];
+
+  // List of labels representing the verified properties. These strings are
+  // application-specific.
+  repeated string properties = 3;
+}
