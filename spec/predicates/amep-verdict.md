@@ -137,7 +137,7 @@ The AMEP Verdict carries the detail needed when the outcome is anything else.
       "outcome": "<OUTCOME>",
       "invariant": "<INVARIANT>",
       "blame": "<PARTY>",
-      "gaps": [{ "need": "<NEED>", "ref": "<ID>" }, ...]
+      "gaps": [{ "need": "<NEED>", "ref": "<ID>", "cause": "<CAUSE>" }, ...]
     },
     "results": [
       {
@@ -145,7 +145,7 @@ The AMEP Verdict carries the detail needed when the outcome is anything else.
         "outcome": "<OUTCOME>",
         "invariant": "<INVARIANT>",
         "blame": "<PARTY>",
-        "gaps": [{ "need": "<NEED>", "ref": "<ID>" }, ...]
+        "gaps": [{ "need": "<NEED>", "ref": "<ID>", "cause": "<CAUSE>" }, ...]
       },
       ...
     ],
@@ -211,7 +211,8 @@ In addition:
 > On an `unresolved` outcome, the evidence that would let evaluation continue.
 > `need` is from the fixed set in AMEP Section 10.5.1 (for example
 > `receipt`, `revocation_status`, `well_formed_packet`); `ref` is the id
-> of the object it concerns.
+> of the object it concerns. A gap for a refused signature also carries
+> `cause`: `missing`, `unknown_key`, `role` or `invalid`. Other gaps omit it.
 
 **`results`, required** array of objects
 
@@ -247,7 +248,7 @@ requires.
       "sha256": "b0b46388661ff3e4dd396d31c0172bc3c82f123e109592552d4dfff596c0d5d0"
     },
     "keyset": {
-      "sha256": "3a98b7d84f2d5d484f243191a33450b5481cdb3b7e1cc78afdc81a167c92c232"
+      "sha256": "150056c1465cdc2bdb8a14c3df7f8c272d0ef43df378481f0d574c396bbf9c54"
     },
     "verdict": {
       "outcome": "violated",
@@ -266,7 +267,7 @@ requires.
     ],
     "verifier": {
       "name": "amep-protocol",
-      "version": "0.3.0a1"
+      "version": "0.3.0a4"
     }
   }
 }
@@ -276,7 +277,12 @@ Implementations: the Python package `amep-protocol` (module
 `amep_protocol.verdicts`) and the npm package `@stafordtituss/amep` (export
 `@stafordtituss/amep/verdict`). Both sign statements in [DSSE] envelopes, and
 a differential test checks that they produce byte-identical statements for all
-240 AMEP conformance vectors.
+282 AMEP conformance vectors (three suites). Both are by the same author.
+
+Outside use: the Verifiable Agent Trust Envelope project keeps signed verdict
+envelopes for its lost-response and recovery case under `reference/amep/`. Its
+maintainer re-ran the pinned verifier and reported that all five verdicts
+matched.
 
 ## Changelog and Migrations
 
