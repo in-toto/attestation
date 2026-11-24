@@ -111,10 +111,17 @@ The AMEP Verdict carries the detail needed when the outcome is anything else.
 
 ## Model
 
--   **Subject:** the evidence packet, identified by the SHA-256 of the exact
-    bytes the verifier evaluated. The name is conventionally `amep-packet`.
-    Digesting the bytes, rather than a parsed form, means a verdict also covers
-    a packet that does not parse, which evaluates to `unresolved`.
+-   **Subject:** the artifact the evaluated actions produced, when there is one
+    a policy admits (a commit, a release, a payment), identified by its own
+    digest. The evidence packet is then an input, named in the predicate by
+    `packet.sha256`, so a consumer admitting the artifact can tell which
+    evidence the verdict rests on.
+-   **When there is no artifact** (a refused call, or one whose outcome is
+    `unresolved`), the subject is the evidence packet itself, identified by the
+    SHA-256 of the exact bytes the verifier evaluated and conventionally named
+    `amep-packet`. Digesting the bytes, rather than a parsed form, means a
+    verdict also covers a packet that does not parse, which evaluates to
+    `unresolved`.
 -   **Producer:** an AMEP verifier, such as a CI job, an auditor, an agent
     gateway or a monitoring service, signing with its own key.
 -   **Consumer:** an admission or deployment policy, an archive, or a party
@@ -126,7 +133,8 @@ The AMEP Verdict carries the detail needed when the outcome is anything else.
 {
   // Standard attestation fields:
   "_type": "https://in-toto.io/Statement/v1",
-  "subject": [{ "name": "amep-packet", "digest": { "sha256": "<HEX>" } }],
+  // The admitted artifact(s), or the packet when there is none:
+  "subject": [{ "name": "<NAME>", "digest": { "<ALGORITHM>": "<HEX>" } }],
 
   // Predicate:
   "predicateType": "https://github.com/stafordtituss/amep/verdict/v0.3",
@@ -179,8 +187,9 @@ In addition:
 
 **`packet.sha256`, required** string (hex)
 
-> SHA-256 of the exact packet bytes evaluated. MUST equal the subject's
-> `sha256` digest.
+> SHA-256 of the exact packet bytes evaluated: the evidence the verdict rests
+> on. When the packet is the subject, this MUST equal the subject's `sha256`
+> digest.
 
 **`keyset.sha256`, required** string (hex)
 
@@ -229,7 +238,9 @@ In addition:
 The statement both reference verifiers produce for the AMEP conformance vector
 `must-reject/payment-over-the-per-call-limit-without-approval`: an agent made a
 payment above the mandate's per-call limit without the approval the mandate
-requires.
+requires. A conformance vector has no artifact, so the packet is the subject.
+For a real payment, the subject would be the payment record's digest, with the
+same predicate.
 
 ```json
 {
@@ -248,7 +259,7 @@ requires.
       "sha256": "b0b46388661ff3e4dd396d31c0172bc3c82f123e109592552d4dfff596c0d5d0"
     },
     "keyset": {
-      "sha256": "150056c1465cdc2bdb8a14c3df7f8c272d0ef43df378481f0d574c396bbf9c54"
+      "sha256": "82b644694884604ff863fbe32cc32efc941f1c0dac225b131af5b12becab09c1"
     },
     "verdict": {
       "outcome": "violated",
@@ -277,7 +288,9 @@ Implementations: the Python package `amep-protocol` (module
 `amep_protocol.verdicts`) and the npm package `@stafordtituss/amep` (export
 `@stafordtituss/amep/verdict`). Both sign statements in [DSSE] envelopes, and
 a differential test checks that they produce byte-identical statements for all
-282 AMEP conformance vectors (three suites). Both are by the same author.
+287 AMEP conformance vectors (three suites). Both take the artifact subjects as
+an optional argument, and use the packet as the subject without it. Both are by
+the same author.
 
 Outside use: the Verifiable Agent Trust Envelope project keeps signed verdict
 envelopes for its lost-response and recovery case under `reference/amep/`. Its
