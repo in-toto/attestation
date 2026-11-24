@@ -31,7 +31,7 @@ curl -fL -o census_digests.json \
   https://raw.githubusercontent.com/aditi-p31/quantcheck/v3.4.1/rerun-2026-10/serial/census_digests.json
 sha256sum smoke_suite_v1.json qwen2.5-coder_3b-instruct-q2_K.smoke.jsonl census_rescore.jsonl census_digests.json
 python3 ../../validate_profile.py --build   # from tools/eval-evidence
-python3 ../../validate_profile.py           # 14 vectors, with the bundle present
+python3 ../../validate_profile.py           # 15 vectors, with the bundle present
 ```
 
 (`census_rescore.jsonl` and `census_digests.json` live under `rerun-2026-10/` in the original

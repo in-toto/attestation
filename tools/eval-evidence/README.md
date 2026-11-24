@@ -4,7 +4,7 @@ Companion to [`spec/predicates/eval-result-evidence-profile-v0.1.md`](../../spec
 
 ```bash
 pip install jsonschema
-python3 validate_profile.py            # 14 vectors against the committed examples
+python3 validate_profile.py            # 15 vectors against the committed examples
 python3 validate_profile.py --build    # rebuild examples from the cited bundle, then run
 ```
 
@@ -17,7 +17,7 @@ Exit codes are deliberate:
 
 | exit | meaning |
 |---|---|
-| 0 | all 14 vectors behaved as specified |
+| 0 | all 15 vectors behaved as specified |
 | 1 | a vector deviated — a real finding |
 | 2 | the bundle is absent, so nothing was verified. **Not a failure, and not a pass.** |
 
