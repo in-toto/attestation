@@ -62,6 +62,28 @@ def cmp_decimal(a, op, b):
     return {">=": A >= B, ">": A > B, "<=": A <= B, "<": A < B}[op]
 
 
+def _policy_rule_resolves(rule_id, ev):
+    """PV-5: the named rule must be one whose digest is recorded on the artifact.
+
+    A ruleId alone says nothing a verifier can resolve; the profile requires the policy
+    to be pre-registered, which on this artifact means its digest sits in
+    exclusionPolicy.ruleDigest or aggregation.ruleDigest. The digest form accepted here
+    is the one the schema and the examples use: {"sha256": "<64 lowercase hex>"}.
+    """
+    if not isinstance(rule_id, str) or not rule_id:
+        return False
+    for section in ("exclusionPolicy", "aggregation"):
+        block = ev.get(section) or {}
+        if not isinstance(block, dict) or block.get("ruleId") != rule_id:
+            continue
+        dig = block.get("ruleDigest")
+        if isinstance(dig, dict):
+            dig = dig.get("sha256")
+        if isinstance(dig, str) and re.fullmatch(r"[0-9a-f]{64}", dig):
+            return True
+    return False
+
+
 def verify(stmt, ev, files):
     """files: dict name -> path on disk for the artifacts referenced by evidence[]"""
     codes = []
@@ -127,9 +149,15 @@ def verify(stmt, ev, files):
                 codes.append("verdict_not_recomputable")
         except Exception:
             codes.append("verdict_not_recomputable")
-        if cl.get("metricKind") == "failure_absence" and cd and cl.get("passed") is True \
-                and not cl.get("cannotDeterminePolicy"):
-            codes.append("cannot_determine_folded")
+        if cl.get("metricKind") == "failure_absence" and cd and cl.get("passed") is True:
+            policy = cl.get("cannotDeterminePolicy")
+            if not policy:
+                codes.append("cannot_determine_folded")
+            elif not _policy_rule_resolves(policy, ev):
+                # PV-5 names a pre-registered rule and requires its digest to appear in
+                # exclusionPolicy.ruleDigest or aggregation.ruleDigest. A bare string that
+                # resolves to neither is an assertion, not a registered rule.
+                codes.append("cannot_determine_policy_unbound")
 
     # PV-2b: the numerator must equal the count of solved rows in the per-task artifact
     pt_path = files.get("per-task scores")

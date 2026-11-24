@@ -9,7 +9,8 @@ python3 validate_profile.py --build    # rebuild examples from the cited bundle,
 ```
 
 **The cited bundle is not committed here.** The four files are third-party evidence from
-in-toto/attestation#565; `out-of-band/MANIFEST.md` lists their digests and how to place them.
+in-toto/attestation#565; `out-of-band/MANIFEST.md` gives a direct URL and the digest for each, so
+a reviewer with only public access can fetch them and get the same bytes.
 Point `EVAL_EVIDENCE_SRC` at a directory holding them if they are not in `out-of-band/`.
 
 Exit codes are deliberate:
