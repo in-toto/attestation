@@ -64,7 +64,7 @@ recompute reads the evidence artifact, whose digest is pinned in the Statement, 
   "claims": [
     { "metric": "tasks_solved", "comparator": ">=", "threshold": "9",
       "numerator": 0, "denominator": 15, "passed": false, "metricKind": "capability_positive",
-      "cannotDeterminePolicy": "<ruleId, REQUIRED iff metricKind=failure_absence and cannotDetermine>0>" }
+      "cannotDeterminePolicy": "<ruleId, REQUIRED iff metricKind=failure_absence and passed=true and cannotDetermine>0>" }
   ],
   "exclusionPolicy": null,   // REQUIRED non-null iff counts.excluded > 0
   "generation": {
