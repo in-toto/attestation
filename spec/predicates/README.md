@@ -7,6 +7,12 @@ although the framework easily supports new predicate types for new use cases.
 Anyone is welcome to contribute their new predicate back to the in-toto
 community! Please see our [New Predicate Guidelines].
 
+## Proposed Predicates
+
+The following proposal is under review and has not completed vetting:
+
+-   [Safety Context]: Contextual safety assessments, review state, and evidence.
+
 ## Vetted Predicates
 
 This directory contains predicate specification types that have gone through
@@ -48,3 +54,5 @@ our [vetting process], and may be of general interest:
 [vetting process]: ../../docs/new_predicate_guidelines.md#vetting-process
 [Reference]: reference.md
 [Simple Verification Result]: svr.md
+
+[Safety Context]: safety-context.md

@@ -1,0 +1,63 @@
+{
+  "_type": "https://in-toto.io/Statement/v1",
+  "subject": [
+    {
+      "name": "device-controller.bin",
+      "digest": {
+        "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      }
+    }
+  ],
+  "predicateType": "https://in-toto.io/attestation/safety-context/v0.1",
+  "predicate": {
+    "assessmentId": "https://example.org/assessments/device-controller-001",
+    "assessedAt": "2026-11-06T18:00:00Z",
+    "context": {
+      "system": {
+        "uri": "https://example.org/systems/infusion-device/revisions/1",
+        "name": "Example infusion device, revision 1"
+      },
+      "intendedUse": "Control infusion delivery in the assessed system configuration.",
+      "assumptions": [
+        "The assessed configuration uses the documented communications service."
+      ]
+    },
+    "outcome": {
+      "value": "relevant",
+      "rationale": "The communications service participates in a control path whose failure can affect infusion delivery."
+    },
+    "classification": {
+      "scheme": "https://example.org/safety-classification/v1",
+      "value": "requiresSafetyReview"
+    },
+    "review": {
+      "status": "completed",
+      "reviewedAt": "2026-11-06T18:30:00Z",
+      "reviewer": {
+        "uri": "https://example.org/teams/safety-review"
+      }
+    },
+    "evidence": [
+      {
+        "uri": "https://example.org/evidence/control-path-analysis.json",
+        "digest": {
+          "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        },
+        "mediaType": "application/json"
+      }
+    ],
+    "sources": [
+      {
+        "format": "sidecar",
+        "version": "example-1",
+        "document": {
+          "uri": "https://example.org/metadata/safety-context.json",
+          "digest": {
+            "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+          },
+          "mediaType": "application/json"
+        }
+      }
+    ]
+  }
+}

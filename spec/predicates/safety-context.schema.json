@@ -1,0 +1,244 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Proposed Safety Context predicate v0.1",
+  "description": "Draft predicate payload schema; field vocabulary and predicate URI are subject to maintainer review.",
+  "type": "object",
+  "required": [
+    "assessmentId",
+    "assessedAt",
+    "context",
+    "outcome",
+    "review",
+    "evidence",
+    "sources"
+  ],
+  "properties": {
+    "assessmentId": {
+      "type": "string",
+      "minLength": 1,
+      "format": "uri"
+    },
+    "assessedAt": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$"
+    },
+    "context": {
+      "type": "object",
+      "required": [
+        "system",
+        "intendedUse",
+        "assumptions"
+      ],
+      "properties": {
+        "system": {
+          "$ref": "#/definitions/resource"
+        },
+        "intendedUse": {
+          "type": "string",
+          "minLength": 1
+        },
+        "assumptions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "outcome": {
+      "type": "object",
+      "required": [
+        "value",
+        "rationale"
+      ],
+      "properties": {
+        "value": {
+          "enum": [
+            "relevant",
+            "notRelevant",
+            "undetermined"
+          ]
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "classification": {
+      "type": "object",
+      "required": [
+        "scheme",
+        "value"
+      ],
+      "properties": {
+        "scheme": {
+          "type": "string",
+          "minLength": 1,
+          "format": "uri"
+        },
+        "value": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "review": {
+      "type": "object",
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "pending",
+            "completed"
+          ]
+        },
+        "reviewedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "Z$"
+        },
+        "reviewer": {
+          "$ref": "#/definitions/resource"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "completed"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "reviewedAt",
+              "reviewer"
+            ]
+          }
+        }
+      ]
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/document"
+      }
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "format",
+          "version",
+          "document"
+        ],
+        "properties": {
+          "format": {
+            "enum": [
+              "sidecar",
+              "spdx",
+              "cyclonedx"
+            ]
+          },
+          "version": {
+            "type": "string",
+            "minLength": 1
+          },
+          "document": {
+            "$ref": "#/definitions/document"
+          },
+          "selector": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "format": {
+                  "enum": [
+                    "spdx",
+                    "cyclonedx"
+                  ]
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "selector"
+              ]
+            }
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "resource": {
+      "type": "object",
+      "required": [
+        "uri"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "minLength": 1,
+          "format": "uri"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "document": {
+      "type": "object",
+      "required": [
+        "uri",
+        "digest",
+        "mediaType"
+      ],
+      "properties": {
+        "uri": {
+          "type": "string",
+          "minLength": 1,
+          "format": "uri"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "mediaType": {
+          "type": "string",
+          "minLength": 1
+        },
+        "digest": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {
+            "type": "string",
+            "pattern": "^[a-fA-F0-9]+$"
+          },
+          "properties": {
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-fA-F0-9]{64}$"
+            },
+            "sha512": {
+              "type": "string",
+              "pattern": "^[a-fA-F0-9]{128}$"
+            }
+          }
+        }
+      }
+    }
+  }
+}
