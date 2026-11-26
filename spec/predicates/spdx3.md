@@ -11,11 +11,6 @@ A Bill of Materials type following version 3 of the [SPDX Specification].
 This can represent software artifacts, software supply chains, AI models and
 more. For a complete list, see the [SPDX 3 Scope].
 
-## Non-goal
-
-This proposal does not introduce new safety semantics. It only clarifies
-how predicates identify and validate embedded CycloneDX and SPDX documents.
-
 ## Prerequisites
 
 The in-toto [attestation] framework and a [SPDX generation tool].
@@ -37,8 +32,7 @@ The parsing rules for the embedded document are documented in the
 The predicate type `https://spdx.dev/Document/v3` identifies the SPDX 3
 document family. Consumers must determine the embedded document's version
 and applicable profiles using the version identification and conformance
-rules defined by the corresponding SPDX specification. A compatible SPDX 3
-minor-version update does not by itself require a new predicate type.
+rules defined by the corresponding SPDX specification.
 
 The predicate URI alone does not establish support for every SPDX 3 minor
 version or profile. Consumers must validate against the applicable upstream
