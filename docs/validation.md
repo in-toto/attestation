@@ -30,10 +30,10 @@ Steps:
 -   Intermediate state: `envelope.payloadType`, `envelope.payload`,
     `attesterNames`
 -   Statement layer:
-    -   Reject if (`envelope.payloadType` != `application/vnd.in-toto+json` OR `envelope.payloadType` does not match `application/vnd.in-toto.<predicate>+json`)
+    -   Reject if (`envelope.payloadType` != `application/vnd.in-toto+json` AND `envelope.payloadType` does not match `application/vnd.in-toto.<predicate>+json`)
     -   `statement` := decode `envelope.payload` as a JSON-encoded
         [Statement]; reject if decoding fails
-    -   Reject if `statement.type` != `https://in-toto.io/Statement/v1`
+    -   Reject if `statement._type` != `https://in-toto.io/Statement/v1`
     -   `matchedSubjects` := the subset of entries `s` in `statement.subject`
         where:
         -   there exists at least one `(alg, value)` in `s.digest` where:
