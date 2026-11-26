@@ -12,11 +12,6 @@ This allows representing "exportable", or "published" software artifacts,
 services, vulnerability information, and more. For a complete list of
 capabilities see [CycloneDX Capabilities].
 
-## Non-goal
-
-This proposal does not introduce new safety semantics. It only clarifies
-how predicates identify and validate embedded CycloneDX and SPDX documents.
-
 ## Prerequisites
 
 The in-toto [attestation] framework and a [CycloneDX BOM generation tool].
