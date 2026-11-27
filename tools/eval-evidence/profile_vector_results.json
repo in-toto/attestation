@@ -120,7 +120,35 @@
     "pass": true
   },
   {
+    "name": "N11 cannot-determine policy names an unregistered rule",
+    "expect_ok": false,
+    "verdict": "reject",
+    "codes": [
+      "cannot_determine_policy_unbound",
+      "claim_binding",
+      "template_not_run_bound",
+      "verdict_not_recomputable"
+    ],
+    "pass": true
+  },
+  {
+    "name": "N12 PV-7 digest computed over the text of the digests",
+    "expect_ok": false,
+    "verdict": "reject",
+    "codes": [
+      "reproducibility_unbound"
+    ],
+    "pass": true
+  },
+  {
     "name": "P3 one undecidable row, denominator=scored=14",
+    "expect_ok": true,
+    "verdict": "accept",
+    "codes": [],
+    "pass": true
+  },
+  {
+    "name": "P4 threshold at 18 significant digits (decimal, not binary float)",
     "expect_ok": true,
     "verdict": "accept",
     "codes": [],

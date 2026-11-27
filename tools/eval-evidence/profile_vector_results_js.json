@@ -1,0 +1,175 @@
+[
+  {
+    "name": "P1 published example as-is (template captured late)",
+    "expect_ok": false,
+    "verdict": "reject",
+    "codes": [
+      "template_not_run_bound"
+    ],
+    "pass": true
+  },
+  {
+    "name": "P2 same data, template digest run-bound",
+    "expect_ok": true,
+    "verdict": "accept",
+    "codes": [],
+    "pass": true
+  },
+  {
+    "name": "N1 arithmetic broken (total 160)",
+    "expect_ok": false,
+    "verdict": "reject",
+    "codes": [
+      "count_arithmetic",
+      "template_not_run_bound",
+      "total_unbound"
+    ],
+    "pass": true
+  },
+  {
+    "name": "N2 denominator = total instead of evaluated",
+    "expect_ok": false,
+    "verdict": "reject",
+    "codes": [
+      "denominator_mismatch",
+      "template_not_run_bound"
+    ],
+    "pass": true
+  },
+  {
+    "name": "N3 verdict flipped to pass with 0/15",
+    "expect_ok": false,
+    "verdict": "reject",
+    "codes": [
+      "claim_binding",
+      "template_not_run_bound",
+      "verdict_not_recomputable"
+    ],
+    "pass": true
+  },
+  {
+    "name": "N4 excluded rows without rule digest",
+    "expect_ok": false,
+    "verdict": "reject",
+    "codes": [
+      "exclusion_opaque",
+      "template_not_run_bound",
+      "total_unbound"
+    ],
+    "pass": true
+  },
+  {
+    "name": "N5 cannot-determine folded into a passing verdict",
+    "expect_ok": false,
+    "verdict": "reject",
+    "codes": [
+      "cannot_determine_folded",
+      "claim_binding",
+      "template_not_run_bound",
+      "verdict_not_recomputable"
+    ],
+    "pass": true
+  },
+  {
+    "name": "N6 template recorded eleven days before the run (outside the 7-day window)",
+    "expect_ok": false,
+    "verdict": "reject",
+    "codes": [
+      "template_not_run_bound"
+    ],
+    "pass": true
+  },
+  {
+    "name": "N7 decode settings omitted",
+    "expect_ok": false,
+    "verdict": "reject",
+    "codes": [
+      "generation_undisclosed"
+    ],
+    "pass": true
+  },
+  {
+    "name": "N8 reproducibility digest not recomputable",
+    "expect_ok": false,
+    "verdict": "reject",
+    "codes": [
+      "reproducibility_unbound",
+      "template_not_run_bound"
+    ],
+    "pass": true
+  },
+  {
+    "name": "N9 evidence digest tampered",
+    "expect_ok": false,
+    "verdict": "reject",
+    "codes": [
+      "evidence_digest_mismatch:per-task scores",
+      "statement_binding_mismatch",
+      "template_not_run_bound"
+    ],
+    "pass": true
+  },
+  {
+    "name": "N10 evidence list emptied except profile",
+    "expect_ok": false,
+    "verdict": "reject",
+    "codes": [
+      "statement_binding_mismatch",
+      "template_not_run_bound"
+    ],
+    "pass": true
+  },
+  {
+    "name": "P3 one undecidable row, denominator=scored=14",
+    "expect_ok": true,
+    "verdict": "accept",
+    "codes": [],
+    "pass": true
+  },
+  {
+    "name": "I1 dataset absent (PV-1c not checkable)",
+    "expect_ok": "indeterminate",
+    "verdict": "indeterminate",
+    "codes": [
+      "cannot_verify:dataset"
+    ],
+    "pass": true
+  },
+  {
+    "name": "I2 per-task artifact absent (PV-2b not checkable)",
+    "expect_ok": "indeterminate",
+    "verdict": "indeterminate",
+    "codes": [
+      "cannot_verify:per-task scores"
+    ],
+    "pass": true
+  },
+  {
+    "name": "N11 cannot-determine policy names an unregistered rule",
+    "expect_ok": false,
+    "verdict": "reject",
+    "codes": [
+      "cannot_determine_policy_unbound",
+      "claim_binding",
+      "template_not_run_bound",
+      "verdict_not_recomputable"
+    ],
+    "pass": true
+  },
+  {
+    "name": "N12 PV-7 digest computed over the text of the digests",
+    "expect_ok": false,
+    "verdict": "reject",
+    "codes": [
+      "reproducibility_unbound"
+    ],
+    "pass": true
+  },
+  {
+    "name": "P4 threshold at 18 significant digits (decimal, not binary float)",
+    "expect_ok": true,
+    "verdict": "accept",
+    "codes": [],
+    "pass": true
+  }
+]

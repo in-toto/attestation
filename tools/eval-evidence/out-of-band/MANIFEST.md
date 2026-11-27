@@ -41,6 +41,7 @@ The links point at the upstream author's tagged release (`v3.4.1`), not at a cop
 tag is ever moved or deleted, the digests above are what a replacement must match; a bundle whose
 digest differs is a different bundle, not an update.
 
-Without the files present, the run exits 2 and the two rebuild vectors report `skipped`, never
-`ok`: a missing out-of-band bundle means the claim was not re-derived, and the run says so
-instead of passing. Exit 2 is "not verified" — it is neither a pass nor a finding.
+Without the files present, the run exits 2 before any vector table is printed, so no vector
+reports `ok`: a missing out-of-band bundle means the claim was not re-derived, and the run says
+so instead of passing. Exit 2 is "not verified" — it is neither a pass nor a finding, and the
+I1/I2 rows that do exist in a full run are the same idea applied to a single missing artifact.

@@ -431,6 +431,27 @@ def vectors():
     s3 = json.loads(json.dumps(stmt)); s3["predicate"]["evidence"] = s3["predicate"]["evidence"][:1]
     run("N10 evidence list emptied except profile", s3, ev, {**files}, False, ["statement_binding_mismatch"])
 
+    # N11 — PV-5 says the cannot-determine policy must name a *pre-registered* rule whose digest
+    # sits on the artifact. Until this vector existed nothing exercised that clause: N5 covers a
+    # missing policy, not an unresolvable one. A bare ruleId matching neither exclusionPolicy nor
+    # aggregation with a 64-hex digest is an assertion, not a registration.
+    m = json.loads(json.dumps(ev)); m["counts"]["cannotDetermine"] = 2; m["counts"]["scored"] = 13
+    m["claims"][0]["denominator"] = 13
+    m["claims"][0]["metricKind"] = "failure_absence"; m["claims"][0]["passed"] = True
+    m["claims"][0]["cannotDeterminePolicy"] = "stage-9"
+    run("N11 cannot-determine policy names an unregistered rule", stmt, m, files, False,
+        ["cannot_determine_policy_unbound"])
+
+    # N12 — PV-7 read the wrong way round: the reproducibility digest computed over the *text*
+    # of the four digests instead of over their 32-byte values. Both readings can be written to
+    # look self-consistent and both can claim to be conformant, so the set rejects one by name.
+    m = json.loads(json.dumps(e2))
+    hexes = [x[len("sha256:"):] for x in m["reproducibility"]["inputs"]]
+    m["reproducibility"]["digest"]["sha256"] = hashlib.sha256("".join(hexes).encode("utf-8")).hexdigest()
+    m["statement"]["sha256"] = stmt_digest(stmt)
+    run("N12 PV-7 digest computed over the text of the digests", stmt, m, files, False,
+        ["reproducibility_unbound"])
+
     # P3: one undecidable row -> denominator = scored (14) < sampleSize (15). This is the
     # conformant case PV-2/ PV-5 are designed to allow; numerator 0 matches the real per-task n_true.
     e3 = json.loads(json.dumps(e2))
@@ -440,6 +461,17 @@ def vectors():
     e3["claims"][0]["metricKind"] = "capability_positive"
     e3["statement"]["sha256"] = stmt_digest(stmt)
     run("P3 one undecidable row, denominator=scored=14", stmt, e3, files, True)
+
+    # P4 — a threshold at 18 significant digits, with the honest verdict `passed=false`. A
+    # verifier comparing in binary floats reads 9 >= 9.0000000000000001 as true (both round to
+    # 9) and rejects this; the decimal comparison PV-3 requires accepts it. This guards the
+    # comparison base, not just the integer arithmetic every other vector uses.
+    s4 = json.loads(json.dumps(stmt)); s4["predicate"]["claims"][0]["threshold"] = "9.0000000000000001"
+    e4 = json.loads(json.dumps(e2))
+    e4["claims"][0]["threshold"] = "9.0000000000000001"
+    e4["claims"][0]["passed"] = False
+    e4["statement"]["sha256"] = stmt_digest(s4)
+    run("P4 threshold at 18 significant digits (decimal, not binary float)", s4, e4, files, True)
 
     # I1 / I2 — the third verdict. A verifier that was not given the artifact cannot
     # decide, and must say so instead of reporting acceptance it did not earn. Both use
