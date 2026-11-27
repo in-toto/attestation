@@ -155,6 +155,22 @@
     "pass": true
   },
   {
+    "name": "P6 excluded-rows digest resolves to the supplied row list",
+    "expect_ok": true,
+    "verdict": "accept",
+    "codes": [],
+    "pass": true
+  },
+  {
+    "name": "N15 row list resolves but carries 4 rows for excluded=5",
+    "expect_ok": false,
+    "verdict": "reject",
+    "codes": [
+      "exclusion_row_count_mismatch"
+    ],
+    "pass": true
+  },
+  {
     "name": "P5 template served exactly 7 days before the run",
     "expect_ok": true,
     "verdict": "accept",

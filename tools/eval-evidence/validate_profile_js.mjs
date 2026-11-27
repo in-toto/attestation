@@ -168,7 +168,13 @@ function verify(stmt, ev, files) {
   if ((excluded || 0) > 0 && !(xp.ruleDigest && xp.excludedRowsDigest && xp.description)) codes.push("exclusion_opaque");
   // presence is not resolution: with rows dropped and no row list supplied, the honest
   // verdict is indeterminate (found by N13, where a well-formed fake digest was accepted)
-  if ((excluded || 0) > 0 && !Object.keys(files).some((k) => k === "excluded rows" || k === "excluded")) codes.push("cannot_verify:excluded rows");
+  const rowsKey = ["excluded rows", "excluded"].find((k) => k in files);
+  if ((excluded || 0) > 0 && rowsKey === undefined) codes.push("cannot_verify:excluded rows");
+  if ((excluded || 0) > 0 && rowsKey !== undefined) {
+    // row list in hand: its count must equal counts.excluded (found by N15)
+    const nRows = fs.readFileSync(files[rowsKey], "utf8").split("\n").filter((ln) => ln.trim().length).length;
+    if (nRows !== excluded) codes.push("exclusion_row_count_mismatch");
+  }
 
   // PV-6
   const g = ev.generation || {};
@@ -341,6 +347,28 @@ run("I2 per-task artifact absent (PV-2b not checkable)", stmt, e2, fNoPt, "indet
   };
   e7.statement.sha256 = stmtDigest(s7);
   run("N13 excluded-rows digest well-formed but resolves to nothing", s7, e7, files, "indeterminate", ["cannot_verify:excluded rows"]);
+
+  // P6: the positive half of PV-4's second clause — the row list IS supplied and the digest
+  // resolves to it. Without this case, "refuses opaque exclusion" cannot be told apart from
+  // "refuses all exclusion".
+  const rowsPath = path.join(HERE, "_tmp_excluded_rows.txt");
+  fs.writeFileSync(rowsPath, "04\n07\n11\n13\n15\n");
+  const realDigest = crypto.createHash("sha256").update(fs.readFileSync(rowsPath)).digest("hex");
+  const e8 = clone(e7);
+  e8.exclusionPolicy.excludedRowsDigest = { sha256: realDigest };
+  e8.statement.sha256 = stmtDigest(s7);
+  run("P6 excluded-rows digest resolves to the supplied row list", s7, e8,
+      { ...files, "excluded rows": rowsPath }, true);
+
+  // N15: the list resolves but carries four rows for excluded=5 — only counting catches it.
+  fs.writeFileSync(rowsPath, "04\n07\n11\n13\n");
+  const shortDigest = crypto.createHash("sha256").update(fs.readFileSync(rowsPath)).digest("hex");
+  const e9 = clone(e8);
+  e9.exclusionPolicy.excludedRowsDigest = { sha256: shortDigest };
+  e9.statement.sha256 = stmtDigest(s7);
+  run("N15 row list resolves but carries 4 rows for excluded=5", s7, e9,
+      { ...files, "excluded rows": rowsPath }, false, ["exclusion_row_count_mismatch"]);
+  fs.unlinkSync(rowsPath);
 }
 
 // P5 / N14: the 7-day window is inclusive at both ends; one second outside must reject.

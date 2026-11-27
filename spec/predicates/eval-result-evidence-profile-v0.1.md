@@ -124,6 +124,15 @@ This is the check #575 cannot perform and the reason this profile exists.
 excluded rows are committed to rather than merely dropped. A digest field that points at nothing
 verifiable is not transparency: the digest MUST resolve to a row list. Reject `exclusion_opaque`.
 
+Resolution splits on what the verifier actually holds, because those are two different failures
+and collapsing them hides one of them. If the verifier holds the row list and its digest does not
+match `excludedRowsDigest`, the claim asserts an exclusion it cannot back: reject
+`exclusion_opaque`. If the verifier does not hold the row list at all, it cannot tell an opaque
+exclusion from an absent one, and per PV-9 it MUST report *indeterminate* as
+`cannot_verify:excluded rows` rather than accept. Only a row list whose digest matches, and whose
+row count equals `counts.excluded`, satisfies PV-4. A verifier that has every artifact MUST NOT
+return the indeterminate branch.
+
 **PV-5 cannot-determine separation.** `cannotDetermine` MUST NOT appear in `numerator` or
 `denominator`. For `metricKind: "failure_absence"` (a pass that depends on not finding failures),
 `passed: true` with `cannotDetermine > 0` MUST be rejected unless

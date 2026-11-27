@@ -188,8 +188,17 @@ def verify(stmt, ev, files):
     xp = ev.get("exclusionPolicy") or {}
     if (excluded or 0) > 0 and not (xp.get("ruleDigest") and xp.get("excludedRowsDigest") and xp.get("description")):
         codes.append("exclusion_opaque")
-    if (excluded or 0) > 0 and not any(k in files for k in ("excluded rows", "excluded")):
+    rows_key = next((k for k in ("excluded rows", "excluded") if k in files), None)
+    if (excluded or 0) > 0 and rows_key is None:
         codes.append("cannot_verify:excluded rows")
+    elif (excluded or 0) > 0 and rows_key is not None:
+        # the row list is in hand: its count must equal counts.excluded, or the claim has
+        # committed to a different set of rows than it says it dropped (PV-2's arithmetic
+        # rule one level down). Found by vector N15.
+        with open(files[rows_key], "rb") as fh:
+            n_rows = sum(1 for ln in fh.read().decode("utf-8", "replace").splitlines() if ln.strip())
+        if n_rows != excluded:
+            codes.append("exclusion_row_count_mismatch")
 
     # PV-6 — the template digest must be the one that was actually served *at or before*
     # evaluation, and at most 7 days before it. A digest captured later cannot retro-explain
@@ -502,6 +511,33 @@ def vectors():
     e6 = json.loads(json.dumps(e2)); e6["generation"]["chatTemplate"]["servedAt"] = "2026-08-05T01:19:13Z"
     e6["statement"]["sha256"] = stmt_digest(stmt)
     run("N14 template one second outside the 7-day window", stmt, e6, files, False, ["template_not_run_bound"])
+
+    # P6 — the positive half of PV-4's second clause. N13 only shows that a digest pointing
+    # at nothing is refused; without a case where the row list IS supplied, "refuses opaque
+    # exclusion" and "refuses all exclusion" are indistinguishable from the outside.
+    rows_path = os.path.join(HERE, "_tmp_excluded_rows.txt")
+    with open(rows_path, "w", newline="\n") as f:
+        f.write("04\n07\n11\n13\n15\n")
+    with open(rows_path, "rb") as f:
+        real = hashlib.sha256(f.read()).hexdigest()
+    e8 = json.loads(json.dumps(e7))
+    e8["exclusionPolicy"]["excludedRowsDigest"] = {"sha256": real}
+    e8["statement"]["sha256"] = stmt_digest(s7)
+    run("P6 excluded-rows digest resolves to the supplied row list", s7, e8,
+        {**files, "excluded rows": rows_path}, True)
+
+    # N15 — the row list is in hand but carries four rows while counts.excluded says five.
+    # A digest can match a list of the wrong length; only counting catches it.
+    with open(rows_path, "w", newline="\n") as f:
+        f.write("04\n07\n11\n13\n")
+    with open(rows_path, "rb") as f:
+        short = hashlib.sha256(f.read()).hexdigest()
+    e9 = json.loads(json.dumps(e8))
+    e9["exclusionPolicy"]["excludedRowsDigest"] = {"sha256": short}
+    e9["statement"]["sha256"] = stmt_digest(s7)
+    run("N15 row list resolves but carries 4 rows for excluded=5", s7, e9,
+        {**files, "excluded rows": rows_path}, False, ["exclusion_row_count_mismatch"])
+    os.unlink(rows_path)
 
     # I1 / I2 — the third verdict. A verifier that was not given the artifact cannot
     # decide, and must say so instead of reporting acceptance it did not earn. Both use

@@ -181,6 +181,22 @@
     "pass": true
   },
   {
+    "name": "P6 excluded-rows digest resolves to the supplied row list",
+    "expect_ok": true,
+    "verdict": "accept",
+    "codes": [],
+    "pass": true
+  },
+  {
+    "name": "N15 row list resolves but carries 4 rows for excluded=5",
+    "expect_ok": false,
+    "verdict": "reject",
+    "codes": [
+      "exclusion_row_count_mismatch"
+    ],
+    "pass": true
+  },
+  {
     "name": "I1 dataset absent (PV-1c not checkable)",
     "expect_ok": "indeterminate",
     "verdict": "indeterminate",
