@@ -52,6 +52,7 @@
     "expect_ok": false,
     "verdict": "reject",
     "codes": [
+      "cannot_verify:excluded rows",
       "exclusion_opaque",
       "template_not_run_bound",
       "total_unbound"
@@ -152,6 +153,31 @@
     "expect_ok": true,
     "verdict": "accept",
     "codes": [],
+    "pass": true
+  },
+  {
+    "name": "N13 excluded-rows digest well-formed but resolves to nothing",
+    "expect_ok": "indeterminate",
+    "verdict": "indeterminate",
+    "codes": [
+      "cannot_verify:excluded rows"
+    ],
+    "pass": true
+  },
+  {
+    "name": "P5 template served exactly 7 days before the run",
+    "expect_ok": true,
+    "verdict": "accept",
+    "codes": [],
+    "pass": true
+  },
+  {
+    "name": "N14 template one second outside the 7-day window",
+    "expect_ok": false,
+    "verdict": "reject",
+    "codes": [
+      "template_not_run_bound"
+    ],
     "pass": true
   },
   {

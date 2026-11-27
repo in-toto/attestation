@@ -166,6 +166,9 @@ function verify(stmt, ev, files) {
   // PV-4
   const xp = ev.exclusionPolicy || {};
   if ((excluded || 0) > 0 && !(xp.ruleDigest && xp.excludedRowsDigest && xp.description)) codes.push("exclusion_opaque");
+  // presence is not resolution: with rows dropped and no row list supplied, the honest
+  // verdict is indeterminate (found by N13, where a well-formed fake digest was accepted)
+  if ((excluded || 0) > 0 && !Object.keys(files).some((k) => k === "excluded rows" || k === "excluded")) codes.push("cannot_verify:excluded rows");
 
   // PV-6
   const g = ev.generation || {};
@@ -320,6 +323,39 @@ run("I1 dataset absent (PV-1c not checkable)", stmt, e2, fNoDs, "indeterminate",
 
 const fNoPt = Object.fromEntries(Object.entries(files).filter(([k]) => k !== "per-task scores"));
 run("I2 per-task artifact absent (PV-2b not checkable)", stmt, e2, fNoPt, "indeterminate", ["cannot_verify:per-task scores"]);
+
+// ---- N13 / P5 / N14: added after the competitor review (the reject face was thinnest) ----
+// N13: PV-4 says a digest "MUST resolve to a row list". A well-formed 64-hex digest that
+// points at nothing was ACCEPTED before this vector existed — the finding, not the test.
+{
+  const s7 = clone(stmt);
+  s7.predicate.sampleSize = 10;
+  const e7 = clone(e2);
+  Object.assign(e7.counts, { total: 15, evaluated: 10, excluded: 5, scored: 9, cannotDetermine: 1 });
+  e7.claims[0].denominator = 9;
+  e7.exclusionPolicy = {
+    ruleId: "stage-2",
+    description: "synthetic: 5 rows held back",
+    ruleDigest: { sha256: "1".repeat(64) },
+    excludedRowsDigest: { sha256: crypto.createHash("sha256").update("excluded-rows-nobody-committed", "utf8").digest("hex") },
+  };
+  e7.statement.sha256 = stmtDigest(s7);
+  run("N13 excluded-rows digest well-formed but resolves to nothing", s7, e7, files, "indeterminate", ["cannot_verify:excluded rows"]);
+}
+
+// P5 / N14: the 7-day window is inclusive at both ends; one second outside must reject.
+{
+  const e5 = clone(e2);
+  e5.generation.chatTemplate.servedAt = "2026-08-05T01:19:14Z";
+  e5.statement.sha256 = stmtDigest(stmt);
+  run("P5 template served exactly 7 days before the run", stmt, e5, files, true);
+}
+{
+  const e6 = clone(e2);
+  e6.generation.chatTemplate.servedAt = "2026-08-05T01:19:13Z";
+  e6.statement.sha256 = stmtDigest(stmt);
+  run("N14 template one second outside the 7-day window", stmt, e6, files, false, ["template_not_run_bound"]);
+}
 
 // ---- N11 / N12 / P4: the three vectors added after the first external review ----------
 // N11: PV-5 requires the cannot-determine policy to name a rule whose digest is ON the artifact.

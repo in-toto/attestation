@@ -180,10 +180,16 @@ def verify(stmt, ev, files):
         codes.append("cannot_verify:per-task scores")
 
 
-    # PV-4
+    # PV-4 — presence is not resolution. A digest field that is well-formed hex but points
+    # at a row list nobody supplied is exactly what the profile calls "points at nothing
+    # verifiable": the verifier cannot tell which rows were dropped, so the honest verdict
+    # is indeterminate, not acceptance. Found by vector N13 (a well-formed fake digest was
+    # accepted before this check existed).
     xp = ev.get("exclusionPolicy") or {}
     if (excluded or 0) > 0 and not (xp.get("ruleDigest") and xp.get("excludedRowsDigest") and xp.get("description")):
         codes.append("exclusion_opaque")
+    if (excluded or 0) > 0 and not any(k in files for k in ("excluded rows", "excluded")):
+        codes.append("cannot_verify:excluded rows")
 
     # PV-6 — the template digest must be the one that was actually served *at or before*
     # evaluation, and at most 7 days before it. A digest captured later cannot retro-explain
@@ -472,6 +478,30 @@ def vectors():
     e4["claims"][0]["passed"] = False
     e4["statement"]["sha256"] = stmt_digest(s4)
     run("P4 threshold at 18 significant digits (decimal, not binary float)", s4, e4, files, True)
+
+    # N13 / P5 / N14 — boundary and resolution probes written after the competitor review
+    # (the reject face was the thinnest part of the set: 12 negatives against 60 in the
+    # strongest peer). N13 tests PV-4's second clause: a digest "MUST resolve to a row list".
+    s7 = json.loads(json.dumps(stmt)); s7["predicate"]["sampleSize"] = 10
+    e7 = json.loads(json.dumps(e2))
+    e7["counts"].update({"total": 15, "evaluated": 10, "excluded": 5, "scored": 9, "cannotDetermine": 1})
+    e7["claims"][0]["denominator"] = 9
+    fake = hashlib.sha256(b"excluded-rows-nobody-committed").hexdigest()
+    e7["exclusionPolicy"] = {"ruleId": "stage-2", "description": "synthetic: 5 rows held back",
+                             "ruleDigest": {"sha256": "1" * 64}, "excludedRowsDigest": {"sha256": fake}}
+    e7["statement"]["sha256"] = stmt_digest(s7)
+    run("N13 excluded-rows digest well-formed but resolves to nothing", s7, e7, files, "indeterminate",
+        ["cannot_verify:excluded rows"])
+
+    # P5: served exactly 7 days before — the window is inclusive at both ends.
+    e5 = json.loads(json.dumps(e2)); e5["generation"]["chatTemplate"]["servedAt"] = "2026-08-05T01:19:14Z"
+    e5["statement"]["sha256"] = stmt_digest(stmt)
+    run("P5 template served exactly 7 days before the run", stmt, e5, files, True)
+
+    # N14: one second outside — 7 days + 1 s before.
+    e6 = json.loads(json.dumps(e2)); e6["generation"]["chatTemplate"]["servedAt"] = "2026-08-05T01:19:13Z"
+    e6["statement"]["sha256"] = stmt_digest(stmt)
+    run("N14 template one second outside the 7-day window", stmt, e6, files, False, ["template_not_run_bound"])
 
     # I1 / I2 — the third verdict. A verifier that was not given the artifact cannot
     # decide, and must say so instead of reporting acceptance it did not earn. Both use

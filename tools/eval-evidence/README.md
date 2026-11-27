@@ -4,7 +4,7 @@ Companion to [`spec/predicates/eval-result-evidence-profile-v0.1.md`](../../spec
 
 ```bash
 pip install jsonschema
-python3 validate_profile.py            # 18 vectors against the committed examples
+python3 validate_profile.py            # 21 vectors against the committed examples
 python3 validate_profile.py --build    # rebuild examples from the cited bundle, then run
 ```
 
@@ -17,7 +17,7 @@ Exit codes are deliberate:
 
 | exit | meaning |
 |---|---|
-| 0 | all 18 vectors behaved as specified |
+| 0 | all 21 vectors behaved as specified |
 | 1 | a vector deviated — a real finding |
 | 2 | the bundle is absent, so nothing was verified. **Not a failure, and not a pass.** |
 
@@ -28,10 +28,19 @@ reporting `accept` there would be a pass the verifier did not earn. Those two ve
 the only ones whose conditions are about the *verifier's* inputs rather than the artifact's content.
 
 `validate_profile_js.mjs` is a second implementation of the same rules (Node, no dependencies,
-written as an independent rewrite of `validate_profile.py`). It runs the same 18 vectors and
+written as an independent rewrite of `validate_profile.py`). It runs the same 21 vectors and
 writes `profile_vector_results_js.json`; exit codes are identical. Two implementations agreeing
 is not an interoperability proof — they share one author — but it does show the verdicts do not
 depend on one language's JSON or decimal handling.
+
+**A fourth round of vectors found a defect in this implementation, not in the vectors.**
+PV-4 required three fields to be present; it never checked that `excludedRowsDigest` *resolves*
+to a row list, which the profile text demands. Vector **N13** builds a self-consistent artifact
+with five rows excluded and a well-formed 64-hex digest pointing at nothing — the validator
+returned `accept`, with no codes. The fix makes that case indeterminate
+(`cannot_verify:excluded rows`), on the same principle as PV-9: an artifact the verifier was not
+given is not one it may call satisfied. **P5 / N14** pin the other boundary: the seven-day
+window is inclusive, so exactly 7 days before passes and one second outside rejects.
 
 Three vectors were added after the first external review of this suite:
 
