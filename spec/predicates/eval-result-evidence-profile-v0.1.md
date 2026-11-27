@@ -131,7 +131,10 @@ verifiable is not transparency: the digest MUST resolve to a row list. Reject `e
 `exclusionPolicy.ruleDigest` or `aggregation.ruleDigest`) that says how undecidable rows are treated.
 The field is part of the `claims` schema above — an exception condition that lives only in prose
 cannot be checked, and a validator will reject a claim that cites a field the schema does not define.
-Reject `cannot_determine_folded`.
+Reject `cannot_determine_folded` when no policy is named; reject `cannot_determine_policy_unbound`
+when a policy is named but the rule it names resolves to neither digest — a `ruleId` alone is an
+assertion, not a pre-registration. Vector N11 is the case: undecidable rows present, a policy named,
+and no registered rule behind it.
 
 **PV-6 generation disclosure and run binding.** For a generative evaluation,
 `generation.chatTemplate.digest`, `generation.decode`, `generation.runtime.version` and
