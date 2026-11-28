@@ -2,7 +2,7 @@
 // Second implementation of the eval-evidence-profile v0.1 validator, in Node.
 // Purpose: independent re-implementation of the same checks on the same bytes, so that
 // agreement between two languages is evidence a reader can recompute (not a claim).
-// Scope: verify() + the committed example + the 15 mutation vectors. It does not rebuild
+// Scope: verify() + the committed example + the 23 mutation vectors. It does not rebuild
 // the example (that needs the out-of-band corpora and is the first implementation's job).
 //
 // Usage: node validate_profile_js.mjs

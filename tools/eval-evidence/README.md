@@ -3,7 +3,7 @@
 Companion to [`spec/predicates/eval-result-evidence-profile-v0.1.md`](../../spec/predicates/eval-result-evidence-profile-v0.1.md).
 
 ```bash
-pip install jsonschema
+# no third-party dependencies: standard library only
 python3 validate_profile.py            # 23 vectors against the committed examples
 python3 validate_profile.py --build    # rebuild examples from the cited bundle, then run
 ```
