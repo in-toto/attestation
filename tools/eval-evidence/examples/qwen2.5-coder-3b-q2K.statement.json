@@ -1,0 +1,86 @@
+{
+  "_type": "https://in-toto.io/Statement/v1",
+  "subject": [
+    {
+      "name": "qwen2.5-coder:3b-instruct-q2_K",
+      "digest": {
+        "sha256": "14c4247b8ce438992cf4fb41d5461ff9d3730a561345c47a224d21ea90f8545e"
+      }
+    }
+  ],
+  "predicateType": "https://in-toto.io/attestation/eval-result/v0.1",
+  "predicate": {
+    "evaluator": {
+      "id": "https://github.com/aditi-p31"
+    },
+    "evaluatedAt": "2026-08-12T01:19:14Z",
+    "suite": {
+      "name": "quantcheck HumanEval+ screen",
+      "version": "smoke_suite_v1"
+    },
+    "claims": [
+      {
+        "metric": "tasks_solved",
+        "comparator": ">=",
+        "threshold": "9",
+        "passed": false
+      }
+    ],
+    "sampleSize": 15,
+    "model": {
+      "name": "qwen2.5-coder:3b-instruct-q2_K",
+      "digest": {
+        "sha256": "14c4247b8ce438992cf4fb41d5461ff9d3730a561345c47a224d21ea90f8545e"
+      },
+      "mediaType": "application/vnd.ollama.image.model",
+      "uri": "https://registry.ollama.ai/v2/library/qwen2.5-coder/blobs/sha256:14c4247b8ce438992cf4fb41d5461ff9d3730a561345c47a224d21ea90f8545e"
+    },
+    "dataset": {
+      "name": "smoke_suite_v1.json",
+      "digest": {
+        "sha256": "0f50c6f29e2dfd2afe6153a60d9e806d7b8292bbebe23fe6276340a2180abf96"
+      },
+      "mediaType": "application/json",
+      "downloadLocation": "https://raw.githubusercontent.com/aditi-p31/quantcheck/v3.4.1/smoke_suite_v1.json"
+    },
+    "assuranceLevel": "self_attested",
+    "subjectProfile": "public_model",
+    "evidence": [
+      {
+        "name": "eval-evidence-profile",
+        "digest": {
+          "sha256": "8d52386efc81c879f94cd4d707a55769ef23698d717ffbebe8768fd8ce8a1fbf"
+        },
+        "mediaType": "application/json"
+      },
+      {
+        "name": "generations",
+        "digest": {
+          "sha256": "8d4ad7e0ded869f685a614379159894ccb2156c743ebbf35731afa39ba51809b"
+        },
+        "mediaType": "application/jsonl"
+      },
+      {
+        "name": "per-task scores",
+        "digest": {
+          "sha256": "fd448d2d6f94e877a09e5b8b444e0d148d7ffa984b8680c7ac383bfefd208349"
+        },
+        "mediaType": "application/jsonl"
+      },
+      {
+        "name": "run record",
+        "digest": {
+          "sha256": "210dfbe1fc7a627f47c0a3720c662a341ea34d98d0fa1d4cf7908c49bbd003b4"
+        },
+        "mediaType": "application/json"
+      }
+    ],
+    "harness": {
+      "name": "quantcheck",
+      "version": "3.4.1",
+      "digest": {
+        "sha256": "919d495f1fce810db69e858f8c09879c322db4bfbbda1c0cabbd49d13bcd0df1"
+      }
+    }
+  }
+}

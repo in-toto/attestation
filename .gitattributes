@@ -1,0 +1,6 @@
+# eval-evidence profile: commit and hash LF bytes so digests are reproducible
+# across checkouts (Windows text-mode write would otherwise emit CRLF and
+# drift the evidence digest away from the git blob).
+tools/eval-evidence/**/*.json  text eol=lf
+tools/eval-evidence/**/*.jsonl text eol=lf
+tools/eval-evidence/**/*.md    text eol=lf

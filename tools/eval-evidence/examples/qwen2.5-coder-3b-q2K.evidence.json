@@ -1,0 +1,76 @@
+{
+  "profile": "urn:lgd:in-toto:profile:eval-evidence:v0.1",
+  "statement": {
+    "sha256": "d2805eed89fe80f51ef228441c1a32f45d8afc7da8ee35a0575c9a4092b548a8"
+  },
+  "counts": {
+    "total": 15,
+    "evaluated": 15,
+    "excluded": 0,
+    "scored": 15,
+    "cannotDetermine": 0
+  },
+  "claims": [
+    {
+      "metric": "tasks_solved",
+      "comparator": ">=",
+      "threshold": "9",
+      "numerator": 0,
+      "denominator": 15,
+      "passed": false,
+      "metricKind": "capability_positive"
+    }
+  ],
+  "exclusionPolicy": null,
+  "generation": {
+    "chatTemplate": {
+      "digest": {
+        "sha256": "1e65450c30670713aa47fe23e8b9662bdf4065e81cc8e3cbfaa98924fcc0d320"
+      },
+      "servedAt": "2026-11-16T00:00:00Z",
+      "source": "https://registry.ollama.ai/v2/library/qwen2.5-coder/blobs/sha256:1e65450c30670713aa47fe23e8b9662bdf4065e81cc8e3cbfaa98924fcc0d320"
+    },
+    "decode": {
+      "temperature": 0,
+      "seed": 42,
+      "numCtx": 2048,
+      "numPredict": 768
+    },
+    "runtime": {
+      "name": "ollama",
+      "version": "0.12.3",
+      "digest": {
+        "sha256": "02e52fce5638f696aa283a64bc0d176e4b213c850fea9fd8eedde2c72613af80"
+      }
+    }
+  },
+  "aggregation": {
+    "ruleId": "pass-rate",
+    "ruleDigest": {
+      "sha256": "9669c8bd8e248fd94da81f7284191cebf587798bf0bee6de559f172c13b92f71"
+    },
+    "description": "numerator = tasks whose unit tests all pass; denominator = evaluated rows"
+  },
+  "reproducibility": {
+    "grade": "self",
+    "algorithm": "sha256-concat-v1",
+    "inputs": [
+      "sha256:0f50c6f29e2dfd2afe6153a60d9e806d7b8292bbebe23fe6276340a2180abf96",
+      "sha256:919d495f1fce810db69e858f8c09879c322db4bfbbda1c0cabbd49d13bcd0df1",
+      "sha256:9669c8bd8e248fd94da81f7284191cebf587798bf0bee6de559f172c13b92f71",
+      "sha256:8d4ad7e0ded869f685a614379159894ccb2156c743ebbf35731afa39ba51809b"
+    ],
+    "digest": {
+      "sha256": "3623202ec0c1a07ad3210407466089ccf1ffa4049d88a56e4996ad62a9fdd829"
+    }
+  },
+  "drift": [
+    {
+      "impl": "proofbundle v6.5.0",
+      "field": "subjectProfile",
+      "expected": "public_model",
+      "observed": "public-model",
+      "note": "b7n0de, #565 2026-11-16: pre-#575 hyphen spelling"
+    }
+  ]
+}
